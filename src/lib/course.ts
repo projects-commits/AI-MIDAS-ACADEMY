@@ -7,19 +7,12 @@ import type {
   CourseRoadmapEntry
 } from "../types";
 
-const base = (import.meta as any).env?.BASE_URL ?? "/";
-
-function withBase(path: string) {
-  const prefix = base.endsWith("/") ? base.slice(0, -1) : base;
-  return prefix + path;
-}
-
 export function getCourseHref(courseSlug: string) {
-  return withBase(`/courses/${courseSlug}/`);
+  return `/courses/${courseSlug}/`;
 }
 
 export function getLessonHref(courseSlug: string, lessonSlug: string) {
-  return withBase(`/courses/${courseSlug}/lessons/${lessonSlug}/`);
+  return `/courses/${courseSlug}/lessons/${lessonSlug}/`;
 }
 
 export function getFirstLesson(course: CourseData) {

@@ -7,12 +7,11 @@ interface Props {
 
 const { site } = Astro.props;
 const currentPath = Astro.url.pathname;
-const base = import.meta.env.BASE_URL;
 ---
 
 <header class="site-header">
   <div class="site-header__inner">
-    <a class="brand-lockup" href={base}>
+    <a class="brand-lockup" href="/">
       <span class="brand-lockup__eyebrow">Research-grade academy</span>
       <span class="brand-lockup__name">{site.name}</span>
     </a>
@@ -21,7 +20,7 @@ const base = import.meta.env.BASE_URL;
       {
         site.navigation.map((item) => (
           <a
-            href={`${base}${item.href.replace(/^\//, "")}`}
+            href={item.href}
             class:list={[
               "site-nav__link",
               currentPath === item.href || (item.href !== "/" && currentPath.startsWith(item.href))
