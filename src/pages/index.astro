@@ -12,6 +12,7 @@ import image5Academy from "../../resources/imagem5_academy.png";
 import image6Academy from "../../resources/imagem6_academy.png";
 
 const categories = categoriesData as Category[];
+const base = import.meta.env.BASE_URL;
 
 const sliderCards = [
   { src: image1Academy, alt: "Card 1 da AI MIDAS Academy" },
@@ -61,7 +62,7 @@ const academySignals = [
         Aprenda fazendo. Inscrições abertas:
         <strong>Framework 9 Passos para Análise de um Jogo de Futebol.</strong>
       </p>
-      <a class="promo-banner__cta" href="/courses/framework-de-9-passos-para-analisar-um-jogo-de-futebol/">
+      <a class="promo-banner__cta" href={`${base}courses/framework-de-9-passos-para-analisar-um-jogo-de-futebol/`}>
         Entrar no curso
       </a>
       <button class="promo-banner__close" type="button" aria-label="Fechar aviso" data-home-promo-close>
@@ -83,7 +84,7 @@ const academySignals = [
         </h1>
 
         <div class="home-hero__actions">
-          <a class="button-primary" href="/courses/">Explorar cursos gratuitos</a>
+          <a class="button-primary" href={`${base}courses/`}>Explorar cursos gratuitos</a>
         </div>
       </div>
 
@@ -193,7 +194,7 @@ const academySignals = [
           Cursos públicos, profundos e pensados para quem quer mais conhecimento antes de mais
           convicção.
         </p>
-        <a class="button-primary" href="/courses/">Explorar cursos gratuitos</a>
+        <a class="button-primary" href={`${base}courses/`}>Explorar cursos gratuitos</a>
       </div>
     </section>
   </Container>

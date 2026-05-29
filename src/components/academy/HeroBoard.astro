@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { title, intro } = Astro.props;
+const base = import.meta.env.BASE_URL;
 ---
 
 <section class="hero-board">
@@ -16,7 +17,7 @@ const { title, intro } = Astro.props;
     <p class="hero-board__intro">{intro}</p>
 
     <div class="hero-board__actions">
-      <a class="button-primary" href="/courses/">Explorar arquitetura dos cursos</a>
+      <a class="button-primary" href={`${base}courses/`}>Explorar arquitetura dos cursos</a>
     </div>
   </div>
 
