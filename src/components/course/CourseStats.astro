@@ -1,0 +1,30 @@
+---
+import type { CourseData } from "../../types";
+import { formatLevel } from "../../lib/course";
+
+interface Props {
+  course: CourseData;
+}
+
+const { course } = Astro.props;
+
+const stats = [
+  { label: "Categoria principal", value: course.category },
+  { label: "Nível", value: formatLevel(course.level) },
+  { label: "Tempo de leitura", value: `${course.estimatedReadingMinutes} min` },
+  { label: "Módulos", value: String(course.courseStats.moduleCount) },
+  { label: "Aulas", value: String(course.courseStats.lessonCount) },
+  { label: "Labs", value: String(course.courseStats.labCount) }
+];
+---
+
+<section class="course-stats section-grid section-grid--3">
+  {
+    stats.map((stat) => (
+      <article class="terminal-card">
+        <p class="gold-label">{stat.label}</p>
+        <h3>{stat.value}</h3>
+      </article>
+    ))
+  }
+</section>

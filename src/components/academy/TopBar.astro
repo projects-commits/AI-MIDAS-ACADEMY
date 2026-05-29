@@ -1,0 +1,61 @@
+---
+import type { SiteData } from "../../types";
+import logoAiMidas from "../../../logofinal_aimidas.png";
+
+interface Props {
+  site: SiteData;
+}
+
+const { site } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-topbar">
+  <div class="topbar-promo">
+    <div class="topbar-promo__inner">
+      <a class="topbar-promo__brand" href="/" aria-label="AI MIDAS ACADEMY">
+        <img
+          class="topbar-promo__logo"
+          src={logoAiMidas.src}
+          width={logoAiMidas.width}
+          height={logoAiMidas.height}
+          alt="Logo AI MIDAS ACADEMY"
+        />
+      </a>
+
+      <span class="topbar-promo__divider" aria-hidden="true"></span>
+
+      <p class="topbar-promo__copy">Inteligência aplicada ao futebol e aos mercados</p>
+
+      <a class="topbar-promo__cta" href="/courses/framework-de-9-passos-para-analisar-um-jogo-de-futebol/">
+        Entrar
+      </a>
+    </div>
+  </div>
+
+  <div class="topbar-main">
+    <div class="topbar__inner">
+      <a class="brand-lockup" href="/">
+        <span class="brand-lockup__name">{site.name}</span>
+      </a>
+
+      <nav class="topbar__nav" aria-label="Primary">
+        {
+          site.navigation.map((item) => (
+            <a
+              href={item.href}
+              class:list={[
+                "topbar__link",
+                currentPath === item.href || (item.href !== "/" && currentPath.startsWith(item.href))
+                  ? "is-active"
+                  : ""
+              ]}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </div>
+</header>

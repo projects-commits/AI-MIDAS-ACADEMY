@@ -1,0 +1,14 @@
+---
+interface Props {
+  label: string;
+  value: string;
+  tone?: "orange" | "gold";
+}
+
+const { label, value, tone = "orange" } = Astro.props;
+---
+
+<div class:list={["stat-pill", tone === "gold" ? "stat-pill--gold" : "stat-pill--orange"]}>
+  <span class="stat-pill__value">{value}</span>
+  <span class="stat-pill__label">{label}</span>
+</div>

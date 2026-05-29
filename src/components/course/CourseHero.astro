@@ -1,0 +1,35 @@
+---
+import CategoryBadge from "../ui/CategoryBadge.astro";
+import type { CourseData } from "../../types";
+import { formatLevel } from "../../lib/course";
+import heroBg from "../../../hero_course_9_passos.png";
+
+interface Props {
+  course: CourseData;
+  firstLessonHref: string;
+}
+
+const { course, firstLessonHref } = Astro.props;
+---
+
+<section class="course-hero" style={`background-image: url(${heroBg.src})`}>
+  <div class="course-hero__overlay" aria-hidden="true"></div>
+  <div class="course-hero__main">
+    <p class="gold-label">Curso publicado</p>
+    <h1>{course.title}</h1>
+    <p class="course-hero__subtitle">{course.subtitle}</p>
+    <p class="course-hero__promise">{course.corePromise}</p>
+
+    <div class="course-hero__meta">
+      <CategoryBadge label={course.category} />
+      <span class="meta-pill">{formatLevel(course.level)}</span>
+      <span class="meta-pill">{course.estimatedReadingMinutes} min</span>
+      <span class="meta-pill">{course.courseStats.moduleCount} módulos</span>
+      <span class="meta-pill">{course.courseStats.lessonCount} lições</span>
+    </div>
+
+    <div class="course-hero__actions">
+      <a class="button-primary" href={firstLessonHref}>Iniciar curso</a>
+    </div>
+  </div>
+</section>

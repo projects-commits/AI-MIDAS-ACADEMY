@@ -1,0 +1,13 @@
+---
+interface Props {
+  term: string;
+  definition: string;
+}
+
+const { term, definition } = Astro.props;
+---
+
+<span class="glossary-tooltip" tabindex="0">
+  <span class="glossary-tooltip__term">{term}</span>
+  <span class="glossary-tooltip__bubble" role="tooltip">{definition}</span>
+</span>

@@ -1,0 +1,17 @@
+---
+interface Props {
+  label?: string;
+  title: string;
+  formula: string;
+  explanation: string;
+}
+
+const { label, title, formula, explanation } = Astro.props;
+---
+
+<section class="formula-block" data-motion-reveal>
+  {label && <p class="gold-label">{label}</p>}
+  <h3>{title}</h3>
+  <div class="formula-block__formula">{formula}</div>
+  <p class="muted-copy">{explanation}</p>
+</section>

@@ -1,0 +1,44 @@
+---
+interface ChartItem {
+  label: string;
+  value: number;
+  note?: string;
+  tone?: "gold" | "orange" | "green";
+}
+
+interface Props {
+  title: string;
+  label?: string;
+  items: ChartItem[];
+  unit?: string;
+}
+
+const { title, label = "Gráfico de leitura", items, unit = "%" } = Astro.props;
+const maxValue = Math.max(...items.map((item) => item.value), 1);
+---
+
+<section class="learning-chart research-card" data-motion-reveal>
+  <div class="learning-chart__header">
+    <p class="gold-label">{label}</p>
+    <h3>{title}</h3>
+  </div>
+
+  <div class="learning-chart__bars">
+    {items.map((item) => {
+      const width = Math.max((item.value / maxValue) * 100, 4);
+
+      return (
+        <div class="learning-chart__row">
+          <div class="learning-chart__meta">
+            <span>{item.label}</span>
+            <strong>{item.value}{unit}</strong>
+          </div>
+          <div class="learning-chart__track" aria-hidden="true">
+            <span class:list={["learning-chart__fill", item.tone && `learning-chart__fill--${item.tone}`]} style={`--chart-width: ${width}%;`}></span>
+          </div>
+          {item.note && <p>{item.note}</p>}
+        </div>
+      );
+    })}
+  </div>
+</section>

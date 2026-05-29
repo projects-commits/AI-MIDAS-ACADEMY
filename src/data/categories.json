@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "market-intelligence",
+    "name": "Market Intelligence",
+    "summary": "Leitura de preço, contexto competitivo, informação disponível e estrutura de mercado antes do apito inicial.",
+    "angle": "Odds movement, informação assimétrica e leitura de comportamento."
+  },
+  {
+    "slug": "probability-modeling",
+    "name": "Probability & Modeling",
+    "summary": "Probabilidade aplicada ao futebol sem fantasia matemática nem simplificações frágeis.",
+    "angle": "Base rates, cenários, incerteza e disciplina quantitativa."
+  },
+  {
+    "slug": "ai-prediction-systems",
+    "name": "AI Prediction Systems",
+    "summary": "Sistemas de predição com dados, hipóteses, features e limites reais de modelagem.",
+    "angle": "Model design, validação e interpretação operacional."
+  },
+  {
+    "slug": "football-research",
+    "name": "Football Research",
+    "summary": "Métodos de pesquisa para transformar jogos, equipes e competições em inteligência acionável.",
+    "angle": "Contexto tático, dados, calendário e qualidade de amostra."
+  },
+  {
+    "slug": "prediction-markets-on-chain",
+    "name": "Prediction Markets & On-chain",
+    "summary": "Mercados on-chain, estrutura de liquidez, execução e leitura de incentivos em mercados de previsão.",
+    "angle": "Microestrutura, pricing e comportamento do fluxo."
+  },
+  {
+    "slug": "risk-execution",
+    "name": "Risk & Execution",
+    "summary": "Gestão de risco, sizing, disciplina e regras de execução para quem opera sob incerteza.",
+    "angle": "Processo, exposição, variância e sobrevivência."
+  }
+]

@@ -1,0 +1,91 @@
+---
+import LabCard from "./LabCard.astro";
+
+const labId = "stake-sizing-lab";
+---
+
+<LabCard
+  id={labId}
+  title="Simple Stake Sizing Helper"
+  summary="Transforma bankroll, tolerância de risco e nível de confiança numa faixa de stake sugerida para estudo e disciplina."
+>
+  <div class="lab-grid lab-grid--wide">
+    <div class="lab-fields">
+      <label class="lab-field">
+        <span class="gold-label">Bankroll</span>
+        <input data-bankroll-input type="number" min="0" step="0.01" value="1000" />
+      </label>
+
+      <label class="lab-field">
+        <span class="gold-label">Risk level 1 to 5</span>
+        <input data-risk-input type="range" min="1" max="5" step="1" value="2" />
+        <span class="lab-inline-value" data-risk-output>2</span>
+      </label>
+
+      <label class="lab-field">
+        <span class="gold-label">Confidence level %</span>
+        <input data-confidence-input type="number" min="0" max="100" step="1" value="62" />
+      </label>
+    </div>
+
+    <div class="lab-result-panel research-card">
+      <p class="gold-label">Suggested stake range</p>
+      <p class="lab-metric"><span>Low range</span><strong data-low-output>7.00</strong></p>
+      <p class="lab-metric"><span>High range</span><strong data-high-output>10.70</strong></p>
+      <p class="lab-warning" data-state="warning">
+        Educational only. Stake sizing is not a promise of outcome and does not replace risk discipline.
+      </p>
+    </div>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const root = document.getElementById("stake-sizing-lab");
+      if (!root) return;
+
+      const bankrollInput = root.querySelector("[data-bankroll-input]");
+      const riskInput = root.querySelector("[data-risk-input]");
+      const confidenceInput = root.querySelector("[data-confidence-input]");
+      const riskOutput = root.querySelector("[data-risk-output]");
+      const lowOutput = root.querySelector("[data-low-output]");
+      const highOutput = root.querySelector("[data-high-output]");
+
+      const baseRiskTable = {
+        1: 0.005,
+        2: 0.01,
+        3: 0.015,
+        4: 0.02,
+        5: 0.025
+      };
+
+      const render = () => {
+        const bankroll = Number(bankrollInput?.value ?? 0);
+        const riskLevel = Number(riskInput?.value ?? 1);
+        const confidence = Number(confidenceInput?.value ?? 0);
+
+        if (riskOutput) riskOutput.textContent = String(riskLevel);
+
+        if (!Number.isFinite(bankroll) || bankroll <= 0 || !Number.isFinite(confidence)) {
+          if (lowOutput) lowOutput.textContent = "--";
+          if (highOutput) highOutput.textContent = "--";
+          return;
+        }
+
+        const normalizedConfidence = Math.min(Math.max(confidence, 0), 100) / 100;
+        const baseFraction = baseRiskTable[riskLevel] ?? baseRiskTable[1];
+        const confidenceAdjustment = 0.7 + normalizedConfidence * 0.6;
+        const centerStake = bankroll * baseFraction * confidenceAdjustment;
+        const lowStake = centerStake * 0.8;
+        const highStake = centerStake * 1.2;
+
+        if (lowOutput) lowOutput.textContent = lowStake.toFixed(2);
+        if (highOutput) highOutput.textContent = highStake.toFixed(2);
+      };
+
+      bankrollInput?.addEventListener("input", render);
+      riskInput?.addEventListener("input", render);
+      confidenceInput?.addEventListener("input", render);
+      render();
+    })();
+  </script>
+</LabCard>

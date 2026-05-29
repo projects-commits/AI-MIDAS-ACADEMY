@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "trader-esportivo-em-transicao",
+    "name": "Trader Esportivo em Transicao",
+    "summary": "Já opera ou consumiu conteúdo de trading esportivo, mas quer sair da lógica de picks e entrar num processo mais estruturado.",
+    "need": "Precisa de metodo, leitura de contexto e critérios replicaveis."
+  },
+  {
+    "slug": "analista-quantitativo-amador",
+    "name": "Analista Quantitativo Amador",
+    "summary": "Gosta de modelos, estatística e bases de dados, mas ainda não traduziu isso para decisoes úteis no futebol.",
+    "need": "Precisa de ponte entre teoria, dados e aplicacao pratica."
+  },
+  {
+    "slug": "operador-cripto-quant",
+    "name": "Operador Cripto-Quant",
+    "summary": "Vem de mercados digitais e reconhece padrões de preço, liquidez e expectativa, mas quer transferir esse raciocínio para o futebol.",
+    "need": "Precisa de contexto desportivo e mapeamento entre mercados."
+  },
+  {
+    "slug": "premium-report-consumer",
+    "name": "Premium Report Consumer",
+    "summary": "Consome relatorios pagos ou conteúdo premium e quer desenvolver critério próprio para avaliar a qualidade do que le.",
+    "need": "Precisa de frameworks para auditar argumentos, probabilidade e risco."
+  }
+]

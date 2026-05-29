@@ -1,0 +1,16 @@
+---
+interface Props {
+  title: string;
+  items: string[];
+}
+
+const { title, items } = Astro.props;
+---
+
+<section class="research-card checklist-card" data-motion-reveal>
+  <p class="gold-label">Checklist de decisão</p>
+  <h3>{title}</h3>
+  <ul>
+    {items.map((item) => <li>{item}</li>)}
+  </ul>
+</section>

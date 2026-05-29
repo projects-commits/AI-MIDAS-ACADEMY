@@ -1,0 +1,53 @@
+---
+import type { CourseData } from "../../types";
+import { getLessonHref, getLessonsForModule } from "../../lib/course";
+
+interface Props {
+  course: CourseData;
+  currentLessonId: string;
+}
+
+const { course, currentLessonId } = Astro.props;
+---
+
+<aside class="research-card lesson-sidebar">
+  <p class="gold-label">Contexto do curso</p>
+  <h3>{course.title}</h3>
+  <p class="muted-copy">{course.corePromise}</p>
+
+  <div class="course-sidebar__progress">
+    <div class="course-sidebar__progress-head">
+      <span>Progresso local</span>
+      <span data-progress-percent={course.id}>0%</span>
+    </div>
+    <div class="progress-rail">
+      <span data-progress-fill={course.id} style="width: 0%;"></span>
+    </div>
+    <p class="muted-copy" data-progress-label={course.id}>0/{course.courseStats.lessonCount} aulas concluídas</p>
+  </div>
+
+  <div class="sidebar-map">
+    {
+      course.modules.map((module) => (
+        <section class="sidebar-map__module">
+          <p class="gold-label">{module.title}</p>
+          <ul>
+            {getLessonsForModule(course, module).map((lesson) => (
+              <li
+                class:list={["sidebar-map__lesson", lesson.id === currentLessonId && "is-current"]}
+                data-lesson-item
+                data-course-id={course.id}
+                data-lesson-id={lesson.id}
+              >
+                <a href={getLessonHref(course.slug, lesson.slug)}>
+                  <span>Aula {lesson.lessonNumber}</span>
+                  <strong>{lesson.title}</strong>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</aside>

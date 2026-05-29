@@ -1,0 +1,106 @@
+---
+import { getCollection, render } from "astro:content";
+import LessonLayout from "../../../../layouts/LessonLayout.astro";
+import BlackboardPanel from "../../../../components/academy/BlackboardPanel.astro";
+import DecisionChecklist from "../../../../components/lesson/DecisionChecklist.astro";
+import FailureModeCard from "../../../../components/lesson/FailureModeCard.astro";
+import type { CourseData } from "../../../../types";
+import { getLessonById, getLessonBySlug, getModuleById } from "../../../../lib/course";
+
+export async function getStaticPaths() {
+  const courses = await getCollection("courses");
+
+  return courses.flatMap((course) =>
+    course.data.lessons.map((lesson) => ({
+      params: {
+        courseSlug: course.data.slug,
+        lessonSlug: lesson.slug
+      }
+    }))
+  );
+}
+
+const { courseSlug, lessonSlug } = Astro.params;
+const courses = await getCollection("courses");
+const courseEntry = courses.find((entry) => entry.data.slug === courseSlug);
+
+if (!courseEntry) {
+  throw new Error(`Course not found for slug: ${courseSlug}`);
+}
+
+const course = courseEntry.data as CourseData;
+const lesson = getLessonBySlug(course, lessonSlug ?? "");
+
+if (!lesson) {
+  throw new Error(`Lesson not found for slug: ${lessonSlug}`);
+}
+
+const module = getModuleById(course, lesson.moduleId);
+if (!module) {
+  throw new Error(`Module not found for lesson: ${lesson.id}`);
+}
+
+const previousLesson = getLessonById(course, lesson.previousLesson);
+const nextLesson = getLessonById(course, lesson.nextLesson);
+const lessonContentEntries = await getCollection("courseLessons");
+const lessonContentEntry = lessonContentEntries.find(
+  (entry) => entry.data.courseId === course.id && entry.data.lessonId === lesson.id
+);
+const renderedLesson = lessonContentEntry ? await render(lessonContentEntry) : null;
+const LessonContent = renderedLesson?.Content;
+---
+
+<LessonLayout
+  course={course}
+  lesson={lesson}
+  module={module}
+  previousLesson={previousLesson}
+  nextLesson={nextLesson}
+>
+  {
+    LessonContent ? (
+      <LessonContent />
+    ) : (
+      <>
+        <BlackboardPanel title="Tese da aula" label="Academia interativa">
+          <div class="board-note">
+            Esta aula ainda é uma estrutura inicial, mas já mostra como a experiência da academia deve funcionar: contexto de curso, leitura central, mecanismos aplicados e progresso local sem login.
+          </div>
+          <div class="board-note">Objetivo central: {lesson.learningObjectives[0]}</div>
+        </BlackboardPanel>
+
+        <section class="lesson-section">
+          <p class="gold-label">Objetivos de aprendizagem</p>
+          <h3>O que esta aula deve treinar</h3>
+          <ul class="course-list">
+            {lesson.learningObjectives.map((objective) => <li>{objective}</li>)}
+          </ul>
+        </section>
+
+        <section class="lesson-section">
+          <p class="gold-label">Componentes operacionais</p>
+          <h3>Como a aula deve funcionar dentro da academia</h3>
+          <div class="rail-chip-list">
+            {lesson.components.map((component) => <span class="course-badge">{component}</span>)}
+          </div>
+        </section>
+
+        <section class="section-grid section-grid--2">
+          {lesson.failureModes.map((failureMode) => (
+            <FailureModeCard title={failureMode} summary="Modos de falha devem ser tratados como parte do processo, não como nota de rodapé." />
+          ))}
+        </section>
+
+        <DecisionChecklist title="Checklist de decisão da aula" items={lesson.checklist} />
+
+        <section class="lesson-section">
+          <p class="gold-label">Exercícios</p>
+          <h3>Prática antes da confiança</h3>
+          <ul class="course-list">
+            {lesson.exercises.map((exercise) => <li>{exercise}</li>)}
+          </ul>
+        </section>
+      </>
+    )
+  }
+</LessonLayout>

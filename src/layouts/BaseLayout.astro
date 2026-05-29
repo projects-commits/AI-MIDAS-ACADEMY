@@ -1,0 +1,38 @@
+---
+import "../styles/global.css";
+import site from "../data/site.json";
+import TopBar from "../components/academy/TopBar.astro";
+import Footer from "../components/academy/Footer.astro";
+import type { SiteData } from "../types";
+
+interface Props {
+  title?: string;
+  description?: string;
+  hideTopBar?: boolean;
+}
+
+const { title, description, hideTopBar = false } = Astro.props;
+const siteData = site as SiteData;
+const pageTitle = title ? `${title} | ${siteData.name}` : siteData.name;
+const pageDescription = description ?? siteData.description;
+---
+
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="theme-color" content="#121212" />
+  </head>
+  <body>
+    <div class="site-frame">
+      {!hideTopBar && <TopBar site={siteData} />}
+      <main class="page-shell">
+        <slot />
+      </main>
+      <Footer site={siteData} />
+    </div>
+  </body>
+</html>

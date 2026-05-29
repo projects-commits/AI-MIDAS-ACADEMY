@@ -1,0 +1,114 @@
+---
+interface Props {
+  title: string;
+  label?: string;
+  definition: string;
+}
+
+const { title, label = "Diagrama", definition } = Astro.props;
+
+type MermaidNode = {
+  id: string;
+  label: string;
+  shape: "rect" | "decision";
+};
+
+type MermaidEdge = {
+  from: string;
+  to: string;
+  label?: string;
+};
+
+const lines = definition
+  .split("\n")
+  .map((line) => line.trim())
+  .filter(Boolean);
+
+const direction = lines[0]?.match(/^flowchart\s+([A-Z]+)/i)?.[1] ?? "LR";
+
+const nodes = new Map<string, MermaidNode>();
+const edges: MermaidEdge[] = [];
+
+function ensureNode(id: string, label?: string, shape: MermaidNode["shape"] = "rect") {
+  const existing = nodes.get(id);
+  if (existing) {
+    if (label) existing.label = label;
+    if (shape === "decision") existing.shape = shape;
+    return existing;
+  }
+
+  const nextNode = {
+    id,
+    label: label ?? id,
+    shape
+  } satisfies MermaidNode;
+
+  nodes.set(id, nextNode);
+  return nextNode;
+}
+
+for (const line of lines.slice(1)) {
+  const match = line.match(
+    /^([A-Za-z0-9_]+)(?:\["([^"]+)"\]|\{"([^"]+)"\})?\s*-->\s*(?:\|([^|]+)\|)?\s*([A-Za-z0-9_]+)(?:\["([^"]+)"\]|\{"([^"]+)"\})?$/
+  );
+
+  if (!match) continue;
+
+  const [, fromId, fromRect, fromDecision, edgeLabel, toId, toRect, toDecision] = match;
+
+  ensureNode(fromId, fromRect ?? fromDecision, fromDecision ? "decision" : "rect");
+  ensureNode(toId, toRect ?? toDecision, toDecision ? "decision" : "rect");
+
+  edges.push({
+    from: fromId,
+    to: toId,
+    label: edgeLabel
+  });
+}
+
+const orderedNodeIds = [...new Set(edges.flatMap((edge) => [edge.from, edge.to]))];
+const orderedNodes = orderedNodeIds
+  .map((nodeId) => nodes.get(nodeId))
+  .filter((node): node is MermaidNode => Boolean(node));
+---
+
+<section class="mermaid-panel blackboard" data-motion-reveal data-mermaid-container>
+  <div class="mermaid-panel__header">
+    <p class="gold-label">{label}</p>
+    <h3>{title}</h3>
+  </div>
+
+  <div class="mermaid-diagram" aria-label={title}>
+    <div class:list={["mermaid-fallback", direction === "TB" ? "mermaid-fallback--stack" : "mermaid-fallback--row"]} data-mermaid-fallback>
+      <div class="mermaid-fallback__nodes">
+        {orderedNodes.map((node, index) => (
+          <>
+            {index > 0 && <span class="mermaid-fallback__arrow" aria-hidden="true">{direction === "TB" ? "↓" : "→"}</span>}
+            <div class:list={["mermaid-fallback__node", node.shape === "decision" && "is-decision"]}>{node.label}</div>
+          </>
+        ))}
+      </div>
+
+      {edges.length > 1 && (
+        <div class="mermaid-fallback__edges">
+          {edges.map((edge) => {
+            const fromNode = nodes.get(edge.from);
+            const toNode = nodes.get(edge.to);
+
+            if (!fromNode || !toNode) return null;
+
+            return (
+              <div class="mermaid-fallback__edge">
+                <span>{fromNode.label}</span>
+                <strong>{edge.label ? `${edge.label} ->` : "->"}</strong>
+                <span>{toNode.label}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+
+    <pre class="mermaid">{definition}</pre>
+  </div>
+</section>

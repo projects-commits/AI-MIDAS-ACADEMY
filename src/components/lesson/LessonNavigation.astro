@@ -1,0 +1,38 @@
+---
+import type { CourseLesson } from "../../types";
+import { getLessonHref } from "../../lib/course";
+
+interface Props {
+  courseSlug: string;
+  previousLesson: CourseLesson | null;
+  nextLesson: CourseLesson | null;
+}
+
+const { courseSlug, previousLesson, nextLesson } = Astro.props;
+---
+
+<nav class="lesson-navigation" aria-label="Navegação da aula">
+  {previousLesson ? (
+    <a class="lesson-navigation__link" href={getLessonHref(courseSlug, previousLesson.slug)}>
+      <span>Aula anterior</span>
+      <strong>{previousLesson.title}</strong>
+    </a>
+  ) : (
+    <div class="lesson-navigation__link is-empty">
+      <span>Aula anterior</span>
+      <strong>Início do curso</strong>
+    </div>
+  )}
+
+  {nextLesson ? (
+    <a class="lesson-navigation__link" href={getLessonHref(courseSlug, nextLesson.slug)}>
+      <span>Próxima aula</span>
+      <strong>{nextLesson.title}</strong>
+    </a>
+  ) : (
+    <div class="lesson-navigation__link is-empty">
+      <span>Próxima aula</span>
+      <strong>Fim do percurso atual</strong>
+    </div>
+  )}
+</nav>

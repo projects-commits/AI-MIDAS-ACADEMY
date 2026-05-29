@@ -1,0 +1,165 @@
+---
+{
+  "id": "course-framework-9-passos-lesson-7",
+  "courseId": "course-framework-9-passos",
+  "courseSlug": "framework-de-9-passos-para-analisar-um-jogo-de-futebol",
+  "lessonId": "lesson-7",
+  "moduleId": "module-2",
+  "title": "Passo 7: Ambiente físico, institucional e informacional",
+  "slug": "passo-7-ambiente-fisico-institucional-e-informacional",
+  "lessonNumber": 7,
+  "readingMinutes": 12,
+  "status": "published",
+  "createdAt": "2026-05-27T00:00:00.000Z",
+  "updatedAt": "2026-05-27T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+import LearningChart from "../../../components/lesson/LearningChart.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+
+<BlackboardPanel title={"Mapa operacional: Passo 7: Ambiente físico, institucional e informacional"} label="Quadro">
+  <div class="board-note">Mapear campo, clima, horário, estádio e ambiente interno como restrições que alteram execução.</div>
+  <div class="board-note">Environment risk = physical constraint + institutional pressure + information shock</div>
+</BlackboardPanel>
+
+<FormulaBlock
+  label="Fórmula mental"
+  title={"Environment impact"}
+  formula={"Environment risk = physical constraint + institutional pressure + information shock"}
+  explanation={"Use esta fórmula como lente de leitura, não como verdade mecânica. O objetivo é transformar contexto em ajuste documentado."}
+/>
+
+<MarketExample
+  title={"Aplicação do Passo 7: Ambiente físico, institucional e informacional"}
+  setup={"Escolha um jogo pré-live e separe evidências observáveis de narrativa pública."}
+  price={"Compare a leitura contextual com odds, liquidez e timing do movimento de mercado."}
+  hypothesis={"Escreva uma hipótese com intervalo de incerteza e critério claro de invalidação."}
+  risk={"Usar ambiente como explicação genérica depois do resultado."}
+/>
+
+<FailureModeCard
+  title={"Usar ambiente como explicação genérica depois do resultado."}
+  summary={"Este erro reduz a qualidade da decisão porque troca processo verificável por interpretação conveniente."}
+/>
+
+<DecisionChecklist
+  title={"Checklist do Passo 7: Ambiente físico, institucional e informacional"}
+  items={[
+    "O fator ambiental muda um mecanismo do jogo",
+    "A fonte é temporalmente relevante",
+    "O impacto foi separado de opinião pública",
+    "A tese tem limite se a informação for absorvida pelo preço"
+  ]}
+/>
+
+<CodeLens
+  title="Separar ambiente real de narrativa"
+  lines={[
+    { key: "physical", value: "clima, piso, deslocamento", tone: "gold", note: "muda execução" },
+    { key: "institutional", value: "pressão interna e calendário", tone: "orange", note: "muda carga cognitiva" },
+    { key: "informational", value: "notícia, vazamento, latência", tone: "green", note: "muda preço e consenso" }
+  ]}
+/>
+
+<LearningChart
+  title="Camadas de restrição"
+  items={[
+    { label: "Física", value: 38, tone: "gold", note: "Afeta ritmo, fadiga e qualidade técnica." },
+    { label: "Institucional", value: 34, tone: "orange", note: "Afeta decisão, estabilidade e risco assumido." },
+    { label: "Informacional", value: 28, tone: "green", note: "Afeta narrativa pública e velocidade de preço." }
+  ]}
+/>
+
+<MermaidDiagram
+  title="Ecossistema de restrições"
+  definition={`flowchart TB
+    A["Ambiente fisico"] --> D["Execucao em campo"]
+    B["Contexto institucional"] --> D
+    C["Fluxo informacional"] --> E["Preco e narrativa"]
+    D --> F["Distribuicao de eventos"]
+    E --> G["Probabilidade implicita"]
+    F --> H["Ajuste documentado"]
+    G --> H`}
+/>
+
+# Passo 7: Ambiente físico, institucional e informacional
+
+## Ideia central
+O ambiente físico, a estrutura institucional e o fluxo informacional operam como **restrições sistêmicas** que modificam a execução tática, a carga cognitiva e a calibração de preço.
+
+## Modelo mental
+**Ecossistema de restrições:** o desempenho não acontece em vazio. Ele é filtrado por limites *físicos*, *operacionais* e *narrativos* que alteram a variância observável e o desvio entre probabilidade real e preço de mercado.
+
+## O que é
+**Camada ambiental:** engloba condições mensuráveis do local e do calendário, como estado do gramado, clima, altitude, fuso horário e distância de deslocamento.
+
+**Camada institucional:** cobre estabilidade da direção, rotatividade técnica, pressão de *stakeholders*, calendário congestionado e estrutura de apoio logístico.
+
+**Camada informacional:** mede volume, direção e *latência* do fluxo de notícias, vazamentos e cobertura midiática.
+
+**Juntas, essas três camadas formam o vetor de contexto** que antecede a execução em campo e influencia diretamente a formação de odds e a leitura de risco.
+
+## Por que importa
+<mark>Modelos que operam só com métricas de resultado</mark> ignoram o custo de adaptação imposto pelo ambiente.
+
+**O mercado tende a precificar apenas variáveis de curto prazo,** como escalações e sequência imediata de resultados, subestimando o impacto cumulativo de restrições físicas e institucionais.
+
+**Quando essas camadas não entram no modelo,** surgem desvios sistemáticos na *probabilidade implícita*. A calibração correta reduz exposição a ruído amostral e ajuda a identificar ineficiências de preço com base em mecanismo, não em intuição.
+
+## Mecanismo
+**Primeiro:** identificar a variável ambiental ou institucional e quantificar sua magnitude. Exemplo: altitude acima de 800m, umidade acima de 75%, *turnover* na diretoria ou fluxo anormal de notícias negativas.
+
+**Segundo:** mapear o impacto tático e fisiológico. Gramado pesado reduz velocidade de transição, instabilidade institucional eleva carga cognitiva e fluxo informacional hostil fragmenta a comunicação não verbal em campo.
+
+<mark>Terceiro:</mark> converter o impacto em ajuste de probabilidade. Isso não significa adicionar pontos arbitrários; significa recalibrar a distribuição esperada de eventos.
+
+**Quarto:** validar o ajuste contra dados históricos de partidas com condições similares, isolando o sinal do ruído antes de comparar com o consenso de mercado.
+
+## Exemplo aplicado
+Considere um confronto entre uma equipe de meio de tabela e um candidato ao título, disputado em estádio de altitude moderada, com previsão de chuva intensa e gramado em recuperação.
+
+**O mercado precifica o favorito com base em xG acumulado e sequência positiva.** A leitura ambiental, porém, mostra que o favorito depende de pressing alto e transições rápidas.
+
+**A combinação de altitude e piso pesado** eleva o custo fisiológico em ~12-15%, reduzindo a intensidade defensiva após os 60 minutos.
+
+**Ao mesmo tempo, a equipe enfrenta instabilidade institucional** e cobertura midiática focada em crise interna, o que historicamente se associa a aumento de passes errados no terço final.
+
+<mark>O ajuste correto não é narrativo; é operacional.</mark> O modelo recalibra a probabilidade de *over 2.5 gols* para baixo e ajusta o *handicap* em favor da equipe da casa porque a restrição ambiental nivela a execução.
+
+## Quadro de raciocínio
+1. **Inventário de variáveis:** listar condições físicas, institucionais e informacionais.
+2. **Mapeamento de impacto tático:** associar cada variável a um mecanismo de jogo observável.
+3. **Quantificação e ponderação:** atribuir pesos com base em histórico e literatura de fisiologia ou psicologia esportiva.
+4. **Ajuste probabilístico:** recalibrar a distribuição esperada de eventos e registrar a incerteza residual.
+5. **Validação cruzada:** comparar com amostras históricas similares antes de assumir que o sinal é forte.
+
+## Modo de falha
+<mark>O erro mais frequente é confundir narrativa com causalidade.</mark> O analista atribui peso excessivo a um fator isolado sem isolar o efeito tático real.
+
+**Outro modo de falha é a dupla contagem.** Somar ajustes ambientais, institucionais e informacionais sem verificar correlação gera inflação artificial de risco.
+
+**Também há falha quando não existe validação histórica.** Nesse caso, cada evento vira exceção absoluta e o modelo deixa de aprender com padrões comparáveis.
+
+## Checklist
+- Variáveis físicas mensuradas com dados objetivos.
+- Impacto institucional mapeado com indicadores de estabilidade.
+- Fluxo informacional quantificado e separado de ruído especulativo.
+- Mecanismo tático associado explicitamente a cada variável.
+- Ajuste probabilístico documentado com intervalo de confiança e validação histórica.
+- Verificação de dupla contagem e correlação entre camadas contextuais.
+
+## Exercício prático
+Selecione três partidas da próxima jornada. Para cada uma, compile um dossiê ambiental, institucional e informacional.
+
+Quantifique as variáveis, mapeie o impacto tático esperado e calcule um ajuste percentual em pelo menos dois eventos. Depois compare esse ajuste com a movimentação de preço pré-jogo e documente as divergências.
+
+## Síntese operacional
+**Ambiente, instituição e informação não são pano de fundo.** São variáveis operacionais que filtram execução e distorcem preço.
+
+**Sem esse filtro, a análise fica exposta a ruído narrativo e a erro sistemático de probabilidade.**

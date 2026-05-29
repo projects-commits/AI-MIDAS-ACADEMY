@@ -1,0 +1,53 @@
+---
+import StatPill from "../ui/StatPill.astro";
+
+interface Action {
+  label: string;
+  href: string;
+  variant?: "primary" | "secondary";
+}
+
+interface Metric {
+  value: string;
+  label: string;
+  tone?: "orange" | "gold";
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  intro: string;
+  actions?: Action[];
+  metrics?: Metric[];
+}
+
+const { eyebrow, title, intro, actions = [], metrics = [] } = Astro.props;
+---
+
+<section class="hero-section">
+  <div class="hero-section__content">
+    {eyebrow && <p class="gold-label">{eyebrow}</p>}
+    <h1 class="hero-section__title orange-glow">{title}</h1>
+    <p class="hero-section__intro">{intro}</p>
+
+    {actions.length > 0 && (
+      <div class="hero-section__actions">
+        {actions.map((action) => (
+          <a class={action.variant === "secondary" ? "button-secondary" : "button-primary"} href={action.href}>
+            {action.label}
+          </a>
+        ))}
+      </div>
+    )}
+
+    {metrics.length > 0 && (
+      <div class="hero-section__metrics">
+        {metrics.map((metric) => <StatPill value={metric.value} label={metric.label} tone={metric.tone} />)}
+      </div>
+    )}
+  </div>
+
+  <div class="hero-section__side">
+    <slot />
+  </div>
+</section>

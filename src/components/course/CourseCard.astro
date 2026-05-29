@@ -1,0 +1,45 @@
+---
+import CategoryBadge from "../ui/CategoryBadge.astro";
+
+interface Props {
+  title: string;
+  summary: string;
+  status?: string;
+  category?: string;
+  featured?: boolean;
+  highlights?: string[];
+}
+
+const { title, summary, status, category, featured = false, highlights = [] } = Astro.props;
+---
+
+<article class:list={["course-card", featured ? "course-card--featured" : "research-card"]}>
+  <div>
+    <p class="gold-label">{featured ? "Curso em destaque" : "Estrutura do curso"}</p>
+    <h3>{title}</h3>
+    <p class="muted-copy">{summary}</p>
+
+    <div class="course-card__meta">
+      {category && <CategoryBadge label={category} />}
+      {status && <span class="course-card__status">{status}</span>}
+    </div>
+
+    {highlights.length > 0 && (
+      <ul class="course-card__highlights">
+        {highlights.map((highlight) => <li>{highlight}</li>)}
+      </ul>
+    )}
+  </div>
+
+  {featured && (
+    <div class="course-card__aside">
+      <div class="board-note">
+        9 passos não significam receita curta. Significam um processo verificável para decompor contexto, preço e risco antes de agir.
+      </div>
+      <div class="progress-rail" style="--progress: 36%;">
+        <span></span>
+      </div>
+      <p class="muted-copy">Publicado como curso base da academia, com progresso local sem login.</p>
+    </div>
+  )}
+</article>

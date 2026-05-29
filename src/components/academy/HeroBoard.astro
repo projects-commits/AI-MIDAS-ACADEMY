@@ -1,0 +1,35 @@
+---
+import StatPill from "../ui/StatPill.astro";
+
+interface Props {
+  title: string;
+  intro: string;
+}
+
+const { title, intro } = Astro.props;
+---
+
+<section class="hero-board">
+  <div class="hero-board__copy">
+    <p class="hero-board__eyebrow">AI MIDAS ACADEMY</p>
+    <h1>{title}</h1>
+    <p class="hero-board__intro">{intro}</p>
+
+    <div class="hero-board__actions">
+      <a class="button-primary" href="/courses/">Explorar arquitetura dos cursos</a>
+    </div>
+  </div>
+
+  <aside class="hero-board__panel" aria-label="Research board">
+    <div class="blackboard-note">
+      <p class="blackboard-note__label">Operating lens</p>
+      <p>Futebol não entra como palpite. Entra como contexto, hipótese, preço, risco e execução.</p>
+    </div>
+
+    <div class="hero-board__stats">
+      <StatPill value="6" label="frentes de estudo V1" />
+      <StatPill value="4" label="personas prioritárias" />
+      <StatPill value="0" label="logins ou backend em V1" />
+    </div>
+  </aside>
+</section>

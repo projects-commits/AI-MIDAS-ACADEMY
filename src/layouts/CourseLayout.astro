@@ -1,0 +1,95 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Container from "../components/ui/Container.astro";
+import CourseHero from "../components/course/CourseHero.astro";
+import CourseCurriculum from "../components/course/CourseCurriculum.astro";
+import type { CourseData } from "../types";
+
+interface Props {
+  course: CourseData;
+  firstLessonHref: string;
+}
+
+const { course, firstLessonHref } = Astro.props;
+---
+
+<BaseLayout title={course.title} description={course.subtitle}>
+  <Container size="wide">
+    <div class="course-page" data-course-shell data-course-id={course.id} data-total-lessons={course.courseStats.lessonCount}>
+      <CourseHero course={course} firstLessonHref={firstLessonHref} />
+
+      <div class="course-main course-main--simple">
+        <section class="course-overview">
+          <article class="research-card course-summary-card">
+            <p class="gold-label">Mapa do curso</p>
+            <h3>{course.title}</h3>
+
+            <div class="course-sidebar__progress">
+              <div class="course-sidebar__progress-head">
+                <span>Progresso local</span>
+                <span data-progress-percent={course.id}>0%</span>
+              </div>
+              <div class="progress-rail">
+                <span data-progress-fill={course.id} style="width: 0%;"></span>
+              </div>
+              <p class="muted-copy" data-progress-label={course.id}>0/{course.courseStats.lessonCount} lições concluídas</p>
+            </div>
+
+            <div class="course-summary-card__meta">
+              <span class="meta-pill">{course.courseStats.moduleCount} módulos</span>
+              <span class="meta-pill">{course.courseStats.lessonCount} lições</span>
+            </div>
+
+            <div class="course-summary-card__actions">
+              <a class="button-primary" href={firstLessonHref}>Iniciar curso</a>
+            </div>
+          </article>
+
+          <article class="research-card course-summary-card">
+            <p class="gold-label">Por que este curso existe</p>
+            <h3>Da impressão à estrutura</h3>
+            <p class="muted-copy">{course.whyThisCourseExists}</p>
+          </article>
+
+          <article class="research-card course-summary-card">
+            <p class="gold-label">Público-alvo</p>
+            <h3>Para quem quer estudar com método</h3>
+            <p class="muted-copy">{course.audience}</p>
+          </article>
+
+          <article class="terminal-card course-summary-card">
+            <p class="gold-label">O que vais evitar</p>
+            <h3>Menos impressão, mais critério</h3>
+            <p class="muted-copy">{course.enemy}</p>
+          </article>
+
+          <article class="research-card course-summary-card">
+            <p class="gold-label">Pré-requisitos</p>
+            <h3>O mínimo para entrar bem no curso</h3>
+            <ul class="course-list">
+              {course.prerequisites.map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+        </section>
+
+        <section class="research-card course-note">
+          <p class="gold-label">Resumo expandido</p>
+          <details>
+            <summary>Ler a explicação completa do curso</summary>
+            <div class="course-note__body">
+              <slot />
+            </div>
+          </details>
+        </section>
+
+        <CourseCurriculum course={course} />
+      </div>
+    </div>
+  </Container>
+
+  <script>
+    import { initCourseProgress } from "../scripts/ProgressLocalStorage.ts";
+
+    initCourseProgress();
+  </script>
+</BaseLayout>

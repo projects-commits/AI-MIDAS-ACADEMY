@@ -1,0 +1,72 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Container from "../components/ui/Container.astro";
+import LessonNavigation from "../components/lesson/LessonNavigation.astro";
+import type { CourseData, CourseLesson, CourseModule } from "../types";
+import { formatLevel } from "../lib/course";
+
+interface Props {
+  course: CourseData;
+  lesson: CourseLesson;
+  module: CourseModule;
+  previousLesson: CourseLesson | null;
+  nextLesson: CourseLesson | null;
+}
+
+const { course, lesson, module, previousLesson, nextLesson } = Astro.props;
+---
+
+<BaseLayout title={lesson.title} description={course.corePromise}>
+  <Container size="wide">
+    <div class="lesson-page" data-course-shell data-course-id={course.id} data-total-lessons={course.courseStats.lessonCount}>
+      <section class="lesson-context research-card">
+        <div>
+          <p class="gold-label">Contexto do curso</p>
+          <a class="lesson-context__course-link" href={`/courses/${course.slug}/`}>{course.title}</a>
+          <h1>{lesson.title}</h1>
+          <p class="page-intro">{course.corePromise}</p>
+        </div>
+
+        <div class="content-hero__meta">
+          <span class="course-badge">{module.title}</span>
+          <span class="course-badge">{formatLevel(lesson.level)}</span>
+          <span class="course-badge">{lesson.readingMinutes} min</span>
+        </div>
+      </section>
+
+      <div class="lesson-layout-grid">
+        <article class="lesson-main terminal-card">
+          <div class="lesson-main__header">
+            <div>
+              <p class="gold-label">Aula {lesson.lessonNumber}</p>
+              <h2>{lesson.title}</h2>
+            </div>
+            <button class="button-secondary lesson-complete-button" data-complete-lesson={course.id} data-lesson-id={lesson.id}>
+              Marcar como concluída
+            </button>
+          </div>
+
+          <slot />
+
+          <LessonNavigation courseSlug={course.slug} previousLesson={previousLesson} nextLesson={nextLesson} />
+        </article>
+      </div>
+    </div>
+  </Container>
+
+  <script>
+    import { initLessonVisuals } from "../scripts/LessonVisuals.ts";
+    import { initCourseProgress } from "../scripts/ProgressLocalStorage.ts";
+
+    const startLessonPage = () => {
+      initLessonVisuals();
+      initCourseProgress();
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", startLessonPage, { once: true });
+    } else {
+      startLessonPage();
+    }
+  </script>
+</BaseLayout>

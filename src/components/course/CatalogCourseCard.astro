@@ -1,0 +1,326 @@
+---
+import type { CourseCatalogItem } from "../../types";
+import { formatCategoryName, formatCourseStatus, formatDuration, formatLevel } from "../../lib/course";
+import bgImage from "../../../imagem_9_passos.png";
+
+interface Props {
+  item: CourseCatalogItem;
+}
+
+const { item } = Astro.props;
+const Element = item.href ? "a" : "article";
+const levelLabel = formatLevel(item.level);
+const durationLabel = formatDuration(item.estimatedReadingMinutes);
+const statusLabel = formatCourseStatus(item.status);
+const categoryLabel = formatCategoryName(item.category);
+const searchIndex = `${item.title} ${item.summary} ${item.category} ${item.focus}`.toLowerCase();
+---
+
+<Element
+  class:list={["catalog-card", item.href ? "catalog-card--live" : "catalog-card--roadmap"]}
+  href={item.href ?? undefined}
+  data-course-card
+  data-search={searchIndex}
+  data-category={item.category}
+  data-level={item.level}
+  data-duration={item.durationBucket}
+>
+  {item.href && (
+    <div
+      class="catalog-card__bg"
+      aria-hidden="true"
+      style={`background-image: url(${bgImage.src})`}
+    />
+  )}
+
+  <div class="catalog-card__topline">
+    <span class="catalog-card__eyebrow">{item.note}</span>
+    <span class="catalog-card__status">{statusLabel}</span>
+  </div>
+
+  <div class="catalog-card__header">
+    <div>
+      <p class="catalog-card__category">{categoryLabel}</p>
+      <h3>{item.title}</h3>
+    </div>
+    <span class="catalog-card__time">{durationLabel}</span>
+  </div>
+
+  <p class="catalog-card__summary">{item.summary}</p>
+
+  <div class="catalog-card__focus">
+    <span>O que você vai estudar</span>
+    <p>{item.focus}</p>
+  </div>
+
+  <div class="catalog-card__stats">
+    <article class="catalog-card__stat">
+      <span class="catalog-card__stat-label">Nível</span>
+      <strong>{levelLabel}</strong>
+    </article>
+    <article class="catalog-card__stat">
+      <span class="catalog-card__stat-label">Módulos</span>
+      <strong>{typeof item.moduleCount === "number" ? item.moduleCount : "—"}</strong>
+    </article>
+    <article class="catalog-card__stat">
+      <span class="catalog-card__stat-label">Lições</span>
+      <strong>{typeof item.lessonCount === "number" ? item.lessonCount : "—"}</strong>
+    </article>
+  </div>
+
+  <div class="catalog-card__footer">
+    {item.href ? <strong>Acessar curso</strong> : <strong>Em preparação</strong>}
+    {item.href && <span class="catalog-card__cta">Entrar agora</span>}
+  </div>
+</Element>
+
+<style>
+  .catalog-card {
+    position: relative;
+    display: grid;
+    gap: 0.85rem;
+    padding: 1rem 1rem 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 22px;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(255, 215, 0, 0.16), transparent 26%),
+      radial-gradient(circle at 0% 0%, rgba(255, 69, 0, 0.14), transparent 34%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015)),
+      #141414;
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+    transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  }
+
+  .catalog-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 69, 0, 0), rgba(255, 69, 0, 0.9), rgba(255, 215, 0, 0.8), rgba(255, 215, 0, 0));
+  }
+
+  .catalog-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 215, 0, 0.26);
+    box-shadow:
+      0 28px 70px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 69, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .catalog-card--live {
+    background:
+      radial-gradient(circle at 100% 0%, rgba(255, 215, 0, 0.18), transparent 24%),
+      radial-gradient(circle at 0% 0%, rgba(255, 69, 0, 0.2), transparent 36%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.018)),
+      #161212;
+  }
+
+  .catalog-card__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    pointer-events: none;
+  }
+
+  .catalog-card__bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.92), rgba(20, 20, 20, 0.88));
+  }
+
+  .catalog-card > :not(.catalog-card__bg) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .catalog-card__topline,
+  .catalog-card__header,
+  .catalog-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .catalog-card__eyebrow,
+  .catalog-card__category {
+    margin: 0;
+    font-family: "Courier New", Courier, monospace;
+    letter-spacing: 0.04em;
+  }
+
+  .catalog-card__eyebrow {
+    color: var(--color-gold-soft);
+    font-size: 0.74rem;
+    text-transform: uppercase;
+  }
+
+  .catalog-card__status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
+    padding: 0.25rem 0.65rem;
+    border: 1px solid rgba(255, 215, 0, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 215, 0, 0.08);
+    color: #fff3bf;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .catalog-card__category {
+    color: var(--color-secondary);
+    font-size: 0.8rem;
+  }
+
+  .catalog-card h3 {
+    margin: 0.3rem 0 0;
+    font-family: var(--font-brand);
+    font-size: clamp(1.18rem, 1.9vw, 1.55rem);
+    line-height: 1.12;
+  }
+
+  .catalog-card__time {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.2rem;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--color-text);
+    font-size: 0.9rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .catalog-card__summary,
+  .catalog-card__focus p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .catalog-card__focus {
+    display: grid;
+    gap: 0.42rem;
+    padding: 0.8rem 0.85rem;
+    border: 1px solid rgba(255, 215, 0, 0.14);
+    border-radius: 15px;
+    background:
+      linear-gradient(180deg, rgba(255, 215, 0, 0.05), rgba(255, 255, 255, 0.01)),
+      rgba(10, 10, 10, 0.46);
+  }
+
+  .catalog-card__focus span {
+    color: var(--color-secondary);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .catalog-card__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem;
+  }
+
+  .catalog-card__stat {
+    display: grid;
+    gap: 0.25rem;
+    padding: 0.72rem 0.78rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.025);
+  }
+
+  .catalog-card__stat-label {
+    color: var(--color-muted);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .catalog-card__stat strong {
+    color: var(--color-text);
+    font-size: 0.92rem;
+  }
+
+  .catalog-card__footer {
+    padding-top: 0.2rem;
+    color: var(--color-text);
+  }
+
+  .catalog-card__footer strong {
+    font-size: 0.92rem;
+  }
+
+  .catalog-card__cta {
+    color: var(--color-secondary);
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 720px) {
+    .catalog-card__stats {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .catalog-card {
+      padding: 0.85rem 0.85rem 0.8rem;
+      border-radius: 18px;
+      gap: 0.7rem;
+    }
+
+    .catalog-card__header,
+    .catalog-card__topline,
+    .catalog-card__footer {
+      gap: 0.55rem;
+    }
+
+    .catalog-card h3 {
+      font-size: 1.1rem;
+    }
+
+    .catalog-card__summary,
+    .catalog-card__focus p {
+      font-size: 0.9rem;
+    }
+
+    .catalog-card__focus {
+      padding: 0.65rem 0.7rem;
+      border-radius: 12px;
+    }
+
+    .catalog-card__stats {
+      gap: 0.5rem;
+    }
+
+    .catalog-card__stat {
+      padding: 0.6rem 0.65rem;
+      border-radius: 12px;
+    }
+
+    .catalog-card__stat strong {
+      font-size: 0.88rem;
+    }
+
+    .catalog-card__time {
+      min-height: 2rem;
+      padding: 0.35rem 0.55rem;
+      font-size: 0.85rem;
+    }
+  }
+</style>

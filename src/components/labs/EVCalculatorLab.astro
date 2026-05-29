@@ -1,0 +1,106 @@
+---
+import LabCard from "./LabCard.astro";
+
+const labId = "ev-calculator-lab";
+---
+
+<LabCard
+  id={labId}
+  title="Expected Value Calculator"
+  summary="Relaciona odds de mercado, probabilidade estimada e stake para mostrar se a tua leitura gera edge positivo ou negativo."
+>
+  <div class="lab-grid lab-grid--wide">
+    <div class="lab-fields">
+      <label class="lab-field">
+        <span class="gold-label">Market odds</span>
+        <input data-odds-input type="number" min="1.01" step="0.01" value="2.25" />
+      </label>
+
+      <label class="lab-field">
+        <span class="gold-label">Estimated probability %</span>
+        <input data-probability-input type="number" min="0" max="100" step="0.1" value="49" />
+      </label>
+
+      <label class="lab-field">
+        <span class="gold-label">Stake</span>
+        <input data-stake-input type="number" min="0" step="0.01" value="20" />
+      </label>
+    </div>
+
+    <div class="lab-result-panel research-card">
+      <p class="gold-label">Outputs</p>
+      <div class="lab-results-list">
+        <p class="lab-metric"><span>Implied probability</span><strong data-implied-output>44.44%</strong></p>
+        <p class="lab-metric"><span>EV %</span><strong data-ev-percent-output>10.25%</strong></p>
+        <p class="lab-metric"><span>Expected P/L</span><strong data-profit-output>2.05</strong></p>
+      </div>
+      <p class="lab-warning" data-edge-warning data-state="positive">Positive edge on your assumptions. Still educational only.</p>
+    </div>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const root = document.getElementById("ev-calculator-lab");
+      if (!root) return;
+
+      const oddsInput = root.querySelector("[data-odds-input]");
+      const probabilityInput = root.querySelector("[data-probability-input]");
+      const stakeInput = root.querySelector("[data-stake-input]");
+      const impliedOutput = root.querySelector("[data-implied-output]");
+      const evPercentOutput = root.querySelector("[data-ev-percent-output]");
+      const profitOutput = root.querySelector("[data-profit-output]");
+      const warning = root.querySelector("[data-edge-warning]");
+
+      const render = () => {
+        const odds = Number(oddsInput?.value ?? 0);
+        const estimatedProbability = Number(probabilityInput?.value ?? 0) / 100;
+        const stake = Number(stakeInput?.value ?? 0);
+
+        if (
+          !Number.isFinite(odds) ||
+          odds <= 1 ||
+          !Number.isFinite(estimatedProbability) ||
+          estimatedProbability < 0 ||
+          estimatedProbability > 1 ||
+          !Number.isFinite(stake) ||
+          stake < 0
+        ) {
+          if (impliedOutput) impliedOutput.textContent = "--";
+          if (evPercentOutput) evPercentOutput.textContent = "--";
+          if (profitOutput) profitOutput.textContent = "--";
+          if (warning) {
+            warning.textContent = "Check the inputs to evaluate the setup.";
+            warning.dataset.state = "warning";
+          }
+          return;
+        }
+
+        const impliedProbability = (1 / odds) * 100;
+        const evPercent = (estimatedProbability * odds - 1) * 100;
+        const expectedProfitLoss = stake * (estimatedProbability * odds - 1);
+
+        if (impliedOutput) impliedOutput.textContent = `${impliedProbability.toFixed(2)}%`;
+        if (evPercentOutput) evPercentOutput.textContent = `${evPercent.toFixed(2)}%`;
+        if (profitOutput) profitOutput.textContent = expectedProfitLoss.toFixed(2);
+
+        if (!warning) return;
+
+        if (evPercent > 0) {
+          warning.textContent = "Positive edge on your assumptions. The market can still disagree with you.";
+          warning.dataset.state = "positive";
+        } else if (evPercent < 0) {
+          warning.textContent = "Negative edge on your assumptions. Re-check probability, price and thesis quality.";
+          warning.dataset.state = "negative";
+        } else {
+          warning.textContent = "Neutral edge. This setup is roughly break-even on your assumptions.";
+          warning.dataset.state = "warning";
+        }
+      };
+
+      oddsInput?.addEventListener("input", render);
+      probabilityInput?.addEventListener("input", render);
+      stakeInput?.addEventListener("input", render);
+      render();
+    })();
+  </script>
+</LabCard>

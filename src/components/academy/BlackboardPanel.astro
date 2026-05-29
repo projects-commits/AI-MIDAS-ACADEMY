@@ -1,0 +1,21 @@
+---
+interface Props {
+  title: string;
+  label?: string;
+}
+
+const { title, label } = Astro.props;
+---
+
+<aside class="blackboard blackboard-panel" data-motion-reveal>
+  <div class="blackboard-panel__header">
+    <div>
+      {label && <p class="gold-label">{label}</p>}
+      <h3 class="blackboard-panel__title">{title}</h3>
+    </div>
+  </div>
+
+  <div class="blackboard-panel__body">
+    <slot />
+  </div>
+</aside>

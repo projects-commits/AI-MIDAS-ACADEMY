@@ -1,0 +1,14 @@
+---
+interface Props {
+  title: string;
+  summary: string;
+}
+
+const { title, summary } = Astro.props;
+---
+
+<article class="terminal-card failure-card" data-motion-reveal>
+  <p class="gold-label">Modo de falha</p>
+  <h3>{title}</h3>
+  <p class="muted-copy">{summary}</p>
+</article>

@@ -1,0 +1,61 @@
+---
+import type { CourseLesson } from "../../types";
+import { formatGlossaryTerm, getLessonHref } from "../../lib/course";
+
+interface RelatedLesson {
+  title: string;
+  slug: string;
+  lessonNumber: number;
+}
+
+interface Props {
+  courseSlug: string;
+  lesson: CourseLesson;
+  relatedLessons: RelatedLesson[];
+}
+
+const { courseSlug, lesson, relatedLessons } = Astro.props;
+const glossaryTerms = lesson.glossaryTerms ?? [];
+const formulas = lesson.formulas ?? [];
+---
+
+<aside class="lesson-right-rail">
+  <section class="research-card">
+    <p class="gold-label">Key concepts</p>
+    <div class="rail-chip-list">
+      {lesson.concepts.map((concept) => <span class="course-badge">{concept}</span>)}
+    </div>
+  </section>
+
+  <section class="research-card">
+    <p class="gold-label">Glossary terms</p>
+    <div class="rail-chip-list">
+      {glossaryTerms.map((term) => <span class="course-badge">{formatGlossaryTerm(term)}</span>)}
+    </div>
+  </section>
+
+  <section class="research-card">
+    <p class="gold-label">Formulas</p>
+    <div class="rail-formulas">
+      {formulas.map((formula) => (
+        <div class="board-note">
+          <strong>{formula.label}</strong>
+          <br />
+          {formula.value}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="research-card">
+    <p class="gold-label">Related lessons</p>
+    <div class="rail-links">
+      {relatedLessons.map((relatedLesson) => (
+        <a class="rail-link" href={getLessonHref(courseSlug, relatedLesson.slug)}>
+          <span>Lesson {relatedLesson.lessonNumber}</span>
+          <strong>{relatedLesson.title}</strong>
+        </a>
+      ))}
+    </div>
+  </section>
+</aside>

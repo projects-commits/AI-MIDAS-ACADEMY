@@ -1,0 +1,15 @@
+{
+  "name": "AI MIDAS ACADEMY",
+  "tagline": "Football market intelligence, probability and research-grade learning.",
+  "description": "Academia pública para cursos profundos sobre futebol, preço, probabilidade, risco, research e prediction markets.",
+  "navigation": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "Courses",
+      "href": "/courses/"
+    }
+  ]
+}

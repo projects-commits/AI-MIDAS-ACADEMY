@@ -1,0 +1,19 @@
+---
+import type { Category } from "../../types";
+
+interface Props {
+  category: Category;
+}
+
+const { category } = Astro.props;
+---
+
+<article class="card card--category">
+  <div class="card__rail"></div>
+  <div class="card__body">
+    <p class="card__eyebrow">Category</p>
+    <h3>{category.name}</h3>
+    <p>{category.summary}</p>
+    <p class="card__angle">{category.angle}</p>
+  </div>
+</article>

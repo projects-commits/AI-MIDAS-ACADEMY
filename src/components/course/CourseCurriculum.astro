@@ -1,0 +1,54 @@
+---
+import type { CourseData } from "../../types";
+import { getLessonHref, getLessonsForModule } from "../../lib/course";
+
+interface Props {
+  course: CourseData;
+}
+
+const { course } = Astro.props;
+---
+
+<section class="course-curriculum" id="curriculo">
+  <div class="section-header">
+    <p class="gold-label">Currículo</p>
+    <h2>Módulos e lições</h2>
+    <p class="section-intro">
+      Um mapa simples para veres a ordem do curso sem te perderes no scroll.
+    </p>
+  </div>
+
+  <div class="curriculum-modules">
+    {
+      course.modules.map((module, index) => (
+        <article class="terminal-card curriculum-module">
+          <div class="curriculum-module__header">
+            <div>
+              <p class="gold-label">Módulo {index + 1}</p>
+              <h3>{module.title}</h3>
+            </div>
+            <span class="course-badge">{module.lessonIds.length} lições</span>
+          </div>
+
+          <p class="muted-copy">{module.summary}</p>
+
+          <div class="curriculum-lessons">
+            {getLessonsForModule(course, module).map((lesson) => (
+              <a
+                class="curriculum-lesson"
+                href={getLessonHref(course.slug, lesson.slug)}
+                data-lesson-item
+                data-course-id={course.id}
+                data-lesson-id={lesson.id}
+              >
+                <span class="curriculum-lesson__number">Lição {lesson.lessonNumber}</span>
+                <strong>{lesson.title}</strong>
+                <span class="muted-copy">{lesson.readingMinutes} min</span>
+              </a>
+            ))}
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>

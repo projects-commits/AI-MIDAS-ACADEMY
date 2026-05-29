@@ -1,0 +1,37 @@
+---
+import type { SiteData } from "../../types";
+
+interface Props {
+  site: SiteData;
+}
+
+const { site } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand-lockup" href="/">
+      <span class="brand-lockup__eyebrow">Research-grade academy</span>
+      <span class="brand-lockup__name">{site.name}</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary">
+      {
+        site.navigation.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "site-nav__link",
+              currentPath === item.href || (item.href !== "/" && currentPath.startsWith(item.href))
+                ? "is-active"
+                : ""
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>

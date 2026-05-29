@@ -1,0 +1,23 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  summary: string;
+  id?: string;
+}
+
+const { eyebrow = "Interactive lab", title, summary, id } = Astro.props;
+---
+
+<section class="lab-card-shell terminal-card" id={id}>
+  <div class="lab-card-shell__header">
+    <div>
+      <p class="gold-label">{eyebrow}</p>
+      <h2>{title}</h2>
+    </div>
+    <p class="muted-copy">{summary}</p>
+  </div>
+  <div class="lab-card-shell__body">
+    <slot />
+  </div>
+</section>

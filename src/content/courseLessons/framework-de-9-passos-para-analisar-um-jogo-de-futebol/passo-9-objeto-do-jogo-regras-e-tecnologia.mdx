@@ -1,0 +1,145 @@
+---
+{
+  "id": "course-framework-9-passos-lesson-9",
+  "courseId": "course-framework-9-passos",
+  "courseSlug": "framework-de-9-passos-para-analisar-um-jogo-de-futebol",
+  "lessonId": "lesson-9",
+  "moduleId": "module-3",
+  "title": "Passo 9: Objeto do jogo, regras e tecnologia",
+  "slug": "passo-9-objeto-do-jogo-regras-e-tecnologia",
+  "lessonNumber": 9,
+  "readingMinutes": 11,
+  "status": "published",
+  "createdAt": "2026-05-27T00:00:00.000Z",
+  "updatedAt": "2026-05-27T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+import LearningChart from "../../../components/lesson/LearningChart.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+
+<BlackboardPanel title={"Mapa operacional: Passo 9: Objeto do jogo, regras e tecnologia"} label="Quadro">
+  <div class="board-note">Entender como regras, VAR e tecnologia alteram ritmo, incerteza e distribuição de eventos.</div>
+  <div class="board-note">Rule impact = event frequency x decision leverage x market awareness</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Fórmula mental" title={"Rule sensitivity"} formula={"Rule impact = event frequency x decision leverage x market awareness"} explanation={"Use esta fórmula como uma lente de leitura, não como uma verdade mecânica. O objetivo é tornar a tese auditável antes da decisão."} />
+
+<MarketExample title={"Aplicação do Passo 9: Objeto do jogo, regras e tecnologia"} setup={"Escolha um jogo pré-live e separe evidências observáveis de narrativa pública."} price={"Compare a leitura contextual com odds, liquidez e timing do movimento de mercado."} hypothesis={"Escreva uma hipótese que admita intervalo de incerteza e critério de invalidação."} risk={"Ignorar que o objeto analisado muda quando regras, tecnologia ou critérios de arbitragem mudam."} />
+
+<FailureModeCard title={"Ignorar que o objeto analisado muda quando regras, tecnologia ou critérios de arbitragem mudam."} summary={"Este erro reduz a qualidade da decisão porque troca processo verificável por interpretação conveniente."} />
+
+<DecisionChecklist title={"Checklist do Passo 9: Objeto do jogo, regras e tecnologia"} items={["A regra afeta diretamente o mercado analisado","O critério de arbitragem da competição foi observado","O impacto do VAR foi tratado como distribuição, não como opinião","A conclusão final respeita o limite do objeto"]} />
+
+<CodeLens
+  title="Tecnologia também muda a distribuição"
+  lines={[
+    { key: "rule_context", value: "critério da liga e árbitro", tone: "gold", note: "define o objeto" },
+    { key: "interruptions", value: "VAR, revisoes, tempo parado", tone: "orange", note: "muda ritmo" },
+    { key: "market_awareness", value: "quanto o preço já sabe", tone: "green", note: "evita dupla contagem" }
+  ]}
+/>
+
+<LearningChart
+  title="Impacto de interrupcoes no modelo"
+  items={[
+    { label: "Ritmo do jogo", value: 72, tone: "orange", note: "Paragens mudam continuidade e pressão." },
+    { label: "Volatilidade emocional", value: 58, tone: "gold", note: "Reversões alteram tomada de decisão." },
+    { label: "Preço de eventos", value: 44, tone: "green", note: "Mercados de cantos, cartões e gols podem reagir com atraso." }
+  ]}
+/>
+
+<MermaidDiagram
+  title="Regra -> interrupção -> preço"
+  definition={`flowchart LR
+    A["Regra ativa"] --> B["Perfil de aplicacao"]
+    B --> C["Interrupcao ou reversao"]
+    C --> D["Ritmo alterado"]
+    D --> E["Distribuicao de eventos"]
+    E --> F["Preco recalibrado"]`}
+/>
+
+# Passo 9: Objeto do jogo, regras e tecnologia
+
+## Ideia central
+Regras oficiais e ferramentas tecnológicas não são apenas regulamentos estáticos; são **variáveis estruturais** que modificam a estocasticidade, o ritmo temporal e a calibração de probabilidades de um evento esportivo.
+
+## Modelo mental
+**O campo como sistema regulado.** Regras e tecnologia operam como filtros de ruído e geradores de interrupções, alterando a distribuição temporal de ações, a curva de pressão psicológica e a tomada de decisão sob incerteza.
+
+O objeto de análise é a interação entre o regulamento, a infraestrutura tecnológica e a execução tática.
+
+## O que é
+**Escopo regulatório e tecnológico:** diretrizes da IFAB, protocolos de arbitragem assistida (*VAR, GLT, semi-automated offside*), implementos físicos (*bola, dimensões de campo, superfície*) e a forma como esses elementos são aplicados de forma heterogênea entre ligas e competições.
+
+<mark>É o mapeamento das variáveis institucionais</mark> que condicionam a execução do jogo e a formação de preço.
+
+## Por que importa
+<mark>Ignorar a arquitetura regulatória e tecnológica</mark> introduz erros sistemáticos na calibração de probabilidade.
+
+Interrupções alteram *momentum*, reversões de decisão distorcem métricas de desempenho tradicionais e a aplicação desigual das regras cria assimetrias de risco.
+
+**Mercados que não precificam o custo temporal e a volatilidade introduzida por revisões tecnológicas** tendem a apresentar ineficiências de curto prazo.
+
+A análise holística exige tratar regras e tecnologia como *inputs* quantificáveis, não como pano de fundo neutro.
+
+## Mecanismo
+O impacto opera através de três canais principais:
+
+1. **Fragmentação temporal:** cada revisão tecnológica introduz um intervalo de paralisação que interrompe a curva de pressão, altera a frequência cardíaca e reseta a organização espacial das equipes.
+2. **Reversão de estado:** decisões anuladas ou confirmadas por vídeo modificam o placar implícito e a probabilidade condicional de cenários futuros.
+3. **Viés de aplicação:** a interpretação das regras varia por liga, árbitro e contexto competitivo.
+
+**O mecanismo de calibração** consiste em quantificar a taxa de interrupção, mapear o perfil de aplicação do árbitro e ajustar a probabilidade implícita com base na volatilidade esperada e no custo de oportunidade temporal.
+
+## Exemplo aplicado
+Na Premier League, a aplicação do VAR segue protocolos de tolerância mínima para infrações na área, resultando em maior frequência de revisões e interrupções prolongadas.
+
+**Em comparação,** ligas com diretrizes de "clear and obvious" mais flexíveis registam menor tempo de paralisação e maior continuidade tática.
+
+No mercado, essa diferença reflete-se na precificação de mercados de ritmo, como *over/under* de cantos, cartões ou tempo de bola rolante.
+
+<mark>Quando um jogo com histórico de alta intervenção tecnológica é precificado com base em médias de ligas de baixo atrito,</mark> a probabilidade implícita de eventos dependentes de continuidade fica superestimada.
+
+O ajuste correto exige descontar a fração esperada de tempo perdido e recalibrar a distribuição de eventos com base no perfil de interrupção.
+
+## Quadro de raciocínio
+1. **Identificar o regulamento ativo:** verificar diretrizes da IFAB, protocolos da liga e notas técnicas do árbitro central.
+2. **Mapear o perfil tecnológico:** taxa histórica de intervenções por jogo, tempo médio de revisão e frequência de reversões.
+3. **Quantificar o custo temporal:** estimar minutos de paralisação esperados e ajustar a janela de análise de métricas de ritmo.
+4. **Avaliar a subjetividade residual:** classificar a margem de interpretação do árbitro em infrações não determinísticas.
+5. **Recalibrar probabilidade:** aplicar um fator de desconto à continuidade tática e ajustar a distribuição de cenários com base na volatilidade introduzida.
+6. **Documentar a incerteza:** registrar intervalos de confiança e explicitar a dependência do modelo em variáveis regulatórias.
+
+## Modo de falha
+<mark>Tratar a tecnologia como perfeitamente objetiva e neutra.</mark> O VAR e o GLT eliminam erros factuais, mas não removem a interpretação humana nem o custo cognitivo da interrupção.
+
+**Superestimar a precisão técnica** sem considerar o impacto psicológico da paralisação, a perda de ritmo e a heterogeneidade de aplicação entre competições leva a modelos rígidos que falham em capturar a estocasticidade real.
+
+Outro erro comum é ignorar a adaptação tática pós-revisão: equipes que perdem um gol anulado frequentemente alteram o risco assumido, distorcendo projeções baseadas em dados históricos estáticos.
+
+**Checklist**
+- Regulamento da liga e notas técnicas do árbitro central consultados.
+- Taxa histórica de intervenções tecnológicas e tempo médio de revisão calculados.
+- Perfil de subjetividade do árbitro mapeado.
+- Fator de desconto de continuidade tática aplicado ao modelo base.
+- Probabilidade implícita ajustada para volatilidade regulatória.
+- Incerteza documentada com intervalos de confiança explícitos.
+- Validação cruzada com dados de jogos sob mesmo protocolo tecnológico.
+
+## Exercício prático
+Selecione uma liga e um árbitro central com histórico documentado de intervenções tecnológicas. Construa uma matriz de impacto regulatório com três variáveis: tempo médio de paralisação por revisão, porcentagem de decisões revertidas e índice de tolerância a infrações de contato.
+
+Utilize esses dados para ajustar um modelo base de probabilidade de gol nos primeiros 30 minutos, aplicando um fator de desconto proporcional à interrupção esperada. Compare a projeção ajustada com a probabilidade implícita do mercado e documente a divergência.
+
+## Síntese operacional
+**Regras e tecnologia são inputs estruturais de estocasticidade.**
+
+A calibração rigorosa exige tratar interrupções, reversões e perfis de aplicação como variáveis de risco mensuráveis, não como ruído irrelevante.
+
+<mark>Precificar o jogo sem mapear o seu arcabouço regulatório</mark> é operar com um modelo incompleto.

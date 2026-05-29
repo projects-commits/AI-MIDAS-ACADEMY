@@ -1,0 +1,35 @@
+---
+interface CodeLine {
+  key: string;
+  value: string;
+  note?: string;
+  tone?: "gold" | "orange" | "green" | "muted";
+}
+
+interface Props {
+  title: string;
+  label?: string;
+  lines: CodeLine[];
+}
+
+const { title, label = "Leitura em código", lines } = Astro.props;
+---
+
+<section class="code-lens terminal-card" data-motion-reveal>
+  <div class="code-lens__header">
+    <p class="gold-label">{label}</p>
+    <h3>{title}</h3>
+  </div>
+
+  <pre class="code-lens__block"><code>
+{lines.map((line, index) => (
+  <span class="code-lens__line">
+    <span class="code-lens__index">{String(index + 1).padStart(2, "0")}</span>
+    <span class="code-lens__key">{line.key}</span>
+    <span class="code-lens__operator">=</span>
+    <span class:list={["code-lens__value", line.tone && `code-lens__value--${line.tone}`]}>{line.value}</span>
+    {line.note && <span class="code-lens__note"> // {line.note}</span>}
+  </span>
+))}
+  </code></pre>
+</section>

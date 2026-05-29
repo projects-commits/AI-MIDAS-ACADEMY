@@ -1,0 +1,24 @@
+:root {
+  --color-bg: #121212;
+  --color-bg-deep: #0b0b0b;
+  --color-panel: #1b1b1b;
+  --color-panel-soft: #202020;
+  --color-border: #333333;
+  --color-primary: #ff4500;
+  --color-secondary: #ffd700;
+  --color-text: #f5f5f5;
+  --color-muted: #a3a3a3;
+  --color-danger: #ff4500;
+  --color-gold-soft: #ffe066;
+  --font-brand: Arial, Helvetica, sans-serif;
+  --font-ui: Arial, Helvetica, sans-serif;
+  --font-board: "Segoe Print", "Comic Sans MS", cursive;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 30px;
+  --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.28);
+  --shadow-glow: 0 0 0 1px rgba(255, 69, 0, 0.15), 0 18px 40px rgba(255, 69, 0, 0.12);
+  --container-default: 1160px;
+  --container-wide: 1320px;
+}

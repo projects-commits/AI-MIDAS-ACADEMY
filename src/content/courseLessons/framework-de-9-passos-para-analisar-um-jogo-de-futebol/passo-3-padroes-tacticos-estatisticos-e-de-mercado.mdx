@@ -1,0 +1,111 @@
+---
+{
+  "id": "course-framework-9-passos-lesson-3",
+  "courseId": "course-framework-9-passos",
+  "courseSlug": "framework-de-9-passos-para-analisar-um-jogo-de-futebol",
+  "lessonId": "lesson-3",
+  "moduleId": "module-1",
+  "title": "Passo 3: Padrões táticos, estatísticos e de mercado",
+  "slug": "passo-3-padroes-tacticos-estatisticos-e-de-mercado",
+  "lessonNumber": 3,
+  "readingMinutes": 11,
+  "status": "published",
+  "createdAt": "2026-05-27T00:00:00.000Z",
+  "updatedAt": "2026-05-27T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+import LearningChart from "../../../components/lesson/LearningChart.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+
+<BlackboardPanel title={"Mapa operacional: Passo 3: Padrões táticos, estatísticos e de mercado"} label="Quadro">
+  <div class="board-note">Distinguir padrões reais de ruído estatístico e ligar a leitura ao preço de mercado.</div>
+  <div class="board-note">Useful pattern = repeatability x opponent similarity x price relevance</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Fórmula mental" title={"Pattern test"} formula={"Useful pattern = repeatability x opponent similarity x price relevance"} explanation={"Use esta fórmula como uma lente de leitura, não como uma verdade mecânica. O objetivo é tornar a tese auditável antes da decisão."} />
+
+<MarketExample title={"Aplicação do Passo 3: Padrões táticos, estatísticos e de mercado"} setup={"Escolha um jogo pré-live e separe evidências observáveis de narrativa pública."} price={"Compare a leitura contextual com odds, liquidez e timing do movimento de mercado."} hypothesis={"Escreva uma hipótese que admita intervalo de incerteza e critério de invalidação."} risk={"Confundir uma sequência recente com capacidade estrutural."} />
+
+<FailureModeCard title={"Confundir uma sequência recente com capacidade estrutural."} summary={"Este erro reduz a qualidade da decisão porque troca processo verificável por interpretação conveniente."} />
+
+<DecisionChecklist title={"Checklist do Passo 3: Padrões táticos, estatísticos e de mercado"} items={["A amostra tem adversários comparáveis","O padrão aparece em métricas e vídeo","O mercado histórico foi consultado","O padrão tem impacto provável no mercado analisado"]} />
+
+<CodeLens
+  title="Filtro de padrão util"
+  lines={[
+    { key: "repeatability", value: "aparece em jogos comparáveis", tone: "gold", note: "não apenas recência" },
+    { key: "context_fit", value: "adversario e fase do jogo similares", tone: "green", note: "remove ruído" },
+    { key: "price_relevance", value: "muda a probabilidade implícita", tone: "orange", note: "liga campo ao mercado" }
+  ]}
+/>
+
+<LearningChart
+  title="Qualidade minima da amostra"
+  items={[
+    { label: "12+ jogos comparáveis", value: 100, tone: "gold", note: "Base mais estável para padrões recorrentes." },
+    { label: "8-11 jogos", value: 68, tone: "green", note: "Usável com cautela e contexto forte." },
+    { label: "1-7 jogos", value: 32, tone: "orange", note: "Zona de ruído: exige invalidação agressiva." }
+  ]}
+/>
+
+<MermaidDiagram
+  title="Pipeline padrão -> preço"
+  definition={`flowchart LR
+    A["Dado bruto"] --> B["Contexto tatico"]
+    B --> C["Metrica ajustada"]
+    C --> D["Probabilidade calibrada"]
+    D --> E["Preco de mercado"]
+    E --> F{"Delta > limiar?"}
+    F -->|Sim| G["Documentar tese"]
+    F -->|Nao| H["Classificar como ruido"]`}
+/>
+
+# Passo 3: Padrões táticos, estatísticos e de mercado
+
+## Ideia central
+Padrões não são narrativas; são sinais probabilísticos que exigem calibração contextual e confronto direto com a precificação de mercado.
+
+## Modelo mental
+*Pattern → Context → Probability → Price → Risk Decision*. O modelo opera como um filtro de ruído: isola repetições estruturais, ajusta por amostra e variáveis externas, converte em probabilidade calibrada e compara com a odd implícita. A decisão só ocorre quando o desvio entre probabilidade real e preço documentado supera o limiar de risco pré-definido.
+
+## O que é
+A identificação sistemática de repetições no comportamento coletivo (estrutura tática, zonas de construção, frequência de transições, eficiência defensiva), individual (atributos físicos-técnicos, eficiência em ações-chave, consistência sob pressão) e de mercado (movimentação de odds, liquidez, consenso vs. divergência). Inclui a integração de métricas avançadas (xG open play, xG set pieces, xGOT, xG por período, xPoints) e a análise de desempenho histórico contra perfis de adversário semelhantes, utilizando fontes estruturadas para rastrear comportamento e precificação.
+
+## Por que importa
+Estatísticas brutas sem contexto geram ilusão de previsibilidade. O mercado precifica o consenso público e a informação disponível. Reconhecer padrões reais — e não coincidências amostrais — permite calibrar probabilidades, identificar desvios de preço e estruturar decisões com limites de risco documentados. A incerteza permanece inerente ao futebol; o objetivo é reduzi-la a parâmetros mensuráveis e testáveis, evitando a confusão entre correlação e causalidade.
+
+## Mecanismo
+1. **Coleta estruturada:** Mapear formações, zonas de construção, frequência de transições, eficiência defensiva e padrões de posse. Registrar distribuição de gols por período e comportamento em bolas paradas.
+2. **Filtragem contextual:** Cruzar dados com perfil do adversário (ex: pressão alta vs. bloco baixo), condições ambientais, calendário e variáveis institucionais. Isolar jogos com amostra mínima de 10–15 para estabilização métrica.
+3. **Integração avançada:** Aplicar xG, xGOT, xGC e xPoints. Separar open play de set pieces. Ajustar por ruído amostral e regressão à média esperada.
+4. **Leitura de mercado:** Extrair odds de fecho, calcular probabilidade implícita, remover overround, identificar divergência entre preço e probabilidade calibrada.
+5. **Validação e decisão:** Se a diferença entre probabilidade calibrada e implícita superar o limiar de risco definido, documentar a hipótese. Caso contrário, classificar como ruído ou mercado eficiente.
+
+## Exemplo aplicado
+Uma equipe em 4-3-3 constrói pelas laterais e depende de cruzamentos tardios. Contra adversários com linha defensiva alta e pressão média-alta, gera 1.75 xG/90, mas converte apenas 0.85 gols reais nos últimos 14 jogos. O mercado precifica a vitória a 1.90 (probabilidade implícita ~52.6%). A análise calibrada, ajustando por subconversão recente, histórico contra perfis similares e xGOT real, indica probabilidade de ~45%. A odd reflete expectativa de regressão positiva não fundamentada em dados estruturais. O padrão tático existe, mas a precificação já incorpora a ineficiência ofensiva e o consenso de mercado. Decisão analítica: evitar exposição ou posicionar-se no lado oposto, conforme a matriz de risco e a tolerância a drawdown.
+
+## Quadro de raciocínio
+O fluxo visual deste passo está no diagrama acima: primeiro o analista separa o padrão bruto, depois ajusta por contexto tático, transforma isso em probabilidade calibrada e só então compara com o preço de mercado. A pergunta decisiva não é "o padrão existe?", mas sim: **ele muda a probabilidade o suficiente para superar ruído, margem e risco?**
+
+## Modo de falha
+Apofenia tática (identificar padrões onde há variação estocástica), viés de recência (supervalorizar 2–3 jogos recentes), ignorar a eficiência do mercado (assumir que toda divergência de preço representa valor), e amostras insuficientes (xG em menos de 8 jogos é instável e sujeito a ruído extremo). A falha mais recorrente é tratar correlação como causalidade sem isolar variáveis de controle: lesões em peças estruturais, rotação de elenco, motivação institucional e impacto do calendário. Sem critérios de invalidação explícitos, o padrão torna-se dogma, não hipótese.
+
+### Checklist
+- Mínimo de 10 jogos com dados consistentes para o padrão analisado
+- xG/xGOT ajustados por qualidade do adversário, contexto (casa/fora) e calendário
+- Probabilidade implícita calculada com remoção explícita de overround
+- Comparação documentada entre P(calibrada) e P(implícita)
+- Critérios de invalidação definidos (ex: mudança de treinador, lesão em peça-chave, alteração tática)
+- Limiar de risco e tolerância a erro estabelecidos antes da análise
+
+## Exercício prático
+Selecione uma equipe de uma liga com dados públicos acessíveis (xG, odds de fecho, histórico recente). Identifique um padrão tático recorrente (ex: vulnerabilidade a transições rápidas ou dependência de bolas paradas). Calcule o xG gerado ou sofrido nos últimos 12 jogos, ajuste por perfil de adversário e converta em probabilidade calibrada. Compare com a probabilidade implícita das odds de fecho para o mercado correspondente. Documente Δ, justifique a diferença com base em variáveis contextuais e defina se o padrão justifica uma posição, é ruído amostral ou indica mercado eficiente. Registre o processo em formato de dossiê.
+
+## Síntese operacional
+Padrões só possuem valor analítico quando calibrados por contexto, confrontados com a precificação de mercado e submetidos a critérios objetivos de invalidação. Sem essa estrutura, permanecem observações não testadas.

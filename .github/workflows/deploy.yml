@@ -1,0 +1,86 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Checkout do site (motor Astro)
+      - name: Checkout site
+        uses: actions/checkout@v4
+        with:
+          path: site
+
+      # 2. Checkout do curso (conteúdo MDX) — repo noutra conta
+      # Se o repo do curso for privado, descomenta a linha do token e
+      # cria um secret COURSE_PAT em Settings > Secrets and variables > Actions
+      - name: Checkout courses
+        uses: actions/checkout@v4
+        with:
+          repository: OUTRA_CONTA_GITHUB/curso-ai-midas-framework
+          # token: ${{ secrets.COURSE_PAT }}
+          path: courses
+
+      # 3. Copiar o conteúdo do curso para dentro do site antes de compilar
+      - name: Merge course content
+        run: |
+          mkdir -p site/src/content/courses
+          mkdir -p site/src/content/courseLessons
+          if [ -d "courses/courses" ]; then
+            cp -r courses/courses/* site/src/content/courses/ 2>/dev/null || true
+          fi
+          if [ -d "courses/courseLessons" ]; then
+            cp -r courses/courseLessons/* site/src/content/courseLessons/ 2>/dev/null || true
+          fi
+          if [ -d "courses/src/content/courses" ]; then
+            cp -r courses/src/content/courses/* site/src/content/courses/ 2>/dev/null || true
+          fi
+          if [ -d "courses/src/content/courseLessons" ]; then
+            cp -r courses/src/content/courseLessons/* site/src/content/courseLessons/ 2>/dev/null || true
+          fi
+
+      # 4. Instalar dependências e fazer build do site
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: site
+
+      - name: Build site
+        run: npm run build
+        working-directory: site
+
+      # 5. Enviar o resultado para o GitHub Pages
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

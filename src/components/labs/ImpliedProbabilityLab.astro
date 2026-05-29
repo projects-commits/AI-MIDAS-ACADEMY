@@ -1,0 +1,55 @@
+---
+import LabCard from "./LabCard.astro";
+
+const labId = "implied-probability-lab";
+---
+
+<LabCard
+  id={labId}
+  title="Implied Probability Calculator"
+  summary="Converte odds decimais em probabilidade implícita para treinar leitura de preço antes de qualquer narrativa."
+>
+  <div class="lab-grid">
+    <label class="lab-field">
+      <span class="gold-label">Decimal odds</span>
+      <input data-odds-input type="number" min="1.01" step="0.01" value="2.10" />
+    </label>
+
+    <div class="lab-result-panel research-card">
+      <p class="gold-label">Output</p>
+      <p class="lab-metric">
+        <span>Implied probability</span>
+        <strong data-probability-output>47.62%</strong>
+      </p>
+      <p class="muted-copy">
+        Quanto mais baixo o odd, maior a probabilidade implícita que o mercado está precificando.
+      </p>
+    </div>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const root = document.getElementById("implied-probability-lab");
+      if (!root) return;
+
+      const oddsInput = root.querySelector("[data-odds-input]");
+      const output = root.querySelector("[data-probability-output]");
+
+      const render = () => {
+        const odds = Number(oddsInput?.value ?? 0);
+        if (!output) return;
+
+        if (!Number.isFinite(odds) || odds <= 1) {
+          output.textContent = "--";
+          return;
+        }
+
+        const impliedProbability = (1 / odds) * 100;
+        output.textContent = `${impliedProbability.toFixed(2)}%`;
+      };
+
+      oddsInput?.addEventListener("input", render);
+      render();
+    })();
+  </script>
+</LabCard>

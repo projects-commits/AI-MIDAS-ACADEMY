@@ -1,0 +1,13 @@
+---
+interface Props {
+  label: string;
+  text: string;
+}
+
+const { label, text } = Astro.props;
+---
+
+<aside class="lesson-callout">
+  <p class="lesson-callout__label">{label}</p>
+  <p>{text}</p>
+</aside>

@@ -1,0 +1,611 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/ui/Container.astro";
+import CatalogCourseCard from "../../components/course/CatalogCourseCard.astro";
+import categoriesData from "../../data/categories.json";
+import {
+  createCatalogItemFromCourse,
+  formatCategoryName,
+  formatDurationBucket,
+  formatLevel
+} from "../../lib/course";
+import type { Category, CourseCatalogItem, CourseData, CourseDurationBucket } from "../../types";
+
+const categories = categoriesData as Category[];
+const courseEntries = await getCollection("courses");
+const publishedCourses = courseEntries.map((entry) => entry.data as CourseData);
+
+const catalogItems = publishedCourses
+  .map(createCatalogItemFromCourse)
+  .sort((left, right) => left.title.localeCompare(right.title, "pt-BR")) satisfies CourseCatalogItem[];
+
+const levelOptions = [
+  { value: "foundation", label: formatLevel("foundation") },
+  { value: "intermediate", label: formatLevel("intermediate") },
+  { value: "advanced", label: formatLevel("advanced") }
+];
+
+const durationOptions: { value: CourseDurationBucket; label: string }[] = [
+  { value: "under-5", label: formatDurationBucket("under-5") },
+  { value: "5-10", label: formatDurationBucket("5-10") },
+  { value: "10-20", label: formatDurationBucket("10-20") },
+  { value: "20-plus", label: formatDurationBucket("20-plus") }
+];
+
+const categoryCounts = new Map(categories.map((category) => [category.name, 0]));
+
+for (const item of catalogItems) {
+  categoryCounts.set(item.category, (categoryCounts.get(item.category) ?? 0) + 1);
+}
+---
+
+<BaseLayout
+  title="Cursos"
+  description="Catálogo de cursos da AI MIDAS ACADEMY com busca por nome, área, nível e tempo estimado de estudo."
+>
+  <Container size="wide">
+    <section class="catalog-shell" data-course-catalog>
+      <div class="catalog-shell__search">
+        <label class="catalog-search" for="course-search">
+          <span class="catalog-search__icon" aria-hidden="true">⌕</span>
+          <span class="catalog-search__label">Pesquisar nome do curso</span>
+          <input
+            id="course-search"
+            name="course-search"
+            type="search"
+            placeholder="Ex.: Framework de 9 Passos"
+            autocomplete="off"
+            data-search-input
+          />
+        </label>
+
+        <div class="catalog-shell__summary">
+          <div>
+            <p class="catalog-shell__eyebrow">Resultados do catálogo</p>
+            <h2><span data-results-count>{catalogItems.length}</span> curso encontrado</h2>
+          </div>
+          <button class="catalog-clear" type="button" data-clear-filters>Limpar filtros</button>
+        </div>
+
+        <div class="catalog-active-filters" data-active-filters></div>
+      </div>
+
+      <div class="catalog-layout">
+        <aside class="catalog-sidebar">
+          <div class="catalog-sidebar__header">
+            <div>
+              <p class="gold-label">Filtros</p>
+              <h3>Refine a busca</h3>
+            </div>
+            <p class="muted-copy">
+              Selecione uma área da academia, ajuste o nível e filtre pelo tempo médio de estudo.
+            </p>
+          </div>
+
+          <form class="catalog-filters" data-filter-form>
+            <fieldset class="catalog-filter-group">
+              <legend>Área da academia</legend>
+              <div class="catalog-checklist">
+                {categories.map((category) => (
+                  <label class="catalog-check" for={`category-${category.slug}`}>
+                    <input
+                      id={`category-${category.slug}`}
+                      type="checkbox"
+                      value={category.name}
+                      data-category-filter
+                    />
+                    <span class="catalog-check__copy">
+                      <strong>{formatCategoryName(category.name)}</strong>
+                      <small>{categoryCounts.get(category.name) ?? 0} curso</small>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <fieldset class="catalog-filter-group">
+              <legend>Nível do curso</legend>
+              <div class="catalog-checklist">
+                {levelOptions.map((option) => (
+                  <label class="catalog-check" for={`level-${option.value}`}>
+                    <input id={`level-${option.value}`} type="checkbox" value={option.value} data-level-filter />
+                    <span class="catalog-check__copy">
+                      <strong>{option.label}</strong>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <fieldset class="catalog-filter-group">
+              <legend>Tempo médio de estudo</legend>
+              <div class="catalog-radio-list">
+                <label class="catalog-radio" for="duration-all">
+                  <input id="duration-all" type="radio" name="duration" value="all" checked data-duration-filter />
+                  <span>Todos</span>
+                </label>
+
+                {durationOptions.map((option) => (
+                  <label class="catalog-radio" for={`duration-${option.value}`}>
+                    <input
+                      id={`duration-${option.value}`}
+                      type="radio"
+                      name="duration"
+                      value={option.value}
+                      data-duration-filter
+                    />
+                    <span>{option.label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          </form>
+        </aside>
+
+        <div class="catalog-main">
+          <section class="catalog-results-head">
+            <div>
+              <p class="gold-label">Catálogo público</p>
+              <h3>Cursos disponíveis agora</h3>
+            </div>
+          </section>
+
+          <section class="catalog-results" data-results-list>
+            {catalogItems.map((item) => <CatalogCourseCard item={item} />)}
+          </section>
+
+          <section class="catalog-empty research-card" hidden data-empty-state>
+            <p class="gold-label">Nenhum resultado</p>
+            <h3>Nenhum curso corresponde aos filtros atuais.</h3>
+            <p class="muted-copy">
+              Ajuste a busca, remova um dos filtros ou volte para a visão completa do catálogo.
+            </p>
+          </section>
+        </div>
+      </div>
+    </section>
+  </Container>
+
+  <script is:inline>
+    const catalogRoot = document.querySelector("[data-course-catalog]");
+
+    if (catalogRoot instanceof HTMLElement) {
+      const searchInput = catalogRoot.querySelector("[data-search-input]");
+      const resultCount = catalogRoot.querySelector("[data-results-count]");
+      const clearButton = catalogRoot.querySelector("[data-clear-filters]");
+      const activeFilters = catalogRoot.querySelector("[data-active-filters]");
+      const emptyState = catalogRoot.querySelector("[data-empty-state]");
+      const cards = Array.from(catalogRoot.querySelectorAll("[data-course-card]"));
+      const categoryInputs = Array.from(catalogRoot.querySelectorAll("[data-category-filter]"));
+      const levelInputs = Array.from(catalogRoot.querySelectorAll("[data-level-filter]"));
+      const durationInputs = Array.from(catalogRoot.querySelectorAll("[data-duration-filter]"));
+
+      const getCheckedValues = (inputs) =>
+        inputs.filter((input) => input instanceof HTMLInputElement && input.checked).map((input) => input.value);
+
+      const createChip = (label) => {
+        const chip = document.createElement("span");
+        chip.className = "catalog-filter-chip";
+        chip.textContent = label;
+        return chip;
+      };
+
+      const renderActiveFilters = (searchTerm, categories, levels, duration) => {
+        if (!(activeFilters instanceof HTMLElement)) {
+          return;
+        }
+
+        activeFilters.innerHTML = "";
+
+        if (searchTerm) {
+          activeFilters.appendChild(createChip(`Busca: ${searchTerm}`));
+        }
+
+        categories.forEach((category) => {
+          const relatedInput = categoryInputs.find(
+            (input) => input instanceof HTMLInputElement && input.value === category
+          );
+          const label = relatedInput?.parentElement?.querySelector("strong")?.textContent?.trim() ?? category;
+          activeFilters.appendChild(createChip(label));
+        });
+
+        levels.forEach((level) => {
+          const relatedInput = levelInputs.find(
+            (input) => input instanceof HTMLInputElement && input.value === level
+          );
+          const label = relatedInput?.parentElement?.querySelector("strong")?.textContent?.trim() ?? level;
+          activeFilters.appendChild(createChip(label));
+        });
+
+        if (duration !== "all") {
+          const selectedDuration = durationInputs.find(
+            (input) => input instanceof HTMLInputElement && input.value === duration
+          );
+
+          if (selectedDuration instanceof HTMLInputElement) {
+            activeFilters.appendChild(createChip(selectedDuration.parentElement?.textContent?.trim() ?? duration));
+          }
+        }
+      };
+
+      const applyFilters = () => {
+        const searchTerm = searchInput instanceof HTMLInputElement ? searchInput.value.trim().toLowerCase() : "";
+        const selectedCategories = getCheckedValues(categoryInputs);
+        const selectedLevels = getCheckedValues(levelInputs);
+        const selectedDuration =
+          durationInputs.find((input) => input instanceof HTMLInputElement && input.checked)?.value ?? "all";
+
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+          if (!(card instanceof HTMLElement)) {
+            return;
+          }
+
+          const matchesSearch = !searchTerm || (card.dataset.search ?? "").includes(searchTerm);
+          const matchesCategory =
+            selectedCategories.length === 0 || selectedCategories.includes(card.dataset.category ?? "");
+          const matchesLevel = selectedLevels.length === 0 || selectedLevels.includes(card.dataset.level ?? "");
+          const matchesDuration = selectedDuration === "all" || card.dataset.duration === selectedDuration;
+          const isVisible = matchesSearch && matchesCategory && matchesLevel && matchesDuration;
+
+          card.hidden = !isVisible;
+
+          if (isVisible) {
+            visibleCount += 1;
+          }
+        });
+
+        if (resultCount instanceof HTMLElement) {
+          resultCount.textContent = String(visibleCount);
+        }
+
+        if (emptyState instanceof HTMLElement) {
+          emptyState.hidden = visibleCount !== 0;
+        }
+
+        if (clearButton instanceof HTMLButtonElement) {
+          clearButton.disabled =
+            !searchTerm && selectedCategories.length === 0 && selectedLevels.length === 0 && selectedDuration === "all";
+        }
+
+        renderActiveFilters(searchTerm, selectedCategories, selectedLevels, selectedDuration);
+      };
+
+      searchInput?.addEventListener("input", applyFilters);
+      [...categoryInputs, ...levelInputs, ...durationInputs].forEach((input) => input.addEventListener("change", applyFilters));
+
+      clearButton?.addEventListener("click", () => {
+        if (searchInput instanceof HTMLInputElement) {
+          searchInput.value = "";
+        }
+
+        categoryInputs.forEach((input) => {
+          if (input instanceof HTMLInputElement) {
+            input.checked = false;
+          }
+        });
+
+        levelInputs.forEach((input) => {
+          if (input instanceof HTMLInputElement) {
+            input.checked = false;
+          }
+        });
+
+        durationInputs.forEach((input) => {
+          if (input instanceof HTMLInputElement) {
+            input.checked = input.value === "all";
+          }
+        });
+
+        applyFilters();
+      });
+
+      applyFilters();
+    }
+  </script>
+</BaseLayout>
+
+<style>
+  .catalog-shell__summary h2,
+  .catalog-sidebar h3,
+  .catalog-results-head h3 {
+    margin: 0;
+    font-family: var(--font-brand);
+    line-height: 1.03;
+  }
+
+  .catalog-shell {
+    display: grid;
+    gap: 1.2rem;
+    padding: 2rem 0 2rem;
+  }
+
+  .catalog-shell__search,
+  .catalog-sidebar {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    background:
+      radial-gradient(circle at top right, rgba(255, 215, 0, 0.08), transparent 24%),
+      radial-gradient(circle at top left, rgba(255, 69, 0, 0.08), transparent 30%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
+      #151515;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .catalog-shell__search {
+    display: grid;
+    gap: 1rem;
+    padding: 1.2rem 1.2rem 1rem;
+  }
+
+  .catalog-search {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.9rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .catalog-search__icon {
+    color: var(--color-secondary);
+    font-size: 1.35rem;
+  }
+
+  .catalog-search__label {
+    color: var(--color-text);
+    font-weight: 700;
+  }
+
+  .catalog-search input {
+    min-width: 0;
+    min-height: 3.4rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+  }
+
+  .catalog-search input:focus {
+    outline: none;
+  }
+
+  .catalog-search input::placeholder {
+    color: #8f8f8f;
+  }
+
+  .catalog-shell__summary,
+  .catalog-results-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .catalog-shell__eyebrow {
+    margin: 0 0 0.25rem;
+    color: var(--color-secondary);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+  }
+
+  .catalog-clear {
+    min-height: 2.8rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 215, 0, 0.18);
+    border-radius: 999px;
+    background: rgba(255, 215, 0, 0.08);
+    color: var(--color-text);
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+  }
+
+  .catalog-clear:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 215, 0, 0.34);
+    background: rgba(255, 215, 0, 0.12);
+  }
+
+  .catalog-clear:disabled {
+    opacity: 0.45;
+    cursor: default;
+    transform: none;
+  }
+
+  .catalog-active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    min-height: 2rem;
+  }
+
+  :global(.catalog-filter-chip) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid rgba(255, 69, 0, 0.26);
+    border-radius: 999px;
+    background: rgba(255, 69, 0, 0.12);
+    color: #ffd9ca;
+    font-size: 0.86rem;
+  }
+
+  .catalog-layout {
+    display: grid;
+    grid-template-columns: minmax(290px, 0.72fr) minmax(0, 1.35fr);
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .catalog-sidebar {
+    position: sticky;
+    top: 5.5rem;
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .catalog-sidebar__header {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .catalog-filters,
+  .catalog-main,
+  .catalog-results,
+  .catalog-checklist,
+  .catalog-radio-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .catalog-filter-group {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .catalog-filter-group + .catalog-filter-group {
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .catalog-filter-group legend {
+    padding: 0;
+    margin-bottom: 0.65rem;
+    color: #ffd700;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .catalog-check,
+  .catalog-radio {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.65rem;
+    align-items: start;
+    padding: 0.05rem 0;
+  }
+
+  .catalog-check input,
+  .catalog-radio input {
+    width: 1rem;
+    height: 1rem;
+    margin: 0.12rem 0 0;
+    accent-color: var(--color-primary);
+  }
+
+  .catalog-check__copy {
+    display: grid;
+    gap: 0.12rem;
+  }
+
+  .catalog-check__copy strong,
+  .catalog-radio span {
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .catalog-check__copy small {
+    color: var(--color-muted);
+    font-size: 0.82rem;
+  }
+
+  .catalog-results-head {
+    padding: 0.2rem 0 0.05rem;
+  }
+
+  .catalog-results {
+    align-content: start;
+  }
+
+  .catalog-empty {
+    padding: 1.2rem;
+  }
+
+  @media (max-width: 1040px) {
+    .catalog-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .catalog-sidebar {
+      position: static;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .catalog-search {
+      grid-template-columns: auto 1fr;
+    }
+
+    .catalog-search__label {
+      grid-column: 2;
+    }
+
+    .catalog-search input {
+      grid-column: 1 / -1;
+    }
+
+    .catalog-shell__summary,
+    .catalog-results-head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .catalog-shell__search,
+    .catalog-sidebar {
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .catalog-shell {
+      padding: 1.2rem 0 1.5rem;
+      gap: 1rem;
+    }
+
+    .catalog-shell__search {
+      padding: 1rem;
+      gap: 0.85rem;
+    }
+
+    .catalog-search {
+      gap: 0.55rem;
+      padding-bottom: 0.85rem;
+    }
+
+    .catalog-search input {
+      min-height: 2.8rem;
+      font-size: 1rem;
+    }
+
+    .catalog-sidebar {
+      padding: 1rem;
+      gap: 0.85rem;
+    }
+
+    .catalog-check,
+    .catalog-radio {
+      gap: 0.55rem;
+    }
+
+    .catalog-results-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.55rem;
+    }
+
+    .catalog-clear {
+      min-height: 2.5rem;
+      padding: 0.6rem 0.85rem;
+    }
+  }
+</style>
