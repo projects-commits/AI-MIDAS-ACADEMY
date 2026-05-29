@@ -3,7 +3,7 @@ import BaseLayout from "./BaseLayout.astro";
 import Container from "../components/ui/Container.astro";
 import LessonNavigation from "../components/lesson/LessonNavigation.astro";
 import type { CourseData, CourseLesson, CourseModule } from "../types";
-import { formatLevel } from "../lib/course";
+import { formatLevel, getCourseHref } from "../lib/course";
 
 interface Props {
   course: CourseData;
@@ -22,7 +22,7 @@ const { course, lesson, module, previousLesson, nextLesson } = Astro.props;
       <section class="lesson-context research-card">
         <div>
           <p class="gold-label">Contexto do curso</p>
-          <a class="lesson-context__course-link" href={`/courses/${course.slug}/`}>{course.title}</a>
+          <a class="lesson-context__course-link" href={getCourseHref(course.slug)}>{course.title}</a>
           <h1>{lesson.title}</h1>
           <p class="page-intro">{course.corePromise}</p>
         </div>
