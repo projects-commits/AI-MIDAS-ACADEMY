@@ -30,7 +30,7 @@ jobs:
       - name: Checkout courses
         uses: actions/checkout@v4
         with:
-          repository: OUTRA_CONTA_GITHUB/curso-ai-midas-framework
+          repository: aimidas1/Curso-Framework-9-Passos
           # token: ${{ secrets.COURSE_PAT }}
           path: courses
 
