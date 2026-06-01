@@ -67,6 +67,8 @@ jobs:
       - name: Build site
         run: npm run build
         working-directory: site
+        env:
+          PUBLIC_GA_ID: ${{ secrets.PUBLIC_GA_ID }}
 
       # 5. Enviar o resultado para o GitHub Pages
       - name: Upload artifact
