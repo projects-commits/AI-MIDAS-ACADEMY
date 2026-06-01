@@ -35,21 +35,45 @@ jobs:
           path: courses
 
       # 3. Copiar o conteúdo do curso para dentro do site antes de compilar
+      # NOTA: o repositorio externo aimidas1/Curso-Framework-9-Passos é usado como
+      #       source-of-truth para o curso Framework 9 Passos. Se quiseres manter
+      #       as imagens e import local (main repo), comenta as linhas do cp abaixo.
       - name: Merge course content
         run: |
           mkdir -p site/src/content/courses
           mkdir -p site/src/content/courseLessons
+          # Copiar cursos do repo externo (excluir framework para nao sobrescrever local)
           if [ -d "courses/courses" ]; then
-            cp -r courses/courses/* site/src/content/courses/ 2>/dev/null || true
+            for d in courses/courses/*/; do
+              dirname=$(basename "$d")
+              if [ "$dirname" != "framework-de-9-passos-para-analisar-um-jogo-de-futebol" ]; then
+                cp -r "$d" "site/src/content/courses/$dirname" 2>/dev/null || true
+              fi
+            done
           fi
           if [ -d "courses/courseLessons" ]; then
-            cp -r courses/courseLessons/* site/src/content/courseLessons/ 2>/dev/null || true
+            for d in courses/courseLessons/*/; do
+              dirname=$(basename "$d")
+              if [ "$dirname" != "framework-de-9-passos-para-analisar-um-jogo-de-futebol" ]; then
+                cp -r "$d" "site/src/content/courseLessons/$dirname" 2>/dev/null || true
+              fi
+            done
           fi
           if [ -d "courses/src/content/courses" ]; then
-            cp -r courses/src/content/courses/* site/src/content/courses/ 2>/dev/null || true
+            for d in courses/src/content/courses/*/; do
+              dirname=$(basename "$d")
+              if [ "$dirname" != "framework-de-9-passos-para-analisar-um-jogo-de-futebol" ]; then
+                cp -r "$d" "site/src/content/courses/$dirname" 2>/dev/null || true
+              fi
+            done
           fi
           if [ -d "courses/src/content/courseLessons" ]; then
-            cp -r courses/src/content/courseLessons/* site/src/content/courseLessons/ 2>/dev/null || true
+            for d in courses/src/content/courseLessons/*/; do
+              dirname=$(basename "$d")
+              if [ "$dirname" != "framework-de-9-passos-para-analisar-um-jogo-de-futebol" ]; then
+                cp -r "$d" "site/src/content/courseLessons/$dirname" 2>/dev/null || true
+              fi
+            done
           fi
 
       # 4. Instalar dependências e fazer build do site
