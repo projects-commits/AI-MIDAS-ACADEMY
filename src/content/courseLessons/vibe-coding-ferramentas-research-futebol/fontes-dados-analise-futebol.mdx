@@ -1,0 +1,104 @@
+---
+{
+  "id": "course-vibe-coding-research-lesson-3",
+  "courseId": "course-vibe-coding-research",
+  "courseSlug": "vibe-coding-ferramentas-research-futebol",
+  "lessonId": "lesson-3",
+  "moduleId": "module-1",
+  "title": "Fontes de Dados para Analise de Futebol",
+  "slug": "fontes-dados-analise-futebol",
+  "lessonNumber": 3,
+  "readingMinutes": 13,
+  "status": "published",
+  "createdAt": "2026-06-01T00:00:00.000Z",
+  "updatedAt": "2026-06-01T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+
+<BlackboardPanel title={"Mapa operacional: Fontes de Dados para Analise de Futebol"} label="Blackboard">
+  <div class="board-note">Identificar, ingerir e normalizar fontes de dados historicas e em tempo real para futebol.</div>
+  <div class="board-note">Dados usaveis = fonte verificada x schema documentado x tipos limpos</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Qualidade de dados"} formula={"Dados usaveis = fonte verificada x schema documentado x tipos limpos"} explanation={"Use esta formula como uma lente de leitura, nao como uma verdade mecanica. O objetivo e tornar a tese auditavel antes da decisao."} />
+
+<MarketExample title={"Aplicacao do Fontes de Dados para Analise de Futebol"} setup={"Escolha um projeto real e separe evidencias observaveis de narrativa publica."} price={"Compare a leitura contextual com odds, liquidez e timing do movimento de mercado."} hypothesis={"Escreva uma hipotese que admita intervalo de incerteza e criterio de invalidacao."} risk={"Dados desatualizados, inconsistencia de fusos horarios, colunas nao normalizadas."} />
+
+<FailureModeCard title={"Dados desatualizados, inconsistencia de fusos horarios, colunas nao normalizadas."} summary={"Este erro reduz a qualidade da decisao porque troca processo verificavel por interpretacao conveniente."} />
+
+<DecisionChecklist title={"Checklist do Fontes de Dados para Analise de Futebol"} items={["Fonte verificada e atualizada","Schema documentado e tipos validados","Missing values tratados explicitamente","Amostra inspecionada antes do merge no pipeline"]} />
+
+<MermaidDiagram
+  title="Pipeline de ingestao e validacao"
+  definition={`flowchart LR
+    A["Fonte de dados"] --> B["Parse e schema"]
+    B --> C["Validacao de tipos"]
+    C --> D["Tratamento de ausentes"]
+    D --> E["Normalizacao overround"]
+    E --> F["Merge no pipeline"]`}
+/>
+
+# Fontes de Dados para Analise de Futebol
+
+## Ideia central
+A qualidade, a proveniência e a estrutura dos dados definem o limite superior de qualquer modelo probabilístico. Fontes públicas e APIs exigem validação rigorosa antes de integrar pipelines de preço ou simulação.
+
+## Modelo mental
+Dados como matéria-prima com ruído sistêmico. O pipeline não é um canal passivo de ingestão, mas um filtro de validação que isola viés, corrige distorções de mercado e documenta incertezas antes do processamento.
+
+## O que e
+Mapeamento sistemático de repositórios abertos, APIs de mercado e feeds históricos. Envolve a identificação de licenças, granularidade temporal, schema de colunas, metadados de proveniência e a estrutura de odds ou estatísticas disponíveis. O foco recai sobre a capacidade de reproduzir a extração, auditar transformações e manter versionamento de datasets. Não se trata de acumular volume, mas de garantir rastreabilidade, consistência de tipos e alinhamento temporal entre evento esportivo e fechamento de mercado.
+
+## Por que importa
+Modelos de probabilidade e precificação herdam diretamente as falhas da base de entrada. Dados não normalizados, fusos horários inconsistentes ou overround não tratado geram viés de calibração e backtests irreais. Em ambientes de mercado, a <span style="color:#ff4500">ausência de</span> rastreabilidade impede a distinção entre edge real e artefato de dados. A disciplina de validação é o que converte informação bruta em insumo auditável para pesquisa. <span style="color:#ff4500">Sem controle</span> de proveniência, qualquer inferência sobre preço ou risco opera sobre fundações instáveis, comprometendo a validade estatística e a reprodutibilidade do sistema.
+
+## Mecanismo
+O processo opera em cinco camadas sequenciais, cada uma com validação explícita e registro de incerteza.
+
+1. **Identificação e licenciamento:** Verifica-se a origem, a frequência de atualização, os termos de uso e a metodologia de coleta. Fontes sem documentação de schema ou com histórico de alterações não versionadas são descartadas ou isoladas para análise preliminar.
+2. **Extração controlada:** Scripts implementam tratamento de erros HTTP, paginação explícita, limites de taxa (rate limits) e retry exponencial. Requisições são logadas com timestamp, código de status e payload de resposta para auditoria posterior.
+3. **Validação de schema e tipos:** Cada coluna é mapeada. Tipos numéricos e temporais são forçados. Valores ausentes são classificados como missing estrutural (falha de coleta) ou lacuna de mercado (evento sem liquidez). Ferramentas como `pandera` ou `pydantic` garantem contratos de dados antes do processamento.
+4. **Normalização e ajuste de mercado:** Odds são convertidas para probabilidade implícita. O overround é calculado e removido via método proporcional ou Shin. Fusos horários são alinhados a UTC e cruzados com horários de fechamento de mercado. Partidas com odds desatualizadas ou suspensas recebem flag de exclusão.
+5. **Versionamento e documentação:** O dataset processado recebe hash de integridade, metadados de transformação e é armazenado em repositório com controle de versão. A incerteza é registrada explicitamente: gaps de coleta, alterações de schema e limites de liquidez são documentados antes de alimentar qualquer modelo.
+
+## Exemplo aplicado de futebol e mercado
+Considere a ingestão de um repositório histórico no GitHub contendo resultados e odds de ligas europeias, combinada com o consumo de uma API pública de mercado de previsão esportiva. O script inicia com o download do CSV histórico e a requisição paginada à API. As colunas de odds (B365, Pinnacle, Betfair) são validadas quanto a tipo `float64` e <span style="color:#ff4500">ausência de</span> zeros ou valores negativos. O timestamp de cada partida é convertido para UTC e alinhado ao fuso de fechamento de mercado. A probabilidade implícita é calculada via `1/odds_decimal`. A soma das probabilidades por mercado revela o overround (ex: 1.052). Aplica-se a normalização proporcional: `prob_ajustada = prob_bruta / soma_probs`. O dataset resultante é particionado por temporada, recebe um arquivo de schema (`schema.yaml`) e é commitado com hash SHA-256. O pipeline registra explicitamente partidas com odds incompletas, mercados suspensos e janelas de liquidez abaixo do limiar definido. A saída alimenta diretamente a calibração de modelos de Poisson ou sistemas de rating, com rastreabilidade total da transformação.
+
+## Quadro de raciocinio
+- `Fonte -> Schema Check -> Type Casting -> Timezone Alignment -> Overround Removal -> Versioned Output`
+- **Validação de schema:** Uso de contratos explícitos para colunas obrigatórias (`match_id`, `date_utc`, `home_odds`, `draw_odds`, `away_odds`). Falha no contrato interrompe o pipeline e gera log de erro.
+- **Conversão temporal:** `pd.to_datetime(df['date'], utc=True)` com fallback para fusos locais documentados. Partidas sem timezone definido recebem flag `tz_estimated` e são isoladas para revisão.
+- **Cálculo de margem:** `overround = (1/home + 1/draw + 1/away) - 1`. Se `overround > 0.08`, sinaliza-se mercado ilíquido ou odds desatualizadas. Linhas com margem extrema são excluídas ou ponderadas com peso zero no backtest.
+- **Remoção de overround:** `p_norm = (1/odds) / sum(1/odds)`. Método proporcional mantém a relação relativa entre seleções. Alternativas como Shin ou power method são aplicadas quando há assimetria de liquidez.
+- **Tratamento de missing:** `df.isna().sum()` por coluna. Missing > 5% em odds críticas exige exclusão ou imputação conservadora (ex: média móvel de mercado, nunca zero). Imputação é documentada e sinalizada com flag `imputed`.
+- **Versionamento:** `df.to_csv()` + `hashlib.sha256()` do arquivo. Commit com tag `data/vYYYYMMDD`. Metadados incluem versão do script, data de execução e lista de transformações aplicadas.
+- **Incerteza documentada:** Campo `data_quality_flag` (0=ok, 1=missing parcial, 2=overround alto, 3=timezone estimado). O modelo downstream lê essa flag e ajusta pesos ou exclui observações conforme política de risco.
+
+## Modo de falha
+Ingestão passiva <span style="color:#ff4500">sem validação</span> de schema gera colunas desalinhadas e tipos inconsistentes. Ignorar fusos horários mistura partidas de dias diferentes, distorcendo janelas de backtesting e introduzindo <span style="color:#ff4500">look-ahead bias</span>. Não remover o overround inflaciona probabilidades implícitas, criando a ilusão de edge onde existe apenas margem da casa. Dados desatualizados ou com gaps não tratados comprometem a calibração e geram métricas de performance irreais. A <span style="color:#ff4500">ausência de</span> versionamento impede a reprodução de resultados e a auditoria de transformações. O modelo opera sobre ruído estrutural, e a performance reportada reflete artefatos de dados, não sinal real. Em cenários de produção, a falha se propaga silenciosamente até que o drawdown ou a divergência de calibração exponha a fragilidade da base.
+
+## Checklist
+- Fonte verificada com licença clara e frequência de atualização documentada.
+- Schema validado com tipos explícitos e colunas obrigatórias mapeadas.
+- Timestamps convertidos para UTC e alinhados ao fechamento de mercado.
+- Overround calculado e removido via método proporcional ou equivalente.
+- Missing values classificados, tratados ou sinalizados com flag de qualidade.
+- Dataset versionado com hash de integridade e metadados de transformação.
+- Pipeline com tratamento de erros HTTP, rate limits e logs de execução.
+
+## Exercicio pratico
+1. Selecione um repositório público no GitHub com dados históricos de futebol (ex: European Soccer Database ou similar).
+2. Ingeste o CSV principal e uma amostra de 500 linhas de uma API pública de odds ou mercados de previsão.
+3. Valide o schema: force tipos numéricos, converta datas para UTC e identifique colunas com missing > 3%.
+4. Calcule o overround para cada linha de mercado e aplique normalização proporcional.
+5. Gere um relatório de integridade contendo: contagem de missing, distribuição de overround, fusos detectados e hash do arquivo final.
+6. Commit o dataset processado e o relatório em branch `data/lesson3` com mensagem descritiva das transformações e flags de qualidade aplicadas.
+
+## Sintese operacional
+**Dados** não são verdade absoluta; são representações com ruído, viés de coleta e distorções de mercado. A disciplina de validação, normalização e versionamento é o que separa pesquisa auditável de especulação. <span style="color:#ff4500">Sem controle</span> de proveniência e ajuste de margem, qualquer modelo probabilístico opera sobre fundações instáveis. A precisão do pipeline determina o teto da análise.

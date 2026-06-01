@@ -1,0 +1,117 @@
+---
+{
+  "id": "course-vibe-coding-research-lesson-1",
+  "courseId": "course-vibe-coding-research",
+  "courseSlug": "vibe-coding-ferramentas-research-futebol",
+  "lessonId": "lesson-1",
+  "moduleId": "module-1",
+  "title": "Ambiente de Versionamento: Git e GitHub",
+  "slug": "ambiente-versionamento-git-github",
+  "lessonNumber": 1,
+  "readingMinutes": 12,
+  "status": "published",
+  "createdAt": "2026-06-01T00:00:00.000Z",
+  "updatedAt": "2026-06-01T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+
+<BlackboardPanel title={"Mapa operacional: Ambiente de Versionamento: Git e GitHub"} label="Blackboard">
+  <div class="board-note">Configurar Git e GitHub como infraestrutura de rastreabilidade para pipelines de pesquisa.</div>
+  <div class="board-note">Rastreabilidade = commits x branches x sync remoto</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Atomicidade do commit"} formula={"Rastreabilidade = commits x branches x sync remoto"} explanation={"Use esta formula como uma lente de leitura, nao como uma verdade mecanica. O objetivo e tornar a tese auditavel antes da decisao."} />
+
+<MarketExample title={"Aplicacao do Ambiente de Versionamento: Git e GitHub"} setup={"Escolha um projeto real e separe evidencias observaveis de narrativa publica."} price={"Compare a leitura contextual com odds, liquidez e timing do movimento de mercado."} hypothesis={"Escreva uma hipotese que admita intervalo de incerteza e criterio de invalidacao."} risk={"Commit de arquivos sensiveis, historico linear sem isolamento de hipoteses."} />
+
+<FailureModeCard title={"Commit de arquivos sensiveis, historico linear sem isolamento de hipoteses."} summary={"Este erro reduz a qualidade da decisao porque troca processo verificavel por interpretacao conveniente."} />
+
+<DecisionChecklist title={"Checklist do Ambiente de Versionamento: Git e GitHub"} items={[".gitignore configurado para dados e chaves","Branch main protegida e commits atomicos","Push verificado e historico navegavel","Repositorio com README documentando arquitetura"]} />
+
+<MermaidDiagram
+  title="Fluxo de trabalho Git"
+  definition={`flowchart LR
+    A["main estavel"] --> B["Branch feature"]
+    B --> C["Commits atomicos"]
+    C --> D["Pull Request"]
+    D --> E{"Aprovacao?"}
+    E -->|Sim| F["Merge para main"]
+    E -->|Nao| G["Revisao e ajuste"]
+    G --> C`}
+/>
+
+# Ambiente de Versionamento: Git e GitHub
+
+Ambiente de Versionamento: Git e GitHub
+
+## Ideia central
+**Versionamento** não é um mecanismo de backup, mas a infraestrutura de rastreabilidade que sustenta a validade empírica de qualquer pipeline de pesquisa.
+
+## Modelo mental
+Trate o Git como um ledger imutável do seu processo de investigação. Cada commit representa uma transação atômica; cada branch isola uma hipótese ou ajuste metodológico; o histórico é a única fonte de verdade para auditoria, reprodução de resultados e gestão de risco operacional.
+
+## O que e
+**Git** é um sistema de controle de versão distribuído que registra alterações em arquivos de texto e código-fonte, mantendo snapshots completos do estado do projeto em um banco de dados local. GitHub é a plataforma remota que hospeda esses repositórios, gerencia permissões de acesso, permite revisão colaborativa e funciona como ponto de sincronização entre ambientes locais, de execução e de backup. A combinação forma a base técnica para qualquer sistema de pesquisa que exija transparência, isolamento de experimentos e reversibilidade. Diferente de soluções centralizadas, o modelo distribuído permite que cada nó mantenha o histórico completo, garantindo continuidade mesmo em caso de falha de rede ou indisponibilidade da plataforma remota.
+
+## Por que importa
+Na modelagem de mercado esportivo, a diferença entre um sinal estatístico robusto e ruído frequentemente reside em ajustes sutis de parâmetros, normalização de dados ou correções de lógica de cálculo. Sem versionamento, não há como isolar qual alteração gerou <span style="color:#ff4500">degradação</span> de performance, nem como reproduzir exatamente o pipeline que produziu um determinado resultado. A pesquisa sem rastreabilidade é, por definição, <span style="color:#ff4500">não auditável</span>. O controle de versão transforma intuição em processo documentado, permitindo que cada ajuste de modelo, script de extração ou validação de odds seja testado, revisado e, se necessário, revertido sem comprometer a linha base. Em contextos onde a calibração probabilística e a gestão de drawdown dependem de iterações sucessivas, a capacidade de retornar a um estado estável conhecido é tão crítica quanto a precisão do próprio modelo.
+
+## Mecanismo
+O fluxo operacional segue uma sequência determinística que deve ser internalizada antes de qualquer desenvolvimento:
+1. **Inicialização:** `git init` cria o diretório `.git`, ativando o rastreamento local e configurando a estrutura de objetos (blobs, trees, commits).
+2. **Isolamento de ruído:** configuração imediata do `.gitignore` para excluir datasets brutos, chaves de API, logs de execução e artefatos de ambiente virtual. O versionamento deve rastrear apenas código, configurações e documentação.
+3. **Staging e Commit:** `git add` seleciona alterações específicas para a área de preparação; `git commit` registra um snapshot com mensagem descritiva e atômica. O staging permite agrupar mudanças logicamente relacionadas antes do registro.
+4. **Estratégia de Branches:** `main` mantém o estado estável e auditado; `dev` integra alterações validadas; `feature/<nome>` isola experimentos (ex.: ajuste de overround, nova fonte de odds, refatoração de extração). O isolamento previne <span style="color:#ff4500">contaminação</span> cruzada.
+5. **Sincronização Remota:** `git remote add origin <url>` vincula ao GitHub; `git push` envia alterações; `git pull` incorpora atualizações. Pull requests formalizam a revisão antes do merge, garantindo que nenhuma alteração entre em produção <span style="color:#ff4500">sem validação</span> explícita.
+
+## Exemplo aplicado de futebol e mercado
+Considere um repositório dedicado à extração e normalização de odds históricas da Premier League. O branch `main` contém o script base que lê arquivos CSV e calcula probabilidades implícitas a partir de odds decimais. Um pesquisador identifica que a margem da casa (overround) distorce a calibração do modelo de Poisson. Em vez de modificar o código em produção, cria `feature/remove-overround`. Nesse branch, implementa a função de redistribuição proporcional, testa contra uma amostra de 500 partidas e registra a métrica de Brier score no README. Se o resultado indicar pior calibração, o branch é descartado sem contaminar `main`. Se superior, abre-se um pull request, revisa-se a lógica de normalização, valida-se a soma das probabilidades e, após aprovação, faz-se o merge. O histórico mantém a decisão, o código e a métrica vinculados, permitindo que qualquer membro da equipe ou auditor externo reconstrua exatamente o estado do pipeline em qualquer ponto do tempo.
+
+## Quadro de raciocinio
+```
+Estado Inicial: Projeto local <span style="color:#ff4500">sem controle</span>
+↓
+git init → Cria .git (área de rastreamento e banco de objetos)
+↓
+.gitignore configurado → Exclui: data/, .env, *.log, __pycache__/
+↓
+git add . → Move alterações para staging (área de preparação)
+↓
+git commit -m "feat: add baseline odds extraction script" → Snapshot atômico registrado
+↓
+git checkout -b feature/overround-adjust → Cria branch isolada para experimento
+↓
+[Edição do código + testes locais de calibração]
+↓
+git add . && git commit -m "test: implement proportional overround removal"
+↓
+git push origin feature/overround-adjust → Sincroniza com GitHub
+↓
+Pull Request no GitHub → Revisão de código, comparação de diffs, validação de métricas
+↓
+Merge to main → Linha base atualizada com alteração auditada
+```
+
+## Modo de falha
+O <span style="color:#ff4500">erro mais comum</span> é tratar o repositório como um diretório de arquivos soltos. Isso se manifesta em: (1) commit de credenciais ou datasets pesados, expondo o projeto e inchando o histórico com objetos desnecessários; (2) commits genéricos como "update" ou "fix", que tornam impossível mapear alterações a resultados ou regressões; (3) trabalho exclusivo em `main`, eliminando a capacidade de testar hipóteses sem risco de <span style="color:#ff4500">contaminação</span> da linha base; (4) <span style="color:#ff4500">ausência de</span> `.gitignore`, resultando em rastreamento de artefatos de ambiente que quebram a execução em outras máquinas ou contêineres. Sem disciplina de versionamento, o pipeline de pesquisa perde a capacidade de auto-correção, validação empírica e isolamento de variáveis, transformando a modelagem em um exercício de tentativa e erro não documentado.
+
+## Checklist
+- `.gitignore` configurado antes do primeiro commit, excluindo `data/`, `.env`, `*.csv`, `*.log` e diretórios de ambiente virtual.
+- Repositório remoto criado no GitHub com visibilidade adequada (público para open research, privado para dados proprietários ou chaves).
+- Branch `main` definida como linha base estável; branch `dev` criada para integração contínua.
+- Commits atômicos e descritivos, vinculando alterações a objetivos específicos de pesquisa ou correções de lógica.
+- Fluxo de pull request estabelecido para revisão antes de merge em `main`.
+- Verificação de `git status` e `git log` para confirmar integridade do histórico local e remoto.
+- Configuração de `.gitattributes` para tratamento consistente de quebras de linha em ambientes multiplataforma.
+
+## Exercicio pratico
+Inicialize um repositório local chamado `football-research-v1`. Configure um `.gitignore` que bloqueie explicitamente `data/`, `.env`, `*.csv` e `__pycache__/`. Crie um arquivo `extraction.py` com uma função fictícia que retorna um dicionário de odds simuladas. Faça o primeiro commit com mensagem descritiva. Crie uma branch `dev` e, nela, adicione um arquivo `metrics.py` com uma função de cálculo de probabilidade implícita. Envie ambas as branches para o GitHub, abra um pull request de `dev` para `main` e simule a revisão de código antes do merge. Valide que nenhum arquivo sensível foi rastreado e que o histórico reflete claramente a separação entre extração e cálculo. Documente o fluxo em um arquivo `VERSIONING.md`.
+
+## Sintese operacional
+Versionamento rigoroso é o pré-requisito operacional para transformar código experimental em pesquisa auditável; sem ele, não há modelo, apenas intuição não verificável.

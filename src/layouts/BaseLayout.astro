@@ -25,6 +25,17 @@ const pageDescription = description ?? siteData.description;
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     <meta name="theme-color" content="#121212" />
+    {import.meta.env.PUBLIC_GA_ID && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_ID}`} is:inline></script>
+        <script is:inline define:vars={{ gaId: import.meta.env.PUBLIC_GA_ID }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', gaId);
+        </script>
+      </>
+    )}
   </head>
   <body>
     <div class="site-frame">

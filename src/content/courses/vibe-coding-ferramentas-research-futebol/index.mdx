@@ -1,0 +1,750 @@
+---
+{
+  "id": "course-vibe-coding-research",
+  "title": "Vibe Coding para Construir Ferramentas de Research de Futebol",
+  "slug": "vibe-coding-ferramentas-research-futebol",
+  "subtitle": "Arquitetura de sistemas de pesquisa, modelagem probabilistica e extracao de dados com assistencia de IA, mantendo rigor analitico e controle operacional.",
+  "category": "Football Research",
+  "secondaryCategories": [
+    "Market Intelligence",
+    "Probability & Modeling",
+    "Risk & Execution",
+    "AI Systems"
+  ],
+  "level": "intermediate",
+  "status": "published",
+  "language": "pt-PT",
+  "estimatedReadingMinutes": 156,
+  "minimumWordCount": 12000,
+  "targetPersonas": [
+    "Pesquisadores quantitativos independentes",
+    "Analistas de mercado desportivo com foco em dados",
+    "Desenvolvedores que buscam automatizar fluxos de extracao e modelagem",
+    "Operadores que necessitam de ferramentas auditaveis para validacao de preco e probabilidade"
+  ],
+  "corePromise": "Estruturar o uso de assistencia de IA para prototipar, validar e manter pipelines de pesquisa de futebol, garantindo rastreabilidade de codigo, isolamento de execucao, precisao estatistica e disciplina de backtesting.",
+  "whyThisCourseExists": "Ferramentas de analise esportiva comerciais operam como caixas-pretas, limitando a transparencia metodologica. A assistencia de IA acelera a escrita de codigo, mas introduz riscos sistemicos: alucinacao de logica, execucao nao supervisionada, vazamento de credenciais e modelagem sem validacao empirica. Este curso existe para converter a velocidade do vibe coding em um processo de pesquisa auditavel.",
+  "enemy": "Dependencia de plataformas fechadas sem acesso a logica de calculo; execucao autonoma de agentes sem validacao humana; modelagem probabilistica sem backtesting rigoroso; vazamento de chaves de API; ilusao de que IA substitui desenho de arquitetura e disciplina de pesquisa.",
+  "audience": "Profissionais com base em Python e estatistica descritiva, dispostos a adotar controle de versao, conteineres, validacao de prompts e backtesting sistematico. O curso nao e destinado a iniciantes absolutos em programacao ou a usuarios que buscam sinais ou atalhos operacionais.",
+  "prerequisites": [
+    "Conhecimento basico de Python (estruturas de dados, funcoes, leitura de arquivos)",
+    "Familiaridade com conceitos de probabilidade, distribuicoes e metricas de erro",
+    "Acesso a computador com capacidade para rodar Docker e IDEs modernos",
+    "Conta em repositorio Git publico ou privado"
+  ],
+  "courseStats": {
+    "moduleCount": 4,
+    "lessonCount": 11,
+    "labCount": 6,
+    "glossaryTermCount": 10
+  },
+  "tracks": [
+    {
+      "id": "track-infra",
+      "title": "Infraestrutura e Controle Operacional",
+      "summary": "Ambiente, versionamento, seguranca e isolamento como base de qualquer pipeline de research."
+    },
+    {
+      "id": "track-context",
+      "title": "Engenharia de Contexto e Orquestracao",
+      "summary": "Prompts, skills, agentes e frameworks para orquestrar IA sem perder o controle operacional."
+    },
+    {
+      "id": "track-model",
+      "title": "Modelagem Probabilistica e Validacao de Mercado",
+      "summary": "Extracao de dados, modelos Poisson e Elo, backtesting e manutencao de pipeline."
+    }
+  ],
+  "modules": [
+    {
+      "id": "module-1",
+      "title": "Fundacao do Ambiente e Seguranca",
+      "slug": "fundacao-ambiente-seguranca",
+      "summary": "Git, GitHub, IDE, fontes de dados e seguranca operacional como base de qualquer pipeline de research auditavel.",
+      "lessonIds": [
+        "lesson-1",
+        "lesson-2",
+        "lesson-3",
+        "lesson-4"
+      ],
+      "learningGoals": [
+        "Configurar ambiente de desenvolvimento reprodutivel e versionado",
+        "Isolar execucao e proteger credenciais antes de rodar qualquer codigo"
+      ]
+    },
+    {
+      "id": "module-2",
+      "title": "Engenharia de Contexto e Agentes",
+      "slug": "engenharia-contexto-agentes",
+      "summary": "Prompts, skills, agentes e frameworks para orquestrar IA sem perder o controle operacional.",
+      "lessonIds": [
+        "lesson-5",
+        "lesson-6"
+      ],
+      "learningGoals": [
+        "Estruturar prompts deterministicos que reduzem alucinacao",
+        "Escolher e orquestrar frameworks de agentes com checkpoints humanos"
+      ]
+    },
+    {
+      "id": "module-3",
+      "title": "Extracao de Dados e Modelagem de Mercado",
+      "slug": "extracao-dados-modelagem-mercado",
+      "summary": "Dados da Polymarket, modelo de Poisson e sistema Elo como camada quantitativa de previsao.",
+      "lessonIds": [
+        "lesson-7",
+        "lesson-8",
+        "lesson-9"
+      ],
+      "learningGoals": [
+        "Extrair e normalizar dados de mercado de forma auditavel",
+        "Construir e calibrar modelos probabilisticos com parametros dinamicos"
+      ]
+    },
+    {
+      "id": "module-4",
+      "title": "Backtesting e Manutencao de Pipeline",
+      "slug": "backtesting-manutencao-pipeline",
+      "summary": "Validar modelos historicamente, medir edge e manter o sistema ao longo do tempo.",
+      "lessonIds": [
+        "lesson-10",
+        "lesson-11"
+      ],
+      "learningGoals": [
+        "Separar sinal de overfitting via backtesting temporal rigoroso",
+        "Modularizar, documentar e monitorar degradacao de performance"
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson-1",
+      "courseId": "course-vibe-coding-research",
+      "moduleId": "module-1",
+      "title": "Ambiente de Versionamento: Git e GitHub",
+      "slug": "ambiente-versionamento-git-github",
+      "lessonNumber": 1,
+      "readingMinutes": 12,
+      "level": "foundation",
+      "concepts": [
+        "version control",
+        "branch strategy",
+        "reproducibility"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Configurar Git e GitHub como infraestrutura de rastreabilidade para pipelines de pesquisa."
+      ],
+      "failureModes": [
+        "Commit de arquivos sensiveis, historico linear sem isolamento de hipoteses."
+      ],
+      "exercises": [
+        "Aplicar o ambiente de versionamento: git e github a um cenario real e documentar evidencia, incerteza e criterio de invalidacao."
+      ],
+      "checklist": [
+        ".gitignore configurado para dados e chaves",
+        "Branch main protegida e commits atomicos",
+        "Push verificado e historico navegavel",
+        "Repositorio com README documentando arquitetura"
+      ],
+      "glossaryTerms": [
+        "risk",
+        "market-price",
+        "edge"
+      ],
+      "formulas": [
+        {
+          "label": "Commit atomicity",
+          "value": "Traceability = commits x branches x remote sync"
+        }
+      ],
+      "previousLesson": null,
+      "nextLesson": "lesson-2"
+    },
+    {
+      "id": "lesson-2",
+      "courseId": "course-vibe-coding-research",
+      "moduleId": "module-1",
+      "title": "IDE e Ambiente de Desenvolvimento",
+      "slug": "ide-ambiente-desenvolvimento",
+      "lessonNumber": 2,
+      "readingMinutes": 11,
+      "level": "foundation",
+      "concepts": [
+        "virtual environment",
+        "linting",
+        "dependency management"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Montar um ambiente de desenvolvimento isolado e auditavel para prototipagem de ferramentas."
+      ],
+      "failureModes": [
+        "Dependencias globais conflituantes, execucao sem ambiente isolado."
+      ],
+      "exercises": [
+        "Aplicar o ide e ambiente de desenvolvimento a um cenario real e documentar evidencia, incerteza e criterio de invalidacao."
+      ],
+      "checklist": [
+        "venv ativo e requirements.txt com versoes fixas",
+        "Linter e formatador configurados",
+        "Atalhos de terminal mapeados",
+        "Script de teste roda sem erros no ambiente limpo"
+      ],
+      "glossaryTerms": [
+        "risk",
+        "liquidity",
+        "market-price"
+      ],
+      "formulas": [
+        {
+          "label": "Environment isolation",
+          "value": "Reproducible setup = venv + pinned deps + linter"
+        }
+      ],
+      "previousLesson": "lesson-1",
+      "nextLesson": "lesson-3"
+    },
+    {
+      "id": "lesson-3",
+      "courseId": "course-vibe-coding-research",
+      "moduleId": "module-1",
+      "title": "Fontes de Dados para Analise de Futebol",
+      "slug": "fontes-dados-analise-futebol",
+      "lessonNumber": 3,
+      "readingMinutes": 13,
+      "level": "intermediate",
+      "concepts": [
+        "dataset integrity",
+        "schema normalization",
+        "missing values"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Identificar, ingerir e normalizar fontes de dados historicas e em tempo real para futebol."
+      ],
+      "failureModes": [
+        "Dados desatualizados, inconsistencia de fusos horarios, colunas nao normalizadas."
+      ],
+      "exercises": [
+        "Aplicar o fontes de dados para analise de futebol a um cenario real e documentar evidencia, incerteza e criterio de invalidacao."
+      ],
+      "checklist": [
+        "Fonte verificada e atualizada",
+        "Schema documentado e tipos validados",
+        "Missing values tratados explicitamente",
+        "Amostra inspecionada antes do merge no pipeline"
+      ],
+      "glossaryTerms": [
+        "odds",
+        "implied-probability",
+        "market-price"
+      ],
+      "formulas": [
+        {
+          "label": "Data quality",
+          "value": "Usable data = verified source x documented schema x clean types"
+        }
+      ],
+      "previousLesson": "lesson-2",
+      "nextLesson": "lesson-4"
+    },
+    {
+      "id": "lesson-4",
+      "courseId": "course-vibe-coding-research",
+      "moduleId": "module-1",
+      "title": "Seguranca nos Prompts e Agentes de IA",
+      "slug": "seguranca-prompts-agentes-ia",
+      "lessonNumber": 4,
+      "readingMinutes": 14,
+      "level": "intermediate",
+      "concepts": [
+        "sandbox",
+        "prompt injection",
+        "secret management"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Isolar execucao de agentes, proteger credenciais e validar dependencias antes de rodar codigo."
+      ],
+      "failureModes": [
+        "Agente executando comandos destrutivos, vazamento de chaves em logs."
+      ],
+      "exercises": [
+        "Aplicar o seguranca nos prompts e agentes de ia a um cenario real e documentar evidencia, incerteza e criterio de invalidacao."
+      ],
+      "checklist": [
+        "Docker ativo para execucao de scripts",
+        ".env excluido do versionamento",
+        "requirements.txt com versoes fixas",
+        "Aprovacao manual habilitada antes de execucao sensivel"
+      ],
+      "glossaryTerms": [
+        "risk",
+        "edge",
+        "drawdown"
+      ],
+      "formulas": [
+        {
+          "label": "Security posture",
+          "value": "Safe execution = sandbox + secret isolation + dependency check"
+        }
+      ],
+      "previousLesson": "lesson-3",
+      "nextLesson": "lesson-5"
+    },
+    {
+      "id": "lesson-5",
+      "courseId": "course-vibe-coding-research",
+      "moduleId": "module-2",
+      "title": "Engenharia de Prompts e Skills",
+      "slug": "engenharia-prompts-skills",
+      "lessonNumber": 5,
+      "readingMinutes": 13,
+      "level": "intermediate",
+      "concepts": [
+        "system prompt",
+        "skill architecture",
+        "chain-of-thought"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Estruturar prompts e skills que reduzem alucinacao e geram codigo testavel."
+      ],
+      "failureModes": [
+        "Contexto vago gerando codigo nao testavel, instrucoes conflitantes."
+      ],
+      "exercises": [
+        "Aplicar o engenharia de prompts e skills a um cenario real e documentar evidencia, incerteza e criterio de invalidacao."
+      ],
+      "checklist": [
+        "System prompt define papel, restricoes e formato",
+        "Skills separam contexto de execucao",
+        "Saida validada contra schema antes de execucao",
+        "Exemplos de edge cases incluidos no prompt"
+      ],
+      "glossaryTerms": [
+        "risk",
+        "expected-value",
+        "edge"
+      ],
+      "formulas": [
+        {
+          "label": "Prompt reliability",
+          "value": "Deterministic output = role + constraints + output schema + validation"
+        }
+      ],
+      "previousLesson": "lesson-4",
+      "nextLesson": "lesson-6"
+    },
+    {
+      "id": "lesson-6",
+      "courseId": "course-vibe-coding-research",
+      "moduleId": "module-2",
+      "title": "Agents e Frameworks de Agents",
+      "slug": "agents-frameworks",
+      "lessonNumber": 6,
+      "readingMinutes": 14,
+      "level": "intermediate",
+      "concepts": [
+        "agent graph",
+        "human-in-the-loop",
+        "orchestration"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Escolher e orquestrar frameworks de agentes com controle de fluxo e validacao humana."
+      ],
+      "failureModes": [
+        "Fluxo ciclico sem condicao de parada, estado nao gerenciado, latencia excessiva."
+      ],
+      "exercises": [
+        "Aplicar o agents e frameworks de agents a um cenario real e documentar evidencia, incerteza e criterio de invalidacao."
+      ],
+      "checklist": [
+        "Grafo documentado com nos e arestas definidas",
+        "Human-in-the-loop configurado em nos criticos",
+        "Logs de estado persistidos",
+        "Condicao de parada testada antes do deploy"
+      ],
+      "glossaryTerms": [
+        "risk",
+        "liquidity",
+        "prediction-market"
+      ],
+      "formulas": [
+        {
+          "label": "Agent control",
+          "value": "Controllable flow = graph + checkpoints + state logs"
+        }
+      ],
+      "previousLesson": "lesson-5",
+      "nextLesson": "lesson-7"
+    },
+    {
+      "id": "lesson-7",
+      "courseId": "course-vibe-coding-research",
+      "moduleId": "module-3",
+      "title": "Extracao de Dados da Polymarket",
+      "slug": "extracao-dados-polymarket",
+      "lessonNumber": 7,
+      "readingMinutes": 13,
+      "level": "intermediate",
+      "concepts": [
+        "API consumption",
+        "pagination",
+        "overround removal"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Consumir API da Polymarket, normalizar dados e calcular probabilidades implícitas ajustadas."
+      ],
+      "failureModes": [
+        "Rate limit nao tratado, calculo de probabilidade sem ajuste de margem."
+      ],
+      "exercises": [
+        "Aplicar o extracao de dados da polymarket a um cenario real e documentar evidencia, incerteza e criterio de invalidacao."
+      ],
+      "checklist": [
+        "Tratamento de erros HTTP implementado",
+        "Paginacao coberta",
+        "Overround removido e soma validada",
+        "CSV auditavel exportado"
+      ],
+      "glossaryTerms": [
+        "odds",
+        "implied-probability",
+        "liquidity"
+      ],
+      "formulas": [
+        {
+          "label": "Market data quality",
+          "value": "Clean signal = pagination + error handling + overround removal"
+        }
+      ],
+      "previousLesson": "lesson-6",
+      "nextLesson": "lesson-8"
+    },
+    {
+      "id": "lesson-8",
+      "courseId": "course-vibe-coding-research",
+      "moduleId": "module-3",
+      "title": "Modelo de Distribuicao de Poisson",
+      "slug": "modelo-distribuicao-poisson",
+      "lessonNumber": 8,
+      "readingMinutes": 14,
+      "level": "intermediate",
+      "concepts": [
+        "Poisson distribution",
+        "lambda",
+        "score matrix"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Implementar modelo de Poisson para estimar probabilidades de gols e placares."
+      ],
+      "failureModes": [
+        "Lambda estatico sem ajuste contextual, overfitting a amostras pequenas."
+      ],
+      "exercises": [
+        "Aplicar o modelo de distribuicao de poisson a um cenario real e documentar evidencia, incerteza e criterio de invalidacao."
+      ],
+      "checklist": [
+        "Lambda dinamico calculado por contexto",
+        "Matriz de placares validada",
+        "Soma de probabilidades normalizada",
+        "Comparacao com odds de mercado registrada"
+      ],
+      "glossaryTerms": [
+        "expected-value",
+        "implied-probability",
+        "market-price"
+      ],
+      "formulas": [
+        {
+          "label": "Poisson probability",
+          "value": "P(k) = (lambda^k * e^-lambda) / k!"
+        }
+      ],
+      "previousLesson": "lesson-7",
+      "nextLesson": "lesson-9"
+    },
+    {
+      "id": "lesson-9",
+      "courseId": "course-vibe-coding-research",
+      "moduleId": "module-3",
+      "title": "Modelo de Elo Rating",
+      "slug": "modelo-elo-rating",
+      "lessonNumber": 9,
+      "readingMinutes": 15,
+      "level": "intermediate",
+      "concepts": [
+        "Elo rating",
+        "K-factor",
+        "expected score"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Construir sistema de Elo rating para contexto de forca relativa e integrar com modelo de gols."
+      ],
+      "failureModes": [
+        "Fator K fixo em ligas desbalanceadas, ratings desatualizados gerando vies."
+      ],
+      "exercises": [
+        "Aplicar o modelo de elo rating a um cenario real e documentar evidencia, incerteza e criterio de invalidacao."
+      ],
+      "checklist": [
+        "Fator K ajustado por liga",
+        "Convergencia validada apos N rodadas",
+        "Integracao com lambda do Poisson testada",
+        "Log de atualizacoes persistido"
+      ],
+      "glossaryTerms": [
+        "edge",
+        "risk",
+        "drawdown"
+      ],
+      "formulas": [
+        {
+          "label": "Elo expected score",
+          "value": "E_A = 1 / (1 + 10^((R_B - R_A)/400))"
+        }
+      ],
+      "previousLesson": "lesson-8",
+      "nextLesson": "lesson-10"
+    },
+    {
+      "id": "lesson-10",
+      "courseId": "course-vibe-coding-research",
+      "moduleId": "module-4",
+      "title": "Backtest e Validacao",
+      "slug": "backtest-validacao",
+      "lessonNumber": 10,
+      "readingMinutes": 16,
+      "level": "advanced",
+      "concepts": [
+        "temporal split",
+        "Brier score",
+        "look-ahead bias"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Validar modelos historicamente com separacao temporal e metricas de calibracao."
+      ],
+      "failureModes": [
+        "Look-ahead bias, overfitting de parametros, ignorar custos de transacao."
+      ],
+      "exercises": [
+        "Aplicar o backtest e validacao a um cenario real e documentar evidencia, incerteza e criterio de invalidacao."
+      ],
+      "checklist": [
+        "Dados separados por tempo sem vazamento",
+        "Brier score e ROI calculados",
+        "Drawdown maximo documentado",
+        "Custos de transacao incluidos"
+      ],
+      "glossaryTerms": [
+        "expected-value",
+        "risk",
+        "drawdown"
+      ],
+      "formulas": [
+        {
+          "label": "Backtest discipline",
+          "value": "Valid edge = temporal split + calibration metric + cost adjustment"
+        }
+      ],
+      "previousLesson": "lesson-9",
+      "nextLesson": "lesson-11"
+    },
+    {
+      "id": "lesson-11",
+      "courseId": "course-vibe-coding-research",
+      "moduleId": "module-4",
+      "title": "Criar Skills Reutilizaveis",
+      "slug": "criar-skills-reutilizaveis",
+      "lessonNumber": 11,
+      "readingMinutes": 13,
+      "level": "advanced",
+      "concepts": [
+        "modularization",
+        "drift monitoring",
+        "CI/CD"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Modularizar, documentar e agendar pipelines de research para manutencao a longo prazo."
+      ],
+      "failureModes": [
+        "Codigo monolitico, ausencia de testes, drift nao monitorado."
+      ],
+      "exercises": [
+        "Aplicar o criar skills reutilizaveis a um cenario real e documentar evidencia, incerteza e criterio de invalidacao."
+      ],
+      "checklist": [
+        "Modulos isolados com responsabilidade unica",
+        "Testes unitarios cobrindo casos criticos",
+        "Agendamento configurado e validado",
+        "Documentacao de limites do sistema atualizada"
+      ],
+      "glossaryTerms": [
+        "risk",
+        "edge",
+        "market-price"
+      ],
+      "formulas": [
+        {
+          "label": "Pipeline health",
+          "value": "Sustainable system = modules + tests + scheduling + drift logs"
+        }
+      ],
+      "previousLesson": "lesson-10",
+      "nextLesson": null
+    }
+  ],
+  "labs": [
+    {
+      "id": "lab-docker-env",
+      "title": "Ambiente Isolado com Docker e ENV",
+      "slug": "ambiente-isolado-docker-env",
+      "summary": "Criar container Docker, isolar variaveis e validar execucao segura de scripts.",
+      "status": "planned"
+    },
+    {
+      "id": "lab-polymarket-pipeline",
+      "title": "Pipeline de Extracao Polymarket",
+      "slug": "pipeline-extracao-polymarket",
+      "summary": "Consumir API, tratar paginacao, remover overround e exportar CSV auditavel.",
+      "status": "planned"
+    },
+    {
+      "id": "lab-poisson-model",
+      "title": "Implementacao de Modelo Poisson com Lambda Dinamico",
+      "slug": "implementacao-modelo-poisson",
+      "summary": "Calcular lambda por contexto, gerar matriz de placares e comparar com mercado.",
+      "status": "planned"
+    },
+    {
+      "id": "lab-elo-poisson",
+      "title": "Integracao Elo + Poisson e Calculo de Edge",
+      "slug": "integracao-elo-poisson-edge",
+      "summary": "Atualizar ratings, integrar com Poisson e medir edge versus odds de mercado.",
+      "status": "planned"
+    },
+    {
+      "id": "lab-backtest",
+      "title": "Backtesting Temporal com Metricas de Calibracao",
+      "slug": "backtesting-temporal-calibracao",
+      "summary": "Separar dados temporalmente, calcular Brier score, ROI e documentar drawdown.",
+      "status": "planned"
+    },
+    {
+      "id": "lab-pipeline-maintenance",
+      "title": "Modularizacao e Agendamento de Pipeline",
+      "slug": "modularizacao-agendamento-pipeline",
+      "summary": "Refatorar modulos, adicionar testes, configurar agendamento e monitorar drift.",
+      "status": "planned"
+    }
+  ],
+  "glossaryTerms": [
+    "odds",
+    "implied-probability",
+    "expected-value",
+    "edge",
+    "liquidity",
+    "market-price",
+    "risk",
+    "stake",
+    "drawdown",
+    "prediction-market"
+  ],
+  "createdAt": "2026-06-01T00:00:00.000Z",
+  "updatedAt": "2026-06-01T00:00:00.000Z"
+}
+---
+# Vibe Coding para Construir Ferramentas de Research de Futebol
+
+Este curso ensina a usar assistencia de IA para prototipar pipelines de pesquisa de futebol sem perder o rigor analitico. O objetivo nao e substituir o pensamento probabilistico por codigo gerado automaticamente. O objetivo e acelerar a construcao de ferramentas auditaveis — extracao de dados, modelos de previsao, backtesting e manutencao — mantendo o controle operacional em cada etapa.
+
+A estrutura e dividida em quatro modulos: fundacao do ambiente e seguranca, engenharia de contexto e agentes, extracao de dados e modelagem de mercado, e backtesting com manutencao de pipeline. Cada lição combina teoria, mecanismo, exemplo pratico e exercicio.
+
+## Como usar este curso
+
+- Leia uma licao por vez e aplique o checklist a um projeto real.
+- Mantenha um repositorio Git para rastrear cada alteracao.
+- Use os labs para testar isoladamente cada componente antes de integrar no pipeline.
+- Documente hipoteses, metricas e criterios de invalidacao antes de concluir qualquer ajuste.
+
+## O que voce vai construir
+
+No fim do curso, voce tera um pipeline funcional de research de futebol: extracao de dados da Polymarket, modelo de Poisson para placares, sistema Elo para forca relativa, backtesting temporal e skills reutilizaveis. Mais importante: voce tera o habito de prototipar com IA sem abrir mao da auditoria, da seguranca e da disciplina de validacao.
+
+## Ordem recomendada
+
+Siga as licoes na ordem. O curso perde forca se voce pular diretamente para modelagem sem ter o ambiente e a seguranca resolvidos. Primeiro vem infraestrutura. Depois vem orquestracao de agentes. So no fim entra a modelagem quantitativa e o backtesting.

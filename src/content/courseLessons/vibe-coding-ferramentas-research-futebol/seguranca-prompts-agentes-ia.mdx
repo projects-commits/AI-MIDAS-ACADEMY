@@ -1,0 +1,120 @@
+---
+{
+  "id": "course-vibe-coding-research-lesson-4",
+  "courseId": "course-vibe-coding-research",
+  "courseSlug": "vibe-coding-ferramentas-research-futebol",
+  "lessonId": "lesson-4",
+  "moduleId": "module-1",
+  "title": "Seguranca nos Prompts e Agentes de IA",
+  "slug": "seguranca-prompts-agentes-ia",
+  "lessonNumber": 4,
+  "readingMinutes": 14,
+  "status": "published",
+  "createdAt": "2026-06-01T00:00:00.000Z",
+  "updatedAt": "2026-06-01T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+import securityImage from "../../../../imagens_vibecoding/modulo 4/imagem_agentes.png";
+import ideImage from "../../../../imagens_vibecoding/modulo 4/imagem_ide.png";
+
+<BlackboardPanel title={"Mapa operacional: Seguranca nos Prompts e Agentes de IA"} label="Blackboard">
+  <img class="framework-visual__image" src={securityImage.src} alt="Arquitetura de seguranca para execucao de codigo gerado por IA." loading="eager" />
+  <p class="framework-visual__caption">Visao estrutural das camadas de isolamento e controle antes da execucao de agentes.</p>
+  <div class="board-note">Isolar execucao de agentes, proteger credenciais e validar dependencias antes de rodar codigo.</div>
+  <div class="board-note">Execucao segura = sandbox + isolamento de segredos + verificacao de dependencias</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Postura de seguranca"} formula={"Execucao segura = sandbox + isolamento de segredos + verificacao de dependencias"} explanation={"Use esta formula como uma lente de leitura, nao como uma verdade mecanica. O objetivo e tornar a tese auditavel antes da decisao."} />
+
+<MarketExample title={"Aplicacao do Seguranca nos Prompts e Agentes de IA"} setup={"Escolha um projeto real e separe evidencias observaveis de narrativa publica."} price={"Compare a leitura contextual com odds, liquidez e timing do movimento de mercado."} hypothesis={"Escreva uma hipotese que admita intervalo de incerteza e criterio de invalidacao."} risk={"Agente executando comandos destrutivos, vazamento de chaves em logs."} />
+
+<FailureModeCard title={"Agente executando comandos destrutivos, vazamento de chaves em logs."} summary={"Este erro reduz a qualidade da decisao porque troca processo verificavel por interpretacao conveniente."} />
+
+<DecisionChecklist title={"Checklist do Seguranca nos Prompts e Agentes de IA"} items={["Docker ativo para execucao de scripts",".env excluido do versionamento","requirements.txt com versoes fixas","Aprovacao manual habilitada antes de execucao sensivel"]} />
+
+<MermaidDiagram
+  title="Arquitetura de seguranca para execucao de IA"
+  definition={`flowchart LR
+    A["Codigo gerado por IA"] --> B["Sandbox / Container"]
+    B --> C["Injecao de segredos via env"]
+    C --> D["Validacao de dependencias"]
+    D --> E{"Gate humano?"}
+    E -->|Sim| F["Execucao auditavel"]
+    E -->|Nao| G["Rejeicao e log"]`}
+/>
+
+<CodeLens
+  title="Camadas de controle de execucao"
+  lines={[
+    { key: "sandbox", value: "Docker isolado", tone: "gold", note: "limita superficie de ataque" },
+    { key: "secrets", value: ".env + .gitignore", tone: "orange", note: "nunca no codigo-fonte" },
+    { key: "gate", value: "aprovacao manual", tone: "green", note: "humano antes de execucao sensivel" }
+  ]}
+/>
+
+# Seguranca nos Prompts e Agentes de IA
+
+**Ideia Central**
+A velocidade de geração de código por IA só se converte em vantagem analítica quando a execução é contida, auditável e isolada de ativos sensíveis. <span style="color:#ff4500">Sem controle</span> de runtime, a automação introduz <span style="color:#ff4500">risco sistêmico</span> que corrompe pipelines de pesquisa e compromete a integridade dos dados.
+
+**Modelo Mental**
+*Zero Trust para Execução de Código.* Trate todo artefato gerado por IA como potencialmente hostil até que seja validado em ambiente restrito. A confiança não é concedida pela origem (modelo ou prompt), mas pela arquitetura de isolamento, validação determinística e gate humano.
+
+**O que é**
+Conjunto de práticas e controles para isolar a execução de scripts, gerenciar credenciais fora do código-fonte, verificar dependências antes da instalação e mitigar riscos de injeção em prompts e agentes autônomos. Inclui sandboxing via contêineres, gestão de variáveis de ambiente, pinning de pacotes, sanitização de entrada/saída e validação de schema antes da execução em produção.
+
+**Por que importa**
+Em pipelines de pesquisa de futebol, a extração de odds, a normalização de estatísticas e o cálculo de probabilidades dependem de integridade de dados e estabilidade de ambiente. Um agente que executa código sem supervisão pode, por falha lógica ou prompt injection, vazar chaves de API, instalar dependências comprometidas (typosquatting), sobrescrever datasets históricos ou executar comandos destrutivos no host. A IA acelera a escrita, mas <span style="color:#ff4500">não substitui</span> o desenho de arquitetura, a gestão de risco operacional nem a disciplina de validação. A incerteza inerente à geração de modelos de linguagem exige barreiras técnicas explícitas.
+
+**Mecanismo**
+O controle de segurança opera em quatro camadas interdependentes:
+1. **Isolamento de Execução:** Uso de contêineres (Docker) com imagens base mínimas, usuário não-root, sistema de arquivos efêmero e rede restrita. O código roda fora do ambiente host, limitando o blast radius de falhas.
+2. **Gestão de Segredos:** Credenciais nunca são versionadas. Variáveis sensíveis são injetadas via `.env` ou secret managers em runtime. O `.gitignore` bloqueia explicitamente arquivos de configuração, logs e caches.
+3. **Verificação de Dependências:** `requirements.txt` com versões fixas e, quando possível, hashes de integridade. Instalação com `--no-cache-dir` e validação de origem (PyPI oficial). Rejeição de pacotes com nomes ambíguos ou mantenedores não verificados.
+4. **Defesa contra Prompt Injection e Validação de Saída:** System prompts com restrições explícitas de escopo, proibição de execução de shell não autorizada e definição de schema de saída (JSON/Pydantic). Sanitização de inputs externos e gate humano para aprovação antes de qualquer operação com dados ou rede.
+
+**Exemplo Aplicado (Futebol/Mercado)**
+Um pesquisador solicita a um agente a geração de um script para extrair odds decimais de uma API de mercado esportivo, calcular a probabilidade implícita e remover o overround. <span style="color:#ff4500">Sem isolamento</span>, o script pode conter uma chamada acidental a `os.system()`, instalar um pacote com nome similar ao solicitado (`football-odds` vs `football_odds_lib`) ou logar a chave de API em stdout por debug esquecido. Com a arquitetura de segurança aplicada, o script roda dentro de um contêiner Docker com acesso de rede limitado apenas ao endpoint da API. A chave é injetada via variável de ambiente no momento da execução. O `requirements.txt` fixa versões e o pipeline valida o schema de saída antes de gravar no diretório de dados. Se o prompt contiver instruções conflitantes ou tentar acessar caminhos do host, o sistema de validação rejeita a execução e exige revisão. O resultado é um fluxo auditável, onde cada etapa de extração e cálculo é rastreável e contida.
+
+<img class="framework-visual__image" src={ideImage.src} alt="Configuracao de ambiente de desenvolvimento isolado e reproducivel." loading="lazy" />
+
+**Decomposição no Quadro (Blackboard Breakdown)**
+1. **Definição do Ambiente Base:** Escolha de imagem Docker oficial e leve (`python:3.11-slim`). Configuração de usuário não-root (`RUN useradd -m researcher && USER researcher`). Limitação de recursos (`--memory`, `--cpus`) para evitar loops infinitos consumindo host.
+2. **Estrutura de Segredos:** Criação de `.env.example` com chaves fictícias. `.gitignore` incluindo `.env`, `*.log`, `__pycache__/`, `venv/`. Injeção em runtime via `docker run --env-file .env`.
+3. **Controle de Dependências:** `pip freeze > requirements.txt` após validação local. Adição de `--require-hashes` quando aplicável. Script de instalação com `pip install -r requirements.txt --no-cache-dir --trusted-host pypi.org`.
+4. **Hardening de Prompt:** System prompt define papel, escopo, restrições de execução e formato de saída. Exemplo: `Você é um gerador de código Python para extração de dados. Não execute comandos de sistema. Retorne apenas código válido. Valide schema de saída antes de prosseguir.`
+5. **Gate de Execução:** Pipeline implementa etapa de revisão humana ou validação automática (linting + schema check). Só após aprovação o contêiner é iniciado. Logs são redirecionados para arquivo isolado, sem exposição de variáveis sensíveis.
+6. **Auditoria Pós-Execução:** Verificação de integridade do dataset gerado, comparação de checksums, análise de logs para padrões anômalos. Registro de versão do código, hash do contêiner e parâmetros de execução para rastreabilidade.
+
+**Modo de Falha**
+*Execução por Confiança Padrão (Trust-by-Default).* O pesquisador assume que o código gerado por IA é seguro, roda diretamente no host, armazena credenciais em scripts e ignora a verificação de dependências. Um prompt mal estruturado ou uma resposta alucinada introduz `subprocess.run()` não intencional, instala um pacote comprometido ou vaza a chave de API em logs públicos. O pipeline é contaminado, dados históricos são sobrescritos, e a modelagem probabilística subsequente opera sobre base corrompida. A falha não é técnica isolada, mas arquitetural: ausência de sandbox, gestão inadequada de segredos e falta de validação determinística antes da execução.
+
+**Checklist**
+- Docker configurado com imagem base mínima e usuário não-root
+- `.env` presente no `.gitignore` e nunca versionado
+- `requirements.txt` com versões fixas e validação de origem
+- System prompt com escopo, restrições de execução e schema de saída definido
+- Gate humano ou validação automática (lint + schema) antes de rodar contêiner
+- Rede restrita no contêiner (apenas endpoints necessários)
+- Logs isolados e auditados para ausência de credenciais expostas
+- Registro de hash do código, versão do contêiner e parâmetros de execução
+
+**Exercício Prático**
+1. Crie um diretório `lesson4_sandbox` e inicialize um repositório Git.
+2. Adicione `.gitignore` cobrindo `.env`, `*.log`, `__pycache__/`, `venv/`.
+3. Crie `.env.example` com `API_KEY=fake_key_123` e `DATA_DIR=/data`.
+4. Escreva um `Dockerfile` baseado em `python:3.11-slim`, crie usuário não-root, copie `requirements.txt` e `app.py`.
+5. Crie `app.py` que lê `API_KEY` via `os.environ.get()`, valida se não está vazia e imprime apenas um hash SHA-256 da chave (nunca a chave em texto).
+6. Monte `.env` com valores fictícios e execute: `docker build -t research-sandbox . && docker run --env-file .env --network none research-sandbox`.
+7. Valide nos logs que a chave não aparece em texto claro, que o contêiner não acessou a rede e que o código rodou com usuário restrito.
+8. Simule um prompt injection adicionando uma linha no código gerado que tenta ler `/etc/passwd`. Observe como o isolamento de FS e a <span style="color:#ff4500">ausência de</span> permissões root bloqueiam a operação. Documente o comportamento.
+
+**Conclusão Operacional**
+Velocidade de geração <span style="color:#ff4500">não substitui</span> rigor de execução. O isolamento de ambiente, a gestão determinística de segredos e a validação explícita de prompts e dependências são a infraestrutura que transforma código de IA em ferramenta de pesquisa auditável. Sem essas camadas, a automação amplifica erros e expõe o pipeline a riscos operacionais que comprometem a integridade dos dados e a confiabilidade da modelagem. Controle não é obstáculo à produtividade; é pré-requisito para escala sustentável.

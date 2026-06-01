@@ -1,0 +1,116 @@
+---
+{
+  "id": "course-vibe-coding-research-lesson-11",
+  "courseId": "course-vibe-coding-research",
+  "courseSlug": "vibe-coding-ferramentas-research-futebol",
+  "lessonId": "lesson-11",
+  "moduleId": "module-4",
+  "title": "Criar Skills Reutilizaveis",
+  "slug": "criar-skills-reutilizaveis",
+  "lessonNumber": 11,
+  "readingMinutes": 13,
+  "status": "published",
+  "createdAt": "2026-06-01T00:00:00.000Z",
+  "updatedAt": "2026-06-01T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+
+<BlackboardPanel title={"Mapa operacional: Criar Skills Reutilizaveis"} label="Blackboard">
+  <div class="board-note">Modularizar, documentar e agendar pipelines de research para manutencao a longo prazo.</div>
+  <div class="board-note">Sistema sustentavel = modulos + testes + agendamento + logs de drift</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Saude do pipeline"} formula={"Sistema sustentavel = modulos + testes + agendamento + logs de drift"} explanation={"Use esta formula como uma lente de leitura, nao como uma verdade mecanica. O objetivo e tornar a tese auditavel antes da decisao."} />
+
+<MarketExample title={"Aplicacao do Criar Skills Reutilizaveis"} setup={"Escolha um projeto real e separe evidencias observaveis de narrativa publica."} price={"Compare a leitura contextual com odds, liquidez e timing do movimento de mercado."} hypothesis={"Escreva uma hipotese que admita intervalo de incerteza e criterio de invalidacao."} risk={"Codigo monolitico, ausencia de testes, drift nao monitorado."} />
+
+<FailureModeCard title={"Codigo monolitico, ausencia de testes, drift nao monitorado."} summary={"Este erro reduz a qualidade da decisao porque troca processo verificavel por interpretacao conveniente."} />
+
+<DecisionChecklist title={"Checklist do Criar Skills Reutilizaveis"} items={["Modulos isolados com responsabilidade unica","Testes unitarios cobrindo casos criticos","Agendamento configurado e validado","Documentacao de limites do sistema atualizada"]} />
+
+<MermaidDiagram
+  title="Estrutura de uma skill reutilizavel"
+  definition={`flowchart LR
+    A["prompt.md"] --> B["implementation.py"]
+    B --> C["schema.json"]
+    C --> D["test_skill.py"]
+    D --> E["CHANGELOG.md"]
+    E --> F["Registro no pipeline"]`}
+/>
+
+<CodeLens
+  title="Artefatos obrigatorios por skill"
+  lines={[
+    { key: "prompt.md", value: "contrato de interface", tone: "gold", note: "contexto + papel + restricoes" },
+    { key: "schema.json", value: "validacao de dados", tone: "orange", note: "tipos e limites de entrada/saida" },
+    { key: "test_skill.py", value: "casos de borda", tone: "green", note: "valida antes da integracao" }
+  ]}
+/>
+
+# Criar Skills Reutilizaveis
+
+## Ideia central
+Transformar lógica gerada por IA em componentes modulares, versionados e validados, eliminando redundância e garantindo consistência em pipelines de pesquisa de futebol.
+
+## Modelo mental
+Skills como contratos de interface. Cada unidade funcional opera com entradas tipadas, restrições explícitas e saídas auditáveis, isolada do contexto de execução. A IA atua como gerador de código, não como arquiteto de sistema. A reutilização só é sustentável quando o comportamento da skill é determinístico dentro de limites definidos e quando falhas são contidas na camada de validação, não propagadas para o modelo probabilístico.
+
+## O que e
+Uma skill reutilizável é um artefato de software que encapsula uma operação específica em um módulo independente. No contexto de vibe coding, ela substitui scripts ad hoc por blocos de construção padronizados, compostos por: um arquivo de instrução (`prompt.md` ou `system.md`), um wrapper de implementação (`implementation.py`), um contrato de dados (`schema.json`), testes unitários (`test_skill.py`) e documentação de limites operacionais. A skill não depende de estado global, não acessa variáveis externas e só responde a parâmetros injetados explicitamente. Ela é versionada, registrada e importada por orquestradores de pipeline através de uma assinatura estável.
+
+## Por que importa
+A geração contínua de código sem modularização introduz fragilidade sistêmica. Prompts vagos produzem lógica inconsistente; scripts acoplados dificultam backtesting, auditoria e manutenção. Em pesquisa de mercado esportivo, onde a calibração probabilística e a rastreabilidade de preço são críticas, skills reutilizáveis reduzem variância de implementação, permitem validação isolada e aceleram iteração sem comprometer rigor. Quando um pipeline extrai odds de múltiplas fontes, normaliza overround, calcula lambdas e gera matrizes de placar, cada etapa deve ser testável independentemente. A produtividade aumenta quando o foco desloca da escrita repetitiva de código para a orquestração de componentes auditáveis. Sem skills, o custo de manutenção cresce exponencialmente com a complexidade do modelo.
+
+## Mecanismo
+1. **Estruturação de diretório:** Criar `skills/` com subpastas por função (`odds_normalization/`, `probability_calc/`, `data_validation/`). Cada pasta contém os cinco artefatos padrão.
+2. **Definição de contrato:** Especificar `schema.json` com tipos, limites numéricos, condições de nulidade e regras de falha. Ex: odds decimais `> 1.0`, soma de probabilidades `∈ [0.98, 1.02]` antes do ajuste, tolerância a `NaN` explicitamente rejeitada.
+3. **Isolamento de contexto:** O arquivo de instrução deve conter apenas o necessário para a tarefa. Remover referências a variáveis globais, estados de sessão ou dependências implícitas. Usar injeção explícita de parâmetros e retornar apenas o resultado estruturado.
+4. **Validação automatizada:** Implementar testes unitários que cobrem: (a) caso válido com dados reais, (b) limites operacionais (ex: overround extremo, odds próximas de 1.0), (c) entradas malformadas (tipos incorretos, arrays vazios). A skill deve falhar rápido (`fail-fast`) e retornar erro tipado, não `None` ou valores silenciosos.
+5. **Versionamento e registro:** Manter `CHANGELOG.md` por skill. Registrar versão no pipeline principal. Logs devem incluir hash do commit, versão da skill, parâmetros de entrada, tempo de execução e status de integridade. Isso permite rastrear <span style="color:#ff4500">degradação</span> (drift) ao longo do tempo.
+6. **Integração estável:** O orquestrador importa a skill via função ou classe com assinatura fixa. Alterações internas na lógica não quebram chamadas externas. Se o contrato mudar, a versão é incrementada e a antiga mantida até migração completa.
+
+## Exemplo aplicado de futebol e mercado
+Skill de cálculo de probabilidade implícita com ajuste de overround para mercados 1X2. Entrada: lista de odds decimais de um evento específico. Processo: inversão das odds para obter probabilidades brutas, cálculo da margem da casa (`overround = Σ(1/odds) - 1`), redistribuição proporcional usando método aditivo ou Shin, normalização para soma exata de 1.0. Saída: dicionário com `prob_home`, `prob_draw`, `prob_away`, `overround_removed`, `method_used`. A skill é testada com dados históricos da Premier League e La Liga, verificando que a soma das probabilidades ajustadas permanece estável mesmo quando a margem original varia entre 4% e 12%. Quando integrada ao pipeline de extração do Polymarket ou de bookmakers tradicionais, ela normaliza preços de diferentes fontes para uma escala comparável, permitindo cálculo de edge probabilístico sem viés de margem. O resultado alimenta diretamente o backtesting temporal e a calibração do modelo de Poisson.
+
+## Quadro de raciocinio
+```
+[INPUT] -> [SCHEMA VALIDATION] -> [CORE LOGIC] -> [OUTPUT VALIDATION] -> [LOG/REGISTER]
+ | | | | |
+Odds/Stats Tipos, limites, Algoritmo Soma=1.0, Hash da skill,
+(tipados) missing values isolado valores >0 timestamp, status
+```
+- **Input:** Dados tipados e estruturados. Rejeição imediata se schema não corresponder.
+- **Schema Validation:** Verifica tipos, intervalos e presença de valores críticos. Atua como firewall contra dados corrompidos.
+- **Core Logic:** Implementação pura. Sem I/O externo, sem variáveis globais. Determinística para mesma entrada.
+- **Output Validation:** Garante que o resultado respeita invariantes probabilísticas (ex: soma = 1.0, probabilidades ∈ [0,1]).
+- **Log/Register:** Registra versão, parâmetros, tempo e integridade. Permite auditoria e detecção de drift.
+
+## Modo de falha
+- **Acoplamento contextual:** A skill lê variáveis globais ou depende de estado do pipeline. Quando reutilizada em outro contexto, falha silenciosamente ou produz viés.
+- **Drift de comportamento:** Atualização do modelo de IA ou do ambiente altera a saída sem aviso. Ausência de testes de regressão permite que erros se propaguem para o backtesting.
+- **Schema frágil:** Validação permissiva aceita dados inconsistentes. O modelo downstream recebe probabilidades distorcidas, comprometendo calibração e métricas de erro (Brier score, log loss).
+- **Documentação desatualizada:** O `prompt.md` ou `schema.json` não reflete a implementação real. Operadores ou outros módulos usam a skill com parâmetros inválidos, gerando falhas operacionais não rastreáveis.
+- **Monolito disfarçado:** A skill contém múltiplas responsabilidades (ex: extração + normalização + cálculo). A manutenção torna-se inviável e o isolamento de testes é impossível.
+
+## Checklist
+- Estrutura de diretório padronizada (`skills/<nome>/`) com os cinco artefatos obrigatórios
+- `schema.json` com tipos, limites, condições de nulidade e regras de falha explícitas
+- `prompt.md` com instruções determinísticas, sem dependências externas ou variáveis implícitas
+- Testes unitários cobrindo caso válido, limites operacionais e entradas malformadas
+- Log de execução com versão da skill, hash, parâmetros e métricas de integridade
+- Integração via interface estável (assinatura fixa, sem estado compartilhado)
+- Changelog mantido e versionado no repositório principal
+- Validação de saída garantindo invariantes probabilísticas antes do retorno
+
+## Exercicio pratico
+Refatore um script monolítico de cálculo de odds em duas skills isoladas: `normalize_odds` (converte formatos, valida limites e remove overround) e `calculate_implied_prob` (gera probabilidades ajustadas e valida soma). Crie `schema.json` para cada uma, implemente três testes unitários por skill (caso válido, limite extremo, entrada inválida) e registre a execução em um log estruturado. Valide que a saída da primeira skill alimenta a segunda sem acoplamento de estado ou variáveis globais. Documente os limites operacionais, métodos de ajuste e condições de falha em `prompt.md`. Execute a pipeline com dados históricos de 50 partidas e registre métricas de tempo, sucesso e integridade probabilística.
+
+## Sintese operacional
+Skills reutilizáveis convertem código gerado por IA em componentes auditáveis e testáveis. A produtividade sustentável em pesquisa de futebol depende de contratos de interface rígidos, validação automatizada e isolamento de contexto, não de velocidade de geração. Quando cada etapa do pipeline opera como uma skill versionada, o risco de drift diminui, a calibração probabilística se torna rastreável e a manutenção deixa de ser um gargalo operacional.

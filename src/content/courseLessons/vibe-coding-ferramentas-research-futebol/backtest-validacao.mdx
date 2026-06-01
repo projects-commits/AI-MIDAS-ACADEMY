@@ -1,0 +1,143 @@
+---
+{
+  "id": "course-vibe-coding-research-lesson-10",
+  "courseId": "course-vibe-coding-research",
+  "courseSlug": "vibe-coding-ferramentas-research-futebol",
+  "lessonId": "lesson-10",
+  "moduleId": "module-4",
+  "title": "Backtest e Validacao",
+  "slug": "backtest-validacao",
+  "lessonNumber": 10,
+  "readingMinutes": 16,
+  "status": "published",
+  "createdAt": "2026-06-01T00:00:00.000Z",
+  "updatedAt": "2026-06-01T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+
+<BlackboardPanel title={"Mapa operacional: Backtest e Validacao"} label="Blackboard">
+  <div class="board-note">Validar modelos historicamente com separacao temporal e metricas de calibracao.</div>
+  <div class="board-note">Edge valido = separacao temporal + metrica de calibracao + ajuste de custo</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Disciplina de backtest"} formula={"Edge valido = separacao temporal + metrica de calibracao + ajuste de custo"} explanation={"Use esta formula como uma lente de leitura, nao como uma verdade mecanica. O objetivo e tornar a tese auditavel antes da decisao."} />
+
+<MarketExample title={"Aplicacao do Backtest e Validacao"} setup={"Escolha um projeto real e separe evidencias observaveis de narrativa publica."} price={"Compare a leitura contextual com odds, liquidez e timing do movimento de mercado."} hypothesis={"Escreva uma hipotese que admita intervalo de incerteza e criterio de invalidacao."} risk={"Look-ahead bias, overfitting de parametros, ignorar custos de transacao."} />
+
+<FailureModeCard title={"Look-ahead bias, overfitting de parametros, ignorar custos de transacao."} summary={"Este erro reduz a qualidade da decisao porque troca processo verificavel por interpretacao conveniente."} />
+
+<DecisionChecklist title={"Checklist do Backtest e Validacao"} items={["Dados separados por tempo sem vazamento","Brier score e ROI calculados","Drawdown maximo documentado","Custos de transacao incluidos"]} />
+
+<MermaidDiagram
+  title="Fluxo de backtesting temporal"
+  definition={`flowchart LR
+    A["Dados historicos"] --> B["Split temporal"]
+    B --> C["Geracao de sinais"]
+    C --> D["Simulacao de stakes"]
+    D --> E["Metricas (Brier, ROC, drawdown)"]
+    E --> F["Relatorio de limitacoes"]`}
+/>
+
+# Backtest e Validacao
+
+## 1. Título
+Backtest e Validação
+
+## 2. Ideia Central
+**Backtesting** não é um simulador de lucro; é um teste de estresse temporal para suposições probabilísticas. O objetivo é expor fragilidades estruturais, calibrar saídas do modelo e quantificar risco antes de qualquer exposição real.
+
+## 3. Modelo Mental
+**Simulação de Estresse Temporal.** Trate dados históricos como um ambiente controlado onde as probabilidades geradas pelo modelo colidem com preços de mercado realizados e desfechos observados. A validação mede aderência à realidade, não otimização de parâmetros. O backtest responde a três perguntas: o modelo é calibrado? O edge sobrevive a custos e variância? A curva de capital suporta drawdowns plausíveis?
+
+## 4. O que é
+Um procedimento sistemático que aplica um modelo preditivo (ex.: Poisson + Elo) a sequências históricas de partidas, respeitando a ordem cronológica dos eventos. Para cada confronto, o modelo gera probabilidades pré-jogo, que são comparadas às probabilidades implícitas do mercado (ajustadas pelo overround). Com base no diferencial (edge), simula-se alocação de capital, registra-se o resultado financeiro e calculam-se métricas de calibração e risco. O processo é iterativo, documentado e isolado de dados futuros.
+
+## 5. Por que importa
+<span style="color:#ff4500">Sem validação</span> temporal, modelos acumulam viés de antecipação (<span style="color:#ff4500">look-ahead bias</span>), <span style="color:#ff4500">overfitting</span> a ruído amostral e falsa confiança em métricas pontuais. O backtesting quantifica se a diferença entre probabilidade estimada e preço de mercado é sustentável após custos de transação e limites operacionais. Ele separa sinal estatístico de coincidência, expõe a sensibilidade a mudanças de regime (ex.: alterações táticas, eficiência de mercado) e estabelece limites realistas de exposição. Em pesquisa de futebol, onde a variância inerente é alta, a validação é o único mecanismo que transforma hipótese em ferramenta auditável.
+
+## 6. Mecanismo
+1. **Separação Temporal:** Divida os dados em janelas cronológicas. Use `train` para ajuste de parâmetros, `validation` para calibração e `test` para simulação final. Evite amostragem aleatória; a ordem temporal é inegociável.
+2. **Geração de Probabilidade:** Para cada partida, execute o modelo apenas com informações disponíveis até o momento do kickoff. Registre `P_model(home)`, `P_model(draw)`, `P_model(away)`.
+3. **Conversão de Mercado:** Transforme odds de fechamento em probabilidades implícitas. Remova o overround via método proporcional ou Shin. Calcule `P_market = 1/odds_ajustada`.
+4. **Identificação de Edge:** Defina um limiar mínimo: `edge = P_model - P_market`. Sinalize apenas quando `edge > τ` (ex.: τ ≥ 0.03).
+5. **Simulação de Stake:** Aplique gestão de risco conservadora. Use stake fixo, fração de Kelly truncada ou alocação baseada em volatilidade histórica. Registre `stake_i`.
+6. **Cálculo de P&L:** Se o evento ocorre, `pnl_i = stake_i * (odds - 1)`. Caso contrário, `pnl_i = -stake_i`. Subtraia custos de transação e slippage estimado.
+7. **Métricas de Calibração e Risco:** 
+   - `Brier Score = (1/N) * Σ(P_model - outcome)²`
+   - `Log Loss = -(1/N) * Σ[outcome * ln(P_model) + (1-outcome) * ln(1-P_model)]`
+   - `ROI = Σ(pnl) / Σ(stake)`
+   - `Max Drawdown = max((peak - trough) / peak)`
+   - `Calibration Curve`: binagem de probabilidades previstas vs. frequência observada.
+8. **Análise de Sensibilidade:** Varie `τ`, método de stake e janela de validação. Documente a estabilidade dos resultados. Se pequenas alterações geram colapso no ROI ou explosão no drawdown, o modelo não é robusto.
+
+## 7. Exemplo Aplicado (Futebol/Mercado)
+Aplicação de um pipeline Poisson+Elo em três temporadas da Premier League (2020–2023). O modelo gera probabilidades para 1140 partidas. As odds de fechamento da Pinnacle são convertidas, removendo overround médio de 4.2%. O limiar de edge é fixado em 3.5%. Stake fixo de 1% do bankroll por sinal. Custos de transação simulados em 0.5% por operação.
+
+Resultados: ROI de +1.8%, Brier Score de 0.214, Log Loss de 0.632. Max drawdown de -19.3% entre as rodadas 14 e 22 da segunda temporada. A curva de calibração mostra superconfiança em vitórias mandantes com `P_model > 0.65`, onde a frequência observada foi 58% contra 68% previsto. O modelo captura edge em mercados de empate, mas a variância de curto prazo exige tolerância a drawdowns superiores a 15%. A validação indica que o sistema é calibrado, porém a alocação deve ser reduzida ou o limiar de edge elevado para mitigar exposição a sequências adversas.
+
+## 8. Decomposição no Quadro (Blackboard Breakdown)
+```
+Entrada:
+  D_hist = {match_id, date, home_team, away_team, stats_pre, odds_close}
+  θ = {params_model, τ, stake_rule, cost}
+
+Processo:
+ for each match in D_hist (ordenado por date):
+ P_model = predict(match, θ)
+ P_market = remove_overround(odds_close)
+ edge = P_model - P_market
+ if edge > τ:
+ stake = calc_stake(edge, bankroll, stake_rule)
+ outcome = observe(match)
+ pnl = stake * (odds_close - 1) if outcome == 1 else -stake
+ pnl -= cost * stake
+ equity.append(equity[-1] + pnl)
+ metrics.update(pnl, P_model, outcome)
+
+Saída:
+ equity_curve = [equity_0, equity_1, ..., equity_N]
+ brier = mean((P_model - outcome)^2)
+ logloss = -mean(outcome*log(P_model) + (1-outcome)*log(1-P_model))
+ roi = sum(pnl) / sum(stake)
+ max_dd = max((peak(equity) - trough(equity)) / peak(equity))
+ calibration = bin(P_model) vs freq(outcome)
+```
+A estrutura garante que nenhuma informação pós-jogo contamine a previsão. Cada métrica é calculada sobre a sequência completa, não sobre subconjuntos selecionados. A curva de equity e o drawdown são derivados diretamente do fluxo de caixa simulado, não de médias aritméticas.
+
+## 9. Modo de Falha
+- **Look-ahead Bias:** Uso de estatísticas pós-partida, odds de abertura ajustadas com informação tardia, ou vazamento de resultados no treino.
+- **Overfitting Temporal:** Ajuste fino de `τ` ou parâmetros do modelo para maximizar ROI em uma janela específica, sem validação em períodos não vistos.
+- **Ignorar Custos e Limites:** Simulação com odds ideais, sem slippage, limites de stake ou restrições de liquidez. O ROI inflado não sobrevive à execução real.
+- **Métrica Única:** Foco exclusivo em ROI ou taxa de acerto. Um modelo pode ter ROI positivo com drawdown insustentável ou calibração distorcida.
+- **Estacionariedade Falsa:** Suposição de que relações históricas (ex.: vantagem mandante, eficiência de finalização) permanecem invariantes. Mudanças regulatórias, táticas ou de mercado invalidam parâmetros estáticos.
+
+## Checklist
+- Separação temporal estrita (train/validation/test ou rolling window)
+- Zero vazamento de dados futuros para geração de probabilidade
+- Overround removido das odds de mercado antes do cálculo de edge
+- Custos de transação e slippage incluídos na simulação de P&L
+- Múltiplas métricas calculadas: Brier Score, Log Loss, ROI, Max Drawdown
+- Curva de calibração plotada e analisada por faixa de probabilidade
+- Teste de sensibilidade em `τ`, stake e janela de validação
+- Documentação de premissas, limites do modelo e incerteza residual
+- Resultados arquivados com versão do código, dataset e parâmetros
+
+## 11. Exercício Prático
+Implemente um backtest temporal para uma liga de sua escolha (ex.: La Liga 2019–2022). 
+1. Carregue o dataset histórico e separe os dados em janelas de 12 meses para treino e 6 meses para teste, avançando em blocos de 3 meses.
+2. Execute seu modelo (Poisson, Elo ou híbrido) para gerar `P_model` em cada partida do período de teste.
+3. Converta as odds de fechamento em `P_market`, removendo o overround.
+4. Defina `τ = 0.03`. Simule stakes fixos de 1 unidade por sinal.
+5. Calcule Brier Score, Log Loss, ROI e Max Drawdown.
+6. Gere um gráfico de calibração (probabilidade prevista vs. frequência observada em bins de 0.1).
+7. Documente: (a) número de sinais gerados, (b) métricas finais, (c) período de maior drawdown, (d) três limitações identificadas no pipeline.
+Entregue o script, os logs de execução e o relatório de validação. Não otimize parâmetros para melhorar o ROI; registre o comportamento natural do modelo.
+
+## 12. Conclusão Principal
+Backtesting valida calibração, expõe risco e quantifica a distância entre probabilidade estimada e preço de mercado. Lucro é consequência de edge sustentável e gestão de variância, não o critério de validação. Um modelo que resiste a testes temporais, mantém drawdown controlado e apresenta curva de calibração estável é operacionalmente viável. A disciplina de validação precede qualquer decisão de alocação.

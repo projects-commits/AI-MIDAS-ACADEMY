@@ -1,0 +1,116 @@
+---
+{
+  "id": "course-vibe-coding-research-lesson-8",
+  "courseId": "course-vibe-coding-research",
+  "courseSlug": "vibe-coding-ferramentas-research-futebol",
+  "lessonId": "lesson-8",
+  "moduleId": "module-3",
+  "title": "Modelo de Distribuicao de Poisson",
+  "slug": "modelo-distribuicao-poisson",
+  "lessonNumber": 8,
+  "readingMinutes": 14,
+  "status": "published",
+  "createdAt": "2026-06-01T00:00:00.000Z",
+  "updatedAt": "2026-06-01T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+import poissonImage from "../../../../imagens_vibecoding/modulo 8/imagem.png";
+
+<BlackboardPanel title={"Mapa operacional: Modelo de Distribuicao de Poisson"} label="Blackboard">
+  <img class="framework-visual__image" src={poissonImage.src} alt="Distribuicao de Poisson aplicada a modelagem de gols em futebol." loading="eager" />
+  <p class="framework-visual__caption">Mapa visual da calibracao de lambda e geracao da matriz de placares.</p>
+  <div class="board-note">Implementar modelo de Poisson para estimar probabilidades de gols e placares.</div>
+  <div class="board-note">P(k) = (lambda^k * e^-lambda) / k!</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Probabilidade de Poisson"} formula={"P(k) = (lambda^k * e^-lambda) / k!"} explanation={"Use esta formula como uma lente de leitura, nao como uma verdade mecanica. O objetivo e tornar a tese auditavel antes da decisao."} />
+
+<MarketExample title={"Aplicacao do Modelo de Distribuicao de Poisson"} setup={"Escolha um projeto real e separe evidencias observaveis de narrativa publica."} price={"Compare a leitura contextual com odds, liquidez e timing do movimento de mercado."} hypothesis={"Escreva uma hipotese que admita intervalo de incerteza e criterio de invalidacao."} risk={"Lambda estatico sem ajuste contextual, overfitting a amostras pequenas."} />
+
+<FailureModeCard title={"Lambda estatico sem ajuste contextual, overfitting a amostras pequenas."} summary={"Este erro reduz a qualidade da decisao porque troca processo verificavel por interpretacao conveniente."} />
+
+<DecisionChecklist title={"Checklist do Modelo de Distribuicao de Poisson"} items={["Lambda dinamico calculado por contexto","Matriz de placares validada","Soma de probabilidades normalizada","Comparacao com odds de mercado registrada"]} />
+
+<MermaidDiagram
+  title="Pipeline de calibracao Poisson"
+  definition={`flowchart LR
+    A["Dados historicos"] --> B["Calculo de lambda"]
+    B --> C["Matriz de placares"]
+    C --> D["Comparacao com mercado"]
+    D --> E{"Brier score <= threshold?"}
+    E -->|Sim| F["Relatorio e checkpoint"]
+    E -->|Nao| G["Recalibracao de lambda"]
+    G --> B`}
+/>
+
+# Modelo de Distribuicao de Poisson
+
+## Ideia central
+A distribuição de Poisson fornece uma estrutura probabilística para estimar a frequência de gols em um intervalo de tempo fixo, condicionada a uma taxa esperada (λ) derivada de dados históricos e ajustes contextuais. O modelo <span style="color:#ff4500">não prevê</span> resultados; ele quantifica a plausibilidade de cada placar sob pressupostos explícitos, permitindo comparação direta com precificação de mercado e medição sistemática de erro.
+
+## Modelo mental
+Trate o futebol como um processo de contagem de eventos discretos em tempo contínuo. Cada gol é uma realização estocástica onde a taxa de ocorrência é o parâmetro central. A independência condicional entre os times permite decompor o placar em duas distribuições marginais. A incerteza é estrutural, não ruído. O modelo opera como baseline calibrável: sua utilidade reside na transparência do cálculo, na rastreabilidade de λ e na capacidade de registrar desvios entre expectativa matemática e precificação agregada.
+
+## O que e
+A distribuição de Poisson descreve a probabilidade de um número inteiro não negativo de eventos ocorrerem em um intervalo fixo, dada uma taxa média conhecida. No contexto do futebol, modela a contagem de gols por equipe. A função de massa de probabilidade é:
+
+`P(k; λ) = (λ^k * e^-λ) / k!`
+
+onde `k` representa o número de gols e `λ` a expectativa de gols no período analisado. Os pressupostos fundamentais são: eventos independentes, taxa constante ao longo do intervalo e probabilidade de múltiplos eventos simultâneos desprezível. A distribuição é assimétrica para λ baixo e converge para normalidade à medida que λ aumenta. No futebol, λ raramente excede 2.5, mantendo a assimetria relevante para a modelagem de placares baixos.
+
+## Por que importa
+Mercados de futebol precificam resultados com base em expectativas agregadas, liquidez e margem operacional. Um modelo Poisson transparente converte expectativas de gols em probabilidades de placar, permitindo decompor odds em componentes mensuráveis. Sem essa estrutura, a análise de preço torna-se especulativa ou dependente de caixas-pretas. O modelo serve como referência auditável para calibração, identificação de desvios sistemáticos e validação empírica. Ele <span style="color:#ff4500">não elimina</span> risco; ele o quantifica e o torna rastreável.
+
+## Mecanismo
+O processo exige três etapas sequenciais:
+
+1. **Estimação de λ**: Calcula-se a expectativa de gols para cada time combinando métricas ofensivas e defensivas, ajustadas por força relativa da liga, contexto recente e regressão à média. λ não é uma média aritmética simples; deve incorporar shrinkage para evitar instabilidade em janelas curtas.
+2. **Geração de vetores de probabilidade**: Aplica-se a função de massa para `k ∈ [0, N]`, onde `N` é um truncamento prático (geralmente 6 ou 7). Cada vetor soma ≈ 1.0 dentro de tolerância numérica.
+3. **Construção da matriz de placares**: O produto externo dos vetores gera uma matriz `M` onde `M[i,j] = P(i; λ_A) * P(j; λ_B)`. A soma das células correspondentes a vitória, empate ou derrota fornece as probabilidades 1X2. A soma de células com `i+j ≥ X` fornece probabilidades de totais.
+
+A comparação com o mercado exige remoção do overround para obter probabilidades justas. O edge é a diferença absoluta ou relativa entre a probabilidade do modelo e a probabilidade justa do mercado. A validação requer backtesting temporal, sem vazamento de dados futuros, e registro de métricas de calibração (Brier score, log loss).
+
+## Exemplo aplicado de futebol e mercado
+Considere um confronto entre Time A (λ = 1.45) e Time B (λ = 0.92). Aplicando `P(k; λ)` para `k ∈ [0, 6]`, obtemos vetores de probabilidade. O produto externo gera uma matriz 7x7. A soma das células onde `gols_A > gols_B` resulta em ~48.2% de probabilidade de vitória do Time A. Empate: ~26.1%. Vitória do Time B: ~25.7%. Para over 2.5, somam-se todas as células com `i+j ≥ 3`, resultando em ~41.8%.
+
+Se o mercado oferece odds decimais de 2.10 (1X2), 3.60 (X) e 3.40 (2), a probabilidade implícita bruta é 47.6%, 27.8% e 29.4%. A soma é 104.8%, indicando overround de 4.8%. Após remoção proporcional, as probabilidades justas são ~45.4%, ~26.5% e ~28.1%. O modelo indica um leve desvio no empate (+0.4%) e na vitória do Time A (+2.8%), mas dentro da variância esperada para um único evento. A utilidade do modelo emerge na agregação temporal: em 100 confrontos similares, o desvio médio deve convergir para zero se λ for calibrado corretamente.
+
+## Quadro de raciocinio
+- **Cálculo de λ ajustado**: `λ_i = (Ataque_i / Média_Liga) × (Defesa_j / Média_Liga) × Fator_Contexto × Shrinkage`
+- **Função de massa**: `P(k; λ) = exp(-λ) × λ^k / k!`
+- **Matriz de placares**: `M[i,j] = P(i; λ_A) × P(j; λ_B)`
+- **Probabilidades 1X2**: 
+  - `P(1) = Σ M[i,j]` onde `i > j`
+  - `P(X) = Σ M[i,j]` onde `i = j`
+  - `P(2) = Σ M[i,j]` onde `i < j`
+- **Totais**: `P(Over X) = Σ M[i,j]` onde `i+j > X`
+- **Remoção de overround**: `P_justa = P_bruta / Σ P_bruta`
+- **Implementação prática**: Utilize `numpy.outer` para vetorização. Valide `np.sum(M) ≈ 1.0` (tolerância `1e-6`). Registre `λ` por jogo, não por time isoladamente, para capturar interações contextuais.
+
+## Modo de falha
+O modelo <span style="color:#ff4500">falha quando</span> os pressupostos são violados sem ajuste. Gols não são perfeitamente independentes: um gol altera comportamento tático, gestão de tempo e exposição defensiva. λ estático ignora lesões, calendário, motivação e regressão à média. Amostras pequenas (ex: menos de 10 jogos) geram λ instável e <span style="color:#ff4500">overfitting</span>. A matriz assume independência entre os times, ignorando correlação de ritmo, estilo e condições climáticas. Aplicar o modelo a mercados de handicaps, cartões ou escanteios <span style="color:#ff4500">sem validação</span> empírica gera viés estrutural. O maior risco operacional é tratar a saída como certeza, em vez de uma referência calibrada para medição de erro. <span style="color:#ff4500">Sem backtesting</span> temporal e controle de <span style="color:#ff4500">look-ahead bias</span>, o modelo torna-se ferramenta de <span style="color:#ff4500">ilusão estatística</span>.
+
+## Checklist
+- Dados históricos limpos, com fusos, status de jogo e minutos válidos
+- λ calculado com janela móvel, ajuste por força relativa e shrinkage
+- Soma da matriz de placares ≈ 1.0 (tolerância numérica verificada)
+- Overround removido das odds de mercado antes da comparação
+- Métricas de erro registradas (Brier score, log loss, calibração por faixa)
+- Backtest temporal sem vazamento de dados futuros
+- Documentação explícita dos pressupostos, limites e taxa de falha esperada
+
+## Exercicio pratico
+Implemente um script Python que receba `λ_A` e `λ_B`, gere a matriz de placares até 6 gols, calcule as probabilidades 1X2 e over/under 2.5, e compare com um array de odds reais. Calcule a probabilidade justa do mercado, o edge absoluto e o Brier score para uma série de 50 jogos históricos. Exporte um CSV com: `data`, `times`, `λ_A`, `λ_B`, `prob_modelo_1`, `prob_modelo_X`, `prob_modelo_2`, `prob_mercado_justa_1`, `prob_mercado_justa_X`, `prob_mercado_justa_2`, `edge_1`, `edge_X`, `edge_2`, `resultado_real`. Analise a distribuição dos erros, identifique se há viés sistemático em ligas específicas e documente a sensibilidade do modelo a variações de ±0.15 em λ.
+
+<div class="board-note" style="margin-top: 1.5rem; padding: 1rem; border-left: 3px solid #ffd700; background: rgba(255, 215, 0, 0.05);">
+  <strong>Implementacao de referencia:</strong> codigo base para calibracao de lambda e matriz de placares em <a href="https://github.com/aimidas1" target="_blank" rel="noopener noreferrer" style="color: #ffd700; text-decoration: underline;">github.com/aimidas1</a>. Valide com seus proprios dados antes de usar em producao.
+</div>
+
+## Sintese operacional
+A distribuição de Poisson <span style="color:#ff4500">não é uma previsão</span>, é um espelho probabilístico. Seu valor reside na transparência do cálculo, na capacidade de decompor o mercado em componentes mensuráveis e na disciplina de registrar desvios. Modelar futebol exige aceitar a incerteza como variável estrutural, não como ruído a ser ignorado. O modelo só tem utilidade quando integrado a um pipeline de validação contínua, onde cada λ é testado, cada edge é auditado e cada erro é documentado.

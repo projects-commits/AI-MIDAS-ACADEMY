@@ -1,0 +1,162 @@
+---
+{
+  "id": "course-vibe-coding-research-lesson-7",
+  "courseId": "course-vibe-coding-research",
+  "courseSlug": "vibe-coding-ferramentas-research-futebol",
+  "lessonId": "lesson-7",
+  "moduleId": "module-3",
+  "title": "Extracao de Dados da Polymarket",
+  "slug": "extracao-dados-polymarket",
+  "lessonNumber": 7,
+  "readingMinutes": 13,
+  "status": "published",
+  "createdAt": "2026-06-01T00:00:00.000Z",
+  "updatedAt": "2026-06-01T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+import polymarketImage from "../../../../imagens_vibecoding/modulo 7/imgem.png";
+
+<BlackboardPanel title={"Mapa operacional: Extracao de Dados da Polymarket"} label="Blackboard">
+  <img class="framework-visual__image" src={polymarketImage.src} alt="Pipeline de extracao de dados da Polymarket com normalizacao e remocao de overround." loading="eager" />
+  <p class="framework-visual__caption">Visao operacional do consumo de API e tratamento de dados de mercado de previsao.</p>
+  <div class="board-note">Consumir API da Polymarket, normalizar dados e calcular probabilidades implícitas ajustadas.</div>
+  <div class="board-note">Sinal limpo = paginacao + tratamento de erros + remocao de overround</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Qualidade dos dados de mercado"} formula={"Sinal limpo = paginacao + tratamento de erros + remocao de overround"} explanation={"Use esta formula como uma lente de leitura, nao como uma verdade mecanica. O objetivo e tornar a tese auditavel antes da decisao."} />
+
+<MarketExample title={"Aplicacao do Extracao de Dados da Polymarket"} setup={"Escolha um projeto real e separe evidencias observaveis de narrativa publica."} price={"Compare a leitura contextual com odds, liquidez e timing do movimento de mercado."} hypothesis={"Escreva uma hipotese que admita intervalo de incerteza e criterio de invalidacao."} risk={"Rate limit nao tratado, calculo de probabilidade sem ajuste de margem."} />
+
+<FailureModeCard title={"Rate limit nao tratado, calculo de probabilidade sem ajuste de margem."} summary={"Este erro reduz a qualidade da decisao porque troca processo verificavel por interpretacao conveniente."} />
+
+<DecisionChecklist title={"Checklist do Extracao de Dados da Polymarket"} items={["Tratamento de erros HTTP implementado","Paginacao coberta","Overround removido e soma validada","CSV auditavel exportado"]} />
+
+<MermaidDiagram
+  title="Pipeline de extracao Polymarket"
+  definition={`flowchart LR
+    A["API Polymarket"] --> B["Parsing JSON"]
+    B --> C["Filtro de contratos esportivos"]
+    C --> D["Extracao de precos"]
+    D --> E["Remocao de overround"]
+    E --> F["Validacao de soma = 1.0"]
+    F --> G["Dataset estruturado"]`}
+/>
+
+# Extracao de Dados da Polymarket
+
+## 1. Título
+Dados de Mercado: Extração da Polymarket
+
+## 2. Ideia Central
+Transformar preços brutos de mercados de previsão em probabilidades normalizadas e auditáveis, tratando a API como uma fonte de sinal agregado que exige limpeza estrutural, remoção de margem e validação de integridade antes de qualquer uso analítico.
+
+## 3. Modelo Mental
+**Preço** não é probabilidade direta. O preço de mercado reflete alocação de capital, liquidez, viés de participação e a margem operacional da plataforma. A extração de dados deve ser encarada como um processo de engenharia de sinal: isolar a informação útil, remover distorções estruturais e documentar as incertezas remanescentes. A eficiência do mercado é uma hipótese de trabalho, não um fato garantido.
+
+## 4. O que é
+Um pipeline programático para consumir a API CLOB (gamma) da Polymarket, filtrar contratos esportivos, extrair preços de desfechos binários, calcular probabilidades implícitas e remover o overround embutido. O resultado é um dataset estruturado, com schema validado, pronto para integração com modelos próprios ou backtesting.
+
+## 5. Por que importa
+Dados de mercado oferecem uma linha de base de consenso atualizado e dinâmico. Sem extração controlada e ajuste de margem, comparações com modelos internos ou simulações temporais serão contaminadas por viés estrutural. A disciplina de extração define a qualidade da pesquisa: um pipeline frágil gera ruído; um pipeline validado gera referência. A transparência do processo permite rastreabilidade, replicação e detecção de drift ao longo do tempo.
+
+## 6. Mecanismo
+O mecanismo opera em seis camadas sequenciais:
+1. **Consulta e Paginação:** Requisições HTTP GET ao endpoint de mercados, utilizando parâmetros de filtro (`category`, `slug`, `limit`, `offset` ou `next_cursor`). A paginação é obrigatória para evitar truncamento de dados.
+2. **Parsing de Estrutura:** Leitura do JSON retornado, mapeamento de `condition_id`, `slug`, `question`, `outcomes` e `prices`. Cada contrato binário possui preço entre 0 e 1 (ou 0–100 em representação centesimal).
+3. **Cálculo de Probabilidade Implícita:** Conversão direta: `p_implied = price`. Para mercados multinomiais (ex: 1X2), a soma dos preços excede 1 devido ao overround.
+4. **Remoção de Overround:** Aplicação de normalização proporcional: `p_normalized = p_implied / Σ(p_implied)`. Alternativamente, ajuste aditivo pode ser usado, mas a normalização proporcional preserva a estrutura relativa de preços.
+5. **Validação e Enriquecimento:** Verificação de `Σ(p_normalized) ≈ 1`, registro de volume/liquidez, timestamp de captura e flag de mercado ativo/inativo.
+6. **Persistência:** Exportação para CSV ou Parquet com schema fixo, incluindo colunas de metadados para auditoria temporal.
+
+## 7. Exemplo Aplicado (Futebol)
+Extração de mercados de resultado final para partidas da Premier League. A API retorna contratos para "Vitória Casa", "Empate" e "Vitória Fora" com preços de 0.42, 0.28 e 0.35, respectivamente. A soma é 1.05, indicando overround de 5%. Após normalização proporcional, as probabilidades ajustadas tornam-se 0.40, 0.267 e 0.333. Esses valores servem como baseline de consenso para comparação com um modelo Poisson calibrado. A diferença entre probabilidade normalizada e probabilidade do modelo não é "edge" garantido; é um desvio que exige validação temporal, controle de liquidez e análise de contexto (lesões, calendário, motivação).
+
+## Quadro de raciocinio
+```
+1. Endpoint & Headers
+   - Base URL: https://gamma-api.polymarket.com/v1/markets
+   - Headers: Content-Type: application/json, User-Agent customizado
+   - Parâmetros: category=football, limit=100, offset=0
+
+2. Loop de Paginação
+ while has_next:
+ response = requests.get(url, params=params)
+ data = response.json()
+ markets.extend(data['data'])
+ if 'next_cursor' in data:
+ params['cursor'] = data['next_cursor']
+ else:
+ has_next = False
+
+3. Parsing de Contrato
+ for m in markets:
+ outcomes = m['outcomes']
+ prices = m['outcomePrices'] # lista de floats
+ condition_id = m['conditionId']
+ slug = m['slug']
+
+4. Cálculo & Normalização
+ implied = [float(p) for p in prices]
+ total = sum(implied)
+ normalized = [p / total for p in implied]
+
+5. Validação
+ assert abs(sum(normalized) - 1.0) < 1e-6
+   record = {
+ 'condition_id': condition_id,
+ 'slug': slug,
+ 'outcomes': outcomes,
+ 'prices_raw': prices,
+ 'prob_normalized': normalized,
+ 'overround': total - 1.0,
+ 'captured_at': datetime.utcnow().isoformat()
+ }
+
+6. Exportação
+ df = pd.DataFrame(records)
+ df.to_parquet('polymarket_football.parquet', index=False)
+```
+A estrutura acima isola cada etapa, permitindo substituição de componentes sem quebrar o pipeline. A validação explícita de soma e o registro do overround criam rastreabilidade para análise de eficiência de mercado ao longo do tempo.
+
+## 9. Modo de Falha
+- **Rate Limit Não Tratado:** Requisições em loop sem backoff exponencial geram HTTP 429, interrompendo a extração e corrompendo o dataset.
+- **Preço como Probabilidade Direta:** Ignorar o overround distorce a calibração e infla erros de previsão em backtests.
+- **Liquidez Invisível:** Mercados com volume baixo ou spread amplo produzem preços instáveis. Tratar todos os contratos como igualmente informativos introduz ruído sistemático.
+- **Schema Frágil:** Alterações na resposta da API (novos campos, renomeação de chaves) quebram parsers não defensivos.
+- **Fuso Horário e Timestamp:** Captura sem registro UTC ou sem sincronização com o horário de fechamento do mercado gera look-ahead bias em validações temporais.
+
+## Checklist
+- Headers e User-Agent configurados; timeout definido (≥10s)
+- Paginação implementada com cursor ou offset; loop com condição de parada clara
+- Tratamento de HTTP errors (4xx/5xx) com retry e backoff exponencial
+- Parsing defensivo com validação de tipos e fallback para campos ausentes
+- Cálculo de overround e normalização proporcional aplicados
+- Validação de `Σ(prob) ≈ 1` com tolerância numérica
+- Registro de timestamp UTC, volume/liquidez e status do mercado
+- Exportação em formato auditável (Parquet/CSV) com schema documentado
+
+## 11. Exercício Prático
+Implemente um script Python que:
+1. Consulte a API CLOB da Polymarket filtrando por `category=football` e `limit=50`.
+2. Implemente paginação até esgotar os resultados ou atingir um limite de 500 mercados.
+3. Parseie `outcomes`, `outcomePrices` e `conditionId`.
+4. Calcule a probabilidade implícita e remova o overround via normalização proporcional.
+5. Valide a soma das probabilidades (tolerância `1e-6`) e registre `overround`, `captured_at` e `volume` (se disponível).
+6. Exporte o resultado para `polymarket_football_clean.parquet`.
+7. Adicione tratamento de `requests.exceptions.RequestException` com retry de até 3 tentativas e backoff de 2s.
+8. Gere um log simples com contagem de mercados extraídos, taxa de falha e overround médio.
+
+Entregue o código com comentários explicativos e um arquivo `README.md` descrevendo o schema de saída e as limitações conhecidas da extração.
+
+<div class="board-note" style="margin-top: 1.5rem; padding: 1rem; border-left: 3px solid #ffd700; background: rgba(255, 215, 0, 0.05);">
+  <strong>Dataset de referencia:</strong> scripts de extracao e normalizacao de dados de mercado disponiveis em <a href="https://github.com/aimidas1" target="_blank" rel="noopener noreferrer" style="color: #ffd700; text-decoration: underline;">github.com/aimidas1</a>. Use como ponto de partida, nao como verdade pronta — adapte, valide e documente antes de integrar no seu pipeline.
+</div>
+
+## Sintese operacional
+A extração de dados de mercado é um exercício de engenharia e disciplina estatística. Preço bruto não é probabilidade; a margem deve ser removida, a estrutura do contrato compreendida e o pipeline validado antes de qualquer inferência. A utilidade analítica depende da rastreabilidade do processo, não da velocidade da consulta.

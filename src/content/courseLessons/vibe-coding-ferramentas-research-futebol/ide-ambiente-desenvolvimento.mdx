@@ -1,0 +1,143 @@
+---
+{
+  "id": "course-vibe-coding-research-lesson-2",
+  "courseId": "course-vibe-coding-research",
+  "courseSlug": "vibe-coding-ferramentas-research-futebol",
+  "lessonId": "lesson-2",
+  "moduleId": "module-1",
+  "title": "IDE e Ambiente de Desenvolvimento",
+  "slug": "ide-ambiente-desenvolvimento",
+  "lessonNumber": 2,
+  "readingMinutes": 11,
+  "status": "published",
+  "createdAt": "2026-06-01T00:00:00.000Z",
+  "updatedAt": "2026-06-01T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+
+<BlackboardPanel title={"Mapa operacional: IDE e Ambiente de Desenvolvimento"} label="Blackboard">
+  <div class="board-note">Montar um ambiente de desenvolvimento isolado e auditavel para prototipagem de ferramentas.</div>
+  <div class="board-note">Setup reprodutivel = venv + deps fixadas + linter</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Isolamento de ambiente"} formula={"Setup reprodutivel = venv + deps fixadas + linter"} explanation={"Use esta formula como uma lente de leitura, nao como uma verdade mecanica. O objetivo e tornar a tese auditavel antes da decisao."} />
+
+<MarketExample title={"Aplicacao do IDE e Ambiente de Desenvolvimento"} setup={"Escolha um projeto real e separe evidencias observaveis de narrativa publica."} price={"Compare a leitura contextual com odds, liquidez e timing do movimento de mercado."} hypothesis={"Escreva uma hipotese que admita intervalo de incerteza e criterio de invalidacao."} risk={"Dependencias globais conflituantes, execucao sem ambiente isolado."} />
+
+<FailureModeCard title={"Dependencias globais conflituantes, execucao sem ambiente isolado."} summary={"Este erro reduz a qualidade da decisao porque troca processo verificavel por interpretacao conveniente."} />
+
+<DecisionChecklist title={"Checklist do IDE e Ambiente de Desenvolvimento"} items={["venv ativo e requirements.txt com versoes fixas","Linter e formatador configurados","Atalhos de terminal mapeados","Script de teste roda sem erros no ambiente limpo"]} />
+
+<MermaidDiagram
+  title="Ciclo de feedback da IDE"
+  definition={`flowchart LR
+    A["Escrita"] --> B["Formatacao automatica"]
+    B --> C["Linting em tempo real"]
+    C --> D["Execucao controlada"]
+    D --> E["Validacao de saida"]
+    E --> F["Commit e rastreabilidade"]`}
+/>
+
+<CodeLens
+  title="Estrutura do workspace de pesquisa"
+  lines={[
+    { key: "venv", value: "ambiente isolado", tone: "gold", note: "reprodutivel entre maquinas" },
+    { key: "ruff/black", value: "lint + format", tone: "orange", note: "erro sintatico antes da execucao" },
+    { key: "pytest", value: "testes locais", tone: "green", note: "valida saida antes do merge" }
+  ]}
+/>
+
+# IDE e Ambiente de Desenvolvimento
+
+## 1. Title
+IDE e Ambiente de Desenvolvimento
+
+## Ideia central
+O ambiente de desenvolvimento é o primeiro filtro de integridade do pipeline. Uma IDE configurada com isolamento de dependências, linting automático e validação de sintaxe converte código assistido por IA em artefato auditável e reprodutível.
+
+## Modelo mental
+*Ambiente como contrato.* A IDE não é um editor passivo; é um sistema de verificação contínua que impõe padrões estruturais antes da execução. Cada linha escrita passa por um ciclo de validação automática que reduz a superfície de erro, documenta implicitamente as regras do projeto e garante que o código gerado por modelos de linguagem seja tratado como rascunho até passar por verificação estática e execução controlada.
+
+## O que e
+Uma IDE (Integrated Development Environment) é um conjunto de ferramentas unificadas para escrita, depuração, formatação e controle de versão. No contexto deste curso, o ambiente de desenvolvimento compreende cinco componentes operacionais:
+- **Interpretador isolado:** `venv` ou `conda` que desacopla as dependências do projeto do sistema operacional.
+- **Linter estático:** `ruff` para detecção de erros de sintaxe, imports não utilizados, variáveis não tipadas e violações de boas práticas.
+- **Formatador determinístico:** `black` para padronização de estilo, eliminando debates subjetivos e garantindo consistência em diffs de Git.
+- **Extensões de integração:** Python, Git, terminal integrado e validadores de schema.
+- **Arquivos de configuração:** `settings.json` (workspace), `pyproject.toml` e `.editorconfig` que tornam o comportamento do ambiente explícito e versionável.
+
+## Por que importa
+Scripts de pesquisa de futebol operam em cadeias sequenciais de transformação de dados. Um erro silencioso de tipo, uma versão incompatível de `pandas` ou uma variável não tipada pode distorcer o cálculo de probabilidade implícita, invalidar um backtest temporal ou gerar vazamento de dados em produção. Modelos de IA aceleram a geração de código, mas não garantem correção lógica, compatibilidade de versões ou aderência a contratos de dados. <span style="color:#ff4500">Sem isolamento</span> e validação automática, o pipeline torna-se imprevisível. A IDE configurada corretamente elimina a <span style="color:#ff4500">dependência de</span> memória humana para padrões, força a correção de anomalias antes da execução e garante que o ambiente de desenvolvimento espelhe, com margem mínima de divergência, o ambiente de execução em contêineres ou servidores de backtesting. A incerteza inerente ao código assistido por IA só é mitigada quando o ambiente impõe verificação contínua.
+
+## Mecanismo
+O mecanismo de configuração segue um fluxo sequencial de isolamento, instrumentação e validação:
+
+1. **Isolamento de dependências:** Execução de `python -m venv .venv` no diretório raiz. A ativação redireciona o `sys.path` para o ambiente local, impedindo que pacotes globais interfiram no projeto. O diretório `.venv` é excluído do controle de versão via `.gitignore`.
+2. **Instrumentação de validação:** Instalação de `ruff` e `black` via `pip`. Configuração em `pyproject.toml` definindo regras explícitas: `line-length = 88`, `target-version = "py310"`, `select = ["E", "F", "I", "UP"]`, `ignore = ["E501"]`. Isso estabelece um contrato de qualidade antes da primeira linha de código.
+3. **Integração na IDE:** No VS Code, o `settings.json` do workspace é editado para:
+   - Apontar `python.defaultInterpreterPath` para `.venv/bin/python` (Linux/macOS) ou `.venv\Scripts\python.exe` (Windows).
+   - Definir `python.linting.enabled = true` e `python.formatting.provider = "black"`.
+   - Habilitar `editor.formatOnSave = true` e `editor.codeActionsOnSave = {"source.fixAll.ruff": true}`.
+4. **Ciclo de feedback:** O fluxo de trabalho torna-se determinístico: escrita → salvamento (formatação automática) → linting em tempo real (sublinhado de erros) → execução no terminal integrado → commit. A IDE atua como gatekeeper, impedindo a progressão de código com violações críticas e registrando o estado do ambiente no histórico de versionamento.
+
+## Exemplo aplicado de futebol e mercado
+Considere uma função que calcula a probabilidade implícita a partir de odds decimais extraídas de um dataset histórico de ligas europeias. <span style="color:#ff4500">Sem validação</span> estática, um valor `null` ou string `"1.85"` pode passar para a fórmula `1 / odd`, gerando `TypeError` ou divisão por zero. Com a IDE configurada, `ruff` detecta a <span style="color:#ff4500">ausência de</span> type hints (`def calc_implied_prob(odds: list[float]) -> dict[str, float]:`) e sinaliza imports não utilizados ou variáveis não definidas. `black` padroniza a estrutura. O terminal integrado executa um script de teste que valida a saída contra um schema esperado (`{"home": 0.45, "draw": 0.28, "away": 0.27}`). A IDE sinaliza desvios antes que o dado contamine o cálculo de edge ou o backtesting. A incerteza sobre a qualidade dos dados de entrada é mitigada por validação estrutural contínua, não por suposição de que o código gerado está correto.
+
+## Quadro de raciocinio
+```
+[Estrutura do Workspace]
+projeto/
+├── .venv/ # Ambiente isolado (não versionado)
+├── src/ # Código fonte
+│ └── odds_parser.py
+├── tests/ # Validações unitárias
+├── .gitignore # Exclusão de .venv, .env, logs, __pycache__
+├── pyproject.toml # Configuração de ruff/black
+└── .vscode/
+ └── settings.json # Contrato do ambiente
+
+[Fluxo de Validação na IDE]
+1. Digitação → 2. FormatOnSave (black) → 3. LintOnType (ruff)
+ ↓
+[Erros detectados?] → Sim → Correção imediata (type hint, import, sintaxe)
+ ↓ Não
+[Execução no Terminal] → python src/odds_parser.py
+ ↓
+[Saída validada] → Git add/commit → Push
+```
+
+## Modo de falha
+O padrão mais comum é a execução em ambiente global ou a desativação do linter por conveniência. Isso gera três vetores de falha operacional:
+1. **Poluição de `site-packages`:** Versões conflitantes de `numpy`, `pandas` ou `scipy` quebram pipelines em outras máquinas ou contêineres. O código funciona localmente, mas falha em produção.
+2. **Propagação silenciosa de erros:** Type mismatches ou imports não resolvidos passam despercebidos até a fase de backtesting, distorcendo métricas de calibração (Brier score, log loss) e gerando falsos sinais de edge.
+3. **Ilusão de correção automática:** A IDE detecta sintaxe e estilo, não viés de modelagem, <span style="color:#ff4500">look-ahead bias</span> ou vazamento de dados futuros. Confiar que o ambiente resolve problemas de lógica é um erro de arquitetura. A validação humana e o backtesting temporal permanecem obrigatórios.
+
+## Checklist
+- `venv` criado e ativado no diretório raiz do projeto
+- `ruff` e `black` instalados e configurados em `pyproject.toml`
+- `settings.json` do workspace apontando para o interpretador do `.venv`
+- `editor.formatOnSave` e `editor.codeActionsOnSave` habilitados
+- Extensões Python, Git e Terminal integradas e testadas
+- `.gitignore` excluindo `.venv/`, `__pycache__/`, `.env`, `*.log`
+- Script de teste executado com sucesso no terminal integrado
+- Nenhum warning crítico de `ruff` ativo antes do primeiro commit
+
+## Exercicio pratico
+1. Crie um diretório `lesson_2_workspace` e inicialize um repositório Git.
+2. Execute `python -m venv .venv` e ative o ambiente.
+3. Instale `ruff` e `black` via `pip`. Crie um `pyproject.toml` com as configurações básicas de linting e formatação.
+4. Abra o diretório no VS Code. Configure o `settings.json` para usar o interpretador do `.venv`, habilitar `ruff` como linter e `black` como formatter. Ative `formatOnSave`.
+5. Crie um arquivo `src/odds_test.py` com uma função que recebe uma lista de odds decimais e retorna probabilidades normalizadas. Inclua intencionalmente um erro de tipo (ex: passar uma string `"2.10"` em vez de float) e um import não utilizado.
+6. Salve o arquivo. Observe a correção automática de formatação e os warnings do linter. Corrija os erros apontados.
+7. Execute `python src/odds_test.py` no terminal integrado. Valide a saída.
+8. Commit as alterações com mensagem descritiva.
+
+## Sintese operacional
+A IDE não acelera a escrita; ela impõe disciplina estrutural. Um ambiente isolado, com linting e formatação automáticos, transforma código assistido por IA em pipeline auditável. Sem esse contrato operacional, a pesquisa de futebol fica exposta a erros silenciosos, dependências conflitantes e backtests irreproduzíveis. A qualidade do modelo começa na configuração do editor.

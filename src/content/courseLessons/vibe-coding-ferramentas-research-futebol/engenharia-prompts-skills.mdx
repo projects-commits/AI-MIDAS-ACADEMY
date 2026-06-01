@@ -1,0 +1,143 @@
+---
+{
+  "id": "course-vibe-coding-research-lesson-5",
+  "courseId": "course-vibe-coding-research",
+  "courseSlug": "vibe-coding-ferramentas-research-futebol",
+  "lessonId": "lesson-5",
+  "moduleId": "module-2",
+  "title": "Engenharia de Prompts e Skills",
+  "slug": "engenharia-prompts-skills",
+  "lessonNumber": 5,
+  "readingMinutes": 13,
+  "status": "published",
+  "createdAt": "2026-06-01T00:00:00.000Z",
+  "updatedAt": "2026-06-01T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+import promptImage from "../../../../imagens_vibecoding/modulo 5/image.png";
+
+<BlackboardPanel title={"Mapa operacional: Engenharia de Prompts e Skills"} label="Blackboard">
+  <img class="framework-visual__image" src={promptImage.src} alt="Estrutura de prompt system com restricoes, schema e validacao." loading="eager" />
+  <p class="framework-visual__caption">Mapa visual da engenharia de prompts para saida deterministica e auditavel.</p>
+  <div class="board-note">Estruturar prompts e skills que reduzem alucinacao e geram codigo testavel.</div>
+  <div class="board-note">Saida deterministica = papel + restricoes + schema de saida + validacao</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Confiabilidade do prompt"} formula={"Saida deterministica = papel + restricoes + schema de saida + validacao"} explanation={"Use esta formula como uma lente de leitura, nao como uma verdade mecanica. O objetivo e tornar a tese auditavel antes da decisao."} />
+
+<MarketExample title={"Aplicacao do Engenharia de Prompts e Skills"} setup={"Escolha um projeto real e separe evidencias observaveis de narrativa publica."} price={"Compare a leitura contextual com odds, liquidez e timing do movimento de mercado."} hypothesis={"Escreva uma hipotese que admita intervalo de incerteza e criterio de invalidacao."} risk={"Contexto vago gerando codigo nao testavel, instrucoes conflitantes."} />
+
+<FailureModeCard title={"Contexto vago gerando codigo nao testavel, instrucoes conflitantes."} summary={"Este erro reduz a qualidade da decisao porque troca processo verificavel por interpretacao conveniente."} />
+
+<DecisionChecklist title={"Checklist do Engenharia de Prompts e Skills"} items={["System prompt define papel, restricoes e formato","Skills separam contexto de execucao","Saida validada contra schema antes de execucao","Exemplos de edge cases incluidos no prompt"]} />
+
+<MermaidDiagram
+  title="Camadas de engenharia de prompt"
+  definition={`flowchart LR
+    A["Contexto e dados"] --> B["Definicao de papel"]
+    B --> C["Restricoes e formato"]
+    C --> D["Schema de saida"]
+    D --> E["Validacao pos-geracao"]
+    E --> F["Integracao no pipeline"]`}
+/>
+
+<CodeLens
+  title="Contrato de interface para geracao de probabilidades"
+  lines={[
+    { key: "input", value: "dict com odds (home, draw, away)", tone: "gold", note: "tipagem explicita" },
+    { key: "method", value: "remocao de overround proporcional", tone: "orange", note: "evita vies sistemico" },
+    { key: "output", value: "JSON validado: prob_home, prob_draw, prob_away", tone: "green", note: "soma = 1.0 +/- 1e-4" }
+  ]}
+/>
+
+# Engenharia de Prompts e Skills
+
+Engenharia de Prompts e Skills
+
+## Ideia central
+**Prompts** não são comandos conversacionais; são especificações de sistema que definem comportamento, restrições e formato de saída. A engenharia de contexto converte modelos generativos em componentes determinísticos dentro de um pipeline de pesquisa, onde cada geração é delimitada, estruturada e validada antes da integração operacional.
+
+## Modelo mental
+Trate a LLM como uma função com assinatura fixa. Entrada (contexto + dados) → Processamento (regras explícitas + restrições ativas) → Saída (schema validado). A variabilidade inerente ao modelo é controlada por delimitação de escopo e validação externa, não por tentativa e erro iterativo. O prompt é um contrato de interface, não um diálogo.
+
+## O que e
+A disciplina de estruturar instruções para modelos de linguagem de forma que o comportamento seja previsível, reprodutível e auditável. Envolve a criação de system prompts, a definição de skills (módulos de comportamento reutilizáveis que encapsulam padrões de raciocínio ou geração), a seleção de estilos de prompt (direto, few-shot, chain-of-thought controlado) e a persistência de contexto em arquivos dedicados (`CLAUDE.md`, `GEMINI.md` ou equivalentes). O objetivo é eliminar a ambiguidade que gera alucinação lógica, inconsistência sintática ou violação de invariantes matemáticos.
+
+## Por que importa
+Em pipelines de pesquisa de futebol, onde preços e probabilidades são derivados de cálculos sensíveis, um erro silencioso no código gerado por IA compromete toda a cadeia de validação. Sem engenharia de prompts, a geração de scripts torna-se um processo estocástico: o modelo pode produzir código funcional mas matematicamente enviesado, ignorar tratamento de overround ou violar premissas de backtesting. A reprodutibilidade exige contratos de interface explícitos. Quando a incerteza do modelo não é contida por restrições operacionais, o pipeline acumula viés silencioso, detectável apenas em drawdowns ou em validação cruzada tardia.
+
+## Mecanismo
+O mecanismo opera em cinco camadas sequenciais, projetadas para reduzir a entropia da geração:
+
+1. **Definição de Papel e Escopo:** Estabelecer a função exata do modelo. Delimitar o que está dentro e fora do escopo. Exemplo: "Gerador de funções puras para cálculo probabilístico. Não gerar lógica de I/O, execução ou chamadas de rede."
+2. **Injeção de Contexto e Restrições:** Fornecer premissas matemáticas, convenções de nomenclatura e limites operacionais. Restrições devem ser explícitas e binárias. Exemplo: "Use apenas `numpy` e `typing`. Não utilize `eval()`, `exec()` ou variáveis globais. Trate `odds < 1.0` como `ValueError`."
+3. **Especificação de Formato de Saída:** Definir um schema rígido (JSON, YAML ou estrutura de código comentada). A saída deve ser parseável automaticamente por um validador externo.
+4. **Controle de Raciocínio:** Utilizar chain-of-thought de forma delimitada. Em vez de permitir raciocínio livre, exigir blocos de validação explícitos (`<validation_steps>`) antes da geração final. Isso isola a derivação lógica e permite auditoria independente.
+5. **Validação Pós-Geração:** Implementar um script de verificação que testa a saída contra o schema, executa testes unitários básicos e valida invariantes matemáticos (ex: soma de probabilidades = 1.0 ± 1e-4). A IA gera; o pipeline valida.
+
+## Exemplo aplicado de futebol e mercado
+Considere a necessidade de converter odds decimais de um mercado 1X2 em probabilidades implícitas ajustadas pela remoção de overround. Um prompt não estruturado pode gerar uma função que divide `1/odd` e ignora a margem da casa, introduzindo viés sistemático na calibração. Um prompt estruturado especifica: entrada (dicionário com chaves `home`, `draw`, `away`), método de remoção de margem (normalização proporcional), tolerância de validação e saída JSON. O modelo gera o código, e um validador externo confirma que `prob_home + prob_draw + prob_away == 1.0` antes da integração no pipeline. A diferença entre os dois cenários não é a capacidade do modelo, mas a precisão do contrato de interface.
+
+## Quadro de raciocinio
+```
+[SYSTEM ROLE]
+**Você** é um módulo de geração de funções matemáticas para análise de mercado esportivo.
+Seu output deve ser código Python puro, sem explicações conversacionais.
+
+[CONTEXT & CONSTRAINTS]
+- Entrada: dict com odds decimais (home, draw, away)
+- Método: remoção de overround via normalização proporcional
+- Bibliotecas permitidas: math, typing
+- Proibido: chamadas de rede, I/O, variáveis globais, eval/exec
+
+[OUTPUT SCHEMA]
+{
+ "function_code": "string",
+ "validation_logic": "string",
+ "edge_cases_handled": ["zero_odds", "negative_odds", "overround>0.15"]
+}
+
+[VALIDATION RULES]
+- Soma das probabilidades deve ser 1.0 ± 1e-4
+- Lançar ValueError se odds < 1.0
+- Retornar dict com chaves normalizadas
+
+[FEW-SHOT EXAMPLE]
+Entrada: {"home": 2.10, "draw": 3.40, "away": 3.80}
+Saída esperada: função que retorna {"home": 0.452, "draw": 0.279, "away": 0.269}
+```
+Cada bloco atua como um filtro. O modelo não "pensa" livremente; ele preenche um template com restrições ativas. A separação entre lógica de cálculo e lógica de validação permite auditoria independente. O uso de `FEW-SHOT` ancora o modelo em um padrão sintático conhecido, reduzindo a derivação aleatória. O `OUTPUT SCHEMA` garante que a geração seja consumível por scripts de validação automatizados.
+
+## Modo de falha
+O principal modo de falha é a <span style="color:#ff4500">degradação</span> por contexto implícito. Quando o prompt omite o schema de saída ou permite raciocínio não delimitado, a LLM tende a:
+- Gerar código que compila mas viola invariantes matemáticos (ex: divisão por zero não tratada, overround removido incorretamente, normalização aplicada antes da conversão).
+- Misturar lógica de negócio com lógica de cálculo, dificultando testes unitários e isolando dependências.
+- Produzir saídas inconsistentes entre execuções devido à temperatura, seed não fixado ou falta de delimitação de escopo.
+- Ignorar restrições de segurança, inserindo `eval()` ou chamadas externas que comprometem o isolamento do ambiente.
+A consequência direta é a <span style="color:#ff4500">contaminação</span> silenciosa do pipeline. Backtests rodam, métricas são calculadas, mas a base probabilística está enviesada. A detecção só ocorre quando o modelo falha em condições de borda ou quando a calibração é testada contra dados fora da amostra.
+
+## Checklist
+- System prompt define papel, escopo e limites explícitos.
+- Restrições incluem bibliotecas permitidas, proibições operacionais e tratamento de erros.
+- Formato de saída especificado via schema (JSON, tipo Python ou estrutura comentada).
+- Chain-of-thought delimitado a blocos de validação ou desabilitado.
+- Few-shot example alinhado ao caso de uso real (não genérico ou teórico).
+- Script de validação pós-geração implementado e testado com dados de borda.
+- Contexto persistido em arquivo dedicado (`CLAUDE.md`/`GEMINI.md`) para reuso e versionamento.
+
+## Exercicio pratico
+1. Crie um arquivo `CLAUDE.md` (ou equivalente) no diretório raiz do projeto.
+2. Defina duas skills: `skill_calculo_probabilidade` (encapsula a lógica de conversão e remoção de margem) e `skill_validacao_schema` (encapsula as regras de parse e validação de invariantes).
+3. Escreva um prompt que solicite a geração de uma função para calcular a probabilidade implícita de um mercado de gols (Over/Under 2.5) a partir de odds, aplicando remoção de overround proporcional. Inclua tratamento explícito para odds < 1.0 e soma de probabilidades.
+4. Execute o prompt, capture a saída e valide-a contra um script de teste que verifica: (a) soma das probabilidades = 1.0 ± 1e-4, (b) tratamento de odds < 1.0, (c) retorno de tipo `dict[str, float]`.
+5. Documente qualquer desvio entre a saída esperada e a gerada. Ajuste o prompt até que a validação passe em 100% das execuções. Registre as iterações no histórico do repositório.
+
+## Sintese operacional
+Engenharia de prompts não é sobre persuadir o modelo; é sobre projetar contratos de interface. Quando o contexto é explícito, as restrições são ativas e a validação é automatizada, a IA deixa de ser uma <span style="color:#ff4500">caixa-preta</span> e se torna um componente auditável do pipeline. Em pesquisa de futebol, onde preço e probabilidade determinam a exposição ao risco, a reprodutibilidade não é opcional. É a base da sobrevivência analítica.

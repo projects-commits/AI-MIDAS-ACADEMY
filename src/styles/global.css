@@ -1380,6 +1380,28 @@ pre {
   gap: 0.6rem;
 }
 
+.framework-visual {
+  display: grid;
+  gap: 0.8rem;
+  padding: 0.8rem;
+  overflow: hidden;
+}
+
+.framework-visual__image {
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(255, 215, 0, 0.16);
+  border-radius: calc(var(--radius-md) - 4px);
+  box-shadow: var(--shadow-soft);
+}
+
+.framework-visual__caption {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
 .course-sidebar,
 .lesson-sidebar,
 .lesson-right-rail {
@@ -2100,6 +2122,10 @@ pre {
   .course-summary-card__actions .button-primary {
     width: 100%;
     justify-content: center;
+  }
+
+  .framework-visual {
+    padding: 0.65rem;
   }
 
   .code-lens__line {

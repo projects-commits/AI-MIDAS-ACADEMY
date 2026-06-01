@@ -1,0 +1,115 @@
+---
+{
+  "id": "course-vibe-coding-research-lesson-6",
+  "courseId": "course-vibe-coding-research",
+  "courseSlug": "vibe-coding-ferramentas-research-futebol",
+  "lessonId": "lesson-6",
+  "moduleId": "module-2",
+  "title": "Agents e Frameworks de Agents",
+  "slug": "agents-frameworks",
+  "lessonNumber": 6,
+  "readingMinutes": 14,
+  "status": "published",
+  "createdAt": "2026-06-01T00:00:00.000Z",
+  "updatedAt": "2026-06-01T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+import agentImage from "../../../../imagens_vibecoding/modulo 6/image.png";
+
+<BlackboardPanel title={"Mapa operacional: Agents e Frameworks de Agents"} label="Blackboard">
+  <img class="framework-visual__image" src={agentImage.src} alt="Grafo de estado e orquestracao de agentes com checkpoints humanos." loading="eager" />
+  <p class="framework-visual__caption">Visao estrutural do fluxo de agentes com controle de estado e gates de validacao.</p>
+  <div class="board-note">Escolher e orquestrar frameworks de agentes com controle de fluxo e validacao humana.</div>
+  <div class="board-note">Fluxo controlavel = grafo + checkpoints + logs de estado</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Controle de agente"} formula={"Fluxo controlavel = grafo + checkpoints + logs de estado"} explanation={"Use esta formula como uma lente de leitura, nao como uma verdade mecanica. O objetivo e tornar a tese auditavel antes da decisao."} />
+
+<MarketExample title={"Aplicacao do Agents e Frameworks de Agents"} setup={"Escolha um projeto real e separe evidencias observaveis de narrativa publica."} price={"Compare a leitura contextual com odds, liquidez e timing do movimento de mercado."} hypothesis={"Escreva uma hipotese que admita intervalo de incerteza e criterio de invalidacao."} risk={"Fluxo ciclico sem condicao de parada, estado nao gerenciado, latencia excessiva."} />
+
+<FailureModeCard title={"Fluxo ciclico sem condicao de parada, estado nao gerenciado, latencia excessiva."} summary={"Este erro reduz a qualidade da decisao porque troca processo verificavel por interpretacao conveniente."} />
+
+<DecisionChecklist title={"Checklist do Agents e Frameworks de Agents"} items={["Grafo documentado com nos e arestas definidas","Human-in-the-loop configurado em nos criticos","Logs de estado persistidos","Condicao de parada testada antes do deploy"]} />
+
+<MermaidDiagram
+  title="Grafo de estado de pipeline de agentes"
+  definition={`flowchart LR
+    A["Inicializacao"] --> B["Roteamento"]
+    B --> C["Execucao do node"]
+    C --> D["Atualizacao de estado"]
+    D --> E{"Condicao de parada?"}
+    E -->|Nao| B
+    E -->|Sim| F["Checkpoint e persistencia"]`}
+/>
+
+# Agents e Frameworks de Agents
+
+Agents e Frameworks de Agents
+
+## Ideia central
+Frameworks de orquestração convertem prompts isolados em fluxos de trabalho determinísticos, permitindo a divisão de tarefas de pesquisa, extração e modelagem em nós especializados com controle explícito de estado, roteamento condicional e validação humana.
+
+## Modelo mental
+Pipeline como grafo de estado com transições condicionais. Cada nó opera como uma função com entrada e saída tipadas. O framework atua como sistema operacional que gerencia memória, roteamento, checkpoints e pontos de interrupção, transformando a execução probabilística de LLMs em processos auditáveis e reproduzíveis.
+
+## O que e
+Frameworks de agentes são camadas de abstração sobre modelos de linguagem que estruturam a execução de tarefas em grafos computacionais. LangGraph, CrewAI, AutoGen e Agno representam arquiteturas distintas com trade-offs operacionais claros:
+- **LangGraph:** Focado em controle explícito de estado e loops condicionais. Utiliza grafos direcionados onde cada nó atualiza um objeto de estado serializável. Ideal para pipelines lineares ou cíclicos com validação rigorosa e human-in-the-loop.
+- **CrewAI:** Prioriza delegação hierárquica e colaboração entre perfis (roles). Agentes possuem ferramentas, objetivos e memória de longo prazo. Adequado para fluxos de pesquisa qualitativa, geração de relatórios e tarefas que exigem divisão de responsabilidades por domínio.
+- **AutoGen:** Baseado em conversação multiagente com roteamento dinâmico. Agentes trocam mensagens até atingir um critério de terminação. Útil para exploração de cenários, debate de hipóteses e simulação de múltiplas perspectivas, mas exige controle rigoroso para evitar loops conversacionais.
+- **Agno (ex-Phidata):** Focado em integração nativa com ferramentas, bancos de dados e pipelines de dados estruturados. Oferece orquestração leve com ênfase em execução determinística e serialização de estado. Recomendado para extração, transformação e persistência de dados de mercado.
+
+A escolha não é estética; é funcional. Frameworks conversacionais (AutoGen, CrewAI) introduzem latência e não determinismo. Frameworks baseados em grafos (LangGraph, Agno) oferecem rastreabilidade e controle de fluxo. Para pesquisa de preço e probabilidade, a prioridade deve ser a previsibilidade da execução, não a autonomia do modelo.
+
+## Por que importa
+Na análise de futebol, a execução autônoma sem supervisão introduz risco operacional e viés metodológico. Scripts gerados por IA sem orquestração tornam-se caixas-pretas frágeis: dados corrompidos propagam-se silenciosamente, transformações não são rastreáveis e backtests perdem validade estatística. Frameworks permitem isolar responsabilidades, impor validações de schema antes da persistência, manter o pesquisador no loop de decisão crítica e garantir que cada cálculo de probabilidade ou ajuste de margem seja documentado e reproduzível. Sem essa camada, a automação acelera a geração de ruído, não de edge.
+
+## Mecanismo
+O mecanismo central é o grafo de estado (state graph). Um objeto de estado tipado é inicializado com parâmetros de configuração e dados brutos. Nós são funções que leem o estado, executam lógica (extração, cálculo, validação) e retornam atualizações parciais. Arestas definem transições: estáticas (sequenciais) ou condicionais (baseadas em métricas, flags ou limites de iteração). Checkpoints serializam o estado em disco ou banco relacional, permitindo retomada após falha, timeout ou pausa humana. Ferramentas (tools) são funções externas registradas no framework, expostas ao LLM via schema JSON. O ciclo de execução segue: inicialização -> roteamento -> execução do nó -> atualização de estado -> verificação de condição de parada -> persistência ou loop. A incerteza do modelo é contida por validações de schema, limites de iteração e timeouts. O framework não executa lógica de negócio; ele gerencia fluxo, memória e pontos de decisão.
+
+## Exemplo aplicado de futebol e mercado
+Pipeline de validação de modelo Poisson para ligas de futebol. Nó 1 (`fetch_data`): consome endpoint de odds e resultados históricos, aplica filtro de liquidez mínima e retorna DataFrame normalizado. Nó 2 (`calculate_lambda`): calcula expectativa de gols por time com base em janela móvel, ajusta overround e gera matriz de placares. Nó 3 (`validate_and_report`): compara probabilidades implícitas do modelo com mercado, calcula Brier score preliminar e gera JSON de métricas. Arestas condicionais: se `brier_score > threshold`, o fluxo retorna ao nó 2 para recalibração de lambda; se `brier_score <= threshold`, avança para checkpoint e pausa para revisão humana. O pesquisador inspeciona o relatório, valida a coerência entre preço de mercado e probabilidade calculada, aprova ou ajusta parâmetros, e o pipeline retoma a partir do estado salvo. O resultado é um registro auditável de cada transformação, com latência controlada e risco de vazamento de contexto isolado.
+
+## Quadro de raciocinio
+```
+[Estado Inicial] -> {league, season, min_liquidity, state_version, metrics: {}}
+ |
+[Nó 1: fetch_data] -> (input: config) -> (output: df_raw, status, rows_fetched)
+ |
+[Roteamento] -> if status == "error" or rows_fetched == 0 -> [Fallback/Retry]
+ |
+[Nó 2: calculate_lambda] -> (input: df_raw) -> (output: lambda_matrix, probs, edge)
+ |
+[Validação Condicional] -> if edge < 0.02 -> [Ajuste de K] -> loop Nó 2
+ |
+[Nó 3: validate_and_report] -> (input: probs, market_odds) -> (output: metrics_json, brier_score)
+ |
+[Checkpoint] -> serializa estado -> [Human-in-the-loop] -> aprova/rejeita
+ |
+[Persistência] -> salva em bucket/DB -> encerra execução -> log de auditoria
+```
+
+## Modo de falha
+Loops cíclicos sem condição de parada explícita, resultando em consumo infinito de tokens e custos operacionais. Estado não serializável (ex: objetos de conexão, tensores não convertidos) quebrando checkpoints e impedindo retomada. Encadeamento excessivo de nós para tarefas triviais, aumentando latência sem ganho de precisão. Falta de validação de schema entre nós, permitindo que dados corrompidos ou probabilidades fora do intervalo [0,1] propaguem-se silenciosamente. Uso de frameworks conversacionais para pipelines lineares, onde a orquestração determinística seria mais eficiente e auditável. <span style="color:#ff4500">Ausência de</span> logs estruturados por nó, inviabilizando a depuração de desvios de probabilidade ou falhas de extração.
+
+## Checklist
+- Grafo documentado com nós, arestas e condições de transição explícitas
+- Estado tipado e serializável (ex: Pydantic ou dataclasses)
+- Checkpoints configurados para persistência e retomada segura
+- Human-in-the-loop em pontos de decisão crítica ou validação de métricas
+- Limites de iteração e timeout definidos para evitar loops infinitos
+- Logs estruturados por nó, incluindo entrada, saída, tempo de execução e métricas de erro
+- Framework alinhado ao padrão de fluxo (determinístico vs. conversacional)
+- Validação de schema entre nós com rejeição explícita de dados inválidos
+
+## Exercicio pratico
+Implemente um grafo simples com três nós usando LangGraph ou Agno. O primeiro nó deve gerar um dicionário com dados simulados de odds decimais para três mercados (1X2). O segundo deve calcular a probabilidade implícita, remover overround proporcional e validar se a soma das probabilidades está entre 0.98 e 1.02. O terceiro deve gerar um relatório JSON com métricas de calibração e marcar o estado como `ready_for_review`. Adicione um checkpoint que salve o estado após cada nó. Configure uma pausa manual antes da persistência final. Execute o fluxo, interrompa no checkpoint, modifique manualmente um valor de odds no estado serializado e retome a execução. Documente o comportamento do estado, a latência de cada transição e o impacto da modificação manual nas probabilidades finais.
+
+## Sintese operacional
+Frameworks de agentes não substituem desenho de arquitetura; eles o materializam. A vantagem operacional em pesquisa de futebol não está na autonomia do modelo, mas no controle explícito de estado, validação de transições e isolamento de responsabilidades. Orquestração sem disciplina de backtesting, rastreabilidade e validação humana é apenas automação de ruído. Escolha o framework com base na previsibilidade do fluxo, não na complexidade da abstração.
