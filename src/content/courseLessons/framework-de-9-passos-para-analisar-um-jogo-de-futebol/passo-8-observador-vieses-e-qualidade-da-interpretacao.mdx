@@ -21,8 +21,11 @@ import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
 import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
 import CodeLens from "../../../components/lesson/CodeLens.astro";
 import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+import frameworkStep8 from "../../../../imagens_framework/PASSO_8_FRAMEWORK.png";
 
 <BlackboardPanel title={"Mapa operacional: Passo 8: Observador, vieses e qualidade da interpretação"} label="Quadro">
+  <img class="framework-visual__image" src={frameworkStep8.src} alt="Mapa visual do Passo 8 do framework: observador, vieses e qualidade da interpretação." loading="eager" />
+  <p class="framework-visual__caption">Mapa visual do passo 8 para fixar a estrutura da aula antes da leitura operacional.</p>
   <div class="board-note">Tratar o próprio analista como fonte de erro e criar uma auditoria explícita da leitura.</div>
   <div class="board-note">Decision quality = evidence quality - observer distortion</div>
 </BlackboardPanel>
