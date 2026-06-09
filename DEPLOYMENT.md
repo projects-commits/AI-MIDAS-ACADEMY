@@ -52,10 +52,12 @@ git commit -m "Add GitHub Pages deploy workflow"
 git push
 ```
 O workflow faz:
-1. Checkout do código
-2. Instala dependências (`npm ci`)
-3. Build do Astro (`npm run build`)
-4. Deploy da pasta `dist/` para o GitHub Pages
+1. Checkout do código do site
+2. Checkout dos repositórios externos de curso configurados
+3. Merge do conteúdo MDX para `src/content/`
+4. Instala dependências (`npm ci`)
+5. Build do Astro (`npm run build`)
+6. Deploy da pasta `dist/` para o GitHub Pages
 
 ### 5. Acede ao site
 - Depois do workflow completar (podes ver em **Actions**), o site fica disponível em:
@@ -181,15 +183,22 @@ git push -u origin main
 > O workflow aceita ambas.
 
 #### 2. Configurar o workflow do site (Conta 1)
-O workflow `.github/workflows/deploy.yml` já está preparado. Só precisas de editar o nome do repo do curso:
+O workflow `.github/workflows/deploy.yml` pode fazer checkout de múltiplos repos de curso. Exemplo com dois cursos separados:
 
 ```yaml
-- name: Checkout courses
+- name: Checkout framework course
   uses: actions/checkout@v4
   with:
     repository: TEU_USER_CONTA2/curso-ai-midas-framework
     # token: ${{ secrets.COURSE_PAT }}  # só se o repo for privado
-    path: courses
+    path: courses-framework
+
+- name: Checkout vibe coding course
+  uses: actions/checkout@v4
+  with:
+    repository: TEU_USER_CONTA2/Curso-Vibe-Coding
+    # token: ${{ secrets.COURSE_PAT }}  # só se o repo for privado
+    path: courses-vibe
 ```
 
 Faz commit e push desta alteração.

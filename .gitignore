@@ -2,3 +2,7 @@ node_modules
 dist
 .astro
 .env
+dev-*.log
+*.zip
+curso_vibecoding/
+private-generator/output/

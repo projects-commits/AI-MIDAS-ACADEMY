@@ -6,13 +6,24 @@ import type {
   CourseModule,
   CourseRoadmapEntry
 } from "../types";
+import { defaultLocale, localizedPath, type AppLocale } from "../i18n/config";
+import { getCategories, getDictionary } from "../i18n/ui";
 
-export function getCourseHref(courseSlug: string) {
-  return `/courses/${courseSlug}/`;
+const categoryNamesByEnglishName: Record<string, string> = {
+  "Market Intelligence": "market-intelligence",
+  "Probability & Modeling": "probability-modeling",
+  "AI Prediction Systems": "ai-prediction-systems",
+  "Football Research": "football-research",
+  "Prediction Markets & On-chain": "prediction-markets-on-chain",
+  "Risk & Execution": "risk-execution"
+};
+
+export function getCourseHref(courseSlug: string, locale: AppLocale = defaultLocale) {
+  return localizedPath(locale, `/courses/${courseSlug}/`);
 }
 
-export function getLessonHref(courseSlug: string, lessonSlug: string) {
-  return `/courses/${courseSlug}/lessons/${lessonSlug}/`;
+export function getLessonHref(courseSlug: string, lessonSlug: string, locale: AppLocale = defaultLocale) {
+  return localizedPath(locale, `/courses/${courseSlug}/lessons/${lessonSlug}/`);
 }
 
 export function getFirstLesson(course: CourseData) {
@@ -60,30 +71,27 @@ export function formatGlossaryTerm(term: string) {
     .join(" ");
 }
 
-export function formatLevel(level: CourseData["level"] | string) {
-  const map = {
-    foundation: "Fundação",
-    intermediate: "Intermediário",
-    advanced: "Avançado"
-  };
+export function formatLevel(level: CourseData["level"] | string, locale: AppLocale = defaultLocale) {
+  const map = getDictionary(locale).shared.courseLevels;
 
   return map[level as keyof typeof map] ?? level;
 }
 
-export function formatDuration(minutes: number) {
+export function formatDuration(minutes: number, locale: AppLocale = defaultLocale) {
+  const minutesLabel = getDictionary(locale).shared.minutes;
   const hours = minutes / 60;
   const wholeHours = Math.floor(hours);
   const remainingMinutes = Math.round((hours - wholeHours) * 60);
 
   if (wholeHours === 0) {
-    return `${remainingMinutes} min`;
+    return `${remainingMinutes} ${minutesLabel}`;
   }
 
   if (remainingMinutes === 0) {
     return `${wholeHours}h`;
   }
 
-  return `${wholeHours}h ${remainingMinutes}min`;
+  return `${wholeHours}h ${remainingMinutes}${minutesLabel}`;
 }
 
 export function getDurationBucket(minutes: number): CourseDurationBucket {
@@ -104,54 +112,43 @@ export function getDurationBucket(minutes: number): CourseDurationBucket {
   return "20-plus";
 }
 
-export function formatDurationBucket(bucket: CourseDurationBucket) {
-  const map = {
-    "under-5": "Abaixo de 5 horas",
-    "5-10": "5 a 10 horas",
-    "10-20": "10 a 20 horas",
-    "20-plus": "20+ horas"
-  };
+export function formatDurationBucket(bucket: CourseDurationBucket, locale: AppLocale = defaultLocale) {
+  const map = getDictionary(locale).shared.durationBuckets;
 
   return map[bucket];
 }
 
-export function formatCourseStatus(status: CourseData["status"] | CourseRoadmapEntry["status"]) {
-  const map = {
-    placeholder: "Em estrutura",
-    planned: "Planejado",
-    draft: "Rascunho",
-    published: "Publicado",
-    archived: "Arquivado"
-  };
+export function formatCourseStatus(
+  status: CourseData["status"] | CourseRoadmapEntry["status"],
+  locale: AppLocale = defaultLocale
+) {
+  const map = getDictionary(locale).shared.courseStatus;
 
   return map[status] ?? status;
 }
 
-export function formatCategoryName(category: string) {
-  const map: Record<string, string> = {
-    "Market Intelligence": "Inteligência de Mercado",
-    "Probability & Modeling": "Probabilidade e Modelagem",
-    "AI Prediction Systems": "Sistemas de Predição com IA",
-    "Football Research": "Pesquisa em Futebol",
-    "Prediction Markets & On-chain": "Mercados de Predição e On-chain",
-    "Risk & Execution": "Risco e Execução"
-  };
-
-  return map[category] ?? category;
+export function formatCategoryName(category: string, locale: AppLocale = defaultLocale) {
+  const localizedCategories = getCategories(locale);
+  const categorySlug = categoryNamesByEnglishName[category] ?? category;
+  return localizedCategories.find((item) => item.slug === categorySlug)?.name ?? category;
 }
 
-export function createCatalogItemFromCourse(course: CourseData): CourseCatalogItem {
+export function getCategorySlug(category: string) {
+  return categoryNamesByEnglishName[category] ?? category;
+}
+
+export function createCatalogItemFromCourse(course: CourseData, locale: AppLocale = defaultLocale): CourseCatalogItem {
   return {
     id: course.id,
     title: course.title,
     summary: course.subtitle,
-    category: course.category,
+    category: getCategorySlug(course.category),
     level: course.level,
     status: course.status,
     estimatedReadingMinutes: course.estimatedReadingMinutes,
     durationBucket: getDurationBucket(course.estimatedReadingMinutes),
-    href: getCourseHref(course.slug),
-    note: "Curso publicado",
+    href: getCourseHref(course.slug, locale),
+    note: getDictionary(locale).catalogCard.publishedNote,
     focus: course.corePromise,
     moduleCount: course.courseStats.moduleCount,
     lessonCount: course.courseStats.lessonCount
@@ -163,7 +160,7 @@ export function createCatalogItemFromRoadmap(entry: CourseRoadmapEntry): CourseC
     id: entry.id,
     title: entry.title,
     summary: entry.summary,
-    category: entry.category,
+    category: getCategorySlug(entry.category),
     level: entry.level,
     status: entry.status,
     estimatedReadingMinutes: entry.estimatedReadingMinutes,

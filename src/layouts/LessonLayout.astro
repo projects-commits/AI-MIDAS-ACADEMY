@@ -4,6 +4,8 @@ import Container from "../components/ui/Container.astro";
 import LessonNavigation from "../components/lesson/LessonNavigation.astro";
 import type { CourseData, CourseLesson, CourseModule } from "../types";
 import { formatLevel, getCourseHref } from "../lib/course";
+import { type AppLocale } from "../i18n/config";
+import { getDictionary } from "../i18n/ui";
 
 interface Props {
   course: CourseData;
@@ -11,26 +13,28 @@ interface Props {
   module: CourseModule;
   previousLesson: CourseLesson | null;
   nextLesson: CourseLesson | null;
+  locale: AppLocale;
 }
 
-const { course, lesson, module, previousLesson, nextLesson } = Astro.props;
+const { course, lesson, module, previousLesson, nextLesson, locale } = Astro.props;
+const dictionary = getDictionary(locale);
 ---
 
-<BaseLayout title={lesson.title} description={course.corePromise}>
+<BaseLayout locale={locale} title={lesson.title} description={course.corePromise}>
   <Container size="wide">
     <div class="lesson-page" data-course-shell data-course-id={course.id} data-total-lessons={course.courseStats.lessonCount}>
       <section class="lesson-context research-card">
         <div>
-          <p class="gold-label">Contexto do curso</p>
-          <a class="lesson-context__course-link" href={getCourseHref(course.slug)}>{course.title}</a>
+          <p class="gold-label">{dictionary.lesson.courseContext}</p>
+          <a class="lesson-context__course-link" href={getCourseHref(course.slug, locale)}>{course.title}</a>
           <h1>{lesson.title}</h1>
           <p class="page-intro">{course.corePromise}</p>
         </div>
 
         <div class="content-hero__meta">
           <span class="course-badge">{module.title}</span>
-          <span class="course-badge">{formatLevel(lesson.level)}</span>
-          <span class="course-badge">{lesson.readingMinutes} min</span>
+          <span class="course-badge">{formatLevel(lesson.level, locale)}</span>
+          <span class="course-badge">{lesson.readingMinutes} {dictionary.shared.minutes}</span>
         </div>
       </section>
 
@@ -38,17 +42,17 @@ const { course, lesson, module, previousLesson, nextLesson } = Astro.props;
         <article class="lesson-main terminal-card">
           <div class="lesson-main__header">
             <div>
-              <p class="gold-label">Aula {lesson.lessonNumber}</p>
+              <p class="gold-label">{dictionary.lesson.lessonLabel(lesson.lessonNumber)}</p>
               <h2>{lesson.title}</h2>
             </div>
             <button class="button-secondary lesson-complete-button" data-complete-lesson={course.id} data-lesson-id={lesson.id}>
-              Marcar como concluída
+              {dictionary.lesson.markComplete}
             </button>
           </div>
 
           <slot />
 
-          <LessonNavigation courseSlug={course.slug} previousLesson={previousLesson} nextLesson={nextLesson} />
+          <LessonNavigation courseSlug={course.slug} previousLesson={previousLesson} nextLesson={nextLesson} locale={locale} />
         </article>
       </div>
     </div>

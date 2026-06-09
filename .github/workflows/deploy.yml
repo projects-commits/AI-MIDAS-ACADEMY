@@ -18,65 +18,51 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 1. Checkout do site (motor Astro)
       - name: Checkout site
         uses: actions/checkout@v4
         with:
           path: site
 
-      # 2. Checkout do curso (conteúdo MDX) — repo noutra conta
-      # Se o repo do curso for privado, descomenta a linha do token e
-      # cria um secret COURSE_PAT em Settings > Secrets and variables > Actions
-      - name: Checkout courses
+      - name: Checkout Framework 9 Passos
         uses: actions/checkout@v4
         with:
           repository: aimidas1/Curso-Framework-9-Passos
-          # token: ${{ secrets.COURSE_PAT }}
-          path: courses
+          path: courses-framework
 
-      # 3. Copiar o conteúdo do curso para dentro do site antes de compilar
-      # NOTA: o repositorio externo aimidas1/Curso-Framework-9-Passos é usado como
-      #       source-of-truth para o curso Framework 9 Passos. Se quiseres manter
-      #       as imagens e import local (main repo), comenta as linhas do cp abaixo.
+      - name: Checkout Vibe Coding
+        uses: actions/checkout@v4
+        with:
+          repository: projects-commits/Curso-Vibe-Coding
+          path: courses-vibe
+
       - name: Merge course content
         run: |
           mkdir -p site/src/content/courses
           mkdir -p site/src/content/courseLessons
-          # Copiar cursos do repo externo (excluir framework para nao sobrescrever local)
-          if [ -d "courses/courses" ]; then
-            for d in courses/courses/*/; do
-              dirname=$(basename "$d")
-              if [ "$dirname" != "framework-de-9-passos-para-analisar-um-jogo-de-futebol" ]; then
-                cp -r "$d" "site/src/content/courses/$dirname" 2>/dev/null || true
-              fi
-            done
-          fi
-          if [ -d "courses/courseLessons" ]; then
-            for d in courses/courseLessons/*/; do
-              dirname=$(basename "$d")
-              if [ "$dirname" != "framework-de-9-passos-para-analisar-um-jogo-de-futebol" ]; then
-                cp -r "$d" "site/src/content/courseLessons/$dirname" 2>/dev/null || true
-              fi
-            done
-          fi
-          if [ -d "courses/src/content/courses" ]; then
-            for d in courses/src/content/courses/*/; do
-              dirname=$(basename "$d")
-              if [ "$dirname" != "framework-de-9-passos-para-analisar-um-jogo-de-futebol" ]; then
-                cp -r "$d" "site/src/content/courses/$dirname" 2>/dev/null || true
-              fi
-            done
-          fi
-          if [ -d "courses/src/content/courseLessons" ]; then
-            for d in courses/src/content/courseLessons/*/; do
-              dirname=$(basename "$d")
-              if [ "$dirname" != "framework-de-9-passos-para-analisar-um-jogo-de-futebol" ]; then
-                cp -r "$d" "site/src/content/courseLessons/$dirname" 2>/dev/null || true
-              fi
-            done
-          fi
 
-      # 4. Instalar dependências e fazer build do site
+          merge_repo () {
+            local repo_path="$1"
+
+            if [ -d "$repo_path/courses" ]; then
+              cp -r "$repo_path/courses/"* "site/src/content/courses/" 2>/dev/null || true
+            fi
+
+            if [ -d "$repo_path/courseLessons" ]; then
+              cp -r "$repo_path/courseLessons/"* "site/src/content/courseLessons/" 2>/dev/null || true
+            fi
+
+            if [ -d "$repo_path/src/content/courses" ]; then
+              cp -r "$repo_path/src/content/courses/"* "site/src/content/courses/" 2>/dev/null || true
+            fi
+
+            if [ -d "$repo_path/src/content/courseLessons" ]; then
+              cp -r "$repo_path/src/content/courseLessons/"* "site/src/content/courseLessons/" 2>/dev/null || true
+            fi
+          }
+
+          merge_repo "courses-framework"
+          merge_repo "courses-vibe"
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -94,7 +80,6 @@ jobs:
         env:
           PUBLIC_GA_ID: ${{ secrets.PUBLIC_GA_ID }}
 
-      # 5. Enviar o resultado para o GitHub Pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

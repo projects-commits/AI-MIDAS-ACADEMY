@@ -1,0 +1,426 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/ui/Container.astro";
+import CategoryBadge from "../components/ui/CategoryBadge.astro";
+import LanguageSwitcher from "../components/academy/LanguageSwitcher.astro";
+import { getCourseHref } from "../lib/course";
+import { defaultLocale, localizedPath, type AppLocale } from "../i18n/config";
+import { getCategories, getDictionary } from "../i18n/ui";
+import image1Academy from "../../resources/imagem1_academy.png";
+import image2Academy from "../../resources/imagem2_academy.png";
+import image3Academy from "../../resources/imagem3_academy.png";
+import image4Academy from "../../resources/imagem4_academy.png";
+import image5Academy from "../../resources/imagem5_academy.png";
+import image6Academy from "../../resources/imagem6_academy.png";
+
+interface Props {
+  locale?: AppLocale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+const dictionary = getDictionary(locale);
+const categories = getCategories(locale);
+const sliderCards = [image1Academy, image2Academy, image3Academy, image4Academy, image5Academy, image6Academy];
+---
+
+<BaseLayout locale={locale} title={dictionary.home.title} description={dictionary.home.description} hideTopBar={true}>
+  <div class="promo-banner" data-home-promo>
+    <div class="promo-banner__inner">
+      <p class="promo-banner__copy">{dictionary.site.promoCopy}</p>
+      <a class="promo-banner__cta" href={getCourseHref("framework-de-9-passos-para-analisar-um-jogo-de-futebol", locale)}>
+        {dictionary.site.promoCta}
+      </a>
+      <button class="promo-banner__close" type="button" aria-label="Close banner" data-home-promo-close>
+        ×
+      </button>
+    </div>
+  </div>
+
+  <section class="home-hero">
+    <Container size="wide">
+      <div class="home-hero__tools">
+        <LanguageSwitcher locale={locale} pathname={localizedPath(locale, "/")} variant="floating" />
+      </div>
+
+      <div class="home-hero__inner">
+        <h1 class="home-hero__title">
+          <span class="home-hero__line">{dictionary.home.heroLine1}</span>
+          <span class="home-hero__line">
+            {dictionary.home.heroLine2Prefix} <span class="home-hero__accent">{dictionary.home.heroLine2Highlight}</span>
+          </span>
+        </h1>
+
+        <div class="home-hero__actions">
+          <a class="button-primary" href={localizedPath(locale, "/courses/")}>{dictionary.home.exploreCta}</a>
+        </div>
+      </div>
+
+      <div class="home-marquee">
+        <div class="home-marquee__track">
+          {sliderCards.concat(sliderCards).map((card, index) => (
+            <article class="home-marquee-card">
+              <img
+                class="home-marquee-card__image"
+                src={card.src}
+                width={card.width}
+                height={card.height}
+                alt={`AI MIDAS Academy visual ${index + 1}`}
+                loading="lazy"
+                decoding="async"
+              />
+            </article>
+          ))}
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <Container>
+    <section class="home-section">
+      <div class="home-section__heading">
+        <p class="home-section__eyebrow">{dictionary.home.sectionEntryEyebrow}</p>
+        <h2>
+          {dictionary.home.sectionEntryTitle} <span>{dictionary.home.sectionEntryTitleHighlight}</span>
+        </h2>
+        <p class="home-section__intro">{dictionary.home.sectionEntryIntro}</p>
+      </div>
+
+      <div class="home-proof__grid">
+        {dictionary.home.signals.map((signal) => (
+          <article class="research-card home-proof__card">
+            <div class="home-proof__icon" aria-hidden="true">{signal.index}</div>
+            <h3>{signal.title}</h3>
+            <p>{signal.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="home-section">
+      <div class="home-section__heading">
+        <p class="home-section__eyebrow">{dictionary.home.sectionAreasEyebrow}</p>
+        <h2>
+          {dictionary.home.sectionAreasTitlePrefix} <span>{dictionary.home.sectionAreasTitleHighlightA}</span>{" "}
+          {dictionary.home.sectionAreasTitleHighlightB}
+        </h2>
+        <p class="home-section__intro">{dictionary.home.sectionAreasIntro}</p>
+      </div>
+
+      <div class="home-areas__grid">
+        {categories.map((category) => (
+          <article class="terminal-card home-area-card">
+            <div class="home-area-card__top">
+              <CategoryBadge label={category.name} />
+            </div>
+            <h3>{category.name}</h3>
+            <p>{category.summary}</p>
+            <small>{category.angle}</small>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="home-final-cta">
+      <div class="home-final-cta__panel">
+        <p class="home-section__eyebrow">{dictionary.home.finalEyebrow}</p>
+        <h2>
+          {dictionary.home.finalTitlePrefix} <span>{dictionary.home.finalTitleHighlight}</span>
+        </h2>
+        <p>{dictionary.home.finalBody}</p>
+        <a class="button-primary" href={localizedPath(locale, "/courses/")}>{dictionary.home.exploreCta}</a>
+      </div>
+    </section>
+  </Container>
+
+  <script is:inline>
+    const storageKey = "ai-midas-home-promo-dismissed";
+    const banner = document.querySelector("[data-home-promo]");
+    const closeButton = document.querySelector("[data-home-promo-close]");
+
+    if (banner && localStorage.getItem(storageKey) === "true") {
+      banner.setAttribute("hidden", "");
+    }
+
+    closeButton?.addEventListener("click", () => {
+      banner?.setAttribute("hidden", "");
+      localStorage.setItem(storageKey, "true");
+    });
+  </script>
+
+  <style>
+    .promo-banner {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: #ff4500;
+      color: #fff7f0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    .promo-banner[hidden] {
+      display: none;
+    }
+
+    .promo-banner__inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 1rem;
+      width: min(1320px, calc(100% - 1.5rem));
+      margin: 0 auto;
+      padding: 0.85rem 0;
+    }
+
+    .promo-banner__copy,
+    .home-proof__card p,
+    .home-area-card p,
+    .home-final-cta__panel p {
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    .promo-banner__cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.9rem;
+      padding: 0.8rem 1.2rem;
+      border-radius: 999px;
+      background: #121212;
+      color: #ffffff;
+      font-family: var(--font-brand);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .promo-banner__close {
+      width: 2.6rem;
+      height: 2.6rem;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: #fff7f0;
+      font-size: 1.8rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .home-hero {
+      overflow: hidden;
+      padding: 1.6rem 0 3rem;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 215, 0, 0.13), transparent 28%),
+        radial-gradient(circle at 12% 22%, rgba(255, 69, 0, 0.18), transparent 24%),
+        linear-gradient(180deg, #151515 0%, #101010 52%, #0d0d0d 100%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .home-hero__tools {
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 0.4rem;
+    }
+
+    .home-hero__inner {
+      display: grid;
+      justify-items: center;
+      text-align: center;
+      gap: 1rem;
+      padding: 2.2rem 0 1.8rem;
+    }
+
+    .home-hero__title,
+    .home-section__heading h2,
+    .home-final-cta__panel h2 {
+      margin: 0;
+      font-family: var(--font-brand);
+      line-height: 1.02;
+    }
+
+    .home-hero__title {
+      display: grid;
+      justify-items: center;
+      gap: 0.12em;
+      font-size: clamp(2rem, 4.8vw, 3.8rem);
+    }
+
+    .home-hero__line {
+      display: block;
+    }
+
+    .home-hero__accent,
+    .home-section__heading span,
+    .home-final-cta__panel span {
+      color: var(--color-secondary);
+    }
+
+    .home-marquee {
+      overflow: hidden;
+      mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+    }
+
+    .home-marquee__track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 18rem;
+      gap: 1rem;
+      animation: home-marquee 34s linear infinite;
+      width: max-content;
+    }
+
+    .home-marquee-card {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .home-marquee-card__image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .home-section {
+      padding: 3.2rem 0 0;
+    }
+
+    .home-section__heading {
+      display: grid;
+      gap: 0.9rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .home-section__eyebrow {
+      margin: 0;
+      color: var(--color-secondary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .home-section__intro {
+      max-width: 60rem;
+      margin: 0;
+      color: var(--color-muted);
+      line-height: 1.65;
+    }
+
+    .home-proof__grid,
+    .home-areas__grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .home-proof__card,
+    .home-area-card,
+    .home-final-cta__panel {
+      padding: 1.2rem;
+    }
+
+    .home-proof__icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.6rem;
+      height: 2.6rem;
+      border-radius: 999px;
+      background: rgba(255, 215, 0, 0.1);
+      color: var(--color-secondary);
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+    }
+
+    .home-area-card__top {
+      margin-bottom: 0.8rem;
+    }
+
+    .home-area-card small {
+      color: var(--color-secondary);
+      line-height: 1.45;
+    }
+
+    .home-final-cta {
+      padding: 3rem 0 0;
+    }
+
+    .home-final-cta__panel {
+      border: 1px solid rgba(255, 215, 0, 0.15);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at top right, rgba(255, 215, 0, 0.08), transparent 26%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+        #131313;
+      display: grid;
+      gap: 1rem;
+    }
+
+    :global(.language-switcher) {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    :global(.language-switcher__label) {
+      color: var(--color-muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    :global(.language-switcher__links) {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    :global(.language-switcher__link) {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2rem;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--color-text);
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+
+    :global(.language-switcher__link.is-active) {
+      border-color: rgba(255, 215, 0, 0.26);
+      background: rgba(255, 215, 0, 0.08);
+      color: var(--color-secondary);
+    }
+
+    @keyframes home-marquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .promo-banner__inner {
+        grid-template-columns: 1fr;
+      }
+
+      .home-proof__grid,
+      .home-areas__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .home-marquee__track {
+        grid-auto-columns: 14rem;
+      }
+    }
+  </style>
+</BaseLayout>

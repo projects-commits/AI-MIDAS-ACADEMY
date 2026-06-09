@@ -1,0 +1,32 @@
+---
+import { getCollection, render } from "astro:content";
+import CourseLayout from "../layouts/CourseLayout.astro";
+import type { CourseData } from "../types";
+import { defaultLocale, type AppLocale } from "../i18n/config";
+import { localizeCourseData } from "../i18n/course-content";
+import { getFirstLesson, getLessonHref } from "../lib/course";
+
+interface Props {
+  locale?: AppLocale;
+  courseSlug: string;
+}
+
+const { locale = defaultLocale, courseSlug } = Astro.props;
+const courses = await getCollection("courses");
+const courseEntry = courses.find((entry) => entry.data.slug === courseSlug);
+
+if (!courseEntry) {
+  throw new Error(`Course not found for slug: ${courseSlug}`);
+}
+
+const course = localizeCourseData(courseEntry.data as CourseData, locale);
+const firstLesson = getFirstLesson(course);
+const firstLessonHref = firstLesson ? getLessonHref(course.slug, firstLesson.slug, locale) : "/courses/";
+const showLongformNotes = locale === defaultLocale;
+const renderedCourse = showLongformNotes ? await render(courseEntry) : null;
+const CourseContent = renderedCourse?.Content;
+---
+
+<CourseLayout course={course} firstLessonHref={firstLessonHref} locale={locale} showLongformNotes={showLongformNotes}>
+  {CourseContent && <CourseContent />}
+</CourseLayout>

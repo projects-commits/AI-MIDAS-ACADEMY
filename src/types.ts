@@ -57,6 +57,7 @@ export interface CourseLesson {
   moduleId: string;
   title: string;
   slug: string;
+  summary?: string;
   lessonNumber: number;
   readingMinutes: number;
   level: string;

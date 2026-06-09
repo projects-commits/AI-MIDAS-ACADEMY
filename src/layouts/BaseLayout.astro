@@ -1,24 +1,25 @@
 ---
 import "../styles/global.css";
-import site from "../data/site.json";
 import TopBar from "../components/academy/TopBar.astro";
 import Footer from "../components/academy/Footer.astro";
-import type { SiteData } from "../types";
+import { getSiteData } from "../i18n/ui";
+import { defaultLocale, type AppLocale } from "../i18n/config";
 
 interface Props {
+  locale?: AppLocale;
   title?: string;
   description?: string;
   hideTopBar?: boolean;
 }
 
-const { title, description, hideTopBar = false } = Astro.props;
-const siteData = site as SiteData;
+const { locale = defaultLocale, title, description, hideTopBar = false } = Astro.props;
+const siteData = getSiteData(locale);
 const pageTitle = title ? `${title} | ${siteData.name}` : siteData.name;
 const pageDescription = description ?? siteData.description;
 ---
 
 <!doctype html>
-<html lang="pt">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,11 +40,11 @@ const pageDescription = description ?? siteData.description;
   </head>
   <body>
     <div class="site-frame">
-      {!hideTopBar && <TopBar site={siteData} />}
+      {!hideTopBar && <TopBar site={siteData} locale={locale} />}
       <main class="page-shell">
         <slot />
       </main>
-      <Footer site={siteData} />
+      <Footer site={siteData} locale={locale} />
     </div>
   </body>
 </html>

@@ -2,17 +2,21 @@
 import type { CourseCatalogItem } from "../../types";
 import { formatCategoryName, formatCourseStatus, formatDuration, formatLevel } from "../../lib/course";
 import bgImage from "../../../imagem_9_passos.png";
+import { defaultLocale, type AppLocale } from "../../i18n/config";
+import { getDictionary } from "../../i18n/ui";
 
 interface Props {
   item: CourseCatalogItem;
+  locale?: AppLocale;
 }
 
-const { item } = Astro.props;
+const { item, locale = defaultLocale } = Astro.props;
+const dictionary = getDictionary(locale);
 const Element = item.href ? "a" : "article";
-const levelLabel = formatLevel(item.level);
-const durationLabel = formatDuration(item.estimatedReadingMinutes);
-const statusLabel = formatCourseStatus(item.status);
-const categoryLabel = formatCategoryName(item.category);
+const levelLabel = formatLevel(item.level, locale);
+const durationLabel = formatDuration(item.estimatedReadingMinutes, locale);
+const statusLabel = formatCourseStatus(item.status, locale);
+const categoryLabel = formatCategoryName(item.category, locale);
 const searchIndex = `${item.title} ${item.summary} ${item.category} ${item.focus}`.toLowerCase();
 ---
 
@@ -49,28 +53,28 @@ const searchIndex = `${item.title} ${item.summary} ${item.category} ${item.focus
   <p class="catalog-card__summary">{item.summary}</p>
 
   <div class="catalog-card__focus">
-    <span>O que você vai estudar</span>
+    <span>{dictionary.catalogCard.studyFocus}</span>
     <p>{item.focus}</p>
   </div>
 
   <div class="catalog-card__stats">
     <article class="catalog-card__stat">
-      <span class="catalog-card__stat-label">Nível</span>
+      <span class="catalog-card__stat-label">{dictionary.catalogCard.level}</span>
       <strong>{levelLabel}</strong>
     </article>
     <article class="catalog-card__stat">
-      <span class="catalog-card__stat-label">Módulos</span>
+      <span class="catalog-card__stat-label">{dictionary.catalogCard.modules}</span>
       <strong>{typeof item.moduleCount === "number" ? item.moduleCount : "—"}</strong>
     </article>
     <article class="catalog-card__stat">
-      <span class="catalog-card__stat-label">Lições</span>
+      <span class="catalog-card__stat-label">{dictionary.catalogCard.lessons}</span>
       <strong>{typeof item.lessonCount === "number" ? item.lessonCount : "—"}</strong>
     </article>
   </div>
 
   <div class="catalog-card__footer">
-    {item.href ? <strong>Acessar curso</strong> : <strong>Em preparação</strong>}
-    {item.href && <span class="catalog-card__cta">Entrar agora</span>}
+    {item.href ? <strong>{dictionary.catalogCard.accessCourse}</strong> : <strong>{dictionary.catalogCard.inPreparation}</strong>}
+    {item.href && <span class="catalog-card__cta">{dictionary.catalogCard.enterNow}</span>}
   </div>
 </Element>
 

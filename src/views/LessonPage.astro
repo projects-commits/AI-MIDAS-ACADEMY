@@ -1,0 +1,90 @@
+---
+import { getCollection, render } from "astro:content";
+import LessonLayout from "../layouts/LessonLayout.astro";
+import BlackboardPanel from "../components/academy/BlackboardPanel.astro";
+import type { CourseData } from "../types";
+import { defaultLocale, type AppLocale } from "../i18n/config";
+import { localizeCourseData } from "../i18n/course-content";
+import { getDictionary } from "../i18n/ui";
+import { getLessonById, getLessonBySlug, getModuleById } from "../lib/course";
+
+interface Props {
+  locale?: AppLocale;
+  courseSlug: string;
+  lessonSlug: string;
+}
+
+const { locale = defaultLocale, courseSlug, lessonSlug } = Astro.props;
+const dictionary = getDictionary(locale);
+const courses = await getCollection("courses");
+const courseEntry = courses.find((entry) => entry.data.slug === courseSlug);
+
+if (!courseEntry) {
+  throw new Error(`Course not found for slug: ${courseSlug}`);
+}
+
+const course = localizeCourseData(courseEntry.data as CourseData, locale);
+const lesson = getLessonBySlug(course, lessonSlug);
+
+if (!lesson) {
+  throw new Error(`Lesson not found for slug: ${lessonSlug}`);
+}
+
+const module = getModuleById(course, lesson.moduleId);
+
+if (!module) {
+  throw new Error(`Module not found for lesson: ${lesson.id}`);
+}
+
+const previousLesson = getLessonById(course, lesson.previousLesson);
+const nextLesson = getLessonById(course, lesson.nextLesson);
+const showLongformLesson = locale === defaultLocale;
+const lessonContentEntries = showLongformLesson ? await getCollection("courseLessons") : [];
+const lessonContentEntry = lessonContentEntries.find(
+  (entry) => entry.data.courseId === course.id && entry.data.lessonId === lesson.id
+);
+const renderedLesson = lessonContentEntry ? await render(lessonContentEntry) : null;
+const LessonContent = renderedLesson?.Content;
+---
+
+<LessonLayout
+  course={course}
+  lesson={lesson}
+  module={module}
+  previousLesson={previousLesson}
+  nextLesson={nextLesson}
+  locale={locale}
+>
+  {
+    LessonContent ? (
+      <LessonContent />
+    ) : (
+      <>
+        <BlackboardPanel title={dictionary.lesson.quickViewTitle} label={dictionary.lesson.quickViewEyebrow}>
+          <div class="board-note">{dictionary.lesson.quickViewBody}</div>
+          <div class="board-note">{lesson.summary ?? course.corePromise}</div>
+        </BlackboardPanel>
+
+        <section class="lesson-section">
+          <p class="gold-label">{dictionary.lesson.focusLabel}</p>
+          <h3>{lesson.title}</h3>
+          <p class="muted-copy">{lesson.summary ?? course.corePromise}</p>
+        </section>
+
+        <section class="section-grid section-grid--2">
+          <article class="research-card">
+            <p class="gold-label">{dictionary.lesson.moduleLabel}</p>
+            <h3>{module.title}</h3>
+            <p class="muted-copy">{module.summary}</p>
+          </article>
+
+          <article class="research-card">
+            <p class="gold-label">{dictionary.lesson.readingTimeLabel}</p>
+            <h3>{lesson.readingMinutes} {dictionary.shared.minutes}</h3>
+            <p class="muted-copy">{course.corePromise}</p>
+          </article>
+        </section>
+      </>
+    )
+  }
+</LessonLayout>

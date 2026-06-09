@@ -4,85 +4,94 @@ import Container from "../components/ui/Container.astro";
 import CourseHero from "../components/course/CourseHero.astro";
 import CourseCurriculum from "../components/course/CourseCurriculum.astro";
 import type { CourseData } from "../types";
+import { type AppLocale } from "../i18n/config";
+import { getDictionary } from "../i18n/ui";
 
 interface Props {
   course: CourseData;
   firstLessonHref: string;
+  locale: AppLocale;
+  showLongformNotes?: boolean;
 }
 
-const { course, firstLessonHref } = Astro.props;
+const { course, firstLessonHref, locale, showLongformNotes = true } = Astro.props;
+const dictionary = getDictionary(locale);
 ---
 
-<BaseLayout title={course.title} description={course.subtitle}>
+<BaseLayout locale={locale} title={course.title} description={course.subtitle}>
   <Container size="wide">
     <div class="course-page" data-course-shell data-course-id={course.id} data-total-lessons={course.courseStats.lessonCount}>
-      <CourseHero course={course} firstLessonHref={firstLessonHref} />
+      <CourseHero course={course} firstLessonHref={firstLessonHref} locale={locale} />
 
       <div class="course-main course-main--simple">
         <section class="course-overview">
           <article class="research-card course-summary-card">
-            <p class="gold-label">Mapa do curso</p>
+            <p class="gold-label">{dictionary.course.courseMap}</p>
             <h3>{course.title}</h3>
 
             <div class="course-sidebar__progress">
               <div class="course-sidebar__progress-head">
-                <span>Progresso local</span>
+                <span>{dictionary.course.localProgress}</span>
                 <span data-progress-percent={course.id}>0%</span>
               </div>
               <div class="progress-rail">
                 <span data-progress-fill={course.id} style="width: 0%;"></span>
               </div>
-              <p class="muted-copy" data-progress-label={course.id}>0/{course.courseStats.lessonCount} lições concluídas</p>
+              <p class="muted-copy" data-progress-label={course.id}>{dictionary.course.progressLabel(0, course.courseStats.lessonCount)}</p>
             </div>
 
             <div class="course-summary-card__meta">
-              <span class="meta-pill">{course.courseStats.moduleCount} módulos</span>
-              <span class="meta-pill">{course.courseStats.lessonCount} lições</span>
+              <span class="meta-pill">{dictionary.course.modules(course.courseStats.moduleCount)}</span>
+              <span class="meta-pill">{dictionary.course.lessons(course.courseStats.lessonCount)}</span>
             </div>
 
             <div class="course-summary-card__actions">
-              <a class="button-primary" href={firstLessonHref}>Iniciar curso</a>
+              <a class="button-primary" href={firstLessonHref}>{dictionary.course.startCourse}</a>
             </div>
           </article>
 
           <article class="research-card course-summary-card">
-            <p class="gold-label">Por que este curso existe</p>
-            <h3>Da impressão à estrutura</h3>
+            <p class="gold-label">{dictionary.course.whyThisCourseExists}</p>
+            <h3>{dictionary.course.fromImpressionToStructure}</h3>
             <p class="muted-copy">{course.whyThisCourseExists}</p>
           </article>
 
           <article class="research-card course-summary-card">
-            <p class="gold-label">Público-alvo</p>
-            <h3>Para quem quer estudar com método</h3>
+            <p class="gold-label">{dictionary.course.audience}</p>
+            <h3>{dictionary.course.audienceTitle}</h3>
             <p class="muted-copy">{course.audience}</p>
           </article>
 
           <article class="terminal-card course-summary-card">
-            <p class="gold-label">O que vais evitar</p>
-            <h3>Menos impressão, mais critério</h3>
+            <p class="gold-label">{dictionary.course.avoid}</p>
+            <h3>{dictionary.course.avoidTitle}</h3>
             <p class="muted-copy">{course.enemy}</p>
           </article>
 
           <article class="research-card course-summary-card">
-            <p class="gold-label">Pré-requisitos</p>
-            <h3>O mínimo para entrar bem no curso</h3>
+            <p class="gold-label">{dictionary.course.prerequisites}</p>
+            <h3>{dictionary.course.prerequisitesTitle}</h3>
             <ul class="course-list">
               {course.prerequisites.map((item) => <li>{item}</li>)}
             </ul>
           </article>
         </section>
 
-        <section class="research-card course-note">
-          <p class="gold-label">Resumo expandido</p>
-          <details>
-            <summary>Ler a explicação completa do curso</summary>
-            <div class="course-note__body">
-              <slot />
-            </div>
-          </details>
-        </section>
+        {
+          showLongformNotes && (
+            <section class="research-card course-note">
+              <p class="gold-label">{dictionary.course.expandedSummary}</p>
+              <details>
+                <summary>{dictionary.course.expandedSummaryToggle}</summary>
+                <div class="course-note__body">
+                  <slot />
+                </div>
+              </details>
+            </section>
+          )
+        }
 
-        <CourseCurriculum course={course} />
+        <CourseCurriculum course={course} locale={locale} />
       </div>
     </div>
   </Container>

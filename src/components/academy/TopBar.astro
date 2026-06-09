@@ -1,19 +1,26 @@
 ---
 import type { SiteData } from "../../types";
 import logoAiMidas from "../../../logofinal_aimidas.png";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import { getCourseHref } from "../../lib/course";
+import { localizedPath, stripLocaleFromPath, type AppLocale } from "../../i18n/config";
+import { getDictionary } from "../../i18n/ui";
 
 interface Props {
   site: SiteData;
+  locale: AppLocale;
 }
 
-const { site } = Astro.props;
+const { site, locale } = Astro.props;
+const dictionary = getDictionary(locale);
 const currentPath = Astro.url.pathname;
+const currentBasePath = stripLocaleFromPath(currentPath);
 ---
 
 <header class="site-topbar">
   <div class="topbar-promo">
     <div class="topbar-promo__inner">
-      <a class="topbar-promo__brand" href="/" aria-label="AI MIDAS ACADEMY">
+      <a class="topbar-promo__brand" href={localizedPath(locale, "/")} aria-label="AI MIDAS ACADEMY">
         <img
           class="topbar-promo__logo"
           src={logoAiMidas.src}
@@ -25,17 +32,17 @@ const currentPath = Astro.url.pathname;
 
       <span class="topbar-promo__divider" aria-hidden="true"></span>
 
-      <p class="topbar-promo__copy">Inteligência aplicada ao futebol e aos mercados</p>
+      <p class="topbar-promo__copy">{site.tagline}</p>
 
-      <a class="topbar-promo__cta" href="/courses/framework-de-9-passos-para-analisar-um-jogo-de-futebol/">
-        Entrar
+      <a class="topbar-promo__cta" href={getCourseHref("framework-de-9-passos-para-analisar-um-jogo-de-futebol", locale)}>
+        {dictionary.site.promoCta}
       </a>
     </div>
   </div>
 
   <div class="topbar-main">
     <div class="topbar__inner">
-      <a class="brand-lockup" href="/">
+      <a class="brand-lockup" href={localizedPath(locale, "/")}>
         <span class="brand-lockup__name">{site.name}</span>
       </a>
 
@@ -43,10 +50,10 @@ const currentPath = Astro.url.pathname;
         {
           site.navigation.map((item) => (
             <a
-              href={item.href}
+              href={localizedPath(locale, item.href)}
               class:list={[
                 "topbar__link",
-                currentPath === item.href || (item.href !== "/" && currentPath.startsWith(item.href))
+                currentBasePath === item.href || (item.href !== "/" && currentBasePath.startsWith(item.href))
                   ? "is-active"
                   : ""
               ]}
@@ -56,6 +63,8 @@ const currentPath = Astro.url.pathname;
           ))
         }
       </nav>
+
+      <LanguageSwitcher locale={locale} pathname={currentPath} />
     </div>
   </div>
 </header>

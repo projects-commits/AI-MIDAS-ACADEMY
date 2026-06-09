@@ -1,38 +1,42 @@
 ---
 import type { CourseLesson } from "../../types";
 import { getLessonHref } from "../../lib/course";
+import { type AppLocale } from "../../i18n/config";
+import { getDictionary } from "../../i18n/ui";
 
 interface Props {
   courseSlug: string;
   previousLesson: CourseLesson | null;
   nextLesson: CourseLesson | null;
+  locale: AppLocale;
 }
 
-const { courseSlug, previousLesson, nextLesson } = Astro.props;
+const { courseSlug, previousLesson, nextLesson, locale } = Astro.props;
+const dictionary = getDictionary(locale);
 ---
 
-<nav class="lesson-navigation" aria-label="Navegação da aula">
+<nav class="lesson-navigation" aria-label={dictionary.lesson.quickViewTitle}>
   {previousLesson ? (
-    <a class="lesson-navigation__link" href={getLessonHref(courseSlug, previousLesson.slug)}>
-      <span>Aula anterior</span>
+    <a class="lesson-navigation__link" href={getLessonHref(courseSlug, previousLesson.slug, locale)}>
+      <span>{dictionary.lesson.previousLesson}</span>
       <strong>{previousLesson.title}</strong>
     </a>
   ) : (
     <div class="lesson-navigation__link is-empty">
-      <span>Aula anterior</span>
-      <strong>Início do curso</strong>
+      <span>{dictionary.lesson.previousLesson}</span>
+      <strong>{dictionary.lesson.startOfCourse}</strong>
     </div>
   )}
 
   {nextLesson ? (
-    <a class="lesson-navigation__link" href={getLessonHref(courseSlug, nextLesson.slug)}>
-      <span>Próxima aula</span>
+    <a class="lesson-navigation__link" href={getLessonHref(courseSlug, nextLesson.slug, locale)}>
+      <span>{dictionary.lesson.nextLesson}</span>
       <strong>{nextLesson.title}</strong>
     </a>
   ) : (
     <div class="lesson-navigation__link is-empty">
-      <span>Próxima aula</span>
-      <strong>Fim do percurso atual</strong>
+      <span>{dictionary.lesson.nextLesson}</span>
+      <strong>{dictionary.lesson.endOfCurrentPath}</strong>
     </div>
   )}
 </nav>

@@ -1,31 +1,12 @@
 ---
-import { getCollection, render } from "astro:content";
-import CourseLayout from "../../../layouts/CourseLayout.astro";
-import type { CourseData } from "../../../types";
-import { getFirstLesson, getLessonHref } from "../../../lib/course";
+import CoursePage from "../../../views/CoursePage.astro";
+import { getCourseStaticPaths } from "../../../views/route-helpers";
 
 export async function getStaticPaths() {
-  const courses = await getCollection("courses");
-
-  return courses.map((course) => ({
-    params: { courseSlug: course.data.slug }
-  }));
+  return getCourseStaticPaths();
 }
 
 const { courseSlug } = Astro.params;
-const courses = await getCollection("courses");
-const courseEntry = courses.find((entry) => entry.data.slug === courseSlug);
-
-if (!courseEntry) {
-  throw new Error(`Course not found for slug: ${courseSlug}`);
-}
-
-const course = courseEntry.data as CourseData;
-const firstLesson = getFirstLesson(course);
-const firstLessonHref = firstLesson ? getLessonHref(course.slug, firstLesson.slug) : "/courses/";
-const { Content } = await render(courseEntry);
 ---
 
-<CourseLayout course={course} firstLessonHref={firstLessonHref}>
-  <Content />
-</CourseLayout>
+<CoursePage locale="pt-br" courseSlug={courseSlug ?? ""} />

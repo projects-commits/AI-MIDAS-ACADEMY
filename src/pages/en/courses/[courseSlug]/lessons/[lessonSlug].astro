@@ -1,0 +1,12 @@
+---
+import LessonPage from "../../../../../views/LessonPage.astro";
+import { getLessonStaticPaths } from "../../../../../views/route-helpers";
+
+export async function getStaticPaths() {
+  return getLessonStaticPaths();
+}
+
+const { courseSlug, lessonSlug } = Astro.params;
+---
+
+<LessonPage locale="en" courseSlug={courseSlug ?? ""} lessonSlug={lessonSlug ?? ""} />

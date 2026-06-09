@@ -1,0 +1,451 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/ui/Container.astro";
+import CatalogCourseCard from "../components/course/CatalogCourseCard.astro";
+import { defaultLocale, type AppLocale } from "../i18n/config";
+import { localizeCourseData } from "../i18n/course-content";
+import { getCategories, getDictionary } from "../i18n/ui";
+import { createCatalogItemFromCourse, formatDurationBucket, formatLevel } from "../lib/course";
+import type { CourseCatalogItem, CourseData, CourseDurationBucket } from "../types";
+
+interface Props {
+  locale?: AppLocale;
+}
+
+const { locale = defaultLocale } = Astro.props;
+const dictionary = getDictionary(locale);
+const categories = getCategories(locale);
+const courseEntries = await getCollection("courses");
+const publishedCourses = courseEntries.map((entry) => localizeCourseData(entry.data as CourseData, locale));
+
+const catalogItems = publishedCourses
+  .map((course) => createCatalogItemFromCourse(course, locale))
+  .sort((left, right) => left.title.localeCompare(right.title, locale)) satisfies CourseCatalogItem[];
+
+const levelOptions = [
+  { value: "foundation", label: formatLevel("foundation", locale) },
+  { value: "intermediate", label: formatLevel("intermediate", locale) },
+  { value: "advanced", label: formatLevel("advanced", locale) }
+];
+
+const durationOptions: { value: CourseDurationBucket; label: string }[] = [
+  { value: "under-5", label: formatDurationBucket("under-5", locale) },
+  { value: "5-10", label: formatDurationBucket("5-10", locale) },
+  { value: "10-20", label: formatDurationBucket("10-20", locale) },
+  { value: "20-plus", label: formatDurationBucket("20-plus", locale) }
+];
+
+const categoryCounts = new Map(categories.map((category) => [category.slug, 0]));
+const resultsTemplate = dictionary.catalog.resultsFound(catalogItems.length).replace(String(catalogItems.length), "__COUNT__");
+
+for (const item of catalogItems) {
+  categoryCounts.set(item.category, (categoryCounts.get(item.category) ?? 0) + 1);
+}
+---
+
+<BaseLayout locale={locale} title={dictionary.catalog.title} description={dictionary.catalog.description}>
+  <Container size="wide">
+    <section class="catalog-shell" data-course-catalog data-search-chip-prefix={dictionary.catalog.searchChipPrefix}>
+      <div class="catalog-shell__search research-card">
+        <label class="catalog-search" for="course-search">
+          <span class="catalog-search__icon" aria-hidden="true">⌕</span>
+          <span class="catalog-search__label">{dictionary.catalog.searchLabel}</span>
+          <input
+            id="course-search"
+            name="course-search"
+            type="search"
+            placeholder={dictionary.catalog.searchPlaceholder}
+            autocomplete="off"
+            data-search-input
+          />
+        </label>
+
+        <div class="catalog-shell__summary">
+          <div>
+            <p class="catalog-shell__eyebrow">{dictionary.catalog.resultsEyebrow}</p>
+            <h2 data-results-title>{dictionary.catalog.resultsFound(catalogItems.length)}</h2>
+          </div>
+          <button class="catalog-clear" type="button" data-clear-filters>{dictionary.catalog.clearFilters}</button>
+        </div>
+
+        <div class="catalog-active-filters" data-active-filters></div>
+      </div>
+
+      <div class="catalog-layout">
+        <aside class="catalog-sidebar research-card">
+          <div class="catalog-sidebar__header">
+            <div>
+              <p class="gold-label">{dictionary.catalog.filtersTitle}</p>
+              <h3>{dictionary.catalog.filtersTitle}</h3>
+            </div>
+            <p class="muted-copy">{dictionary.catalog.filtersIntro}</p>
+          </div>
+
+          <form class="catalog-filters" data-filter-form>
+            <fieldset class="catalog-filter-group">
+              <legend>{dictionary.catalog.categoryLegend}</legend>
+              <div class="catalog-checklist">
+                {categories.map((category) => (
+                  <label class="catalog-check" for={`category-${category.slug}`}>
+                    <input id={`category-${category.slug}`} type="checkbox" value={category.slug} data-category-filter />
+                    <span class="catalog-check__copy">
+                      <strong>{category.name}</strong>
+                      <small>{dictionary.catalog.courseCount(categoryCounts.get(category.slug) ?? 0)}</small>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <fieldset class="catalog-filter-group">
+              <legend>{dictionary.catalog.levelLegend}</legend>
+              <div class="catalog-checklist">
+                {levelOptions.map((option) => (
+                  <label class="catalog-check" for={`level-${option.value}`}>
+                    <input id={`level-${option.value}`} type="checkbox" value={option.value} data-level-filter />
+                    <span class="catalog-check__copy">
+                      <strong>{option.label}</strong>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <fieldset class="catalog-filter-group">
+              <legend>{dictionary.catalog.durationLegend}</legend>
+              <div class="catalog-radio-list">
+                <label class="catalog-radio" for="duration-all">
+                  <input id="duration-all" type="radio" name="duration" value="all" checked data-duration-filter />
+                  <span>{dictionary.catalog.allDurations}</span>
+                </label>
+
+                {durationOptions.map((option) => (
+                  <label class="catalog-radio" for={`duration-${option.value}`}>
+                    <input id={`duration-${option.value}`} type="radio" name="duration" value={option.value} data-duration-filter />
+                    <span>{option.label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          </form>
+        </aside>
+
+        <div class="catalog-main">
+          <section class="catalog-results-head">
+            <div>
+              <p class="gold-label">{dictionary.catalog.publicCatalog}</p>
+              <h3>{dictionary.catalog.coursesAvailable}</h3>
+            </div>
+          </section>
+
+          <section class="catalog-results" data-results-list>
+            {catalogItems.map((item) => <CatalogCourseCard item={item} locale={locale} />)}
+          </section>
+
+          <section class="catalog-empty research-card" hidden data-empty-state>
+            <p class="gold-label">{dictionary.catalog.noResultsEyebrow}</p>
+            <h3>{dictionary.catalog.noResultsTitle}</h3>
+            <p class="muted-copy">{dictionary.catalog.noResultsBody}</p>
+          </section>
+        </div>
+      </div>
+    </section>
+  </Container>
+
+  <script is:inline define:vars={{ emptyTitle: dictionary.catalog.noResultsTitle, resultsTemplate }}>
+    const catalogRoot = document.querySelector("[data-course-catalog]");
+
+    if (catalogRoot instanceof HTMLElement) {
+      const searchInput = catalogRoot.querySelector("[data-search-input]");
+      const resultsTitle = catalogRoot.querySelector("[data-results-title]");
+      const clearButton = catalogRoot.querySelector("[data-clear-filters]");
+      const activeFilters = catalogRoot.querySelector("[data-active-filters]");
+      const emptyState = catalogRoot.querySelector("[data-empty-state]");
+      const cards = Array.from(catalogRoot.querySelectorAll("[data-course-card]"));
+      const categoryInputs = Array.from(catalogRoot.querySelectorAll("[data-category-filter]"));
+      const levelInputs = Array.from(catalogRoot.querySelectorAll("[data-level-filter]"));
+      const durationInputs = Array.from(catalogRoot.querySelectorAll("[data-duration-filter]"));
+      const chipPrefix = catalogRoot.getAttribute("data-search-chip-prefix") ?? "Search";
+
+      const getCheckedValues = (inputs) =>
+        inputs.filter((input) => input instanceof HTMLInputElement && input.checked).map((input) => input.value);
+
+      const createChip = (label) => {
+        const chip = document.createElement("span");
+        chip.className = "catalog-filter-chip";
+        chip.textContent = label;
+        return chip;
+      };
+
+      const renderActiveFilters = (searchTerm, categories, levels, duration) => {
+        if (!(activeFilters instanceof HTMLElement)) {
+          return;
+        }
+
+        activeFilters.innerHTML = "";
+
+        if (searchTerm) {
+          activeFilters.appendChild(createChip(`${chipPrefix}: ${searchTerm}`));
+        }
+
+        categories.forEach((category) => {
+          const relatedInput = categoryInputs.find(
+            (input) => input instanceof HTMLInputElement && input.value === category
+          );
+          const label = relatedInput?.parentElement?.querySelector("strong")?.textContent?.trim() ?? category;
+          activeFilters.appendChild(createChip(label));
+        });
+
+        levels.forEach((level) => {
+          const relatedInput = levelInputs.find(
+            (input) => input instanceof HTMLInputElement && input.value === level
+          );
+          const label = relatedInput?.parentElement?.querySelector("strong")?.textContent?.trim() ?? level;
+          activeFilters.appendChild(createChip(label));
+        });
+
+        if (duration !== "all") {
+          const selectedDuration = durationInputs.find(
+            (input) => input instanceof HTMLInputElement && input.value === duration
+          );
+
+          if (selectedDuration instanceof HTMLInputElement) {
+            activeFilters.appendChild(createChip(selectedDuration.parentElement?.textContent?.trim() ?? duration));
+          }
+        }
+      };
+
+      const applyFilters = () => {
+        const searchTerm = searchInput instanceof HTMLInputElement ? searchInput.value.trim().toLowerCase() : "";
+        const selectedCategories = getCheckedValues(categoryInputs);
+        const selectedLevels = getCheckedValues(levelInputs);
+        const selectedDuration =
+          durationInputs.find((input) => input instanceof HTMLInputElement && input.checked)?.value ?? "all";
+
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+          if (!(card instanceof HTMLElement)) {
+            return;
+          }
+
+          const matchesSearch = !searchTerm || (card.dataset.search ?? "").includes(searchTerm);
+          const matchesCategory =
+            selectedCategories.length === 0 || selectedCategories.includes(card.dataset.category ?? "");
+          const matchesLevel = selectedLevels.length === 0 || selectedLevels.includes(card.dataset.level ?? "");
+          const matchesDuration = selectedDuration === "all" || card.dataset.duration === selectedDuration;
+          const isVisible = matchesSearch && matchesCategory && matchesLevel && matchesDuration;
+
+          card.hidden = !isVisible;
+
+          if (isVisible) {
+            visibleCount += 1;
+          }
+        });
+
+        if (resultsTitle instanceof HTMLElement) {
+          resultsTitle.textContent = visibleCount === 0 ? emptyTitle : resultsTemplate.replace("__COUNT__", String(visibleCount));
+        }
+
+        renderActiveFilters(searchTerm, selectedCategories, selectedLevels, selectedDuration);
+
+        if (emptyState instanceof HTMLElement) {
+          emptyState.hidden = visibleCount !== 0;
+        }
+      };
+
+      [searchInput, ...categoryInputs, ...levelInputs, ...durationInputs].forEach((input) => {
+        input?.addEventListener("input", () => {
+          applyFilters();
+        });
+        input?.addEventListener("change", () => {
+          applyFilters();
+        });
+      });
+
+      clearButton?.addEventListener("click", () => {
+        if (searchInput instanceof HTMLInputElement) {
+          searchInput.value = "";
+        }
+
+        categoryInputs.forEach((input) => {
+          if (input instanceof HTMLInputElement) {
+            input.checked = false;
+          }
+        });
+
+        levelInputs.forEach((input) => {
+          if (input instanceof HTMLInputElement) {
+            input.checked = false;
+          }
+        });
+
+        durationInputs.forEach((input) => {
+          if (input instanceof HTMLInputElement) {
+            input.checked = input.value === "all";
+          }
+        });
+
+        applyFilters();
+      });
+
+      applyFilters();
+    }
+  </script>
+
+  <style>
+    .catalog-shell {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .catalog-shell__search,
+    .catalog-sidebar {
+      padding: 1.1rem;
+    }
+
+    .catalog-search {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .catalog-search__icon,
+    .catalog-shell__eyebrow {
+      color: var(--color-secondary);
+    }
+
+    .catalog-search__label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    .catalog-search input {
+      min-height: 3rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--color-text);
+      padding: 0 1rem;
+    }
+
+    .catalog-shell__summary,
+    .catalog-results-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .catalog-clear {
+      min-height: 2.6rem;
+      padding: 0 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 215, 0, 0.18);
+      background: rgba(255, 215, 0, 0.08);
+      color: var(--color-secondary);
+      font-weight: 700;
+    }
+
+    .catalog-active-filters {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .catalog-filter-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--color-text);
+      font-size: 0.82rem;
+    }
+
+    .catalog-layout {
+      display: grid;
+      grid-template-columns: 21rem minmax(0, 1fr);
+      gap: 1rem;
+    }
+
+    .catalog-sidebar__header {
+      display: grid;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .catalog-filters {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .catalog-filter-group {
+      border: 0;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .catalog-filter-group legend {
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    .catalog-checklist,
+    .catalog-radio-list {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .catalog-check,
+    .catalog-radio {
+      display: flex;
+      gap: 0.7rem;
+      align-items: flex-start;
+      padding: 0.75rem 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .catalog-check__copy {
+      display: grid;
+      gap: 0.15rem;
+    }
+
+    .catalog-check__copy small {
+      color: var(--color-muted);
+    }
+
+    .catalog-main {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .catalog-results {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .catalog-empty {
+      padding: 1.2rem;
+    }
+
+    @media (max-width: 980px) {
+      .catalog-layout,
+      .catalog-results {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</BaseLayout>

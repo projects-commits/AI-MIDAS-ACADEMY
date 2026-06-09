@@ -56,6 +56,8 @@ These ingredients are required because the academy is designed for usable judgme
 ## Language rules
 
 - Primary language: Portuguese
+- Default public locale: `pt-br` without URL prefix
+- Additional public locales may ship through Astro i18n routing with localized UI and route-aware content surfaces
 - English technical terms may appear when they are more precise or widely recognized
 - Avoid slang-heavy phrasing unless it is being defined and contextualized
 - Do not write like an influencer or promotional copywriter

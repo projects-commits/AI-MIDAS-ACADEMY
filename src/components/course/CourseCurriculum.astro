@@ -1,21 +1,23 @@
 ---
 import type { CourseData } from "../../types";
 import { getLessonHref, getLessonsForModule } from "../../lib/course";
+import { type AppLocale } from "../../i18n/config";
+import { getDictionary } from "../../i18n/ui";
 
 interface Props {
   course: CourseData;
+  locale: AppLocale;
 }
 
-const { course } = Astro.props;
+const { course, locale } = Astro.props;
+const dictionary = getDictionary(locale);
 ---
 
 <section class="course-curriculum" id="curriculo">
   <div class="section-header">
-    <p class="gold-label">Currículo</p>
-    <h2>Módulos e lições</h2>
-    <p class="section-intro">
-      Um mapa simples para veres a ordem do curso sem te perderes no scroll.
-    </p>
+    <p class="gold-label">{dictionary.course.curriculum}</p>
+    <h2>{dictionary.course.curriculumTitle}</h2>
+    <p class="section-intro">{dictionary.course.curriculumIntro}</p>
   </div>
 
   <div class="curriculum-modules">
@@ -24,10 +26,10 @@ const { course } = Astro.props;
         <article class="terminal-card curriculum-module">
           <div class="curriculum-module__header">
             <div>
-              <p class="gold-label">Módulo {index + 1}</p>
+              <p class="gold-label">{dictionary.course.moduleLabel(index + 1)}</p>
               <h3>{module.title}</h3>
             </div>
-            <span class="course-badge">{module.lessonIds.length} lições</span>
+            <span class="course-badge">{dictionary.course.lessonCount(module.lessonIds.length)}</span>
           </div>
 
           <p class="muted-copy">{module.summary}</p>
@@ -36,14 +38,14 @@ const { course } = Astro.props;
             {getLessonsForModule(course, module).map((lesson) => (
               <a
                 class="curriculum-lesson"
-                href={getLessonHref(course.slug, lesson.slug)}
+                href={getLessonHref(course.slug, lesson.slug, locale)}
                 data-lesson-item
                 data-course-id={course.id}
                 data-lesson-id={lesson.id}
               >
-                <span class="curriculum-lesson__number">Lição {lesson.lessonNumber}</span>
+                <span class="curriculum-lesson__number">{dictionary.course.lessonLabel(lesson.lessonNumber)}</span>
                 <strong>{lesson.title}</strong>
-                <span class="muted-copy">{lesson.readingMinutes} min</span>
+                <span class="muted-copy">{lesson.readingMinutes} {dictionary.shared.minutes}</span>
               </a>
             ))}
           </div>
