@@ -1,0 +1,587 @@
+---
+{
+  "id": "course-framework-trading-10-20-roi",
+  "title": "Framework Trading Futebol 10% a 20% ROI",
+  "slug": "framework-trading-futebol-10-a-20-roi",
+  "subtitle": "Um sistema pre-live para filtrar poucos jogos, validar contexto e gerir trades 1X2 com alvo operacional de 10% a 20% sobre o capital arriscado na posi?.",
+  "category": "Risk & Execution",
+  "secondaryCategories": [
+    "Market Intelligence",
+    "Football Research",
+    "Prediction Markets & On-chain"
+  ],
+  "level": "intermediate",
+  "status": "published",
+  "language": "pt-PT",
+  "estimatedReadingMinutes": 116,
+  "minimumWordCount": 6200,
+  "targetPersonas": [
+    "Trader esportivo em transi? para processo auditavel",
+    "Operador de prediction markets focado em 1X2",
+    "Analista de futebol que precisa de regras de execu?",
+    "Leitor que quer trocar intui? solta por rotina operacional"
+  ],
+  "corePromise": "Ensinar um framework di?rio para transformar dezenas de jogos em poucas posi?s 1X2 com liquidez, tese verificavel, risco m?dio-baixo e plano claro de entrada e saida.",
+  "whyThisCourseExists": "Muitos operadores veem movimento de mercado, narrativa p?blica ou estat?sticas avulsas e tratam isso como edge pronto. Este curso existe para substituir esse impulso por um funil estreito: universo elegivel, filtros de mercado, confirma? estat?stica e contextual, decis? de stake, gest? live e revis? p?s-jogo.",
+  "enemy": "Overtrading, entrada tardia em movimentos j? esticados, leitura de pre? sem liquidez, uso superficial de estat?sticas, ausencia de stop loss real e confusoo entre resultado pontual e qualidade de processo.",
+  "audience": "Leitores com nocao basica de odds, Polymarket e mercados 1X2 que querem operar com menos jogos, mais disciplina e documentacao seria. Nao e um curso para quem procura sinais prontos ou promessas de retorno autom?tico.",
+  "prerequisites": [
+    "Conhecimento b?sico de mercado 1X2 / Moneyline",
+    "Capacidade de converter pre? em probabilidade impl?cita e odd decimal",
+    "Disponibilidade para registar tese, risco e revis? de cada trade",
+    "Disposi? para aceitar No Bet quando n? existe edge claro"
+  ],
+  "courseStats": {
+    "moduleCount": 3,
+    "lessonCount": 8,
+    "labCount": 4,
+    "glossaryTermCount": 10
+  },
+  "tracks": [
+    {
+      "id": "track-scan",
+      "title": "Scan e sele?",
+      "summary": "Transformar lista bruta em shortlist 1X2 atrav?s de filtros de movimento, liquidez e varia? saud?vel."
+    },
+    {
+      "id": "track-validation",
+      "title": "Validacao de tese",
+      "summary": "Confirmar ou rejeitar o sinal de mercado com estat?sticas avancadas, not?cias e ficha padronizada de previs?."
+    },
+    {
+      "id": "track-execution",
+      "title": "Execu? e auditoria",
+      "summary": "Entrar pouco, sair com disciplina, respeitar limites de exposi? e rever o processo sem depender do resultado."
+    }
+  ],
+  "modules": [
+    {
+      "id": "module-1",
+      "title": "Da lista bruta a shortlist executavel",
+      "slug": "da-lista-bruta-a-shortlist-executavel",
+      "summary": "Universo elegivel, funil geral e os dois filtros que comprimem dezenas de jogos em poucas oportunidades auditaveis.",
+      "lessonIds": [
+        "lesson-1",
+        "lesson-2",
+        "lesson-3"
+      ],
+      "learningGoals": [
+        "Definir um campo de jogo estreito antes da analise profunda",
+        "Separar movimento real de ru?do atrav?s de volume, liquidez, spread e amplitude da varia?"
+      ]
+    },
+    {
+      "id": "module-2",
+      "title": "Confirma? estat?stica e contexto operacional",
+      "slug": "confirmacao-estatistica-e-contexto-operacional",
+      "summary": "Validar o que o mercado est? a dizer com estat?sticas avancadas, not?cias recentes e uma ficha padronizada de previs?.",
+      "lessonIds": [
+        "lesson-4",
+        "lesson-5"
+      ],
+      "learningGoals": [
+        "Usar grupos de m?tricas em vez de listas soltas de numeros",
+        "Padronizar a previs? para que tese, risco e saida possam ser auditados"
+      ]
+    },
+    {
+      "id": "module-3",
+      "title": "Execu?, risco e revis? de processo",
+      "slug": "execucao-risco-e-revisao-de-processo",
+      "summary": "Entrada pre-live, validacao live, stake, correla?, limites de exposi? e revis? p?s-jogo.",
+      "lessonIds": [
+        "lesson-6",
+        "lesson-7",
+        "lesson-8"
+      ],
+      "learningGoals": [
+        "Gerir o trade como posi? de portfolio e n? como palpite",
+        "Construir um ciclo di?rio de prepara?, decis?, execu? e auditoria"
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson-1",
+      "courseId": "course-framework-trading-10-20-roi",
+      "moduleId": "module-1",
+      "title": "Objetivo do sistema, universo elegivel e funil operacional",
+      "slug": "objetivo-sistema-universo-elegivel-funil-operacional",
+      "lessonNumber": 1,
+      "readingMinutes": 14,
+      "level": "foundation",
+      "concepts": [
+        "eligible universe",
+        "scan discipline",
+        "funnel compression"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "MermaidDiagram"
+      ],
+      "learningObjectives": [
+        "Definir porque o sistema existe, o que entra no processo e como a lista bruta e comprimida at? virar shortlist executavel."
+      ],
+      "failureModes": [
+        "Come?r pela opini? sobre o jogo em vez de come?r pelo desenho do processo."
+      ],
+      "exercises": [
+        "Montar uma lista de jogos das pr?ximas 48h e justificar, por escrito, porque metade deles nem devia entrar no teu universo elegivel."
+      ],
+      "checklist": [
+        "O mercado analisado e apenas 1X2 / Moneyline",
+        "O jogo est? dentro da janela de 24h a 48h",
+        "Existe mercado ativo e negociavel na Polymarket",
+        "A meta e reduzir o universo, n? comentar todos os jogos"
+      ],
+      "glossaryTerms": [
+        "prediction-market",
+        "liquidity",
+        "market-price"
+      ],
+      "formulas": [
+        {
+          "label": "Opportunity compression",
+          "value": "Opportunity quality = movement x liquidity x thesis clarity x exit discipline"
+        }
+      ],
+      "previousLesson": null,
+      "nextLesson": "lesson-2"
+    },
+    {
+      "id": "lesson-2",
+      "courseId": "course-framework-trading-10-20-roi",
+      "moduleId": "module-1",
+      "title": "Filtro 1: atividade, dire? e liquidez de mercado",
+      "slug": "filtro-1-atividade-direcao-liquidez-mercado",
+      "lessonNumber": 2,
+      "readingMinutes": 15,
+      "level": "foundation",
+      "concepts": [
+        "price movement",
+        "liquidity validation",
+        "spread discipline"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "LearningChart"
+      ],
+      "learningObjectives": [
+        "Avaliar se o movimento de pre? est? apoiado por volume, liquidez e dire? consistente antes de perder tempo com analise profunda."
+      ],
+      "failureModes": [
+        "Confundir varia? vazia com sinal real de mercado."
+      ],
+      "exercises": [
+        "Comparar cinco jogos da Polymarket e classificar quais passam ou falham no Filtro 1 com base apenas em movimento, volume, liquidez e spread."
+      ],
+      "checklist": [
+        "Pelo menos um outcome mostra varia? m?nima relevante",
+        "O volume total n? e decorativo",
+        "A liquidez permite entrar e sair sem fric? extrema",
+        "O spread n? est? a comer o edge antes da entrada"
+      ],
+      "glossaryTerms": [
+        "liquidity",
+        "market-price",
+        "odds"
+      ],
+      "formulas": [
+        {
+          "label": "Filtro 1",
+          "value": "Signal strength = movement x volume x liquidity / spread friction"
+        }
+      ],
+      "previousLesson": "lesson-1",
+      "nextLesson": "lesson-3"
+    },
+    {
+      "id": "lesson-3",
+      "courseId": "course-framework-trading-10-20-roi",
+      "moduleId": "module-1",
+      "title": "Filtro 2: varia? saud?vel, convers? pre?-odd e janela de entrada",
+      "slug": "filtro-2-variacao-saudavel-conversao-preco-odd-janela-entrada",
+      "lessonNumber": 3,
+      "readingMinutes": 14,
+      "level": "foundation",
+      "concepts": [
+        "healthy variation",
+        "implied probability",
+        "entry window"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens"
+      ],
+      "learningObjectives": [
+        "Determinar quando uma varia? e forte o suficiente para interessar, mas ainda n? est? esticada ao ponto de consumir quase todo o valor."
+      ],
+      "failureModes": [
+        "Entrar porque o mercado mexeu, sem verificar se a janela de valor ainda existe."
+      ],
+      "exercises": [
+        "Converter dez pre?s da Polymarket em odds aproximadas e decidir, caso a caso, se a rela? risco-retorno ainda justifica analise."
+      ],
+      "checklist": [
+        "A varia? m?nima e de pelo menos 5%",
+        "A varia? ideal ainda est? abaixo de 25%",
+        "A odd impl?cita ainda oferece margem para o plano de saida",
+        "A entrada n? est? a ser decidida s? porque o gr?fico parece forte"
+      ],
+      "glossaryTerms": [
+        "implied-probability",
+        "odds",
+        "edge"
+      ],
+      "formulas": [
+        {
+          "label": "Janela de valor",
+          "value": "Usable move = healthy variation x remaining upside x executable liquidity"
+        }
+      ],
+      "previousLesson": "lesson-2",
+      "nextLesson": "lesson-4"
+    },
+    {
+      "id": "lesson-4",
+      "courseId": "course-framework-trading-10-20-roi",
+      "moduleId": "module-2",
+      "title": "Estat?sticas avancadas para confirmar ou rejeitar um 1X2",
+      "slug": "estatisticas-avancadas-confirmar-rejeitar-1x2",
+      "lessonNumber": 4,
+      "readingMinutes": 16,
+      "level": "intermediate",
+      "concepts": [
+        "xg clusters",
+        "territorial control",
+        "performance versus result"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens"
+      ],
+      "learningObjectives": [
+        "Agrupar m?tricas por fun? e usa-las para confirmar ou desmentir o sinal que apareceu nos filtros de mercado."
+      ],
+      "failureModes": [
+        "Usar xG, posse ou PPDA como argumento solto, sem ligacao com a pergunta operacional do trade."
+      ],
+      "exercises": [
+        "Pegar num jogo da shortlist e escrever uma conclusoo em quatro blocos: ataque, defesa, controlo territorial e diferenca entre resultado e performance."
+      ],
+      "checklist": [
+        "As m?tricas foram agrupadas por mecanismo e n? por moda",
+        "Existe contraste entre o que a equipa marca e o que realmente cria",
+        "A analise mostra se h? sobrevalorizacao ou subvalorizacao",
+        "A conclusoo estat?stica responde ao 1X2 e n? a uma curiosidade acad?mica"
+      ],
+      "glossaryTerms": [
+        "expected-value",
+        "edge",
+        "market-price"
+      ],
+      "formulas": [
+        {
+          "label": "Confirma? estat?stica",
+          "value": "Thesis support = chance creation - chance concession + territorial control + regression context"
+        }
+      ],
+      "previousLesson": "lesson-3",
+      "nextLesson": "lesson-5"
+    },
+    {
+      "id": "lesson-5",
+      "courseId": "course-framework-trading-10-20-roi",
+      "moduleId": "module-2",
+      "title": "Not?cias, ficha da previs? e workflow di?rio do analista",
+      "slug": "noticias-ficha-previsao-workflow-diario-analista",
+      "lessonNumber": 5,
+      "readingMinutes": 14,
+      "level": "intermediate",
+      "concepts": [
+        "news confirmation",
+        "prediction sheet",
+        "daily workflow"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "MermaidDiagram"
+      ],
+      "learningObjectives": [
+        "Usar not?cias para confirmar ou quebrar a tese e transformar cada previs? numa ficha operacional repetivel."
+      ],
+      "failureModes": [
+        "Ler not?cias apenas para refor?r a opini? j? escolhida."
+      ],
+      "exercises": [
+        "Criar uma ficha completa de previs? para um jogo real, incluindo porque passou nos filtros, raz? principal, risco principal e plano live."
+      ],
+      "checklist": [
+        "A not?cia mais importante foi identificada e ponderada",
+        "A ficha de previs? deixa claro porque o jogo foi escolhido",
+        "O workflow di?rio separa scan, shortlist, analise e decis?",
+        "A tese pode ser revista sem depender do resultado final"
+      ],
+      "glossaryTerms": [
+        "risk",
+        "market-price",
+        "prediction-market"
+      ],
+      "formulas": [
+        {
+          "label": "Fluxo di?rio",
+          "value": "Clean workflow = shortlist + confirmation + plan + review"
+        }
+      ],
+      "previousLesson": "lesson-4",
+      "nextLesson": "lesson-6"
+    },
+    {
+      "id": "lesson-6",
+      "courseId": "course-framework-trading-10-20-roi",
+      "moduleId": "module-3",
+      "title": "Entrada pre-live, gest? live, stop loss e take profit",
+      "slug": "entrada-pre-live-gestao-live-stop-loss-take-profit",
+      "lessonNumber": 6,
+      "readingMinutes": 15,
+      "level": "intermediate",
+      "concepts": [
+        "live validation",
+        "stop discipline",
+        "profit realization"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "LearningChart"
+      ],
+      "learningObjectives": [
+        "Definir regras de entrada e saida antes do jogo e aprender a validar ou invalidar a tese durante o live."
+      ],
+      "failureModes": [
+        "Transformar um trade pensado em pre-live numa aposta emocional durante o jogo."
+      ],
+      "exercises": [
+        "Escrever um plano live para tr?s cen?rios: inicio favor?vel sem golo, golo a favor cedo e golo contra com quebra de tese."
+      ],
+      "checklist": [
+        "A entrada s? acontece com plano de saida escrito",
+        "O stop por pre? e coerente com a tese e com a liquidez",
+        "O stop por tese est? definido antes do jogo come?r",
+        "O take profit n? depende de gan?ncia nem de improviso"
+      ],
+      "glossaryTerms": [
+        "stake",
+        "risk",
+        "drawdown"
+      ],
+      "formulas": [
+        {
+          "label": "Sobrevivencia do trade",
+          "value": "Trade survival = pre-live thesis + live confirmation - exit delay"
+        }
+      ],
+      "previousLesson": "lesson-5",
+      "nextLesson": "lesson-7"
+    },
+    {
+      "id": "lesson-7",
+      "courseId": "course-framework-trading-10-20-roi",
+      "moduleId": "module-3",
+      "title": "Sistema de decis?, stake, correla? e limites pr?ticos",
+      "slug": "sistema-decisao-stake-correlacao-limites-praticos",
+      "lessonNumber": 7,
+      "readingMinutes": 14,
+      "level": "intermediate",
+      "concepts": [
+        "stake sizing",
+        "correlation control",
+        "exposure limits"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens"
+      ],
+      "learningObjectives": [
+        "Classificar trades em A, B, C ou No Bet, ajustar stake pela qualidade da tese e respeitar limites di?rios de exposi?."
+      ],
+      "failureModes": [
+        "Aumentar stake por conviccao emocional ou ignorar correla? escondida entre jogos."
+      ],
+      "exercises": [
+        "Avaliar quatro jogos e atribuir classifica? A, B, C ou No Bet, justificando stake, risco e exposi? total do dia."
+      ],
+      "checklist": [
+        "A classifica? depende da qualidade da tese e n? da vontade de agir",
+        "A stake respeita o risco m?dio-baixo prometido pelo sistema",
+        "Existe ajuste por correla? entre ideias semelhantes",
+        "Os limites di?rios e semanais foram verificados antes da execu?"
+      ],
+      "glossaryTerms": [
+        "stake",
+        "drawdown",
+        "risk"
+      ],
+      "formulas": [
+        {
+          "label": "Position sizing",
+          "value": "Stake = edge quality x execution clarity x bankroll discipline - correlation penalty"
+        }
+      ],
+      "previousLesson": "lesson-6",
+      "nextLesson": "lesson-8"
+    },
+    {
+      "id": "lesson-8",
+      "courseId": "course-framework-trading-10-20-roi",
+      "moduleId": "module-3",
+      "title": "Antes do jogo, durante o jogo e revis? p?s-jogo",
+      "slug": "antes-durante-jogo-revisao-pos-jogo",
+      "lessonNumber": 8,
+      "readingMinutes": 14,
+      "level": "intermediate",
+      "concepts": [
+        "pre-game checklist",
+        "process review",
+        "decision audit"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "MermaidDiagram"
+      ],
+      "learningObjectives": [
+        "Fechar o ciclo operacional com checkpoints antes do jogo, gest? objetiva durante o live e auditoria clara depois do resultado."
+      ],
+      "failureModes": [
+        "Fazer revis? olhando apenas para lucro ou preju?zo e n? para a qualidade da execu?."
+      ],
+      "exercises": [
+        "Rever tr?s trades antigos e separar o que foi boa decis? com mau resultado, m? decis? com bom resultado e m? decis? com mau resultado."
+      ],
+      "checklist": [
+        "Escala?s, not?cias e liquidez foram reconfirmadas antes da entrada",
+        "O live foi usado para validar a tese e n? para inventar uma nova",
+        "A revis? regista processo, erro e aprendizagem",
+        "O output final alimenta o scan do dia seguinte"
+      ],
+      "glossaryTerms": [
+        "drawdown",
+        "expected-value",
+        "risk"
+      ],
+      "formulas": [
+        {
+          "label": "Auditoria de processo",
+          "value": "Process quality = preparation + execution + review - result bias"
+        }
+      ],
+      "previousLesson": "lesson-7",
+      "nextLesson": null
+    }
+  ],
+  "labs": [
+    {
+      "id": "lab-scan-polymarket",
+      "title": "Scan inicial de mercados 1X2",
+      "slug": "scan-inicial-mercados-1x2",
+      "summary": "Construir uma lista bruta das pr?ximas 24h a 48h e filtrar mercados inativos ou sem liquidez suficiente.",
+      "status": "planned"
+    },
+    {
+      "id": "lab-shortlist-scorecard",
+      "title": "Scorecard de shortlist com os 2 filtros",
+      "slug": "scorecard-shortlist-dois-filtros",
+      "summary": "Pontuar volume, liquidez, spread e amplitude da varia? para reduzir o universo a 3 a 5 jogos.",
+      "status": "planned"
+    },
+    {
+      "id": "lab-trade-sheet",
+      "title": "Ficha operacional de previs? 1X2",
+      "slug": "ficha-operacional-previsao-1x2",
+      "summary": "Preencher a ficha de previs? com contexto, estat?sticas, not?cias, stake, stop e take profit.",
+      "status": "planned"
+    },
+    {
+      "id": "lab-post-game-audit",
+      "title": "Auditoria p?s-jogo e classifica? de decisoes",
+      "slug": "auditoria-pos-jogo-classificacao-decisoes",
+      "summary": "Separar processo de resultado e registar erros recorrentes de sele?, entrada e saida.",
+      "status": "planned"
+    }
+  ],
+  "glossaryTerms": [
+    "odds",
+    "implied-probability",
+    "expected-value",
+    "edge",
+    "liquidity",
+    "market-price",
+    "risk",
+    "stake",
+    "drawdown",
+    "prediction-market"
+  ],
+  "createdAt": "2026-06-10T00:00:00.000Z",
+  "updatedAt": "2026-06-10T00:00:00.000Z"
+}
+---
+# Framework Trading Futebol 10% a 20% ROI
+
+Este curso organiza um sistema di?rio para operar futebol no mercado 1X2 / Moneyline com disciplina, n? com pressa. O foco n? est? em comentar todos os jogos, nem em transformar cada varia? de pre? numa oportunidade. O foco est? em construir um funil estreito: universo elegivel, filtros de mercado, validacao estat?stica e contextual, classifica? de risco, entrada pre-live e gest? live.
+
+O numero "10% a 20%" precisa de ser entendido corretamente. Aqui ele funciona como alvo operacional por trade sobre o capital arriscado na posi?, n? como promessa autom?tica de retorno, nem como garantia de consistencia diaria. O curso existe precisamente para combater essa leitura superficial. Um trade s? deve existir quando h? movimento real, liquidez suficiente, tese verificavel e um plano claro de saida.
+
+Ao longo das licoes, vais trabalhar com tr?s perguntas centrais. Primeiro: este jogo merece sequer entrar na an?lise? Segundo: o movimento do mercado est? confirmado por contexto, estat?sticas e not?cias, ou estou a seguir fluxo cego? Terceiro: se eu entrar, como saio quando a tese quebra ou quando o pre? me paga?
+
+## Como usar este curso
+
+- Comeca sempre pela ordem das licoes. Este framework perde qualidade quando saltas diretamente para stake ou para not?cias sem ter filtros.
+- Mantem uma ficha de previs? por jogo: pre? atual, varia?, volume, liquidez, raz? principal, risco principal, stop, take profit e plano live.
+- Usa o conceito de `No Bet` como parte central do sistema. Um dia sem trade tamb?m pode ser um dia disciplinado.
+- Faz revis? p?s-jogo sem transformar o resultado em prova absoluta de boa ou m? decis?.
+
+## O que vais construir
+
+No fim do curso, deves ter uma rotina operacional replicavel:
+
+- um scan inicial de jogos 24h a 48h;
+- uma shortlist comprimida pelos dois filtros;
+- uma validacao estat?stica e contextual padronizada;
+- uma classifica? A, B, C ou No Bet;
+- uma ficha completa de entrada pre-live e gest? live;
+- uma revis? p?s-jogo focada em processo.
+
+## O crit?rio final
+
+A pergunta mestre deste curso n? e "quem vai ganhar?". A pergunta mestre e: "este trade tem movimento, liquidez, valor residual, risco controlado e plano de saida?" Se a resposta n? for clara, a melhor decis? operacional continua a ser `No Bet`.

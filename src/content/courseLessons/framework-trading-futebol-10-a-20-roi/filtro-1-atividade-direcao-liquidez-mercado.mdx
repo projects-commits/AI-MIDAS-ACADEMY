@@ -1,0 +1,120 @@
+---
+{
+  "id": "course-framework-trading-10-20-roi-lesson-2",
+  "courseId": "course-framework-trading-10-20-roi",
+  "courseSlug": "framework-trading-futebol-10-a-20-roi",
+  "lessonId": "lesson-2",
+  "moduleId": "module-1",
+  "title": "Filtro 1: atividade, dire? e liquidez de mercado",
+  "slug": "filtro-1-atividade-direcao-liquidez-mercado",
+  "lessonNumber": 2,
+  "readingMinutes": 15,
+  "status": "published",
+  "createdAt": "2026-06-10T00:00:00.000Z",
+  "updatedAt": "2026-06-10T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import LearningChart from "../../../components/lesson/LearningChart.astro";
+
+<BlackboardPanel title={"Mapa operacional: Filtro 1 - atividade, dire? e liquidez"} label="Filtro 1">
+  <div class="board-note">Olh? para cada outcome do 1X2 como um mini mercado. O jogo passa quando pelo menos um deles mostra vida real.</div>
+  <div class="board-note">Sem volume, sem liquidez e com spread largo, a varia? pode ser apenas ru?do de livro raso.</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Signal strength"} formula={"Signal strength = movement x volume x liquidity / spread friction"} explanation={"A dire? do pre? s? interessa quando a infraestrutura de negociacao permite acreditar que o movimento tem densidade, e n? apenas um toque superficial."} />
+
+<MarketExample title={"Aplicacao do Filtro 1"} setup={"Num mercado 1X2, a sele? Casa sobe de 0.42 para 0.48 nas ultimas 24h. O volume total passa de 6.2k e a liquidez visivel no outcome continua acim? de 1k."} price={"O spread est? perto de 3.5%. Iss? n? garante valor, mas indica que o mercado pode ser executavel. O jogo merece avancar no processo."} hypothesis={"A hipotese nest? fase e simples: existe interesse real, dire? legivel e infraestrutura m?nima para considerar analise profunda."} risk={"Aceitar o jogo s? porque o pre? mexeu, ignorando que o volume pode ter sido baixo ou que a liquidez desaparece quando tentas executar."} />
+
+<FailureModeCard title={"Varia? vazia tratada como sinal"} summary={"O mercado pode mexer por pouca profundidade, por um jogador isolado ou por simples desajuste temporario. Sem validar volume, liquidez e spread, o movimento n? merece respeito autom?tico."} />
+
+<DecisionChecklist title={"Checklist do Filtro 1"} items={["Pelo menos um outcome do 1X2 tem varia? observavel","O volume total e suficiente para dar contexto ao movimento","A liquidez disponivel permite entrar e sair sem grande fric?","O spread n? consome o edge potencial antes de a tese nascer"]} />
+
+<LearningChart
+  title="O que torna um mercado utilizavel"
+  items={[
+    { label: "Movimento", value: 65, tone: "orange", note: "Sem dire? n? h? prioridade." },
+    { label: "Volume", value: 82, tone: "gold", note: "Confirm? que houve interesse negociado." },
+    { label: "Liquidez", value: 88, tone: "green", note: "Determina se a leitura pode virar execu?." },
+    { label: "Spread aceitavel", value: 72, tone: "gold", note: "Protege contra mercados caros demais para operar." }
+  ]}
+/>
+
+# Filtro 1: atividade, dire? e liquidez de mercado
+
+## Ideia central
+O Filtro 1 existe para responder uma pergunta operacional muito concreta: "este mercado est? vivo?" Antes de abrir estat?sticas, not?cias ou contexto tatico, o operador precisa saber se o pre? est? realmente a transmitir interesse ou se est? apenas a oscilar num ambiente fino.
+
+## Modelo mental
+Movimento sem infraestrutura n? e sinal. E ru?do. A atividade relevante combina quatro elementos: varia? observavel, dire? coerente, volume acumulado e liquidez disponivel. O spread fech? o diagnostico. Ele mostra o custo imediato de executar a ideia. Um mercado pode parecer interessante na teoria e ser inutil na pratica se o spread for demasiado largo.
+
+## O que e
+No Filtro 1, observas os seguintes dados para cada outcome do 1X2:
+
+- pre? atual;
+- pre? nas ultimas janelas de observacao, como 24h, 12h e 6h;
+- dire? do movimento;
+- volume total e volume recente;
+- liquidez disponivel;
+- spread bid/ask.
+
+O jogo passa quando pelo menos um outcome mostra atividade que justifica atencao. Nao precisas de um mercado inteiro a mexer de form? harmonica. Precisas, sim, de pelo menos um sinal suficientemente forte para dizer: "aqui h? algo a investigar".
+
+## Por que importa
+Sem este filtro, gastas tempo em mercados mortos. Mercados mortos produzem dois tipos de erro. O primeiro e analitico: levas a serio um pre? que n? foi test?do por fluxo suficiente. O segundo e operacional: mesmo que tenhas raz?, podes n? conseguir entrar ou sair em condicoes razoaveis. O Filtro 1 evita os dois.
+
+Ele tamb?m melhora o uso do teu tempo. A shortlist deve nascer de prioridade objetiva, n? de preferencia pessoal por uma liga ou por um clube. Quando o mercado mostra vida, ele est? a dizer "h? disputa, h? informacao ou h? fluxo". Iss? n? prova edge. Mas ajuda a ordenar a fila de trabalho.
+
+## Mecanismo
+Podes pensar no Filtro 1 em quatro testes sequenciais:
+
+1. **Existe varia??** O outcome mexeu o suficiente para sair da neutralidade?
+2. **Existe dire??** A subida ou descida tem consistencia ou parece aleatoria?
+3. **Existe volume?** O fluxo acumulado e recente confirm? que a varia? n? foi um toque vazio?
+4. **Existe liquidez com spread razoavel?** O livro permite executar sem pagar caro demais?
+
+Se a resposta falh? em qualquer uma dest?s etapas, o jogo perde prioridade. O teu objetivo n? e defender o jogo. E proteger o teu processo.
+
+## CTA operacional: shortlist mais rapida
+<div class="board-note" style="margin-top: 1.5rem; padding: 1rem; border-left: 3px solid #ffd700; background: rgba(255, 215, 0, 0.05);">
+  <strong>Atalho util para a fase de filtragem:</strong> o bot em <a href="https://t.me/polymarket_market_aim_bot" target="_blank" rel="noopener noreferrer" style="color: #ffd700; text-decoration: underline;">t.me/polymarket_market_aim_bot</a> pode ajudar a levantar rapidamente jogos com atividade e movimento. Usa-o como scanner inicial, n? como decisor final. O crit?rio continua a ser teu: validar liquidez, spread e contexto antes de promover qualquer jogo para a shortlist.
+</div>
+
+## Exemplo aplicado
+Imagina dois jogos:
+
+- **Jogo A**: Casa sobe 7%, volume total de 7k, volume recente de 1.6k, liquidez acim? de 1k e spread de 3%.
+- **Jogo B**: Fora sobe 9%, mas o volume total n? chega a 1.2k, a liquidez visivel e m?nima e o spread abre para 8%.
+
+O Jogo B mexeu mais, mas isso pouco importa. O Jogo A passa o filtro porque o movimento pode ser executado. O Jogo B falh? porque a suposta informacao de mercado n? tem sustentacao operacional.
+
+## Quadro de raciocinio
+- **Movimento** mostra que houve mudanca de preferencia.
+- **Volume** mostra que essa mudanca n? foi solitaria.
+- **Liquidez** mostra se a mudanca pode ser negociada.
+- **Spread** mostra o custo imediato da leitura.
+
+Quando estes quatro blocos se alinham, o jogo merece a etapa seguinte. Quando n? se alinham, a melhor decis? e descartar cedo.
+
+## Modo de falha
+O erro mais comum aqui e tratar qualquer gr?fico inclinado como oportunidade. Outro erro e aceitar volume total alto sem olhar para a distribuicao temporal. Um mercado pode ter acumulado volume antigo e est?r seco exatamente no momento em que queres entrar. Tambem e perigos? ignorar o spread. Em mercados finos, o spread j? pode comer o retorno potencial antes de a tese viver.
+
+## Exercicio pratico
+Abre cinco mercados 1X2 e preenche uma tabela com:
+
+- outcome observado;
+- varia? 24h;
+- volume total;
+- volume recente;
+- liquidez;
+- spread;
+- decis?: passa ou falha.
+
+Depois compara as tuas decisoes com o resultado do jogo. Nao para validar o filtro pelo placar, mas para aprender se o teu crit?rio de "mercado vivo" est? consistente.
+
+## Sintese operacional
+O Filtro 1 n? escolhe o trade. Ele escolhe onde vale a pena pensar. O operador disciplinado prefere perder um jogo interessante a desperdiçar energia em mercados mortos.

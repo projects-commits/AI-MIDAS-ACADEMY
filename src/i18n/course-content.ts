@@ -1,5 +1,6 @@
 import type { CourseData } from "../types";
 import { defaultLocale, type AppLocale, type SecondaryLocale } from "./config";
+import { frameworkTradingPtMetadataClean } from "./framework-trading-localized-content";
 
 type CourseOverlay = {
   title: string;
@@ -151,6 +152,140 @@ const overlays: OverlayRegistry = {
         "lesson-7": "7단계: 물리적, 제도적, 정보 환경",
         "lesson-8": "8단계: 관찰자, 편향, 해석 품질",
         "lesson-9": "9단계: 경기의 대상, 규칙, 기술"
+      }
+    }
+  },
+  "course-framework-trading-10-20-roi": {
+    en: {
+      title: "Football Trading Framework 10% to 20% ROI",
+      subtitle: "A pre-live system for filtering a small number of 1X2 trades with real movement, usable liquidity, and a documented exit plan.",
+      corePromise:
+        "Teach a daily framework that turns dozens of football matches into a small set of 1X2 positions with liquidity, verifiable thesis, medium-low risk, and a clear exit plan.",
+      whyThisCourseExists:
+        "This course replaces impulsive reading of market movement, public narrative, and loose statistics with a narrow funnel: eligible universe, market filters, statistical and contextual confirmation, stake classification, live management, and review.",
+      audience:
+        "Readers with a basic understanding of odds, Polymarket, and 1X2 markets who want to operate with fewer matches, stronger discipline, and auditable documentation.",
+      enemy:
+        "Overtrading, late entries into stretched moves, price reading without liquidity, superficial use of statistics, lack of real stop rules, and confusion between one-off results and process quality.",
+      prerequisites: [
+        "Basic understanding of the 1X2 / Moneyline market",
+        "Ability to convert price into implied probability and decimal odds",
+        "Willingness to document thesis, risk, and post-trade review",
+        "Readiness to accept No Bet when no clear edge exists"
+      ],
+      modules: {
+        "module-1": "From raw list to executable shortlist",
+        "module-2": "Statistical confirmation and operational context",
+        "module-3": "Execution, risk, and process review"
+      },
+      lessons: {
+        "lesson-1": "System objective, eligible universe, and operational funnel",
+        "lesson-2": "Filter 1: market activity, direction, and liquidity",
+        "lesson-3": "Filter 2: healthy variation, price-to-odds conversion, and entry window",
+        "lesson-4": "Advanced statistics to confirm or reject a 1X2 thesis",
+        "lesson-5": "News, prediction sheet, and the analyst's daily workflow",
+        "lesson-6": "Pre-live entry, live management, stop loss, and take profit",
+        "lesson-7": "Decision system, stake, correlation, and practical limits",
+        "lesson-8": "Before the match, during the match, and post-game review"
+      }
+    },
+    es: {
+      title: "Framework Trading Futbol 10% a 20% ROI",
+      subtitle: "Un sistema pre-live para filtrar un numero pequeno de trades 1X2 con movimiento real, liquidez util y un plan de salida documentado.",
+      corePromise:
+        "Ensenar un framework diario que transforme decenas de partidos de futbol en pocas posiciones 1X2 con liquidez, tesis verificable, riesgo medio-bajo y un plan de salida claro.",
+      whyThisCourseExists:
+        "Este curso sustituye la lectura impulsiva del movimiento de mercado, la narrativa publica y las estadisticas sueltas por un embudo estrecho: universo elegible, filtros de mercado, confirmacion estadistica y contextual, clasificacion de stake, gestion live y revision.",
+      audience:
+        "Lectores con nocion basica de cuotas, Polymarket y mercados 1X2 que quieren operar con menos partidos, mas disciplina y documentacion auditable.",
+      enemy:
+        "Overtrading, entradas tardias en movimientos estirados, lectura de precio sin liquidez, uso superficial de estadisticas, ausencia de stops reales y confusion entre resultado puntual y calidad del proceso.",
+      prerequisites: [
+        "Conocimiento basico del mercado 1X2 / Moneyline",
+        "Capacidad de convertir precio en probabilidad implicita y cuota decimal",
+        "Disposicion para documentar tesis, riesgo y revision post-trade",
+        "Capacidad de aceptar No Bet cuando no existe edge claro"
+      ],
+      modules: {
+        "module-1": "De la lista bruta a la shortlist ejecutable",
+        "module-2": "Confirmacion estadistica y contexto operacional",
+        "module-3": "Ejecucion, riesgo y revision del proceso"
+      },
+      lessons: {
+        "lesson-1": "Objetivo del sistema, universo elegible y embudo operacional",
+        "lesson-2": "Filtro 1: actividad, direccion y liquidez de mercado",
+        "lesson-3": "Filtro 2: variacion saludable, conversion precio-cuota y ventana de entrada",
+        "lesson-4": "Estadisticas avanzadas para confirmar o rechazar un 1X2",
+        "lesson-5": "Noticias, ficha de prevision y workflow diario del analista",
+        "lesson-6": "Entrada pre-live, gestion live, stop loss y take profit",
+        "lesson-7": "Sistema de decision, stake, correlacion y limites practicos",
+        "lesson-8": "Antes del partido, durante el partido y revision post-juego"
+      }
+    },
+    de: {
+      title: "Fussball-Trading-Framework 10% bis 20% ROI",
+      subtitle: "Ein Pre-live-System, um wenige 1X2-Trades mit echter Bewegung, nutzbarer Liquiditat und dokumentiertem Exit-Plan zu filtern.",
+      corePromise:
+        "Ein tagliches Framework vermitteln, das Dutzende Fussballspiele in wenige 1X2-Positionen mit Liquiditat, verifizierbarer These, mittlerem bis niedrigem Risiko und klarem Exit-Plan verwandelt.",
+      whyThisCourseExists:
+        "Dieser Kurs ersetzt impulsive Lesarten von Marktbewegung, offentlichen Narrativen und losen Statistiken durch einen engen Funnel: zulassiges Universum, Marktfilter, statistische und kontextuelle Bestatigung, Stake-Klassifikation, Live-Management und Review.",
+      audience:
+        "Leser mit Grundkenntnissen zu Quoten, Polymarket und 1X2-Markten, die mit weniger Spielen, mehr Disziplin und auditierbarer Dokumentation arbeiten wollen.",
+      enemy:
+        "Overtrading, spate Einstiege in gestreckte Bewegungen, Preislesen ohne Liquiditat, oberflachliche Statistiknutzung, fehlende echte Stops und die Verwechslung von Einzelergebnis und Prozessqualitat.",
+      prerequisites: [
+        "Grundverstandnis des 1X2 / Moneyline-Marktes",
+        "Fahigkeit, Preis in implizite Wahrscheinlichkeit und Dezimalquote zu ubersetzen",
+        "Bereitschaft, These, Risiko und Nachreview zu dokumentieren",
+        "Bereitschaft, No Bet zu akzeptieren, wenn kein klarer Edge existiert"
+      ],
+      modules: {
+        "module-1": "Von der Roh-Liste zur ausfuhrbaren Shortlist",
+        "module-2": "Statistische Bestatigung und operativer Kontext",
+        "module-3": "Ausfuhrung, Risiko und Prozess-Review"
+      },
+      lessons: {
+        "lesson-1": "Systemziel, zulassiges Universum und operativer Funnel",
+        "lesson-2": "Filter 1: Marktaktivitat, Richtung und Liquiditat",
+        "lesson-3": "Filter 2: gesunde Variation, Preis-zu-Quote-Ubersetzung und Einstiegsfenster",
+        "lesson-4": "Advanced Stats zur Bestatigung oder Ablehnung einer 1X2-These",
+        "lesson-5": "Nachrichten, Prediction Sheet und taglicher Analysten-Workflow",
+        "lesson-6": "Pre-live-Einstieg, Live-Management, Stop Loss und Take Profit",
+        "lesson-7": "Entscheidungssystem, Stake, Korrelation und praktische Limits",
+        "lesson-8": "Vor dem Spiel, wahrend des Spiels und Nachspiel-Review"
+      }
+    },
+    ko: {
+      title: "축구 트레이딩 프레임워크 10%에서 20% ROI",
+      subtitle: "실제 움직임, 사용 가능한 유동성, 문서화된 출구 계획이 있는 소수의 1X2 트레이드를 고르기 위한 프리라이브 시스템.",
+      corePromise:
+        "수십 개의 축구 경기를 유동성, 검증 가능한 가설, 중저위험, 명확한 출구 계획을 갖춘 소수의 1X2 포지션으로 압축하는 일일 프레임워크를 가르칩니다.",
+      whyThisCourseExists:
+        "이 과정은 시장 움직임, 공적 서사, 느슨한 통계를 충동적으로 읽는 습관을 적격 유니버스, 시장 필터, 통계와 컨텍스트 확인, 스테이크 분류, 라이브 관리, 리뷰로 이어지는 좁은 퍼널로 대체하기 위해 존재합니다.",
+      audience:
+        "배당, Polymarket, 1X2 시장에 대한 기본 감각이 있고 더 적은 경기, 더 강한 규율, 감사 가능한 문서화로 운영하고 싶은 독자.",
+      enemy:
+        "과도한 트레이딩, 이미 늘어난 움직임에 늦게 진입하는 습관, 유동성 없는 가격 읽기, 피상적인 통계 사용, 실제 스톱 규칙의 부재, 단발 결과와 프로세스 품질의 혼동.",
+      prerequisites: [
+        "1X2 / 머니라인 시장에 대한 기본 이해",
+        "가격을 암시 확률과 십진 배당으로 바꿀 수 있는 능력",
+        "가설, 리스크, 사후 리뷰를 문서화하려는 태도",
+        "명확한 엣지가 없을 때 No Bet를 받아들일 준비"
+      ],
+      modules: {
+        "module-1": "원시 목록에서 실행 가능한 쇼트리스트까지",
+        "module-2": "통계 확인과 운영 컨텍스트",
+        "module-3": "실행, 리스크, 프로세스 리뷰"
+      },
+      lessons: {
+        "lesson-1": "시스템 목표, 적격 유니버스, 운영 퍼널",
+        "lesson-2": "필터 1: 시장 활동, 방향, 유동성",
+        "lesson-3": "필터 2: 건강한 변동, 가격-배당 변환, 진입 창",
+        "lesson-4": "1X2 가설을 확인하거나 거절하기 위한 고급 통계",
+        "lesson-5": "뉴스, 예측 시트, 애널리스트의 일일 워크플로",
+        "lesson-6": "프리라이브 진입, 라이브 관리, 손절, 이익 실현",
+        "lesson-7": "결정 시스템, 스테이크, 상관관계, 실전 한도",
+        "lesson-8": "경기 전, 경기 중, 경기 후 리뷰"
       }
     }
   },
@@ -308,6 +443,27 @@ const overlays: OverlayRegistry = {
 
 export function localizeCourseData(course: CourseData, locale: AppLocale): CourseData {
   if (locale === defaultLocale) {
+    if (course.id === "course-framework-trading-10-20-roi") {
+      return {
+        ...course,
+        title: frameworkTradingPtMetadataClean.title,
+        subtitle: frameworkTradingPtMetadataClean.subtitle,
+        corePromise: frameworkTradingPtMetadataClean.corePromise,
+        whyThisCourseExists: frameworkTradingPtMetadataClean.whyThisCourseExists,
+        audience: frameworkTradingPtMetadataClean.audience,
+        enemy: frameworkTradingPtMetadataClean.enemy,
+        prerequisites: [...frameworkTradingPtMetadataClean.prerequisites],
+        modules: course.modules.map((module) => ({
+          ...module,
+          title: frameworkTradingPtMetadataClean.modules[module.id] ?? module.title
+        })),
+        lessons: course.lessons.map((lesson) => ({
+          ...lesson,
+          title: frameworkTradingPtMetadataClean.lessons[lesson.id] ?? lesson.title
+        }))
+      };
+    }
+
     return course;
   }
 

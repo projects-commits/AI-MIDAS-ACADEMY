@@ -1,0 +1,114 @@
+---
+{
+  "id": "course-framework-trading-10-20-roi-lesson-1",
+  "courseId": "course-framework-trading-10-20-roi",
+  "courseSlug": "framework-trading-futebol-10-a-20-roi",
+  "lessonId": "lesson-1",
+  "moduleId": "module-1",
+  "title": "Objetivo do sistema, universo elegivel e funil operacional",
+  "slug": "objetivo-sistema-universo-elegivel-funil-operacional",
+  "lessonNumber": 1,
+  "readingMinutes": 14,
+  "status": "published",
+  "createdAt": "2026-06-10T00:00:00.000Z",
+  "updatedAt": "2026-06-10T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+import frameworkTradingOverview from "../../../../framework trading/imagem1_framework_trading.png";
+
+<BlackboardPanel title={"Mapa operacional: Objetivo do sistema, universo elegivel e funil operacional"} label="Blackboard">
+  <img class="framework-visual__image" src={frameworkTradingOverview.src} alt="Vis? geral do framework trading com objetivo do sistema, universo elegivel, funil geral e os dois filtros." loading="eager" />
+  <p class="framework-visual__caption">Use este quadro como vis? de cockpit: ele mostra o que o sistema tenta fazer antes de discutir qualquer jogo isolado.</p>
+  <div class="board-note">Mercado estreito: futebol, 1X2 / Moneyline, janela curta e no maximo 3 a 5 jogos na shortlist.</div>
+  <div class="board-note">Objetivo real: reduzir ru?do at? rest?rem apenas cen?rios com liquidez, dire? e espaco para execu?.</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Opportunity compression"} formula={"Opportunity quality = movement x liquidity x thesis clarity x exit discipline"} explanation={"A oportunidade n? nasce do nome da equipa. Ela nasce da combinacao entre movimento, liquidez, clareza de tese e capacidade de sair sem improviso."} />
+
+<MarketExample title={"Aplicacao do funil operacional"} setup={"Comecas o dia com 32 jogos nas pr?ximas 48 horas. Destes, s? 19 tem mercado 1X2 ativo na Polymarket e apenas 11 mostram alguma atividade relevante."} price={"Em vez de comentar todos, o processo vai comprimindo a lista: primeiro o universo elegivel, depois o Filtro 1, depois o Filtro 2 e s? entao a analise profunda."} hypothesis={"A hipotese n? e 'vou acertar o jogo'. A hipotese e 'vou conseguir identificar um conjunto pequeno de trades com risco m?dio-baixo e plano de saida verificavel'."} risk={"Come?r pelo jogo que parece mais interessante e adaptar o processo para caber na tua opini? inicial."} />
+
+<FailureModeCard title={"Come?r pela opini? e n? pelo sistema"} summary={"Quando a leitura comeca pela preferencia por uma equipa, o funil deixa de filtrar. Passa a servir apenas para justificar uma entrada j? desej?da."} />
+
+<DecisionChecklist title={"Checklist de enquadramento do sistema"} items={["A analise est? limitada a futebol e mercado 1X2 / Moneyline","A janela de observacao est? dentro de 24h a 48h","Existe mercado ativo e com possibilidade real de negociacao","A meta do dia e reduzir o universo, n? encontrar acao a qualquer custo"]} />
+
+<MermaidDiagram
+  title="Do universo ao trade"
+  definition={`flowchart LR
+    A["Jogos 24h-48h"] --> B["Mercado 1X2 ativo"]
+    B --> C["Filtro 1"]
+    C --> D["Filtro 2"]
+    D --> E["Shortlist 3-5 jogos"]
+    E --> F["Analise profunda"]
+    F --> G["Trade ou No Bet"]`}
+/>
+
+# Objetivo do sistema, universo elegivel e funil operacional
+
+## Ideia central
+Este framework n? foi desenhado para aumentar o numero de trades. Foi desenhado para aumentar a qualidade media das decisoes. O primeiro ganho de um sistema serio n? e o lucro imediato. E a reducao de ru?do. Quando o universo inicial e estreito e as regras de entrada s? claras, fica mais dificil inventar edge onde ele n? existe.
+
+## Modelo mental
+Pensa no processo como um funil de compress?. Entra muito contexto e sai pouca oportunidade. Cada etapa tem uma fun? diferente. O universo elegivel protege contra dispers?. O Filtro 1 protege contra mercados mortos. O Filtro 2 protege contra movimentos fracos ou j? esticados. A analise profunda decide se o jogo merece capital. A execu? decide se a tese pode sobreviver ao live.
+
+## O que e
+O sistema comeca antes da analise do jogo. Ele define:
+
+1. **Que mercados podem entrar no processo**: apenas futebol, apenas 1X2 / Moneyline, apenas jogos dentro das pr?ximas 24h a 48h.
+2. **Que jogos merecem atencao inicial**: mercados ativos, negociaveis e com algum nivel de fluxo.
+3. **Como a lista bruta e comprimida**: scan inicial, dois filtros, shortlist, analise profunda, decis? final.
+
+Esta estrutura parece simples, mas resolve um problema central do operador independente: a tentacao de abrir demasiados jogos, recolher demasiadas informacoes e acabar com um processo sem hierarquia.
+
+## Por que importa
+Sem universo elegivel, cada dia comeca no caos. Tudo parece relevante. Cada not?cia parece decisiva. Cada gr?fico mexido parece oportunidade. Quando defines o campo de jogo com antecedencia, crias um ambiente onde a disciplina pode existir. O ganho pratico e duplo:
+
+- gastas menos energia em jogos sem utilidade operacional;
+- reservas tempo mental para os poucos jogos onde liquidez, movimento e contexto realmente se alinham.
+
+Este e o primeiro pass? para um perfil de risco m?dio-baixo. Nao h? risco controlado quando o operador entra em dez ideias diferentes e s? depois tenta decidir quais s? as melhores.
+
+## Mecanismo
+O funil operacional pode ser descrito em cinco blocos:
+
+1. **Lista bruta**. Levantas todos os jogos disponiveis dentro da janela de 24h a 48h.
+2. **Universo elegivel**. Cortas tudo o que n? sej? futebol, n? tenh? mercado 1X2 ativo ou n? permita negociacao razoavel.
+3. **Filtro 1**. Procuras atividade real: movimento, volume, liquidez e spread aceitavel.
+4. **Filtro 2**. Verificas se a amplitude do movimento continua saud?vel. Nem demasiado fraca, nem demasiado tardia.
+5. **Shortlist e analise profunda**. So depois disto entram estat?sticas avancadas, not?cias, stake e plano live.
+
+Repara no efeito estrutural: a opini? tecnica vem depois da triagem de mercado. Nao porque o mercado sej? sempre mais inteligente, mas porque o mercado e um bom mecanismo de priorizacao. Ele ajuda a responder "onde devo olhar primeiro?".
+
+## Exemplo aplicado
+Imagina um dia com 40 jogos. Apenas 25 tem mercado 1X2. Destes, 15 mostram algum volume. O Filtro 1 elimina sete porque o volume e superficial ou o spread e largo demais. Sobram oito. O Filtro 2 elimina mais quatro porque duas variacoes s? fracas e duas j? est? esticadas. A shortlist fica com quatro jogos. So agora compensa abrir estat?sticas, not?cias e plano de execu?.
+
+O ponto importante e este: se comecasses pela analise profunda de todos os 40 jogos, o custo mental seria enorme e a probabilidade de forcar entradas aumentaria. O funil n? garante edge. Mas reduz a desordem que costuma destruir o edge potencial.
+
+## Quadro de raciocinio
+- **Input bruto**: calendario de jogos, mercados ativos, pre?s e volume.
+- **Primeira pergunta**: este jogo sequer merece entrar no processo?
+- **Primeiro corte**: eliminar tudo o que n? encaixa no universo elegivel.
+- **Segundo corte**: manter apenas o que tem vida de mercado.
+- **Terceiro corte**: ficar com movimentos onde ainda existe espaco operacional.
+- **Resultado**: poucas oportunidades, mais foco, menos overtrading.
+
+## Modo de falha
+O erro classico aqui e confundir trabalho com qualidade. Abrir muitos jogos da a sensacao de profundidade, mas na pratica dilui atencao. Outro erro e inverter a ordem: escolher primeiro um jogo por gosto ou intui? e depois usar o funil para o "salvar". Quando isso acontece, o sistema deixa de ser um filtro e passa a ser uma decoracao racional.
+
+## Exercicio pratico
+Durante tr?s dias seguidos, regista:
+
+- quantos jogos existiam na janela de 24h a 48h;
+- quantos tinham mercado 1X2 ativo;
+- quantos entraram no universo elegivel;
+- quantos chegaram a shortlist.
+
+Depois responde: a tua shortlist ficou mesmo pequena? Se n? ficou, o problema n? est? no mercado. Esta no teu crit?rio de compress?.
+
+## Sintese operacional
+O objetivo do sistema n? e prever todos os jogos. E transformar excess? de opcao em poucas decisoes suportadas por processo. O operador disciplinado comeca por excluir. So depois tenta escolher.

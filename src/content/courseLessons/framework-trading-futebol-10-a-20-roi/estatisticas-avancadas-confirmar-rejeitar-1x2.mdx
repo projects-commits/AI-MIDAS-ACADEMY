@@ -1,0 +1,110 @@
+---
+{
+  "id": "course-framework-trading-10-20-roi-lesson-4",
+  "courseId": "course-framework-trading-10-20-roi",
+  "courseSlug": "framework-trading-futebol-10-a-20-roi",
+  "lessonId": "lesson-4",
+  "moduleId": "module-2",
+  "title": "Estat?sticas avancadas para confirmar ou rejeitar um 1X2",
+  "slug": "estatisticas-avancadas-confirmar-rejeitar-1x2",
+  "lessonNumber": 4,
+  "readingMinutes": 16,
+  "status": "published",
+  "createdAt": "2026-06-10T00:00:00.000Z",
+  "updatedAt": "2026-06-10T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+
+<BlackboardPanel title={"Mapa operacional: estat?sticas avancadas para 1X2"} label="Validacao estat?stica">
+  <div class="board-note">Nao leias numeros como colecao de adornos. Agrupa as m?tricas por fun?: criacao, concess?, controlo, press? e diferenca entre resultado e performance.</div>
+  <div class="board-note">A pergunta n? e "que tabela ficou bonita?". A pergunta e "este conjunto confirm? ou contradiz o sinal de mercado?"</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Thesis support"} formula={"Thesis support = chance creation - chance concession + territorial control + regression context"} explanation={"O objetivo n? e criar um numero magico. E obrigar a tua leitura a passar por quatro blocos funcionais antes de defender uma sele? 1X2."} />
+
+<MarketExample title={"Aplicacao da analise estat?stica"} setup={"A equipa A sobe no mercado, mas chega com xG baixo, xGA alto, field tilt fraco e game control pobre. Ja a equipa B cria mais do que o resultado recente mostra."} price={"O mercado pode est?r a premiar narrativa p?blica ou resultado recente. A tua fun? e test?r se os mecanismos est?tisticos sustentam esse pre?."} hypothesis={"Se a estat?stica contradiz o movimento, o jogo pode sair da shortlist ou mudar de lado. Se confirma, a tese ganh? densidade."} risk={"Ficar impressionado com uma unica m?trica e ignorar o resto da estrutura do jogo."} />
+
+<FailureModeCard title={"Numero solto tratado como prova"} summary={"xG, posse, PPDA ou field tilt isolados contam historias incompletas. A decis? piora quando a estat?stica vira slogan em vez de mecanismo."} />
+
+<DecisionChecklist title={"Checklist da analise estat?stica"} items={["As m?tricas foram agrupadas por fun?","A diferenca entre resultado e performance foi explicitada","A leitura responde diretamente ao mercado 1X2","A conclusoo ajuda a confirmar, rejeitar ou rebaixar a tese do trade"]} />
+
+<CodeLens
+  title="Agrupamento funcional das m?tricas"
+  lines={[
+    { key: "forca_ofensiva", value: "xG, npxG, shots, xT, passes into box", tone: "green", note: "capacidade real de criar perigo" },
+    { key: "fragilidade_defensiva", value: "xGA, shots faced, xT against", tone: "orange", note: "quanto a equipa concede" },
+    { key: "controlo", value: "possession, field tilt, game control", tone: "gold", note: "quem empurra o jogo" },
+    { key: "performance_vs_resultado", value: "xGD, npxGD, GD-xGD", tone: "green", note: "avaliar regress? ou sobrevalorizacao" }
+  ]}
+/>
+
+# Estat?sticas avancadas para confirmar ou rejeitar um 1X2
+
+## Ideia central
+As estat?sticas avancadas entram depois dos filtros porque a sua fun? aqui n? e procurar jogos do zero. A sua fun? e confirmar ou desmontar a shortlist criada pelo mercado. Iss? muda a form? de ler os dados. Nao procuras conhecimento enciclopedico. Procuras resposta operacional.
+
+## Modelo mental
+Le as m?tricas em blocos de mecanismo. Um bloco responde "quem cria?". Outro responde "quem concede?". Outro responde "quem controla territorio e ritmo?". Outro responde "o resultado recente est? alinhado com a performance ou esconde regress?". Quando estes blocos apontam para a mesm? dire?, a tua tese ganh? coerencia. Quando se dividem, a classifica? do trade precisa de descer ou desaparecer.
+
+## O que e
+O documento base do curso separa cinco grupos especialmente uteis:
+
+1. **Forca ofensiva**: xG, open play xG, npxG, goals, shots, passes into box, xT, corners, field tilt.
+2. **Fragilidade defensiva**: xGA, open play xGA, npxGA, goals conceded, shots faced, xT against.
+3. **Controlo do jogo**: possession, field tilt, game control, passes na metade ofensiva, press? on-ball e off-ball.
+4. **Press? e recuperacao**: PPDA, high recoveries, high recoveries against.
+5. **Resultado versus performance**: xGD, npxGD, GD, GD-xGD.
+
+O valor dest? organizacao est? em evitar leitura atomizada. A m?trica s? ganh? utilidade quando encaixa numa pergunta funcional.
+
+## Por que importa
+O mercado 1X2 e sensivel a narrativas simplificadas: form? recente, ultimo resultado, nome do clube, classifica? na tabela. As estat?sticas avancadas ajudam a verificar se essas narrativas est? a descrever mecanismos reais ou apenas superficie. Um? equipa pode ganhar muito e criar pouco. Pode ter resultados fracos e, ainda assim, sustentar boa producao ofensiva e bom controlo territorial. E dessa fric? que nascem algumas das melhores reavaliacoes de tese.
+
+## Mecanismo
+Aplica est? sequencia:
+
+1. **Mede criacao ofensiva**. A equipa produz chances de form? repetivel ou vive de eficiencia temporaria?
+2. **Mede concess? defensiva**. O adversario encontra espaco e volume de remat? com facilidade?
+3. **Mede controlo territorial**. Quem empurra o jogo para a metade ofensiva e sustenta iniciativa?
+4. **Mede press?**. Ha estrutura para forcar erros, segundas bolas e transicoes?
+5. **Compara resultado e performance**. O mercado est? a pagar uma equipa pelo que ela parece ser ou pelo que realmente mostra?
+
+Se a shortlist sugeria um favorito e a leitura estat?stica desmonta a base ofensiva, revela fragilidade defensiva e mostra regress? negativa a caminho, a tua fun? e rebaixar ou eliminar o trade. Nao e defender a primeira impress?.
+
+## Exemplo aplicado
+Pensa num caso como o exemplo do Fluminense no material base: xG baixo, xGA alto, pouca posse territorial, xT contra elevado e game control fraco. Mesmo que o resultado recente n? sej? desastroso, a estrutura competitiva mostra vulnerabilidade. Se o mercado estiver a comprar essa equipa sem desconto suficiente, a tua tese deixa de ser "seguir o movimento" e passa a ser "questionar se o pre? est? a sobrepagar a narrativa".
+
+## CTA operacional: base tecnica para aprofundar a shortlist
+<div class="board-note" style="margin-top: 1.5rem; padding: 1rem; border-left: 3px solid #ffd700; background: rgba(255, 215, 0, 0.05);">
+  <strong>Repositorio de apoio:</strong> para scripts, pipelines e referencias de analise quantitativa, consulta <a href="https://github.com/aimidas1" target="_blank" rel="noopener noreferrer" style="color: #ffd700; text-decoration: underline;">github.com/aimidas1</a>. Usa o material como base de trabalho para estat?sticas avancadas, n? como verdade final. O objetivo continua a ser validar a tua shortlist com crit?rio proprio e documentacao auditavel.
+</div>
+
+## Quadro de raciocinio
+- **Ataque** diz se a equipa cria perigo estrutural.
+- **Defesa** diz se a equipa protege ou oferece demasiado.
+- **Controlo** diz quem tende a mandar no territorio e no ritmo.
+- **Regress?** diz se o resultado recente mascara a performance.
+
+Quando estes quatro blocos alinham, a sele? ganh? corpo. Quando se contradizem, o operador tem de aceitar incerteza ou recuar para `No Bet`.
+
+## Modo de falha
+Ha dois erros tipicos. O primeiro e usar m?trica sem contexto de amostra, adversario ou liga. O segundo e recolher muitas m?tricas e continuar sem responder a pergunta operacional. Se depois de vinte numeros n? sabes dizer "confirma", "contradiz" ou "degrada a qualidade da tese", a leitura n? ficou mais profunda. Ficou apenas mais cansativa.
+
+## Exercicio pratico
+Escolhe um jogo da shortlist e escreve uma analise em quatro blocos:
+
+- capacidade ofensiva real;
+- fragilidade defensiva real;
+- controlo territorial e de ritmo;
+- diferenca entre resultado recente e performance subj?cente.
+
+No final, da uma conclusoo obrigatoria: confirm? a sele?, muda a sele?, baixa a stake ou elimina o trade.
+
+## Sintese operacional
+Estatistica avancada n? serve para decorar a decis?. Serve para disciplinar a decis?. O melhor uso dos dados aqui e tornar mais facil dizer "n?" quando o mercado e a narrativa parecem sedutores.

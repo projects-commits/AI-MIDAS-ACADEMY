@@ -1,0 +1,31 @@
+---
+import type { AppLocale } from "../../i18n/config";
+import { getFrameworkTradingLocalizedCourseContent } from "../../i18n/framework-trading-localized-content";
+
+interface Props {
+  locale: AppLocale;
+}
+
+const { locale } = Astro.props;
+const content = getFrameworkTradingLocalizedCourseContent(locale);
+---
+
+{
+  content && (
+    <>
+      {content.intro.map((paragraph) => <p>{paragraph}</p>)}
+
+      {content.sections.map((section) => (
+        <section class="lesson-section">
+          <h2>{section.title}</h2>
+          {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+          {section.bullets && (
+            <ul>
+              {section.bullets.map((bullet) => <li>{bullet}</li>)}
+            </ul>
+          )}
+        </section>
+      ))}
+    </>
+  )
+}

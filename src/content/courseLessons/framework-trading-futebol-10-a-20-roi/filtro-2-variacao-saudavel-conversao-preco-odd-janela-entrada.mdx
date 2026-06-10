@@ -1,0 +1,102 @@
+---
+{
+  "id": "course-framework-trading-10-20-roi-lesson-3",
+  "courseId": "course-framework-trading-10-20-roi",
+  "courseSlug": "framework-trading-futebol-10-a-20-roi",
+  "lessonId": "lesson-3",
+  "moduleId": "module-1",
+  "title": "Filtro 2: varia? saud?vel, convers? pre?-odd e janela de entrada",
+  "slug": "filtro-2-variacao-saudavel-conversao-preco-odd-janela-entrada",
+  "lessonNumber": 3,
+  "readingMinutes": 14,
+  "status": "published",
+  "createdAt": "2026-06-10T00:00:00.000Z",
+  "updatedAt": "2026-06-10T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+
+<BlackboardPanel title={"Mapa operacional: Filtro 2 - varia? saud?vel e janela de valor"} label="Filtro 2">
+  <div class="board-note">Movimento fraco n? justifica atencao. Movimento j? esticado reduz o upside e aumenta a probabilidade de entrares tarde.</div>
+  <div class="board-note">O objetivo do filtro n? e premiar o maior gr?fico. E encontrar amplitude suficiente com valor residual ainda negociavel.</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Janela de valor"} formula={"Usable move = healthy variation x remaining upside x executable liquidity"} explanation={"A melhor varia? n? e a mais espetacular. E a que ainda deixa espaco para o teu plano de saida sem forcar o risco."} />
+
+<MarketExample title={"Aplicacao do Filtro 2"} setup={"Um? sele? sobe de 0.50 para 0.56. O movimento de 12% mostra forca, mas ainda deixa espaco para procurar valorizacao adicional se a tese se confirmar."} price={"Se a mesm? sele? j? tivesse ido de 0.50 para 0.64, o movimento seria muito maior, mas o valor residual poderia est?r quase todo consumido."} hypothesis={"A hipotese do Filtro 2 e: este mercado continua operacional ou cheguei tarde demais para um trade com alvo de 10% a 20%?"} risk={"Confundir intensidade do movimento com qualidade da entrada."} />
+
+<FailureModeCard title={"Chegar tarde e chamar isso de edge"} summary={"Quando o mercado j? andou demasiado, o operador compra entusiasmo passado em vez de comprar uma assimetria futura. O gr?fico parece bonito, mas a rela? risco-retorno piorou."} />
+
+<DecisionChecklist title={"Checklist do Filtro 2"} items={["A varia? e pelo menos de 5%","A faixa ideal ainda est? abaixo de 25%","A rela? pre?-odd continua a permitir upside operacional","A entrada n? depende de perseguir um movimento j? quase terminado"]} />
+
+<CodeLens
+  title="Leitura rapida da varia?"
+  lines={[
+    { key: "0%-4.9%", value: "movimento fraco", tone: "muted", note: "sem prioridade" },
+    { key: "5%-14.9%", value: "movimento saud?vel", tone: "green", note: "faixa preferida" },
+    { key: "15%-24.9%", value: "movimento forte", tone: "gold", note: "aprovar com cautela" },
+    { key: "25%+", value: "movimento esticado", tone: "orange", note: "s? com tese muito robusta" }
+  ]}
+/>
+
+# Filtro 2: varia? saud?vel, convers? pre?-odd e janela de entrada
+
+## Ideia central
+Depois de validar que o mercado est? vivo, precisas de saber se ainda est?s a tempo. O Filtro 2 mede precisamente isso. Ele evita dois erros: entrar em movimentos fracos demais e entrar tarde demais em movimentos que j? consumiram a maior parte do valor.
+
+## Modelo mental
+Um bom trade precisa de energia e de espaco. A energia vem do movimento de mercado. O espaco vem do facto de a varia? ainda n? ter esgotado a janela de valorizacao. Se s? tens energia sem espaco, persegues. Se s? tens espaco sem energia, adivinhas. O Filtro 2 procura o meio termo operacional.
+
+## O que e
+O filtro observa a amplitude percentual da varia? e combina essa leitura com a traducao do pre? em odd decimal aproximada. Na Polymarket, o pre? funciona como probabilidade impl?cita. A convers? simples e:
+
+`odd decimal aproximada = 1 / pre?`
+
+Iss? n? resolve tudo, mas ajuda a pensar em retorno potencial versus risco de entrada. Um pre? de 0.50 equivale aproximadamente a odd 2.00. Um pre? de 0.60 equivale a odd 1.67. Quanto mais comprimido o pre? fica, menos margem tens para extrair uma valorizacao adicional relevante sem precisarem de novos catalisadores.
+
+## Por que importa
+Um sistema com alvo operacional de 10% a 20% por trade n? pode ignorar o est?do da janela de valor. Se compras um movimento j? quase completo, passas a depender de perfeicao do live para compensar uma entrada tardia. O filtro protege a assimetria. Ele lembra que n? basta haver "dire? certa"; e precis? haver pre? utilizavel.
+
+## Mecanismo
+Podes aplicar o Filtro 2 em tr?s perguntas:
+
+1. **A varia? saiu da zona morta?** Abaixo de 5%, o movimento tende a ser fraco demais para priorizacao.
+2. **A varia? entrou na zona saud?vel?** Entre 5% e 15%, a leitura costuma est?r mais equilibrada.
+3. **A varia? j? est? a esticar?** Acim? de 15%, o cuidado aumenta. Acim? de 25%, o mercado pode j? ter absorvido grande parte da informacao.
+
+Depois fazes a traducao para odd e perguntas: "Se eu entrar aqui, ainda consigo justificar o objetivo de valorizacao sem depender de um milagre?"
+
+## Exemplo aplicado
+Suponhamos dois cen?rios:
+
+- **Cenario A**: pre? sobe de 0.42 para 0.47. Varia? acim? de 10%. A odd passa de cerca de 2.38 para 2.13. Ainda pode existir espaco se a tese estat?stica e contextual confirmar a sele?.
+- **Cenario B**: pre? sobe de 0.42 para 0.57. Varia? muito mais agressiva. A odd cai para cerca de 1.75. O mercado pode ter absorvido o principal da informacao, e o teu plano de 10% a 20% fica mais exigente.
+
+O Filtro 2 n? diz que o Cenario B e autom?ticamente invalido. Diz que ele precisa de ser tratado com mais cepticismo e menos entusiasmo.
+
+## Quadro de raciocinio
+- **Movimento insuficiente**: pouca prioridade.
+- **Movimento saud?vel**: merece analise.
+- **Movimento forte**: merece analise com prudencia.
+- **Movimento esticado**: s? sobrevive com tese muito robusta e plano de saida impecavel.
+
+## Modo de falha
+O operador apressado tende a valorizar mais o tamanho do gr?fico do que a qualidade da janela. Iss? leva a compras tardias, stops apertados em pontos maus e frustracao quando o live n? entrega mais do que o mercado j? pagou. Outro erro comum e usar a convers? pre?-odd apenas como curiosidade matematica, sem liga-la a retorno potencial, custo de spread e probabilidade impl?cita.
+
+## Exercicio pratico
+Monta uma tabela com dez exemplos reais de pre?s da Polymarket. Para cada um:
+
+- calcula a varia? percentual;
+- converte o pre? atual em odd aproximada;
+- classifica a faixa da varia?;
+- responde se ainda existe janela operacional para o plano de saida.
+
+No final, separa os casos em tr?s grupos: saud?vel, cautela e tarde demais.
+
+## Sintese operacional
+O Filtro 2 existe para proteger o teu timing. Ele lembra que nem todo o movimento forte ainda e um bom negocio. Entrar bem e, muitas vezes, saber chegar cedo o suficiente mas n? cedo demais.

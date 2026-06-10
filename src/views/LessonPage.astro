@@ -2,9 +2,11 @@
 import { getCollection, render } from "astro:content";
 import LessonLayout from "../layouts/LessonLayout.astro";
 import BlackboardPanel from "../components/academy/BlackboardPanel.astro";
+import LocalizedFrameworkTradingLessonContent from "../components/lesson/LocalizedFrameworkTradingLessonContent.astro";
 import type { CourseData } from "../types";
 import { defaultLocale, type AppLocale } from "../i18n/config";
 import { localizeCourseData } from "../i18n/course-content";
+import { hasFrameworkTradingLocalizedLessonContent } from "../i18n/framework-trading-localized-content";
 import { getDictionary } from "../i18n/ui";
 import { getLessonById, getLessonBySlug, getModuleById } from "../lib/course";
 
@@ -38,12 +40,13 @@ if (!module) {
 
 const previousLesson = getLessonById(course, lesson.previousLesson);
 const nextLesson = getLessonById(course, lesson.nextLesson);
-const showLongformLesson = locale === defaultLocale;
-const lessonContentEntries = showLongformLesson ? await getCollection("courseLessons") : [];
+const hasLocalizedLongform = hasFrameworkTradingLocalizedLessonContent(locale, course.id, lesson.id);
+const showLongformLesson = locale === defaultLocale || hasLocalizedLongform;
+const lessonContentEntries = locale === defaultLocale ? await getCollection("courseLessons") : [];
 const lessonContentEntry = lessonContentEntries.find(
   (entry) => entry.data.courseId === course.id && entry.data.lessonId === lesson.id
 );
-const renderedLesson = lessonContentEntry ? await render(lessonContentEntry) : null;
+const renderedLesson = locale === defaultLocale && lessonContentEntry ? await render(lessonContentEntry) : null;
 const LessonContent = renderedLesson?.Content;
 ---
 
@@ -56,7 +59,9 @@ const LessonContent = renderedLesson?.Content;
   locale={locale}
 >
   {
-    LessonContent ? (
+    hasLocalizedLongform ? (
+      <LocalizedFrameworkTradingLessonContent locale={locale} lessonId={lesson.id} />
+    ) : locale === defaultLocale && LessonContent ? (
       <LessonContent />
     ) : (
       <>

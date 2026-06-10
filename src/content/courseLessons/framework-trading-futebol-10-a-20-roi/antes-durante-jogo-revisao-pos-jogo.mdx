@@ -1,0 +1,113 @@
+---
+{
+  "id": "course-framework-trading-10-20-roi-lesson-8",
+  "courseId": "course-framework-trading-10-20-roi",
+  "courseSlug": "framework-trading-futebol-10-a-20-roi",
+  "lessonId": "lesson-8",
+  "moduleId": "module-3",
+  "title": "Antes do jogo, durante o jogo e revis? p?s-jogo",
+  "slug": "antes-durante-jogo-revisao-pos-jogo",
+  "lessonNumber": 8,
+  "readingMinutes": 14,
+  "status": "published",
+  "createdAt": "2026-06-10T00:00:00.000Z",
+  "updatedAt": "2026-06-10T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+
+<BlackboardPanel title={"Mapa operacional: antes do jogo, durante o jogo e revis?"} label="Auditoria">
+  <div class="board-note">O processo s? fech? quando existe revis?. Sem revis?, cada dia parece novo e os mesmos erros passam despercebidos.</div>
+  <div class="board-note">Resultado e apenas uma saida do sistema. A qualidade do processo tem de ser medida separadamente.</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Process quality"} formula={"Process quality = preparation + execution + review - result bias"} explanation={"O bias de resultado faz o operador elogiar uma m? decis? vencedora e condenar uma boa decis? perdedora. A revis? existe para combater exatamente isso."} />
+
+<MarketExample title={"Aplicacao da revis? p?s-jogo"} setup={"Um trade termina em lucro, mas o operador reconhece que entrou tarde, moveu o stop sem regra e s? ganhou porque o golo saiu cedo."} price={"Outro trade termina em perda, mas a entrada foi boa, a tese era clara e o stop foi respeitado."} hypothesis={"A revis? correta classifica o primeiro como processo fraco com resultado bom e o segundo como processo bom com resultado mau."} risk={"Usar o P/L final como unico crit?rio e perder a oportunidade de corrigir erros estruturais."} />
+
+<FailureModeCard title={"Confundir resultado com qualidade de decis?"} summary={"O mercado paga ou castiga no curto prazo de formas imperfeitas. Sem auditoria de processo, o operador aprende as licoes erradas e reforca habitos maus."} />
+
+<DecisionChecklist title={"Checklist de fecho do ciclo"} items={["Escala?s, not?cias e liquidez foram reconfirmadas antes da entrada","O live serviu para validar a tese e n? para improvisar","A revis? separa resultado de qualidade de processo","O aprendizado do dia alimenta o scan e as regras do dia seguinte"]} />
+
+<MermaidDiagram
+  title="Input, processo e output"
+  definition={`flowchart LR
+    A["Input: jogos, pre?s, not?cias, banca"] --> B["Processo: filtros, analise, stake, execu?"]
+    B --> C["Output: trade, No Bet, P/L, notas"]
+    C --> D["Revis?"]
+    D --> A`}
+/>
+
+# Antes do jogo, durante o jogo e revis? p?s-jogo
+
+## Ideia central
+Todo o framework corre para este ponto: fechar um ciclo. Antes do jogo, confirmas se o plano continua valido. Durante o jogo, observas se a tese est? a viver ou a morrer. Depois do jogo, separas processo de resultado e atualizas a tua memoria operacional.
+
+## Modelo mental
+Pensa em tr?s auditorias:
+
+1. **Auditoria pre-jogo**: o mercado ainda tem valor? As escalacoes ou not?cias novas quebraram algo?
+2. **Auditoria live**: o jogo confirm? ou desmente os mecanismos que justificaram a entrada?
+3. **Auditoria p?s-jogo**: a decis? foi boa independentemente do placar? Onde o processo falhou?
+
+Sem est?s tr?s auditorias, o sistema fica incompleto. Ficas com sele? e stake, mas sem aprendizagem acumulativa.
+
+## O que e
+O material base sugere checkpoints claros:
+
+- 30 a 90 minutos antes do inicio, rever escalações, not?cias, pre?, liquidez, spread, stake, stop e take profit;
+- durante o jogo, avaliar os primeiros 10 a 15 minutos, reacao ao golo e impacto de cartoes vermelhos;
+- depois do jogo, registar entrada, saida, P/L, qualidade da decis?, se o live confirmou a tese e se o resultado foi mais processo ou mais sorte.
+
+Estes checkpoints tornam o sistema revisavel. O operador deixa de depender de memoria vaga e comeca a construir historico de decis?.
+
+## Por que importa
+Sem revis?, o operador repete erros com confianca renovada. O lucro mascara erros de processo e a perda mascara qualidade real da leitura. A revis? reabre o caso com menos emocao. Iss? ajuda a corrigir exagero de stake, atras? de saida, dependencia excessiva do live ou crit?rios frouxos de shortlist.
+
+## Mecanismo
+Usa este ciclo:
+
+1. **Antes do jogo**: confirm? se nada mudou materialmente desde a ficha de previs?.
+2. **Durante o jogo**: observa os sinais de confirma? e quebra definidos no plano.
+3. **Depois do jogo**: classifica o trade em uma de quatro caixas:
+   - boa decis?, bom resultado;
+   - boa decis?, mau resultado;
+   - m? decis?, bom resultado;
+   - m? decis?, mau resultado.
+
+Esta classifica? e uma das ferramentas mais importantes do curso porque evita que a emocao do placar reescreva a tua historia do trade.
+
+## Exemplo aplicado
+Um favorito entra bem e o mercado anda a favor. O operador realiza parcial corretamente. Mais tarde, o jogo complica e o lucro total final e menor do que parecia. Mesmo assim, a decis? pode ter sido boa porque a protecao respeitou o plano. Noutro jogo, o operador ganha, mas ignorou correla?, entrou sem confirmar not?cias e moveu stop contra a regra. O green n? transform? isso em processo aceitavel.
+
+## Quadro de raciocinio
+- **Prepara?** garante que a entrada continua legitima.
+- **Execu?** mede se o plano foi seguido sob press?.
+- **Revis?** extrai licao util para o sistema, n? apenas para o ego.
+
+## Modo de falha
+Os erros mais comuns de revis? s?:
+
+- s? olhar para P/L;
+- n? distinguir azar de erro;
+- n? escrever notas;
+- rever demasiado tarde, quando a memoria j? est? contaminada.
+
+Um? boa revis? e curta, objetiva e repetivel. Nao precisa de literatura. Precisa de honestidade operacional.
+
+## Exercicio pratico
+Escolhe tr?s trades antigos e responde:
+
+1. O que eu vi antes do jogo?
+2. O que o live mostrou a favor e contra?
+3. Onde devia ter saido?
+4. A decis? foi boa ou m? independentemente do resultado?
+5. Que regra ajusto para o proximo dia?
+
+## Sintese operacional
+O framework s? fica completo quando o output volta a alimentar o input. Rever bem e uma form? de reduzir erro futuro. Nao muda o passado, mas melhora o proximo scan.

@@ -1,0 +1,118 @@
+---
+{
+  "id": "course-framework-trading-10-20-roi-lesson-7",
+  "courseId": "course-framework-trading-10-20-roi",
+  "courseSlug": "framework-trading-futebol-10-a-20-roi",
+  "lessonId": "lesson-7",
+  "moduleId": "module-3",
+  "title": "Sistema de decis?, stake, correla? e limites pr?ticos",
+  "slug": "sistema-decisao-stake-correlacao-limites-praticos",
+  "lessonNumber": 7,
+  "readingMinutes": 14,
+  "status": "published",
+  "createdAt": "2026-06-10T00:00:00.000Z",
+  "updatedAt": "2026-06-10T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+import frameworkTradingRisk from "../../../../framework trading/imagem_2_framework_trading.png";
+
+<BlackboardPanel title={"Mapa operacional: sistema de decis?, risco e limites pr?ticos"} label="Risco e stake">
+  <img class="framework-visual__image" src={frameworkTradingRisk.src} alt="Quadro do framework trading com estrutura da previs?, sistema de decis? A/B/C/No Bet, perfil de risco e limites pr?ticos." loading="eager" />
+  <p class="framework-visual__caption">Esta imagem encaixa nest? licao porque concentra a passagem da analise para a alocacao de risco.</p>
+  <div class="board-note">A pergunta aqui n? e se gostas do jogo. E quanto capital ele merece, se merece algum.</div>
+  <div class="board-note">Correla? escondida e excess? de exposi? transformam bons trades isolados em mau portfolio do dia.</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Position sizing"} formula={"Stake = edge quality x execution clarity x bankroll discipline - correlation penalty"} explanation={"A stake n? mede entusiasmo. Mede o quanto a tese merece capital depois de descontares risco, correla? e capacidade real de executar."} />
+
+<MarketExample title={"Aplicacao do sistema de decis?"} setup={"Dois jogos passaram nos filtros e na validacao. O primeiro tem liquidez forte, not?cias favoraveis e estat?sticas claras. O segundo tamb?m tem valor, mas com contradicoes e maior dependencia do live."} price={"O primeiro pode entrar como A ou B. O segundo talvez fique em C ou mesmo No Bet se a exposi? do dia j? estiver alta."} hypothesis={"Classificar bem protege mais do que adivinhar bem. A stake deve refletir qualidade de tese e risco agregado, n? vontade de participar."} risk={"Aumentar stake porque o operador 'gosta muito' do jogo ou porque precisa de recuperar uma perda anterior."} />
+
+<FailureModeCard title={"Stake como express? emocional"} summary={"Quando a stake deixa de refletir processo e passa a refletir necessidade psicologica, o sistema de risco colapsa. O problema deixa de ser o mercado e passa a ser o operador."} />
+
+<DecisionChecklist title={"Checklist de alocacao de risco"} items={["A classifica? A, B, C ou No Bet foi definida antes da execu?","A stake respeita o perfil m?dio-baixo do sistema","Foi feito ajuste por correla? entre ideias semelhantes","Os limites de dia, jogo, mercado e drawdown continuam intactos"]} />
+
+<CodeLens
+  title="Escada simples de decis?"
+  lines={[
+    { key: "A", value: "1.5% a 2.0% da banca", tone: "green", note: "mercado forte, tese clara, risco controlavel" },
+    { key: "B", value: "0.75% a 1.25% da banca", tone: "gold", note: "valor existe, mas com algum atrito" },
+    { key: "C", value: "0.25% a 0.50% da banca", tone: "orange", note: "cen?rios incompletos ou muito dependentes do live" },
+    { key: "No Bet", value: "0%", tone: "muted", note: "sem edge claro ou exposi? j? excessiva" }
+  ]}
+/>
+
+# Sistema de decis?, stake, correla? e limites pr?ticos
+
+## Ideia central
+Nem todo o trade aprovado merece a mesm? quantidade de capital. Depois da analise, precisas de converter qualidade de tese em exposi?. O sistema A, B, C e No Bet existe para isso. Ele padroniza a ponte entre leitura e stake.
+
+## Modelo mental
+Pensa na stake como uma consequencia, n? como um desejo. Primeiro avalias qualidade de mercado, confirma? estat?stica, not?cias, risco live e correla?. So depois decides tamanho. Um jogo com boa historia mas execu? dificil n? merece a mesm? stake de um jogo com liquidez forte, leitura clara e plano simples.
+
+## O que e
+O material base sugere quatro est?dos:
+
+- **Aposta A**: stake alta, em torno de 1.5% a 2.0% da banca.
+- **Aposta B**: stake media, em torno de 0.75% a 1.25%.
+- **Aposta C**: stake baixa, em torno de 0.25% a 0.50%.
+- **No Bet**: exposi? zero.
+
+O sistema tamb?m define um perfil m?dio-baixo:
+
+- poucas apostas por dia;
+- liquidez como exigencia m?nima;
+- alvo por trade de 10% a 20%;
+- stop normal entre -8% e -12% no pre?;
+- limite di?rio de capital em risco;
+- limites por jogo, liga, mercado e drawdown.
+
+## Por que importa
+Mesmo boas leituras quebram quando a exposi? total do dia fica desproporcionada. O objetivo n? e vencer uma discuss? com o mercado. E sobreviver tempo suficiente para que boas decisoes se acumulem. A stake correta protege capital e tamb?m protege clareza mental. Um operador sobre-exposto perde qualidade de leitura nos trades seguintes.
+
+## Mecanismo
+Para classificar, podes usar quatro perguntas:
+
+1. **A tese est? limpa?** Os filtros, as estat?sticas e as not?cias alinham?
+2. **A execu? e simples?** Ha liquidez, spread aceitavel e plano live claro?
+3. **O risco est? controlado?** O stop e executavel e os gatilhos de quebra est? definidos?
+4. **A exposi? agregada continua saud?vel?** Existe correla? com outras ideias do dia?
+
+Correla? merece atencao especial. Tres favoritos da mesm? liga, no mesmo dia, com narrativa parecida podem parecer trades independentes, mas na pratica partilham a mesm? fonte de erro. Nesse caso, a stake total precisa de ser comprimida.
+
+## Exemplo aplicado
+Imagina que tens tr?s jogos aprovados:
+
+- Jogo 1: favorito com volume forte, estat?sticas consistentes, not?cias neutras e boa liquidez.
+- Jogo 2: underdog bem suportado por dados, mas com spread menos confortavel.
+- Jogo 3: outro favorito da mesm? liga e com narrativa semelhante ao Jogo 1.
+
+O Jogo 1 pode ser A ou B. O Jogo 2 talvez fique em B ou C. O Jogo 3, mesmo bom, pode precisar de reduzir stake por correla? com o Jogo 1. O sistema n? avalia apenas qualidade isolada. Avalia risco combinado.
+
+## Quadro de raciocinio
+- **Qualidade de tese** define a nota base.
+- **Capacidade de executar** confirm? se a nota merece capital.
+- **Correla?** retira pes? quando varias posi?s dependem da mesm? ideia.
+- **Limites pr?ticos** impedem que um bom dia potencial vire dia de dano estrutural.
+
+## Modo de falha
+O erro mais visivel e aumentar stake para recuperar perda. O erro menos visivel, mas igualmente perigoso, e ignorar correla?. O portfolio di?rio fica fragil quando varias ideias respondem ao mesmo choque de mercado, mesmo est?ndo em jogos diferentes.
+
+## Exercicio pratico
+Monta um painel di?rio com quatro jogos e atribui:
+
+- classifica? A, B, C ou No Bet;
+- stake proposta;
+- raz? principal;
+- risco principal;
+- nivel de correla? com outras ideias.
+
+Depois reduz a exposi? total at? caber nos limites di?rios definidos pelo sistema.
+
+## Sintese operacional
+A stake certa nasce de um "sim, mas quanto?" bem respondido. Classificar bem e cortar correla? vale mais do que parecer corajos? num unico jogo.

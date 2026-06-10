@@ -1,0 +1,118 @@
+---
+{
+  "id": "course-framework-trading-10-20-roi-lesson-5",
+  "courseId": "course-framework-trading-10-20-roi",
+  "courseSlug": "framework-trading-futebol-10-a-20-roi",
+  "lessonId": "lesson-5",
+  "moduleId": "module-2",
+  "title": "Not?cias, ficha da previs? e workflow di?rio do analista",
+  "slug": "noticias-ficha-previsao-workflow-diario-analista",
+  "lessonNumber": 5,
+  "readingMinutes": 14,
+  "status": "published",
+  "createdAt": "2026-06-10T00:00:00.000Z",
+  "updatedAt": "2026-06-10T00:00:00.000Z"
+}
+---
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+import frameworkTradingWorkflow from "../../../../framework trading/imagem3_framework_trading.png";
+
+<BlackboardPanel title={"Mapa operacional: not?cias, workflow di?rio e input-processo-output"} label="Workflow">
+  <img class="framework-visual__image" src={frameworkTradingWorkflow.src} alt="Quadro do framework trading com analise dos jogos, prompt curto de not?cias, workflow di?rio e fluxo de input, processo e output." loading="eager" />
+  <p class="framework-visual__caption">Esta imagem encaixa aqui porque traduz a ponte entre shortlist, analise profunda, decis? e revis? operacional.</p>
+  <div class="board-note">Not?cias n? existem para fazer texto bonito. Existem para confirmar, degradar ou destruir a tese.</div>
+  <div class="board-note">Cada previs? precisa de ficha padronizada para que a decis? sej? auditavel antes e depois do jogo.</div>
+</BlackboardPanel>
+
+<FormulaBlock label="Formula mental" title={"Clean workflow"} formula={"Clean workflow = shortlist + confirmation + plan + review"} explanation={"O fluxo s? fica limpo quando cada etapa produz um output especifico. Scan gera lista. Filtros geram shortlist. Analise gera tese. Execu? gera decis? auditavel."} />
+
+<MarketExample title={"Aplicacao do workflow di?rio"} setup={"Depois dos filtros, sobram quatro jogos. Para cada um, recolhes estat?sticas, not?cias recentes, leitura de pre? e plano live."} price={"A ficha de previs? obriga-te a escrever por que o jogo foi escolhido, qual e o risco principal e onde o plano deixa de fazer sentido."} hypothesis={"A not?cia mais importante n? serve para dar dramatismo. Serve para responder se a tese ganhou confirma?, perdeu qualidade ou deve ser descartada."} risk={"Consumir not?cias sem crit?rio e acabar por refor?r a narrativa que j? querias defender."} />
+
+<FailureModeCard title={"Not?cia lida como reforco emocional"} summary={"Quando a analise de not?cias vira colecao de manchetes, o operador deixa de procurar impacto operacional e passa a procurar validacao psicologica."} />
+
+<DecisionChecklist title={"Checklist da ficha de previs?"} items={["A not?cia mais relevante foi identificada e ponderada","O jogo tem raz? principal e risco principal claros","A ficha registra pre?, varia?, volume, liquidez e plano live","O workflow separa scan, shortlist, analise, decis? e revis?"]} />
+
+<MermaidDiagram
+  title="Fluxo di?rio do analista"
+  definition={`flowchart LR
+    A["Scan inicial"] --> B["Filtro 1"]
+    B --> C["Filtro 2"]
+    C --> D["Shortlist"]
+    D --> E["Estat?sticas + not?cias"]
+    E --> F["Ficha de previs?"]
+    F --> G["Trade / No Bet"]
+    G --> H["Revis? p?s-jogo"]`}
+/>
+
+# Not?cias, ficha da previs? e workflow di?rio do analista
+
+## Ideia central
+Depois da shortlist, o trabalho deixa de ser encontrar jogos e passa a ser test?r teses. Aqui entram duas ferramentas fundamentais: not?cias e ficha padronizada de previs?. A primeira ajuda a captar lesoes, rotacao, fadiga, motivacao e contexto de tabela. A segunda impede que a decis? fique solta.
+
+## Modelo mental
+Not?cias s? variaveis de confirma? ou invalidacao. Nao s? substituto da analise estat?stica nem fonte de entusiasmo. A ficha de previs?, por sua vez, funciona como log pre-trade. Ela transform? uma intui? em objeto verificavel. Quando o jogo acaba, e essa ficha que permite perguntar se a decis? era boa, media ou m? independentemente do placar.
+
+## O que e
+O material base do curso propoe um prompt curto para not?cias focado em:
+
+- lesoes e suspensoes importantes;
+- motivacao das equipas;
+- calendario e fadiga;
+- rotacao provavel;
+- contexto da liga ou da tabela;
+- outras not?cias que afetem diretamente o 1X2.
+
+Ao mesmo tempo, a estrutura de previs? inclui:
+
+- jogo, liga, data e mercado;
+- sele?;
+- pre?, odd aproximada, dire? e varia?;
+- volume, liquidez e spread;
+- porque passou nos filtros;
+- analise estat?stica;
+- analise de not?cias;
+- confianca, risco, stake;
+- stop, take profit e plano live.
+
+Esta padronizacao reduz autoengano. Obriga-te a explicitar de onde vem a conviccao e onde ela pode falhar.
+
+## Por que importa
+Um sistema sem ficha pre-trade depende demasiado da memoria e da narrativa p?s-jogo. Depois do resultado, tudo parece obvio. A ficha trava esse processo. Ela cristaliza a tese antes do mercado resolver o caso. Ja as not?cias ajudam a impedir outro erro comum: operar um bom numero est?tistico em cim? de um contexto recente que o invalida, como rotacao extrema, les? de ultim? hora ou calendario destructivo.
+
+## Mecanismo
+O workflow di?rio pode ser lido como uma cadeia de outputs:
+
+1. **Scan inicial** produz lista bruta.
+2. **Filtros** produzem shortlist.
+3. **Estat?sticas e not?cias** produzem uma tese com grau de confirma?.
+4. **Ficha de previs?** transform? a tese em decis? documentada.
+5. **Live e revis?** produzem aprendizagem para o dia seguinte.
+
+Este encadeamento importa porque evita mistura de camadas. Nao queres fazer revis? enquanto ainda est?s a escolher jogo. Nao queres fazer stake antes de ter not?cia e estat?stica. Cada etapa deve resolver apenas o seu proprio problema.
+
+## Exemplo aplicado
+Suponhamos que um jogo passou bem nos dois filtros. Estatisticamente, a equipa da casa mostra criacao ofensiva consistente. Mas as not?cias do dia apontam para rotacao de dois jogadores-chave e acumulacao de fadiga apos viagem europeia. A ficha de previs? obriga-te a registar isso como risco principal. O trade ainda pode sobreviver, mas talvez baixe de A para B, ou talvez mude de entrada pre-live para monitorizacao live.
+
+## Quadro de raciocinio
+- **Not?cias** filtram eventos recentes que o numero historico ainda n? absorve bem.
+- **Ficha** transform? a leitura em objeto auditavel.
+- **Workflow** garante que cada output alimenta o proximo pass? com menos ru?do.
+
+## Modo de falha
+O erro mais comum e usar not?cias para colorir uma narrativa j? escolhida. O segundo erro e preencher a ficha s? depois do jogo ou demasiado perto da entrada, quando j? existe press? emocional. A ficha s? tem valor real se for escrita antes da execu? e se incluir risco principal, n? apenas argumentos a favor.
+
+## Exercicio pratico
+Escolhe dois jogos da shortlist e escreve uma ficha completa para cada um. Em seguida, compara:
+
+- qual tem raz? principal mais clara;
+- qual tem risco principal mais toleravel;
+- qual tem melhor plano live;
+- qual deveria virar `No Bet`.
+
+## Sintese operacional
+Not?cias e ficha n? existem para burocracia. Existem para impedir que um trade mal documentado pareca bem pensado. Quanto mais padronizada for a tua rotina, menos espaco sobra para improvis? enganador.

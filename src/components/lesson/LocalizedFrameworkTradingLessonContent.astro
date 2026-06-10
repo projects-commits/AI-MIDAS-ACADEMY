@@ -1,0 +1,74 @@
+---
+import BlackboardPanel from "../academy/BlackboardPanel.astro";
+import type { AppLocale } from "../../i18n/config";
+import { getFrameworkTradingLocalizedLessonContent } from "../../i18n/framework-trading-localized-content";
+import frameworkTradingOverview from "../../../framework trading/imagem1_framework_trading.png";
+import frameworkTradingWorkflow from "../../../framework trading/imagem3_framework_trading.png";
+import frameworkTradingRisk from "../../../framework trading/imagem_2_framework_trading.png";
+
+interface Props {
+  locale: AppLocale;
+  lessonId: string;
+}
+
+const { locale, lessonId } = Astro.props;
+const content = getFrameworkTradingLocalizedLessonContent(locale, lessonId);
+const imageMap = {
+  overview: frameworkTradingOverview,
+  workflow: frameworkTradingWorkflow,
+  risk: frameworkTradingRisk
+} as const;
+const image = content?.imageKey ? imageMap[content.imageKey] : null;
+---
+
+{
+  content && (
+    <>
+      {image && (
+        <BlackboardPanel title={content.sections[0]?.title ?? "Lesson overview"} label="Visual">
+          <img
+            class="framework-visual__image"
+            src={image.src}
+            alt={content.imageAlt ?? ""}
+            loading="eager"
+          />
+          {content.imageCaption && <p class="framework-visual__caption">{content.imageCaption}</p>}
+        </BlackboardPanel>
+      )}
+
+      {content.callout && (
+        <div class="board-note" style="padding: 1rem; border-left: 3px solid #ffd700; background: rgba(255, 215, 0, 0.05);">
+          <strong>{content.callout.label}:</strong> {content.callout.text}
+          {
+            content.callout.href &&
+              content.callout.hrefLabel && (
+                <>
+                  {" "}
+                  <a
+                    href={content.callout.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style="color: #ffd700; text-decoration: underline;"
+                  >
+                    {content.callout.hrefLabel}
+                  </a>
+                </>
+              )
+          }
+        </div>
+      )}
+
+      {content.sections.map((section) => (
+        <section class="lesson-section">
+          <h2>{section.title}</h2>
+          {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+          {section.bullets && (
+            <ul>
+              {section.bullets.map((bullet) => <li>{bullet}</li>)}
+            </ul>
+          )}
+        </section>
+      ))}
+    </>
+  )
+}
