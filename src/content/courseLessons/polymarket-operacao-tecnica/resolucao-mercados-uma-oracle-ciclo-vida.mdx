@@ -1,0 +1,76 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-4",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-4",
+  "moduleId": "module-1",
+  "title": "Resolução de Mercados: UMA Oracle e o Ciclo de Vida",
+  "slug": "resolucao-mercados-uma-oracle-ciclo-vida",
+  "lessonNumber": 4,
+  "readingMinutes": 25,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 4: Resolução de Mercados — UMA Oracle e Ciclo de Vida
+
+<MermaidDiagram
+  title="Ciclo de Vida de um Mercado"
+  definition={`
+  graph LR
+      A[Criação] --> B[Negociação]
+      B --> C[Evento Ocorre]
+      C --> D[Proposta de Resolução]
+      D --> E[Período de Disputa]
+      E --> F[Resolução Final]
+      F --> G[Distribuição de Fundos]
+      E --> H[Disputa]
+      H --> I[Re-resolução]
+      I --> F
+  `}
+/>
+
+A **UMA Oracle** é um sistema de oráculo otimista. Qualquer utilizador pode propor um resultado. Se ninguém disputar dentro do período de janela (tipicamente 2-7 dias), o resultado é aceite como verdadeiro.
+
+<BlackboardPanel title="Ciclo Completo">
+
+1. **Criação:** Um criador define o mercado, as regras, a fonte de resolução
+2. **Negociação:** Utilizadores compram e vendem tokens YES/NO
+3. **Congelamento:** Quando o evento ocorre, a negociação para
+4. **Proposta:** Alguém propõe o resultado (paga um bond)
+5. **Disputa:** Se alguém discorda, pode disputar (também paga bond)
+6. **Resolução:** Se não há disputa, o resultado é final. Se há, o UMA resolve via votação
+7. **Distribuição:** Os smart contracts distribuem 1 USDC por token YES se o outcome venceu, 0 se perdeu
+
+</BlackboardPanel>
+
+<FailureModeCard title="Modo de Falha Comum">
+
+**"O jogo acabou, vou receber logo."**
+
+A resolução não é instantânea. Após o evento, há um período de proposta e depois uma janela de disputa. Pode levar dias até os fundos serem distribuídos. Não entres em pânico — é o processo normal.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] Compreendo o ciclo: criação → negociação → resolução
+- [ ] Sei que existe período de disputa
+- [ ] Entendo o papel da UMA Oracle
+- [ ] Sei que a distribuição é automática via smart contract
+- [ ] Verifico a fonte de resolução do mercado antes de operar
+
+</BlackboardPanel>
+
+---
+
+## Módulo 2: Interface, Wallet e Leitura do Mercado

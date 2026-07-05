@@ -1,0 +1,37 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-8",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-8",
+  "moduleId": "module-3",
+  "title": "Ordens Limit e Market: Diferenças e Quando Usar Cada Uma",
+  "slug": "ordens-limit-market-diferencas-quando-usar",
+  "lessonNumber": 8,
+  "readingMinutes": 30,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 8: Ordens Limit e Market
+
+<BlackboardPanel title="Comparação de Ordens">
+
+| Tipo | Quando usar | Riscos |
+|------|------------|--------|
+| **Limit (GTC)** | Tens tempo, queres preço exato, és maker | Pode não executar |
+| **Market** | Precisas de executar agora | Slippage em baixa liquidez |
+| **FOK** | Só queres se executar tudo ou nada | Pode rejeitar parcial |
+| **FAK** | Queres o máximo possível agora | Execução parcial |
+
+</BlackboardPanel>
+
+---

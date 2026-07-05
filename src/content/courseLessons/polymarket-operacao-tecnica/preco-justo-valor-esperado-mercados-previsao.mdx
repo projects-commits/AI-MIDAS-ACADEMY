@@ -1,0 +1,49 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-9",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-9",
+  "moduleId": "module-3",
+  "title": "Preço Justo e Valor Esperado (EV) em Mercados de Previsão",
+  "slug": "preco-justo-valor-esperado-mercados-previsao",
+  "lessonNumber": 9,
+  "readingMinutes": 35,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 9: Preço Justo e Valor Esperado
+
+<FormulaBlock
+  label="Valor Esperado (EV)"
+  formula="EV = (P_estimada * payout) - ((1 - P_estimada) * custo)"
+  example="Se estimas 50% para Benfica, mercado está a 0.42:
+         EV = (0.50 * 0.58) - (0.50 * 0.42) = 0.29 - 0.21 = 0.08
+         EV positivo de 0.08 por token → edge de 19%"
+/>
+
+<MarketExample
+  title="Cálculo de EV num Mercado Real"
+>
+
+Mercado: "Sporting vence a Liga" — Preço: 0.38
+Tua estimativa: 45% (baseada em análise de performance)
+
+EV = (0.45 × 0.62) - (0.55 × 0.38)
+EV = 0.279 - 0.209
+EV = 0.07 USDC por token
+
+**Conclusão:** EV positivo de 0.07 — se a tua estimativa estiver correta, tens edge.
+
+</MarketExample>
+
+---

@@ -1,0 +1,39 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-10",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-10",
+  "moduleId": "module-3",
+  "title": "Taxas, Slippage e Custo Real de um Trade",
+  "slug": "taxas-slippage-custo-real-trade",
+  "lessonNumber": 10,
+  "readingMinutes": 25,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 10: Taxas e Slippage
+
+<BlackboardPanel title="Estrutura de Taxas da Polymarket">
+
+| Tipo | Taxa | Condição |
+|------|------|----------|
+| **Maker** | 0% | Colocaste ordem limit que deu liquidez |
+| **Taker** | 0.1% | Executaste contra uma ordem existente |
+| **Gas** | Variável (~0.01-0.10 USDC) | Pago em POL |
+| **Protocol Fee** | 0% | Atualmente sem taxa de protocolo |
+
+</BlackboardPanel>
+
+---
+
+## Módulo 4: API e Automação

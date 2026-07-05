@@ -1,0 +1,39 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-13",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-13",
+  "moduleId": "module-4",
+  "title": "API REST: Consultar Mercados, Books e Histórico",
+  "slug": "api-rest-consultar-mercados-books-historico",
+  "lessonNumber": 13,
+  "readingMinutes": 35,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 13: API REST — Consultar Mercados
+
+```python
+import requests
+
+HOST = "https://clob.polymarket.com"
+resp = requests.get(
+    f"{HOST}/markets",
+    params={"limit": 100, "offset": 0, "tag": "soccer", "closed": False},
+)
+markets = resp.json()
+for m in markets["data"]:
+    print(f"{m['question'][:60]:60s} | Vol: {m['volume']:>10s} | Liquidez: {m['liquidity']:>10s}")
+```
+
+---

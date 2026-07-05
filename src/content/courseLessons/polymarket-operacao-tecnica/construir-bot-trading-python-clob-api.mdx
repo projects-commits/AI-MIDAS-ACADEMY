@@ -1,0 +1,56 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-15",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-15",
+  "moduleId": "module-4",
+  "title": "Construir um Bot de Trading com Python e a CLOB API",
+  "slug": "construir-bot-trading-python-clob-api",
+  "lessonNumber": 15,
+  "readingMinutes": 40,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 15: Bot de Trading Completo
+
+```python
+import time
+from clob_client import ClobClient, Side
+
+HOST = "https://clob.polymarket.com"
+MIN_LIQUIDITY = 1000
+MIN_EV = 0.05
+
+def estimate_probability(market):
+    return 0.55  # Placeholder
+
+client = ClobClient(host=HOST, creds=load_creds())
+
+while True:
+    markets = client.get_markets(tag="soccer", closed=False, limit=50)
+    for market in markets["data"]:
+        liq = float(market["liquidity"])
+        if liq < MIN_LIQUIDITY:
+            continue
+        book = client.get_order_book(market["id"])
+        mp = float(book["best_ask"])
+        ev = (estimate_probability(market) * (1 - mp)) - ((1 - estimate_probability(market)) * mp)
+        if ev > MIN_EV:
+            print(f"OPORTUNIDADE: {market['question']}, EV: {ev:.4f}")
+            client.create_order(token_id=market["token_id"], price=mp, size=100, side=Side.BUY)
+    time.sleep(300)
+```
+
+---
+
+## Módulo 5: Risco e Estratégia

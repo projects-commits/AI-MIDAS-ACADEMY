@@ -1,0 +1,43 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-17",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-17",
+  "moduleId": "module-5",
+  "title": "Correlação entre Mercados e Exposição Agregada",
+  "slug": "correlacao-mercados-exposicao-agregada",
+  "lessonNumber": 17,
+  "readingMinutes": 30,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 17: Correlação entre Mercados
+
+<MarketExample
+  title="Correlação num Jogo de Futebol"
+>
+
+Para o jogo Benfica vs Porto, estes mercados estão correlacionados:
+
+| Mercado | Posição | Stake |
+|---------|---------|-------|
+| Benfica vence | YES | 50 USDC |
+| Benfica marca primeiro | YES | 30 USDC |
+| Total golos > 2.5 | YES | 20 USDC |
+| **Exposição agregada ao jogo** | | **100 USDC** |
+
+Se o Benfica perder, as primeiras duas posições perdem. És altamente dependente de um único resultado.
+
+</MarketExample>
+
+---

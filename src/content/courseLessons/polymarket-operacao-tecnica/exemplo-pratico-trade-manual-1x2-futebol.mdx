@@ -1,0 +1,191 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-11",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-11",
+  "moduleId": "module-3",
+  "title": "Exemplo Prático: Trade Manual num 1×2 de Futebol",
+  "slug": "exemplo-pratico-trade-manual-1x2-futebol",
+  "lessonNumber": 11,
+  "readingMinutes": 35,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 11: Exemplo Prático — Trade Manual num 1×2 de Futebol
+
+Esta aula caminha passo a passo por um trade real na Polymarket, desde a identificação do mercado até ao registo pós-trade. O objetivo não é mostrar um trade "perfeito" — é mostrar o processo completo de um operador disciplinado.
+
+<BlackboardPanel title="Setup do Exemplo">
+
+**Cenário:** Jogo Benfica vs Porto, Liga Portugal
+
+**Mercado:** "Resultado da Partida" (Neg-Risk, 3 outcomes)
+
+**Preços atuais:**
+| Outcome | Preço | Prob. Implícita |
+|---------|-------|----------------|
+| Benfica | 0.45 | 45% |
+| Empate | 0.30 | 30% |
+| Porto | 0.25 | 25% |
+
+**Tua banca:** 1,000 USDC
+**Stake máximo por trade:** 50 USDC (5%)
+
+</BlackboardPanel>
+
+---
+
+### Passo 1: Tese
+
+Antes de qualquer ordem, documenta a tua tese:
+
+**Tese:** O Benfica está em casa, não perde há 12 jogos, e o Porto está sem 2 titulares no meio-campo. A probabilidade real de vitória do Benfica é 55%, não os 45% que o mercado reflete.
+
+**Edge estimado:** 55% - 45% = 10 pontos percentuais
+
+**Direção da aposta:** Comprar YES Benfica
+
+<FormulaBlock
+  label="Valor Esperado"
+  formula="EV = (0.55 × 0.55) - (0.45 × 0.45) = 0.3025 - 0.2025 = 0.10 USDC por token"
+  example="Para 100 tokens a 0.45: investes 45 USDC, valor esperado 55 USDC, EV = +10 USDC"
+/>
+
+---
+
+### Passo 2: Análise do Book
+
+<BlackboardPanel title="Book de Ordens — YES Benfica">
+
+| Preço | Bids (Compra) | Asks (Venda) |
+|-------|:------------:|:-----------:|
+| 0.43 | 1,200 | — |
+| 0.44 | 800 | — |
+| 0.45 | 500 | 200 |
+| 0.46 | — | 600 |
+| 0.47 | — | 400 |
+
+**Best Bid:** 0.44 (quem quer comprar)
+**Best Ask:** 0.46 (quem quer vender)
+**Spread:** 0.02 (4.4% — aceitável)
+**Profundidade bids:** 2,000 até 0.44
+**Profundidade asks:** 1,000 desde 0.46
+
+</BlackboardPanel>
+
+**Interpretação:** O spread de 4.4% é razoável para um mercado de futebol com liquidez moderada. Há mais pressão compradora (2,000 vs 1,000), o que sugere que o preço pode subir. Como tens tempo até ao jogo (48h), deves usar **ordem limit** para pagar 0% de taxa maker.
+
+---
+
+### Passo 3: Execução
+
+<BlackboardPanel title="Ordem Colocada">
+
+**Tipo:** Limit GTC (Good-Till-Cancelled)
+**Lado:** Buy
+**Outcome:** YES Benfica
+**Preço:** 0.44 (1 tick abaixo do best ask — tentas pagar menos)
+**Quantidade:** 100 tokens
+**Custo máximo:** 44 USDC
+**Valor que fica bloqueado:** 44 USDC + ~0.01 USDC gas
+
+**Resultado da ordem:** A ordem executa parcialmente após 3 minutos — 50 tokens a 0.44. As restantes 50 ficam no book.
+
+</BlackboardPanel>
+
+---
+
+### Passo 4: Gestão da Posição
+
+<MarketExample
+  title="Posição Atual"
+>
+
+**Posição:** 50 YES Benfica a 0.44
+**Custo:** 22 USDC + 0.01 USDC gas
+**Valor de mercado atual:** 0.46 (best bid subiu para 0.45)
+**Lucro não realizado:** (0.46 - 0.44) × 50 = 1 USDC (+4.5%)
+
+**Decisão:** Manter. A tese ainda não foi invalidada. O mercado está a mover-se a teu favor, mas o jogo ainda não começou.
+
+</MarketExample>
+
+<FailureModeCard title="Modo de Falha Comum">
+
+**"O preço subiu 2 ticks, vou vender tudo e realizar lucro."**
+
+Fechar uma posição apenas porque o preço subiu ligeiramente é trading emocional, não baseado em tese. Se a tua tese ainda é válida (Benfica com 55% de vencer), o preço a 0.46 ainda representa valor. Só deves sair se:
+1. A tese for invalidada (ex: notícia de lesão)
+2. O preço atingir o teu take profit definido
+3. O preço atingir o teu stop loss definido
+
+</FailureModeCard>
+
+---
+
+### Passo 5: Fecho e Post-Mortem
+
+<BlackboardPanel title="Fecho do Trade">
+
+**O jogo terminou:** Benfica 2-1 Porto
+
+**Resolução do mercado:** YES Benfica paga 1 USDC por token
+
+**Resultado do trade:**
+- Tokens: 50
+- Preço de entrada: 0.44
+- Investimento: 22 USDC
+- Retorno: 50 USDC
+- Lucro bruto: 28 USDC
+- Taxas (taker só se vendeste antes): 0 USDC (aguardaste resolução)
+- Gas (entrada): 0.01 USDC
+- **Lucro líquido: 27.99 USDC** (+127% sobre o investido)
+
+</BlackboardPanel>
+
+<BlackboardPanel title="Trade Journal — Registo Obrigatório">
+
+| Campo | Valor |
+|-------|-------|
+| Mercado | Benfica vs Porto (Neg-Risk) |
+| Outcome | YES Benfica |
+| Tese | Benfica 55%, mercado 45% — edge de 10pp |
+| Preço entrada | 0.44 |
+| Quantidade | 50 tokens |
+| Custo total | 22.01 USDC |
+| Resultado | Venceu (Benfica 2-1 Porto) |
+| Retorno | 50 USDC |
+| ROI | +127% |
+| Lições | A tese estava correta; podia ter entrado com mais stake |
+
+</BlackboardPanel>
+
+<FailureModeCard title="Modo de Falha Crítico">
+
+**"Tive sorte, logo a minha tese está validada."**
+
+Um resultado positivo não valida a tua tese. Se estimaste 55% e ganhaste, isso é consistente com a tua tese — mas uma só observação não prova nada. O que valida uma tese é a consistência ao longo de dezenas ou centenas de trades com edge positivo. Mantém o trade journal e revê regularmente.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist Pós-Trade">
+
+- [ ] Documentei a tese antes de entrar
+- [ ] Analisei o book e escolhi ordem limit vs market com base em dados
+- [ ] Calculei o EV antes de executar
+- [ ] Respeitei o limite de stake (5% da banca)
+- [ ] Mantive a posição até resolução (sem trading emocional)
+- [ ] Registei o resultado no trade journal
+- [ ] Refleti sobre o que aprendi com este trade
+
+</BlackboardPanel>

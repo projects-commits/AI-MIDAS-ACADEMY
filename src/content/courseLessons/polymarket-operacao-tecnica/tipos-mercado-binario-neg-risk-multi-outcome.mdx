@@ -1,0 +1,89 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-3",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-3",
+  "moduleId": "module-1",
+  "title": "Tipos de Mercado: Binário, Neg-Risk e Multi-Outcome",
+  "slug": "tipos-mercado-binario-neg-risk-multi-outcome",
+  "lessonNumber": 3,
+  "readingMinutes": 30,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 3: Tipos de Mercado — Binário, Neg-Risk e Multi-Outcome
+
+<BlackboardPanel title="Árvore de Tipos de Mercado">
+
+```
+Mercados Polymarket
+├── Binário (YES/NO)
+│   Ex: "O Benfica vence o Porto?" → YES ou NO
+│   Preços: YES + NO = 1 (idealmente)
+│
+├── Neg-Risk
+│   Ex: "Resultado Benfica vs Porto"
+│   Outcomes: Benfica, Empate, Porto
+│   Soma dos preços = 1 (sempre)
+│   Apenas 1 outcome paga 1 USDC
+│
+└── Multi-Outcome
+    Ex: "Quantos golos?" (0, 1, 2, 3+)
+    Podem ter correlação entre outcomes
+```
+
+</BlackboardPanel>
+
+**Neg-Risk** é a inovação mais importante da Polymarket. Em mercados tradicionais de múltiplas opções, cada par (ex: Benfica vs Empate) teria o seu próprio book, fragmentando liquidez. No neg-risk, todos os outcomes partilham o mesmo book, concentrando liquidez.
+
+<FormulaBlock
+  label="Soma Neg-Risk"
+  formula="Preço_Benfica + Preço_Empate + Preço_Porto = 1.00"
+  example="0.45 + 0.30 + 0.25 = 1.00"
+/>
+
+<MarketExample
+  title="Exemplo: Mercado Neg-Risk de Futebol"
+>
+
+Mercado: "Resultado da partida Benfica vs Porto" (Neg-Risk)
+
+| Outcome | Preço | Prob. Implícita |
+|---------|-------|----------------|
+| Benfica | 0.45 | 45% |
+| Empate | 0.30 | 30% |
+| Porto | 0.25 | 25% |
+| **Soma** | **1.00** | **100%** |
+
+Se comprares YES em Benfica a 0.45 e o Benfica vencer, recebes 1 USDC por token — um lucro de 0.55 USDC por token.
+
+</MarketExample>
+
+<FailureModeCard title="Modo de Falha Comum">
+
+**"Se comprar YES e NO no mesmo mercado binário, estou protegido."**
+
+Não. Se comprares YES a 0.40 e NO a 0.60, gastaste 1.00 USDC para receber 1.00 USDC — lucro zero antes de taxas e gas. Só faz sentido se o preço somar menos de 1.00 (arbitragem) ou se estiveres a corrigir uma posição anterior.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] Sei diferenciar binário, neg-risk e multi-outcome
+- [ ] Compreendo que neg-risk concentra liquidez
+- [ ] Entendo que num mercado neg-risk a soma é sempre 1
+- [ ] Verifico o tipo de mercado antes de operar
+
+</BlackboardPanel>
+
+---

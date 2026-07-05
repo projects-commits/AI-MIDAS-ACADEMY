@@ -1,0 +1,47 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-16",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-16",
+  "moduleId": "module-5",
+  "title": "Gestão de Banca em Prediction Markets",
+  "slug": "gestao-banca-prediction-markets",
+  "lessonNumber": 16,
+  "readingMinutes": 30,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 16: Gestão de Banca
+
+<FormulaBlock
+  label="Kelly Fracionado (25%)"
+  formula="f = 0.25 × (edge / odds)"
+  example="Edge = 10%, Odds = 2.38 (1/0.42)
+           f = 0.25 × (0.10 / (2.38 - 1))
+           f = 0.25 × 0.072 = 0.018
+           → 1.8% da banca por trade"
+/>
+
+<BlackboardPanel title="Regras de Gestão de Banca">
+
+| Regra | Valor Recomendado |
+|-------|------------------|
+| Stake máximo por trade | 2-5% da banca |
+| Exposição máxima por dia | 15% da banca |
+| Exposição máxima por evento | 10% da banca |
+| Drawdown máximo | 20% (abaixo disso, para) |
+| Alavancagem | Não usar em prediction markets |
+
+</BlackboardPanel>
+
+---

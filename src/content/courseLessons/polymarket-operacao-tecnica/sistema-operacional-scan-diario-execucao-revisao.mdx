@@ -1,0 +1,66 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-18",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-18",
+  "moduleId": "module-5",
+  "title": "Sistema Operacional: Scan Diário, Execução e Revisão",
+  "slug": "sistema-operacional-scan-diario-execucao-revisao",
+  "lessonNumber": 18,
+  "readingMinutes": 35,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 18: Sistema Operacional Completo
+
+<MermaidDiagram
+  title="Workflow Diário"
+  definition={`
+  graph TD
+      A[08:00 - Scan] --> B[Filtrar mercados]
+      B --> C[Analisar top 5]
+      C --> D{Há edge?}
+      D -->|Sim| E[Documentar tese]
+      D -->|Não| F[No Bet]
+      E --> G[Executar trade]
+      G --> H[Monitorizar]
+      H --> I{Jogo decorre?}
+      I -->|Sim| J[Gestão live]
+      I -->|Não| K[Aguardar]
+      J --> L[22:00 - Revisão]
+      K --> L
+      F --> L
+      L --> A
+  `}
+/>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] Tenho horário fixo de scan
+- [ ] Documento tese antes de cada trade
+- [ ] Executo com disciplina
+- [ ] Faço revisão pós-trade
+- [ ] Trade journal atualizado
+- [ ] Respeito limites de risco
+
+</BlackboardPanel>
+
+---
+
+<BlackboardPanel title="O Curso em Números">
+
+**18 aulas • 5 módulos • 6 laboratórios • 420 minutos de leitura estimada**
+
+Da criação da wallet ao bot automatizado. Dos fundamentos à gestão de risco. Com exemplos reais em mercados de futebol. Este curso é o teu ponto de entrada para operar prediction markets com seriedade.
+
+</BlackboardPanel>

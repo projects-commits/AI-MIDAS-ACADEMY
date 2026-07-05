@@ -1,0 +1,75 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-1",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-1",
+  "moduleId": "module-1",
+  "title": "O que é a Polymarket e como difere de uma casa de apostas",
+  "slug": "o-que-e-polymarket-diferenca-casa-apostas",
+  "lessonNumber": 1,
+  "readingMinutes": 25,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 1: O que é a Polymarket e como difere de uma casa de apostas
+
+<BlackboardPanel title="Prediction Market vs Casa de Apostas">
+
+| Dimensão | Polymarket | Casa de Apostas Tradicional |
+|----------|-----------|---------------------------|
+| **Contraparte** | O mercado (outros users) | A casa |
+| **Liquidação** | Smart contract na Polygon | Base de dados centralizada |
+| **Preço** | Determinado por oferta/procura (CLOB) | Definido pela casa |
+| **Fundos** | Na tua wallet (auto-custódia) | Na conta da casa |
+| **Resolução** | Oráculo UMA (optimistic oracle) | Decisão interna da casa |
+| **Taxas** | Maker: 0%, Taker: 0.1% | Margem embutida nas odds |
+| **Transparência** | Total (on-chain) | Parcial |
+
+</BlackboardPanel>
+
+Quando operas na Polymarket, cada ordem tua é um contrato entre a tua wallet e o smart contract. Não há uma entidade central a definir odds, a cancelar mercados, ou a limitar os teus levantamentos.
+
+**Mecanismo:** O CLOB (Central Limit Order Book) funciona como um leilão contínuo. Compradores e vendedores colocam ordens limit. Quando os preços coincidem, a ordem é executada on-chain.
+
+<MarketExample
+  title="Exemplo: Jogo Benfica vs Porto — Mercado YES/NO"
+>
+
+Mercado: "Benfica vence o Porto"
+
+- Preço atual: 0.42 (42% de probabilidade implícita)
+- Liquidez no book: 12,345 USDC
+- Spread: 0.02 (best bid 0.41, best ask 0.43)
+
+Numa casa de apostas, a odd equivalente seria ~2.38 (1/0.42). Mas na Polymarket, esse preço é dinâmico — muda a cada ordem.
+
+</MarketExample>
+
+<FailureModeCard title="Modo de Falha Comum">
+
+**"A Polymarket é igual à Betfair."**
+
+Falso. A Betfair é uma exchange centralizada que detém os fundos e decide as regras. A Polymarket é descentralizada: os fundos estão na tua wallet, a liquidação é on-chain, e a resolução depende de um oráculo descentralizado.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist de Decisão">
+
+- **Checklist:** Percebo que a Polymarket é uma exchange, não uma casa de apostas
+- **Checklist:** Compreendo que o preço = probabilidade implícita
+- **Checklist:** Sei que os fundos ficam na minha wallet
+- **Checklist:** Entendo que a resolução usa UMA Oracle
+
+</BlackboardPanel>
+
+---

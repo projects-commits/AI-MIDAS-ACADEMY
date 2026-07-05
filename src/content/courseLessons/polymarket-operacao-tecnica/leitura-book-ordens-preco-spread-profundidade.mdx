@@ -1,0 +1,65 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-7",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-7",
+  "moduleId": "module-2",
+  "title": "Leitura do Book de Ordens: Preço, Spread e Profundidade",
+  "slug": "leitura-book-ordens-preco-spread-profundidade",
+  "lessonNumber": 7,
+  "readingMinutes": 30,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 7: Leitura do Book de Ordens
+
+<BlackboardPanel title="Order Book Visual (Níveis de Preço)">
+
+| Preço | Bids (Compra) | Asks (Venda) |
+|-------|:------------:|:-----------:|
+| 0.38 | 500 | — |
+| 0.39 | 1,200 | — |
+| 0.40 | 800 | — |
+| 0.41 | 300 | — |
+| 0.42 | 100 | 50 |
+| 0.43 | — | 200 |
+| 0.44 | — | 600 |
+| 0.45 | — | 900 |
+| 0.46 | — | 400 |
+| **Total** | **2,900** | **2,150** |
+
+**Pressão compradora: 2,900 vs 2,150 = +17%** → Mercado inclinado a subir
+
+</BlackboardPanel>
+
+<BlackboardPanel title="Como Ler o Book">
+
+**Best Bid:** 0.40 (maior preço que alguém quer comprar)
+**Best Ask:** 0.43 (menor preço que alguém quer vender)
+**Spread:** 0.03 (7.5% — elevado)
+**Profundidade Bids:** 2,900 USDC (até 0.42)
+**Profundidade Asks:** 2,150 USDC (a partir de 0.43)
+
+**Interpretação:** Mais pressão compradora (bids mais profundos) sugere que o mercado pode subir. Mas o spread de 7.5% é alto — entrar e sair custa caro.
+
+</BlackboardPanel>
+
+<FormulaBlock
+  label="Order Book Imbalance (OBI)"
+  formula="OBI = (Bid_Volume - Ask_Volume) / (Bid_Volume + Ask_Volume)"
+  example="OBI = (2900 - 2150) / (2900 + 2150) = 0.15 → 15% pressão compradora"
+/>
+
+---
+
+## Módulo 3: Trading Manual

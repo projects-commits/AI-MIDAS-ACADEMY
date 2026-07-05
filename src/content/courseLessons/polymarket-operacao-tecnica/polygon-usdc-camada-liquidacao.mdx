@@ -1,0 +1,81 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-2",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-2",
+  "moduleId": "module-1",
+  "title": "Polygon, USDC e a Camada de Liquidação",
+  "slug": "polygon-usdc-camada-liquidacao",
+  "lessonNumber": 2,
+  "readingMinutes": 25,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 2: Polygon, USDC e a Camada de Liquidação
+
+<BlackboardPanel title="Stack Tecnológico da Polymarket">
+
+```
+┌──────────────────────────────────────────────┐
+│             Polymarket Interface              │
+├──────────────────────────────────────────────┤
+│              CLOB (Off-chain)                 │
+│           Order Matching Engine               │
+├──────────────────────────────────────────────┤
+│        Smart Contracts (Polygon PoS)          │
+│         CTF Exchange, Neg-Risk               │
+├──────────────────────────────────────────────┤
+│            Polygon Blockchain                 │
+│        Settlement, USDC.e, Gas Fees           │
+└──────────────────────────────────────────────┘
+```
+
+</BlackboardPanel>
+
+A Polymarket usa **Polygon PoS** como camada de liquidação por três razões:
+
+1. **Custo:** Transações na Polygon custam centavos, não dólares
+2. **Velocidade:** Blocos a cada 2 segundos vs 12 segundos no Ethereum
+3. **Eco-sistema:** Polygon tem bridges, explorers e ferramentas maduras
+
+<MarketExample
+  title="Custo Real de um Trade"
+>
+
+- Ordem limit de 100 YES a 0.50: 50 USDC
+- Gas fee na Polygon: ~0.01 USDC (em hora normal)
+- Taker fee (se executares contra o book): 0.1% = 0.05 USDC
+- **Custo total estimado: 50.06 USDC**
+
+Comparação com Ethereum: o mesmo trade custaria ~5-15 USDC só de gas.
+
+</MarketExample>
+
+<FailureModeCard title="Modo de Falha Comum">
+
+**"Mandei USDC mas não aparece na Polymarket."**
+
+Provavelmente enviaste USDC nativo (Ethereum) para o endereço na rede Polygon. USDC na Ethereum e USDC.e na Polygon são tokens diferentes. Precisas de usar uma bridge como o Polygon Portal ou a bridge nativa da exchange.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] Tenho USDC.e na rede Polygon
+- [ ] Tenho MATIC/POL para gas fees
+- [ ] Sei verificar saldo no Polygonscan
+- [ ] Compreendo como fazer bridge
+
+</BlackboardPanel>
+
+---

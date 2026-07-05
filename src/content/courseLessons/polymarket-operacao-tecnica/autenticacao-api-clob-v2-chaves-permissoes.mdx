@@ -1,0 +1,51 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-12",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-12",
+  "moduleId": "module-4",
+  "title": "Autenticação na API CLOB v2: Chaves e Permissões",
+  "slug": "autenticacao-api-clob-v2-chaves-permissoes",
+  "lessonNumber": 12,
+  "readingMinutes": 30,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 12: Autenticação na API CLOB v2
+
+```typescript
+import { ClobClient, Chain } from "@polymarket/clob-client-v2";
+import { createWalletClient, http } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
+import "dotenv/config";
+
+const account = privateKeyToAccount(process.env.PRIVATE_KEY);
+const walletClient = createWalletClient({
+  account,
+  transport: http("https://polygon-rpc.com"),
+});
+
+const client = new ClobClient({
+  host: "https://clob.polymarket.com",
+  chain: Chain.POLYGON,
+  signer: walletClient,
+});
+
+// L1 Authentication — wallet signature
+const creds = await client.createOrDeriveApiKey();
+console.log("Key:", creds.key);
+console.log("Secret:", creds.secret);
+console.log("Passphrase:", creds.passphrase);
+```
+
+---

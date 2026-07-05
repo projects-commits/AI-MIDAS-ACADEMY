@@ -1,0 +1,54 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-6",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-6",
+  "moduleId": "module-2",
+  "title": "Navegação na Interface: Encontrar e Interpretar Mercados",
+  "slug": "navegacao-interface-encontrar-interpretar-mercados",
+  "lessonNumber": 6,
+  "readingMinutes": 25,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 6: Navegação na Interface
+
+A interface da Polymarket está organizada por categorias. Para encontrar mercados de futebol:
+
+1. Clica em "Categories" ou usa a barra de pesquisa
+2. Filtra por "Sports" → "Soccer" (ou "Football")
+3. Ordena por volume ou liquidez
+
+<MarketExample
+  title="O que cada campo significa"
+>
+
+| Campo | O que mostra | O que importa |
+|-------|-------------|---------------|
+| **Volume** | Total USDC negociado | Alto volume sugere mercado ativo |
+| **Liquidez** | USDC disponível no book | Mínimo recomendado: 500 USDC |
+| **Expiry** | Data de fecho do mercado | Preferir 24-72h para análise |
+| **Spread** | Diferença bid/ask | < 5% é aceitável |
+| **Outcomes** | Opções disponíveis | Identificar tipo de mercado |
+
+</MarketExample>
+
+<FailureModeCard title="Modo de Falha">
+
+**"Este mercado tem 1M de volume, deve ser bom."**
+
+Volume total não é liquidez disponível. Um mercado pode ter 1M de volume histórico mas apenas 200 USDC de liquidez no book. Verifica sempre o book em tempo real, não apenas o volume total.
+
+</FailureModeCard>
+
+---

@@ -1,0 +1,66 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica-lesson-5",
+  "courseId": "course-polymarket-operacao-tecnica",
+  "courseSlug": "polymarket-operacao-tecnica",
+  "lessonId": "lesson-5",
+  "moduleId": "module-2",
+  "title": "Criação de Wallet e Conexão à Polymarket",
+  "slug": "criacao-wallet-conexao-polymarket",
+  "lessonNumber": 5,
+  "readingMinutes": 30,
+  "status": "published",
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+### Aula 5: Criação de Wallet e Conexão à Polymarket
+
+<BlackboardPanel title="Checklist de Setup">
+
+**Para operar na Polymarket precisas de:**
+
+1. Wallet (recomendado: MetaMask ou Rabby)
+2. Rede Polygon adicionada
+3. MATIC/POL para gas fees
+4. USDC.e para trading
+5. Conexão à Polymarket.com
+
+**Setup passo a passo:**
+
+1. Instala a extensão MetaMask no teu browser
+2. Cria uma nova wallet (guarda a seed phrase offline!)
+3. Adiciona a rede Polygon:
+   - RPC: https://polygon-rpc.com
+   - Chain ID: 137
+   - Symbol: POL
+   - Explorer: https://polygonscan.com
+4. Compra USDC numa exchange e faz bridge para Polygon
+5. Vai a polymarket.com e clica "Connect Wallet"
+
+</BlackboardPanel>
+
+```
+javascript
+// Usando ethers.js
+const { ethers } = require("ethers");
+const provider = new ethers.JsonRpcProvider("https://polygon-rpc.com");
+const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+const balance = await provider.getBalance(wallet.address);
+console.log("Saldo POL:", ethers.formatEther(balance));
+```
+
+<FailureModeCard title="Modo de Falha Crítico">
+
+**NUNCA partilhes a tua seed phrase.** Nem com suporte, nem com amigos, nem em sites. A Polymarket NUNCA te vai pedir a seed phrase. Se alguém pedir, é burla.
+
+</FailureModeCard>
+
+---
