@@ -1,0 +1,1937 @@
+---
+{
+  "id": "course-polymarket-operacao-tecnica",
+  "title": "Polymarket — Operação Técnica em Mercados de Previsão",
+  "slug": "polymarket-operacao-tecnica",
+  "subtitle": "Um curso técnico e prático sobre a Polymarket: como funcionam os mercados de previsão on-chain, o CLOB, a liquidez, o pricing, a negociação manual e automatizada, e a gestão de risco com exemplos reais em futebol.",
+  "category": "Prediction Markets & On-chain",
+  "secondaryCategories": [
+    "Market Intelligence",
+    "Risk & Execution",
+    "Football Research"
+  ],
+  "level": "beginner",
+  "status": "draft",
+  "language": "pt-PT",
+  "estimatedReadingMinutes": 420,
+  "minimumWordCount": 15000,
+  "targetPersonas": [
+    "Analista de futebol que quer usar prediction markets como fonte de dados e execução",
+    "Trader esportivo em transição para mercados descentralizados",
+    "Operador de cripto curioso sobre aplicações reais de DeFi",
+    "Estudante de probabilidade e mercados que quer exemplos práticos com futebol",
+    "Desenvolvedor que quer construir bots e ferramentas sobre a API da Polymarket"
+  ],
+  "corePromise": "Ensinar do zero ao avançado como operar na Polymarket: criação de wallet, conexão à plataforma, leitura de book de ordens, execução de trades manuais e automatizados, compreensão do mecanismo CLOB, pricing de outcomes, gestão de risco em mercados de previsão, e extração de dados via API — tudo com exemplos concretos em mercados de futebol.",
+  "whyThisCourseExists": "A Polymarket é a maior plataforma de prediction markets on-chain do mundo, mas a maioria dos utilizadores confunde-a com uma casa de apostas ou subestima a sua mecânica. Os conceitos de CLOB, neg-risk, tick size, slippage, liquidez on-chain e probabilidade implícita são mal compreendidos. Este curso existe para preencher esse vazio com conteúdo técnico, prático e auditável.",
+  "enemy": "Confundir Polymarket com casa de apostas tradicional, ignorar a mecânica do CLOB, operar sem compreender probabilidade implícita vs preço on-chain, negligenciar liquidez e slippage, usar apenas a interface gráfica sem conhecer a API, tratar mercados de previsão como jogo de azar em vez de ferramenta analítica.",
+  "audience": "Desde o curioso que nunca usou cripto até o trader experiente que quer operar prediction markets com disciplina. O curso assume vontade de aprender, mas não assume conhecimento prévio de blockchain, Polygon, USDC ou APIs. Leitores com experiência em odds e trading esportivo vão encontrar paralelos diretos.",
+  "prerequisites": [
+    "Conhecimento básico de probabilidade e odds (saber converter preço em probabilidade implícita)",
+    "Familiaridade com navegação web e conceitos fundamentais de internet",
+    "Vontade de criar uma wallet (MetaMask ou equivalente) durante o curso",
+    "Disponibilidade para seguir exemplos práticos com valores pequenos em testnet ou mainnet"
+  ],
+  "courseStats": {
+    "moduleCount": 5,
+    "lessonCount": 18,
+    "labCount": 6,
+    "glossaryTermCount": 15
+  },
+  "tracks": [
+    {
+      "id": "track-foundations",
+      "title": "Fundamentos e Contexto",
+      "summary": "Compreender o que é a Polymarket, como difere de casas de apostas, como a blockchain Polygon e o USDC permitem mercados descentralizados, e como a resolução de mercados funciona."
+    },
+    {
+      "id": "track-interface",
+      "title": "Navegação e Leitura de Mercado",
+      "summary": "Criar wallet, conectar à Polymarket, ler o book de ordens, analisar liquidez, spread e profundidade, e interpretar o que o preço está realmente a dizer."
+    },
+    {
+      "id": "track-trading",
+      "title": "Execução e Automação",
+      "summary": "Executar trades manuais e automatizados, compreender ordens limit vs market, usar a API CLOB v2, construir um bot de trading com Python, e automatizar estratégias."
+    },
+    {
+      "id": "track-risk",
+      "title": "Risco e Estratégia",
+      "summary": "Gerir banca em prediction markets, compreender correlação entre mercados, desenhar invalidação de tese, e construir um sistema operacional completo."
+    }
+  ],
+  "modules": [
+    {
+      "id": "module-1",
+      "title": "Fundamentos da Polymarket",
+      "slug": "fundamentos-da-polymarket",
+      "summary": "O que é a Polymarket, como funciona a blockchain Polygon, o papel do USDC, tipos de mercado (binário, neg-risk, multiplo), e o processo de resolução através da UMA Oracle.",
+      "lessonIds": [
+        "lesson-1",
+        "lesson-2",
+        "lesson-3",
+        "lesson-4"
+      ],
+      "learningGoals": [
+        "Explicar o que distingue a Polymarket de uma casa de apostas tradicional",
+        "Compreender o papel da blockchain Polygon e do USDC na liquidação de mercados",
+        "Diferenciar mercados binários, neg-risk e multi-outcome",
+        "Entender o ciclo completo de vida de um mercado: criação, negociação, resolução"
+      ]
+    },
+    {
+      "id": "module-2",
+      "title": "Interface, Wallet e Leitura do Mercado",
+      "slug": "interface-wallet-leitura-mercado",
+      "summary": "Criação de wallet MetaMask, conexão à Polygon, financiamento com USDC, navegação na interface, leitura do book de ordens, interpretação de preço, spread, liquidez e profundidade.",
+      "lessonIds": [
+        "lesson-5",
+        "lesson-6",
+        "lesson-7"
+      ],
+      "learningGoals": [
+        "Criar e configurar uma wallet para usar na Polymarket",
+        "Navegar na interface e encontrar mercados de futebol",
+        "Ler o book de ordens e extrair informação sobre liquidez, spread e pressão compradora/vendedora"
+      ]
+    },
+    {
+      "id": "module-3",
+      "title": "Trading Manual: Ordens, Preço e Execução",
+      "slug": "trading-manual-ordens-preco-execucao",
+      "summary": "Ordens limit vs market, mecânica do CLOB, cálculo de preço justo, valor esperado (EV), taxas maker/taker, e exemplos práticos de execução em mercados 1X2 de futebol.",
+      "lessonIds": [
+        "lesson-8",
+        "lesson-9",
+        "lesson-10",
+        "lesson-11"
+      ],
+      "learningGoals": [
+        "Diferenciar e executar ordens limit e market na Polymarket",
+        "Calcular preço justo e valor esperado para um outcome",
+        "Compreender o impacto das taxas e do slippage na execução",
+        "Executar trades manuais com disciplina e documentação"
+      ]
+    },
+    {
+      "id": "module-4",
+      "title": "API, Automação e Bots",
+      "slug": "api-automacao-bots",
+      "summary": "Autenticação na API CLOB v2, obtenção de dados de mercado, colocação de ordens programaticamente, WebSocket para dados em tempo real, e construção de um bot de trading em Python com exemplos em mercados de futebol.",
+      "lessonIds": [
+        "lesson-12",
+        "lesson-13",
+        "lesson-14",
+        "lesson-15"
+      ],
+      "learningGoals": [
+        "Obter e gerir credenciais API na Polymarket",
+        "Consultar mercados, books e históricos via API REST",
+        "Subscrever dados em tempo real via WebSocket",
+        "Construir um bot funcional que executa trades com base em regras"
+      ]
+    },
+    {
+      "id": "module-5",
+      "title": "Risco, Estratégia e Sistema Operacional",
+      "slug": "risco-estrategia-sistema-operacional",
+      "summary": "Gestão de banca adaptada a prediction markets, correlação entre outcomes, diversificação vs concentração, desenho de invalidação de tese, e montagem de um sistema operacional completo de trading.",
+      "lessonIds": [
+        "lesson-16",
+        "lesson-17",
+        "lesson-18"
+      ],
+      "learningGoals": [
+        "Adaptar princípios de gestão de banca a prediction markets on-chain",
+        "Analisar correlação entre mercados e evitar overexposição",
+        "Construir um sistema diário de scan, análise, execução e revisão"
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson-1",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-1",
+      "title": "O que é a Polymarket e como difere de uma casa de apostas",
+      "slug": "o-que-e-polymarket-diferenca-casa-apostas",
+      "lessonNumber": 1,
+      "readingMinutes": 25,
+      "level": "foundation",
+      "concepts": [
+        "prediction market",
+        "CLOB vs AMM",
+        "decentralized settlement",
+        "on-chain transparency"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MermaidDiagram",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "MarketExample"
+      ],
+      "learningObjectives": [
+        "Explicar o que é um prediction market e como a Polymarket o implementa",
+        "Diferenciar a Polymarket de uma casa de apostas tradicional em 5 dimensões críticas",
+        "Compreender as vantagens e limitações de mercados descentralizados vs centralizados"
+      ],
+      "failureModes": [
+        "Achar que a Polymarket é igual à Betfair só porque ambas têm 'mercados'",
+        "Ignorar que a liquidação on-chain introduz latência e custos que não existem em casas de apostas",
+        "Confundir o CLOB da Polymarket com AMM de Uniswap"
+      ],
+      "exercises": [
+        "Abre a Polymarket e a Betfair lado a lado. Identifica 3 diferenças estruturais entre as plataformas e documenta por escrito.",
+        "Simula uma aposta de 50€ num jogo de futebol numa casa de apostas e na Polymarket. Compara o custo total estimado (odds, taxas, gas, spread)."
+      ],
+      "checklist": [
+        "Percebo que a Polymarket é um exchange descentralizada, não uma casa de apostas",
+        "Compreendo que o preço reflete probabilidade implícita coletiva",
+        "Sei que os fundos ficam na minha wallet até à execução do trade",
+        "Entendo que a resolução depende de oráculos e não de uma casa"
+      ],
+      "glossaryTerms": [
+        "prediction-market",
+        "market-price",
+        "odds",
+        "liquidity"
+      ],
+      "formulas": [
+        {
+          "label": "Probabilidade Implícita (Preço → Probabilidade)",
+          "value": "P = price / 1  (exemplo: preço 0.35 → 35% de probabilidade implícita)"
+        }
+      ],
+      "previousLesson": null,
+      "nextLesson": "lesson-2"
+    },
+    {
+      "id": "lesson-2",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-1",
+      "title": "Polygon, USDC e a Camada de Liquidação",
+      "slug": "polygon-usdc-camada-liquidacao",
+      "lessonNumber": 2,
+      "readingMinutes": 25,
+      "level": "foundation",
+      "concepts": [
+        "Polygon PoS",
+        "USDC.e",
+        "gas fees",
+        "bridging",
+        "settlement layer"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "MermaidDiagram",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Compreender por que a Polymarket usa Polygon em vez de Ethereum mainnet",
+        "Explicar o que é USDC.e e como funciona o bridging",
+        "Calcular o custo real de uma transação incluindo gas fees"
+      ],
+      "failureModes": [
+        "Enviar USDC nativo (Ethereum) para um endereço Polygon sem fazer bridge",
+        "Subestimar o custo de gas em momentos de pico na Polygon",
+        "Confundir USDC.e com USDC nativo"
+      ],
+      "exercises": [
+        "Usa o Polygonscan para verificar o saldo de USDC.e de um endereço de mercado conhecido da Polymarket.",
+        "Simula uma transação na Polymarket e regista o custo de gas atual. Compara com o custo de uma transação equivalente na Ethereum mainnet."
+      ],
+      "checklist": [
+        "Tenho USDC.e na rede Polygon, não nativo Ethereum",
+        "Compreendo que cada trade paga gas fee na Polygon",
+        "Sei verificar o meu saldo no Polygonscan",
+        "Entendo o conceito de bridging entre redes"
+      ],
+      "glossaryTerms": [
+        "prediction-market",
+        "liquidity",
+        "odds"
+      ],
+      "formulas": [
+        {
+          "label": "Custo total do trade",
+          "value": "Custo total = tamanho da ordem × preço + gas fee + (taker fee se aplicável)"
+        }
+      ],
+      "previousLesson": "lesson-1",
+      "nextLesson": "lesson-3"
+    },
+    {
+      "id": "lesson-3",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-1",
+      "title": "Tipos de Mercado: Binário, Neg-Risk e Multi-Outcome",
+      "slug": "tipos-mercado-binario-neg-risk-multi-outcome",
+      "lessonNumber": 3,
+      "readingMinutes": 30,
+      "level": "foundation",
+      "concepts": [
+        "binary markets",
+        "neg-risk",
+        "multi-outcome",
+        "conditional markets",
+        "market resolution"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MermaidDiagram",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Diferenciar mercados binários, neg-risk e multi-outcome",
+        "Explicar o mecanismo de neg-risk e por que elimina a liquidez fragmentada",
+        "Identificar que tipo de mercado usar para cada cenário num jogo de futebol"
+      ],
+      "failureModes": [
+        "Comprar YES e NO no mesmo mercado binário pensando que está a fazer hedge",
+        "Não compreender que em mercados neg-risk só um outcome pode ser resolvido como YES",
+        "Ignorar que mercados multi-outcome podem ter correlação entre outcomes"
+      ],
+      "exercises": [
+        "Encontra 3 mercados de futebol na Polymarket: um binário, um neg-risk e um multi-outcome. Documenta as diferenças estruturais entre eles.",
+        "Simula: se o Benfica joga contra o Porto, que tipo de mercado captura melhor a probabilidade de cada resultado? Porquê?"
+      ],
+      "checklist": [
+        "Sei identificar se um mercado é binário, neg-risk ou multi-outcome",
+        "Compreendo que em mercados neg-risk só um outcome vence",
+        "Entendo que mercados multi-outcome podem ser correlacionados",
+        "Sei que o preço de todas as opções num mercado neg-risk soma 1"
+      ],
+      "glossaryTerms": [
+        "prediction-market",
+        "market-price",
+        "implied-probability"
+      ],
+      "formulas": [
+        {
+          "label": "Soma Neg-Risk",
+          "value": "Soma dos preços de todos os outcomes = 1  (exemplo: 0.45 + 0.30 + 0.25 = 1.00)"
+        }
+      ],
+      "previousLesson": "lesson-2",
+      "nextLesson": "lesson-4"
+    },
+    {
+      "id": "lesson-4",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-1",
+      "title": "Resolução de Mercados: UMA Oracle e o Ciclo de Vida",
+      "slug": "resolucao-mercados-uma-oracle-ciclo-vida",
+      "lessonNumber": 4,
+      "readingMinutes": 25,
+      "level": "foundation",
+      "concepts": [
+        "UMA Oracle",
+        "optimistic oracle",
+        "dispute window",
+        "settlement",
+        "CTF adapter"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "MermaidDiagram",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Explicar o papel da UMA Oracle na resolução de mercados",
+        "Compreender o período de disputa e como funciona",
+        "Saber o que acontece aos fundos após a resolução de um mercado"
+      ],
+      "failureModes": [
+        "Assumir que a resolução é instantânea quando o evento acaba",
+        "Ignorar o período de disputa e fechar posições antes da resolução final",
+        "Não verificar se o mercado tem uma fonte de resolução clara e objetiva"
+      ],
+      "exercises": [
+        "Segue um mercado de futebol na Polymarket desde o fim do jogo até à resolução final. Documenta timestamps: fim do jogo, proposal, disputa window, resolução.",
+        "Verifica no Polygonscan a transação de resolução de um mercado já resolvido."
+      ],
+      "checklist": [
+        "Compreendo o ciclo completo: criação → negociação → congelamento → resolução",
+        "Sei que existe um período de disputa após a proposta de resolução",
+        "Entendo que o UMA Oracle permite resolução otimista com desafio",
+        "Sei que os fundos são distribuídos automaticamente após a resolução"
+      ],
+      "glossaryTerms": [
+        "prediction-market",
+        "market-price"
+      ],
+      "formulas": [],
+      "previousLesson": "lesson-3",
+      "nextLesson": "lesson-5"
+    },
+    {
+      "id": "lesson-5",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-2",
+      "title": "Criação de Wallet e Conexão à Polymarket",
+      "slug": "criacao-wallet-conexao-polymarket",
+      "lessonNumber": 5,
+      "readingMinutes": 30,
+      "level": "foundation",
+      "concepts": [
+        "MetaMask",
+        "wallet connection",
+        "Polygon network",
+        "USDC.e funding",
+        "testnet vs mainnet"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "MermaidDiagram",
+        "CodeLens",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Criar e configurar uma wallet MetaMask para a rede Polygon",
+        "Adicionar USDC.e à wallet via bridge ou exchange",
+        "Conectar a wallet à Polymarket e verificar saldo"
+      ],
+      "failureModes": [
+        "Usar a rede principal Ethereum em vez da Polygon",
+        "Enviar tokens para o endereço errado",
+        "Não ter MATIC (agora POL) para pagar gas fees",
+        "Comprar o token USDC errado (Ethereum em vez de Polygon)"
+      ],
+      "exercises": [
+        "Cria uma wallet MetaMask (ou usa uma existente). Adiciona a rede Polygon. Regista o endereço da wallet.",
+        "Compra 20 USDC numa exchange e faz bridge para a Polygon. Documenta o custo de bridge e o tempo de espera."
+      ],
+      "checklist": [
+        "A wallet está conectada à rede Polygon",
+        "Tenho saldo de MATIC/POL para gas",
+        "Tenho saldo de USDC.e para operar",
+        "Consegui conectar a wallet à Polymarket.com",
+        "Vejo o saldo refletido na interface"
+      ],
+      "glossaryTerms": [
+        "liquidity",
+        "market-price",
+        "odds"
+      ],
+      "formulas": [],
+      "previousLesson": "lesson-4",
+      "nextLesson": "lesson-6"
+    },
+    {
+      "id": "lesson-6",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-2",
+      "title": "Navegação na Interface: Encontrar e Interpretar Mercados",
+      "slug": "navegacao-interface-encontrar-interpretar-mercados",
+      "lessonNumber": 6,
+      "readingMinutes": 25,
+      "level": "foundation",
+      "concepts": [
+        "market discovery",
+        "filters",
+        "categories",
+        "market card",
+        "liquidity badge"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Navegar na interface da Polymarket e encontrar mercados de futebol",
+        "Interpretar a informação num market card: volume, liquidez, expiry",
+        "Usar filtros para encontrar mercados com liquidez adequada"
+      ],
+      "failureModes": [
+        "Clicar em mercados com volume decorativo mas liquidez real zero",
+        "Ignorar a data de expiração do mercado",
+        "Achar que volume total = liquidez disponível"
+      ],
+      "exercises": [
+        "Encontra os 5 mercados de futebol com maior liquidez na Polymarket neste momento. Regista: nome, volume, spread, expiry.",
+        "Filtra mercados que expiram nas próximas 48h. Quantos têm liquidez acima de 500 USDC?"
+      ],
+      "checklist": [
+        "Sei usar os filtros de categoria e liquidez",
+        "Compreendo a diferença entre volume total e liquidez disponível",
+        "Verifico sempre a data de expiração antes de operar",
+        "Identifico mercados com baixa liquidez antes de perder tempo"
+      ],
+      "glossaryTerms": [
+        "liquidity",
+        "market-price"
+      ],
+      "formulas": [],
+      "previousLesson": "lesson-5",
+      "nextLesson": "lesson-7"
+    },
+    {
+      "id": "lesson-7",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-2",
+      "title": "Leitura do Book de Ordens: Preço, Spread e Profundidade",
+      "slug": "leitura-book-ordens-preco-spread-profundidade",
+      "lessonNumber": 7,
+      "readingMinutes": 30,
+      "level": "intermediate",
+      "concepts": [
+        "order book",
+        "bid-ask spread",
+        "market depth",
+        "tick size",
+        "order book imbalance"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MermaidDiagram",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "LearningChart"
+      ],
+      "learningObjectives": [
+        "Ler e interpretar o book de ordens de um mercado",
+        "Calcular o spread e avaliar se é aceitável para operar",
+        "Identificar pressão compradora vs vendedora através do order book imbalance",
+        "Compreender o conceito de tick size e como afeta a granularidade do preço"
+      ],
+      "failureModes": [
+        "Olhar apenas para o preço médio ignorando a profundidade do book",
+        "Colocar uma ordem market sem verificar o slippage potencial",
+        "Ignorar o tick size e colocar ordens com preço inválido"
+      ],
+      "exercises": [
+        "Abre o book de ordens de um mercado 1X2 (ex: Benfica vs Porto). Regista: best bid, best ask, spread, profundidade nos primeiros 3 níveis.",
+        "Calcula o order book imbalance: (volume bids - volume asks) / (volume bids + volume asks). O que isso sugere sobre a direção do mercado?"
+      ],
+      "checklist": [
+        "Sei identificar best bid e best ask",
+        "Calculei o spread e é aceitável para a minha estratégia",
+        "Verifiquei a profundidade antes de colocar ordem",
+        "Compreendo o tick size do mercado",
+        "Identifiquei se há pressão compradora ou vendedora"
+      ],
+      "glossaryTerms": [
+        "liquidity",
+        "market-price",
+        "odds",
+        "implied-probability"
+      ],
+      "formulas": [
+        {
+          "label": "Spread relativo",
+          "value": "Spread = (best ask - best bid) / best bid × 100"
+        },
+        {
+          "label": "Order Book Imbalance",
+          "value": "OBI = (volume_bids - volume_asks) / (volume_bids + volume_asks)"
+        }
+      ],
+      "previousLesson": "lesson-6",
+      "nextLesson": "lesson-8"
+    },
+    {
+      "id": "lesson-8",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-3",
+      "title": "Ordens Limit e Market: Diferenças e Quando Usar Cada Uma",
+      "slug": "ordens-limit-market-diferencas-quando-usar",
+      "lessonNumber": 8,
+      "readingMinutes": 30,
+      "level": "intermediate",
+      "concepts": [
+        "limit order",
+        "market order",
+        "GTC",
+        "FOK",
+        "FAK",
+        "order lifecycle"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MermaidDiagram",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens"
+      ],
+      "learningObjectives": [
+        "Diferenciar ordens limit, market, GTC, FOK e FAK",
+        "Escolher o tipo de ordem adequado para cada cenário",
+        "Compreender o ciclo de vida de uma ordem no CLOB"
+      ],
+      "failureModes": [
+        "Usar market order em mercados com pouca liquidez e sofrer slippage elevado",
+        "Colocar limit order com preço fora do tick size",
+        "Não cancelar ordens GTC que já perderam validade"
+      ],
+      "exercises": [
+        "Simula: queres comprar YES no mercado 'Sporting vs Porto' a 0.45. Explica que tipo de ordem usas e porquê.",
+        "Coloca uma ordem limit num mercado com liquidez. Regista o timestamp. Cancela após 5 minutos se não foi executada."
+      ],
+      "checklist": [
+        "Sei a diferença entre limit e market order",
+        "Compreendo GTC, FOK e FAK",
+        "Uso market order apenas quando o spread e a profundidade são adequados",
+        "Sei que ordens limit podem não ser executadas"
+      ],
+      "glossaryTerms": [
+        "liquidity",
+        "market-price",
+        "odds"
+      ],
+      "formulas": [
+        {
+          "label": "Slippage estimado",
+          "value": "Slippage estimado = (preço_executado - preço_esperado) / preço_esperado × 100"
+        }
+      ],
+      "previousLesson": "lesson-7",
+      "nextLesson": "lesson-9"
+    },
+    {
+      "id": "lesson-9",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-3",
+      "title": "Preço Justo e Valor Esperado (EV) em Mercados de Previsão",
+      "slug": "preco-justo-valor-esperado-mercados-previsao",
+      "lessonNumber": 9,
+      "readingMinutes": 35,
+      "level": "intermediate",
+      "concepts": [
+        "fair price",
+        "expected value",
+        "edge",
+        "implied probability",
+        "market efficiency"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "LearningChart"
+      ],
+      "learningObjectives": [
+        "Calcular o preço justo de um outcome baseado na tua estimativa de probabilidade",
+        "Determinar se uma posição tem valor esperado positivo",
+        "Comparar a tua estimativa com a probabilidade implícita do mercado"
+      ],
+      "failureModes": [
+        "Confundir preço justo com preço de mercado atual",
+        "Achar que EV positivo garante lucro (ignorar variância)",
+        "Usar apenas uma fonte de estimativa sem triangulação"
+      ],
+      "exercises": [
+        "Para o mercado 'Benfica vence a Liga' (preço 0.38): qual é a tua estimativa de probabilidade? Calcula o EV de uma posição YES.",
+        "Encontra 3 mercados onde a tua estimativa difere da probabilidade implícita. Justifica por escrito."
+      ],
+      "checklist": [
+        "Calculei a probabilidade implícita do mercado",
+        "Formei a minha própria estimativa de probabilidade",
+        "Calculei o EV: (P_estimada - P_mercado) / P_mercado",
+        "O EV é positivo? Se sim, quanto?"
+      ],
+      "glossaryTerms": [
+        "expected-value",
+        "implied-probability",
+        "edge",
+        "market-price",
+        "odds"
+      ],
+      "formulas": [
+        {
+          "label": "Valor Esperado (EV)",
+          "value": "EV = (P_estimada × payout) - (1 - P_estimada) × custo"
+        },
+        {
+          "label": "Edge Percentual",
+          "value": "Edge = (P_estimada - P_mercado) / P_mercado × 100"
+        }
+      ],
+      "previousLesson": "lesson-8",
+      "nextLesson": "lesson-10"
+    },
+    {
+      "id": "lesson-10",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-3",
+      "title": "Taxas, Slippage e Custo Real de um Trade",
+      "slug": "taxas-slippage-custo-real-trade",
+      "lessonNumber": 10,
+      "readingMinutes": 25,
+      "level": "intermediate",
+      "concepts": [
+        "maker fee",
+        "taker fee",
+        "gas fee",
+        "slippage",
+        "total cost of trade"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "LearningChart"
+      ],
+      "learningObjectives": [
+        "Calcular o custo total de um trade incluindo taxas, gas e slippage",
+        "Diferenciar maker vs taker e saber quando és cada um",
+        "Avaliar se o custo total invalida o edge"
+      ],
+      "failureModes": [
+        "Ignorar as taxas maker/taker no cálculo de rentabilidade",
+        "Subestimar o slippage em mercados com baixa liquidez",
+        "Não contabilizar o gas fee no custo total da operação"
+      ],
+      "exercises": [
+        "Simula uma ordem market de 100 YES no mercado 'FC Porto vence' a 0.55. Calcula o custo total incluindo taxas taker e gas.",
+        "Compara colocar uma ordem limit (maker) vs market (taker) para a mesma posição. Qual é a diferença de custo?"
+      ],
+      "checklist": [
+        "Calculei as taxas (maker ou taker) antes de executar",
+        "Verifiquei o gas fee atual na Polygon",
+        "Estimei o slippage para a minha ordem",
+        "O custo total não invalida o meu edge",
+        "Considerei usar limit order para pagar menos taxas"
+      ],
+      "glossaryTerms": [
+        "odds",
+        "liquidity",
+        "expected-value",
+        "edge"
+      ],
+      "formulas": [
+        {
+          "label": "Custo total efetivo",
+          "value": "Custo_total = (preco_executado × quantidade) + gas + (taker_fee se aplicável)"
+        }
+      ],
+      "previousLesson": "lesson-9",
+      "nextLesson": "lesson-11"
+    },
+    {
+      "id": "lesson-11",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-3",
+      "title": "Exemplo Prático: Trade Manual num 1X2 de Futebol",
+      "slug": "exemplo-pratico-trade-manual-1x2-futebol",
+      "lessonNumber": 11,
+      "readingMinutes": 35,
+      "level": "intermediate",
+      "concepts": [
+        "trade execution workflow",
+        "thesis documentation",
+        "entry and exit plan",
+        "trade journal"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MermaidDiagram",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Executar um trade completo do início ao fim na Polymarket",
+        "Documentar a tese, o risco e o plano de saída antes de entrar",
+        "Avaliar o trade após a execução e registar lições"
+      ],
+      "failureModes": [
+        "Entrar no mercado sem tese documentada",
+        "Aumentar o tamanho da posição depois de ver o preço a mover-se contra",
+        "Fechar a posição por emoção em vez de por invalidação da tese"
+      ],
+      "exercises": [
+        "Escolhe um jogo de futebol, documenta a tese, executa um trade (mesmo que pequeno) na Polymarket, e faz o post-mortem.",
+        "Regista: preço de entrada, preço de saída, taxas pagas, gas, resultado do jogo, e se a tua tese estava correta."
+      ],
+      "checklist": [
+        "Documentei a tese antes de entrar",
+        "Defini o preço máximo de entrada",
+        "Defini o preço de saída (stop loss e take profit)",
+        "Executei o trade na Polymarket",
+        "Registei o resultado no meu trade journal"
+      ],
+      "glossaryTerms": [
+        "expected-value",
+        "edge",
+        "risk",
+        "stake"
+      ],
+      "formulas": [
+        {
+          "label": "Retorno do Trade",
+          "value": "ROI = (valor_final - valor_inicial - custos) / valor_inicial × 100"
+        }
+      ],
+      "previousLesson": "lesson-10",
+      "nextLesson": "lesson-12"
+    },
+    {
+      "id": "lesson-12",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-4",
+      "title": "Autenticação na API CLOB v2: Chaves e Permissões",
+      "slug": "autenticacao-api-clob-v2-chaves-permissoes",
+      "lessonNumber": 12,
+      "readingMinutes": 30,
+      "level": "advanced",
+      "concepts": [
+        "API authentication",
+        "L1 wallet signature",
+        "L2 HMAC",
+        "API key derivation",
+        "security best practices"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "MermaidDiagram",
+        "CodeLens",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Obter credenciais API através de assinatura de wallet (L1)",
+        "Usar as credenciais para autenticação HMAC (L2)",
+        "Implementar boas práticas de segurança no armazenamento de chaves"
+      ],
+      "failureModes": [
+        "Expor a private key da wallet no código",
+        "Armazenar API secrets em repositórios públicos",
+        "Não renovar credenciais periodicamente"
+      ],
+      "exercises": [
+        "Segue o exemplo do clob-client-v2 e obtém as tuas credenciais API.",
+        "Escreve um script que testa a autenticação e retorna 'API autenticada' se funcionar."
+      ],
+      "checklist": [
+        "Gerei credentials via createOrDeriveApiKey()",
+        "Armazenei key, secret e passphrase em .env.local",
+        ".env.local está no .gitignore",
+        "A private key da wallet nunca está no código",
+        "Testei a autenticação com um endpoint simples"
+      ],
+      "glossaryTerms": [
+        "liquidity",
+        "market-price"
+      ],
+      "formulas": [],
+      "previousLesson": "lesson-11",
+      "nextLesson": "lesson-13"
+    },
+    {
+      "id": "lesson-13",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-4",
+      "title": "API REST: Consultar Mercados, Books e Histórico",
+      "slug": "api-rest-consultar-mercados-books-historico",
+      "lessonNumber": 13,
+      "readingMinutes": 35,
+      "level": "advanced",
+      "concepts": [
+        "REST API",
+        "market query",
+        "order book",
+        "ticker",
+        "historical data",
+        "pagination"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "CodeLens",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "LearningChart"
+      ],
+      "learningObjectives": [
+        "Consultar todos os mercados disponíveis via API",
+        "Obter o book de ordens de um mercado específico",
+        "Extrair dados históricos de preço e volume"
+      ],
+      "failureModes": [
+        "Ignorar a paginação e obter apenas os primeiros resultados",
+        "Não tratar erros de rate limiting",
+        "Assumir que a estrutura dos dados é igual em todos os endpoints"
+      ],
+      "exercises": [
+        "Faz uma chamada GET ao endpoint /markets e regista quantos mercados de futebol estão ativos.",
+        "Para um mercado específico, obtém o book de ordens e extrai: best bid, best ask, spread, profundidade total."
+      ],
+      "checklist": [
+        "Consigo listar mercados com /markets",
+        "Consigo obter o book com /orderbook",
+        "Consigo obter o ticker com /ticker",
+        "Trato a paginação corretamente",
+        "Trato erros de rate limit"
+      ],
+      "glossaryTerms": [
+        "market-price",
+        "liquidity",
+        "odds"
+      ],
+      "formulas": [],
+      "previousLesson": "lesson-12",
+      "nextLesson": "lesson-14"
+    },
+    {
+      "id": "lesson-14",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-4",
+      "title": "WebSocket: Dados em Tempo Real para Trading Automatizado",
+      "slug": "websocket-dados-tempo-real-trading-automatizado",
+      "lessonNumber": 14,
+      "readingMinutes": 30,
+      "level": "advanced",
+      "concepts": [
+        "WebSocket",
+        "real-time data",
+        "market subscription",
+        "price feed",
+        "order book updates"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "CodeLens",
+        "MermaidDiagram",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Subscrever canais WebSocket para dados de mercado em tempo real",
+        "Processar mensagens de price change e order book updates",
+        "Construir um feed de preços ao vivo para múltiplos mercados"
+      ],
+      "failureModes": [
+        "Não tratar reconexão após queda de WebSocket",
+        "Acumular mensagens sem processamento causando memory leak",
+        "Subscrever demasiados canais e exceder limites de conexão"
+      ],
+      "exercises": [
+        "Escreve um script que subscreve o canal de price change de um mercado de futebol e imprime cada atualização no terminal.",
+        "Adiciona lógica de reconexão automática ao script."
+      ],
+      "checklist": [
+        "Consigo conectar ao WebSocket da Polymarket",
+        "Subscrevi canais de mercado relevantes",
+        "Processo mensagens em tempo real",
+        "Tenho lógica de reconexão",
+        "Não excedi limites de subscrição"
+      ],
+      "glossaryTerms": [
+        "market-price",
+        "liquidity"
+      ],
+      "formulas": [],
+      "previousLesson": "lesson-13",
+      "nextLesson": "lesson-15"
+    },
+    {
+      "id": "lesson-15",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-4",
+      "title": "Construir um Bot de Trading com Python e a CLOB API",
+      "slug": "construir-bot-trading-python-clob-api",
+      "lessonNumber": 15,
+      "readingMinutes": 40,
+      "level": "advanced",
+      "concepts": [
+        "trading bot",
+        "strategy automation",
+        "order placement",
+        "position monitoring",
+        "error handling"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "CodeLens",
+        "MermaidDiagram",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Construir um bot funcional que consulta mercados, analisa dados e coloca ordens",
+        "Implementar lógica de gestão de risco no bot",
+        "Testar o bot em testnet antes de usar fundos reais"
+      ],
+      "failureModes": [
+        "Bot colocar ordens sem verificar liquidez suficiente",
+        "Não ter mecanismo de kill switch para parar o bot",
+        "Ignorar erros de API e continuar a operar com dados incorretos"
+      ],
+      "exercises": [
+        "Constrói um bot que: (1) consulta mercados 1X2, (2) filtra por liquidez > 1000 USDC, (3) calcula EV, (4) coloca ordem limit se EV > 5%.",
+        "Testa o bot em modo simulado (sem ordens reais) durante 24h. Regista quantas ordens teria colocado."
+      ],
+      "checklist": [
+        "O bot tem autenticação funcional",
+        "A estratégia está codificada com regras claras",
+        "Há validação de liquidez antes de cada ordem",
+        "Existe kill switch manual",
+        "O log está a ser escrito para debugging",
+        "Testei em modo simulado primeiro"
+      ],
+      "glossaryTerms": [
+        "expected-value",
+        "edge",
+        "risk",
+        "liquidity"
+      ],
+      "formulas": [],
+      "previousLesson": "lesson-14",
+      "nextLesson": "lesson-16"
+    },
+    {
+      "id": "lesson-16",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-5",
+      "title": "Gestão de Banca em Prediction Markets",
+      "slug": "gestao-banca-prediction-markets",
+      "lessonNumber": 16,
+      "readingMinutes": 30,
+      "level": "advanced",
+      "concepts": [
+        "bankroll management",
+        "Kelly criterion",
+        "fixed fractional",
+        "maximum exposure",
+        "risk per trade"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "LearningChart"
+      ],
+      "learningObjectives": [
+        "Adaptar princípios de gestão de banca a prediction markets",
+        "Calcular o tamanho de posição ideal usando o critério de Kelly",
+        "Definir limites de exposição por mercado e por dia"
+      ],
+      "failureModes": [
+        "Usar Kelly full (fracionado é mais seguro em mercados de previsão)",
+        "Ignorar que a correlação entre mercados exige ajuste na exposição total",
+        "Aumentar o stake depois de perdas para 'recuperar'"
+      ],
+      "exercises": [
+        "Com banca de 1000 USDC e edge de 10% num mercado, calcula o stake sugerido pelo Kelly fracionado (25%).",
+        "Define os teus limites: stake máximo por trade, exposição máxima por dia, drawdown máximo permitido."
+      ],
+      "checklist": [
+        "Defini a banca total separada de outras finanças",
+        "Uso Kelly fracionado (25% ou menos)",
+        "Tenho limite de exposição por mercado",
+        "Tenho limite de exposição total",
+        "Respeito o stop loss máximo por trade",
+        "Nunca aumento stake após perdas"
+      ],
+      "glossaryTerms": [
+        "risk",
+        "stake",
+        "expected-value",
+        "drawdown"
+      ],
+      "formulas": [
+        {
+          "label": "Kelly Fracionado (25%)",
+          "value": "f = 0.25 × (edge / odds_implicitas)"
+        },
+        {
+          "label": "Exposição Máxima",
+          "value": "Exp_max = banca_total × 0.05 (5% por trade)"
+        }
+      ],
+      "previousLesson": "lesson-15",
+      "nextLesson": "lesson-17"
+    },
+    {
+      "id": "lesson-17",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-5",
+      "title": "Correlação entre Mercados e Exposição Agregada",
+      "slug": "correlacao-mercados-exposicao-agregada",
+      "lessonNumber": 17,
+      "readingMinutes": 30,
+      "level": "advanced",
+      "concepts": [
+        "market correlation",
+        "nested exposure",
+        "hedging",
+        "portfolio view",
+        "concentration risk"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MermaidDiagram",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "LearningChart"
+      ],
+      "learningObjectives": [
+        "Identificar correlação entre mercados da Polymarket",
+        "Calcular a exposição agregada a um mesmo evento",
+        "Usar correlação a favor (hedge natural) e evitar sobreexposição"
+      ],
+      "failureModes": [
+        "Ter posições YES em 'Benfica vence' e NO em 'Benfica marca primeiro' sem perceber a correlação",
+        "Ignorar que múltiplos mercados do mesmo jogo criam exposição agregada",
+        "Confundir hedge com diversificação"
+      ],
+      "exercises": [
+        "Identifica 3 mercados correlacionados do mesmo jogo e calcula a exposição agregada.",
+        "Desenha uma matriz de correlação para 5 mercados de futebol ativos. Quais pares estão mais correlacionados?"
+      ],
+      "checklist": [
+        "Identifiquei mercados correlacionados nas minhas posições",
+        "Calculei a exposição agregada ao mesmo evento",
+        "A exposição total está dentro dos meus limites",
+        "Não estou a fazer hedge inconsciente nem overexposição"
+      ],
+      "glossaryTerms": [
+        "risk",
+        "drawdown",
+        "expected-value"
+      ],
+      "formulas": [
+        {
+          "label": "Exposição Agregada",
+          "value": "Exp_agg = Σ (stake_i × correlacao_i) para todos os mercados do mesmo evento"
+        }
+      ],
+      "previousLesson": "lesson-16",
+      "nextLesson": "lesson-18"
+    },
+    {
+      "id": "lesson-18",
+      "courseId": "course-polymarket-operacao-tecnica",
+      "moduleId": "module-5",
+      "title": "Sistema Operacional: Scan Diário, Execução e Revisão",
+      "slug": "sistema-operacional-scan-diario-execucao-revisao",
+      "lessonNumber": 18,
+      "readingMinutes": 35,
+      "level": "advanced",
+      "concepts": [
+        "daily workflow",
+        "market scan",
+        "thesis validation",
+        "execution discipline",
+        "post-trade review"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "MermaidDiagram",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Montar um sistema diário de scan, análise, execução e revisão",
+        "Documentar cada trade com tese, entrada, saída e lições aprendidas",
+        "Auditar o próprio processo para melhorar ao longo do tempo"
+      ],
+      "failureModes": [
+        "Pular a fase de scan e ir direto para mercados que 'parecem interessantes'",
+        "Não fazer revisão pós-trade porque o resultado foi bom ou mau",
+        "Acumular dezenas de trades sem documentação mínima"
+      ],
+      "exercises": [
+        "Cria o teu template de trade journal com: data, mercado, tese, preço entrada, preço saída, stake, resultado, lição.",
+        "Durante 7 dias, segue o workflow diário: scan matinal, análise, execução (se aplicável), revisão noturna."
+      ],
+      "checklist": [
+        "Tenho um horário fixo para scan diário",
+        "Documentei a tese antes de cada trade",
+        "Executei com disciplina (sem desviar do plano)",
+        "Fiz revisão pós-trade",
+        "O trade journal está atualizado",
+        "Identifiquei pelo menos 1 melhoria para o próximo ciclo"
+      ],
+      "glossaryTerms": [
+        "risk",
+        "stake",
+        "edge",
+        "expected-value"
+      ],
+      "formulas": [],
+      "previousLesson": "lesson-17",
+      "nextLesson": null
+    }
+  ],
+  "labs": [
+    {
+      "id": "lab-1",
+      "title": "Lab: Configurar Wallet e Conectar à Polymarket",
+      "slug": "lab-configurar-wallet-conectar-polymarket",
+      "durationMinutes": 45,
+      "moduleId": "module-1",
+      "type": "setup",
+      "objectives": [
+        "Criar wallet MetaMask",
+        "Adicionar rede Polygon",
+        "Bridge USDC para Polygon",
+        "Conectar à Polymarket"
+      ]
+    },
+    {
+      "id": "lab-2",
+      "title": "Lab: Analisar um Book de Ordens ao Vivo",
+      "slug": "lab-analisar-book-ordens-ao-vivo",
+      "durationMinutes": 30,
+      "moduleId": "module-2",
+      "type": "analysis",
+      "objectives": [
+        "Abrir book de ordens de 3 mercados",
+        "Registar bid, ask, spread, profundidade",
+        "Calcular OBI para cada mercado",
+        "Concluir qual mercado tem melhor liquidez"
+      ]
+    },
+    {
+      "id": "lab-3",
+      "title": "Lab: Executar um Trade Manual com Documentação",
+      "slug": "lab-executar-trade-manual-documentacao",
+      "durationMinutes": 45,
+      "moduleId": "module-3",
+      "type": "execution",
+      "objectives": [
+        "Documentar tese",
+        "Executar ordem limit",
+        "Registar custos",
+        "Fazer post-mortem"
+      ]
+    },
+    {
+      "id": "lab-4",
+      "title": "Lab: Extrair Dados via API CLOB v2",
+      "slug": "lab-extrair-dados-api-clob-v2",
+      "durationMinutes": 45,
+      "moduleId": "module-4",
+      "type": "development",
+      "objectives": [
+        "Autenticar na API",
+        "Listar mercados de futebol",
+        "Obter book de ordens",
+        "Salvar dados em JSON"
+      ]
+    },
+    {
+      "id": "lab-5",
+      "title": "Lab: Bot de Trading Simples em Python",
+      "slug": "lab-bot-trading-simples-python",
+      "durationMinutes": 60,
+      "moduleId": "module-4",
+      "type": "development",
+      "objectives": [
+        "Criar bot que filtra mercados",
+        "Calcular EV automaticamente",
+        "Simular ordens sem executar",
+        "Registar logs de decisão"
+      ]
+    },
+    {
+      "id": "lab-6",
+      "title": "Lab: Auditoria de Portfolio e Risco Agregado",
+      "slug": "lab-auditoria-portfolio-risco-agregado",
+      "durationMinutes": 45,
+      "moduleId": "module-5",
+      "type": "analysis",
+      "objectives": [
+        "Listar todas as posições abertas",
+        "Identificar correlações",
+        "Calcular exposição agregada",
+        "Ajustar limites se necessário"
+      ]
+    }
+  ],
+  "glossaryTerms": [
+    "prediction-market",
+    "implied-probability",
+    "market-price",
+    "odds",
+    "liquidity",
+    "expected-value",
+    "edge",
+    "risk",
+    "stake",
+    "drawdown"
+  ],
+  "createdAt": "2026-07-05T17:00:00.000Z",
+  "updatedAt": "2026-07-05T17:00:00.000Z"
+}
+---
+
+import BlackboardPanel from '../../../components/academy/BlackboardPanel.astro';
+import FormulaBlock from '../../../components/lesson/FormulaBlock.astro';
+import MarketExample from '../../../components/lesson/MarketExample.astro';
+import FailureModeCard from '../../../components/lesson/FailureModeCard.astro';
+import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
+
+<BlackboardPanel title="Estado do Curso">
+
+**Curso em desenvolvimento.** Este curso está em estado de draft. O conteúdo será refinado e expandido.
+
+</BlackboardPanel>
+
+# Polymarket — Operação Técnica em Mercados de Previsão
+
+**Bem-vindo ao curso mais completo sobre operação técnica na Polymarket.**
+
+Este curso foi desenhado para transformar um curioso sobre prediction markets num operador competente, capaz de navegar a plataforma, executar trades manuais e automatizados, gerir risco e extrair valor real de mercados descentralizados.
+
+---
+
+## Como usar este curso
+
+Cada módulo constrói sobre o anterior. Recomendamos progressão linear:
+
+1. **Módulo 1** — Fundamentos (não pules, mesmo se já conheces cripto)
+2. **Módulo 2** — Interface e wallet (executa os labs)
+3. **Módulo 3** — Trading manual (pratica cada conceito)
+4. **Módulo 4** — API e automação (cria o teu bot)
+5. **Módulo 5** — Risco e sistema (monta o teu workflow)
+
+Cada aula inclui:
+- <span style="color: #ff4500">**Mecanismo**</span> — o conceito explicado com rigor
+- <span style="color: #ffd700">**Exemplo aplicado**</span> — mercado real de futebol
+- <span style="color: #ff4500">**Modo de falha**</span> — como não fazer
+- <span style="color: #ffd700">**Checklist**</span> — o mínimo que deves saber no fim
+- <span style="color: #ff4500">**Exercício**</span> — prática obrigatória
+
+---
+
+<BlackboardPanel title="A Grande Ideia">
+
+**Polymarket não é uma casa de apostas.** É uma exchange descentralizada de probabilidades. Quando compras YES a 0.40, estás a comprar um token que paga 1 USDC se o evento acontecer. O preço reflete a probabilidade implícita coletiva do mercado — não uma odd definida por uma casa.
+
+</BlackboardPanel>
+
+---
+
+## Módulo 1: Fundamentos da Polymarket
+
+### Aula 1: O que é a Polymarket e como difere de uma casa de apostas
+
+<BlackboardPanel title="Prediction Market vs Casa de Apostas">
+
+| Dimensão | Polymarket | Casa de Apostas Tradicional |
+|----------|-----------|---------------------------|
+| **Contraparte** | O mercado (outros users) | A casa |
+| **Liquidação** | Smart contract na Polygon | Base de dados centralizada |
+| **Preço** | Determinado por oferta/procura (CLOB) | Definido pela casa |
+| **Fundos** | Na tua wallet (auto-custódia) | Na conta da casa |
+| **Resolução** | Oráculo UMA (optimistic oracle) | Decisão interna da casa |
+| **Taxas** | Maker: 0%, Taker: 0.1% | Margem embutida nas odds |
+| **Transparência** | Total (on-chain) | Parcial |
+
+</BlackboardPanel>
+
+Quando operas na Polymarket, cada ordem tua é um contrato entre a tua wallet e o smart contract. Não há uma entidade central a definir odds, a cancelar mercados, ou a limitar os teus levantamentos.
+
+**Mecanismo:** O CLOB (Central Limit Order Book) funciona como um leilão contínuo. Compradores e vendedores colocam ordens limit. Quando os preços coincidem, a ordem é executada on-chain.
+
+<MarketExample
+  title="Exemplo: Jogo Benfica vs Porto — Mercado YES/NO"
+>
+
+Mercado: "Benfica vence o Porto"
+
+- Preço atual: 0.42 (42% de probabilidade implícita)
+- Liquidez no book: 12,345 USDC
+- Spread: 0.02 (best bid 0.41, best ask 0.43)
+
+Numa casa de apostas, a odd equivalente seria ~2.38 (1/0.42). Mas na Polymarket, esse preço é dinâmico — muda a cada ordem.
+
+</MarketExample>
+
+<FailureModeCard title="Modo de Falha Comum">
+
+**"A Polymarket é igual à Betfair."**
+
+Falso. A Betfair é uma exchange centralizada que detém os fundos e decide as regras. A Polymarket é descentralizada: os fundos estão na tua wallet, a liquidação é on-chain, e a resolução depende de um oráculo descentralizado.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist de Decisão">
+
+- **Checklist:** Percebo que a Polymarket é uma exchange, não uma casa de apostas
+- **Checklist:** Compreendo que o preço = probabilidade implícita
+- **Checklist:** Sei que os fundos ficam na minha wallet
+- **Checklist:** Entendo que a resolução usa UMA Oracle
+
+</BlackboardPanel>
+
+---
+
+### Aula 2: Polygon, USDC e a Camada de Liquidação
+
+<BlackboardPanel title="Stack Tecnológico da Polymarket">
+
+```
+┌──────────────────────────────────────────────┐
+│             Polymarket Interface              │
+├──────────────────────────────────────────────┤
+│              CLOB (Off-chain)                 │
+│           Order Matching Engine               │
+├──────────────────────────────────────────────┤
+│        Smart Contracts (Polygon PoS)          │
+│         CTF Exchange, Neg-Risk               │
+├──────────────────────────────────────────────┤
+│            Polygon Blockchain                 │
+│        Settlement, USDC.e, Gas Fees           │
+└──────────────────────────────────────────────┘
+```
+
+</BlackboardPanel>
+
+A Polymarket usa **Polygon PoS** como camada de liquidação por três razões:
+
+1. **Custo:** Transações na Polygon custam centavos, não dólares
+2. **Velocidade:** Blocos a cada 2 segundos vs 12 segundos no Ethereum
+3. **Eco-sistema:** Polygon tem bridges, explorers e ferramentas maduras
+
+<MarketExample
+  title="Custo Real de um Trade"
+>
+
+- Ordem limit de 100 YES a 0.50: 50 USDC
+- Gas fee na Polygon: ~0.01 USDC (em hora normal)
+- Taker fee (se executares contra o book): 0.1% = 0.05 USDC
+- **Custo total estimado: 50.06 USDC**
+
+Comparação com Ethereum: o mesmo trade custaria ~5-15 USDC só de gas.
+
+</MarketExample>
+
+<FailureModeCard title="Modo de Falha Comum">
+
+**"Mandei USDC mas não aparece na Polymarket."**
+
+Provavelmente enviaste USDC nativo (Ethereum) para o endereço na rede Polygon. USDC na Ethereum e USDC.e na Polygon são tokens diferentes. Precisas de usar uma bridge como o Polygon Portal ou a bridge nativa da exchange.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] Tenho USDC.e na rede Polygon
+- [ ] Tenho MATIC/POL para gas fees
+- [ ] Sei verificar saldo no Polygonscan
+- [ ] Compreendo como fazer bridge
+
+</BlackboardPanel>
+
+---
+
+### Aula 3: Tipos de Mercado — Binário, Neg-Risk e Multi-Outcome
+
+<BlackboardPanel title="Árvore de Tipos de Mercado">
+
+```
+Mercados Polymarket
+├── Binário (YES/NO)
+│   Ex: "O Benfica vence o Porto?" → YES ou NO
+│   Preços: YES + NO = 1 (idealmente)
+│
+├── Neg-Risk
+│   Ex: "Resultado Benfica vs Porto"
+│   Outcomes: Benfica, Empate, Porto
+│   Soma dos preços = 1 (sempre)
+│   Apenas 1 outcome paga 1 USDC
+│
+└── Multi-Outcome
+    Ex: "Quantos golos?" (0, 1, 2, 3+)
+    Podem ter correlação entre outcomes
+```
+
+</BlackboardPanel>
+
+**Neg-Risk** é a inovação mais importante da Polymarket. Em mercados tradicionais de múltiplas opções, cada par (ex: Benfica vs Empate) teria o seu próprio book, fragmentando liquidez. No neg-risk, todos os outcomes partilham o mesmo book, concentrando liquidez.
+
+<FormulaBlock
+  label="Soma Neg-Risk"
+  formula="Preço_Benfica + Preço_Empate + Preço_Porto = 1.00"
+  example="0.45 + 0.30 + 0.25 = 1.00"
+/>
+
+<MarketExample
+  title="Exemplo: Mercado Neg-Risk de Futebol"
+>
+
+Mercado: "Resultado da partida Benfica vs Porto" (Neg-Risk)
+
+| Outcome | Preço | Prob. Implícita |
+|---------|-------|----------------|
+| Benfica | 0.45 | 45% |
+| Empate | 0.30 | 30% |
+| Porto | 0.25 | 25% |
+| **Soma** | **1.00** | **100%** |
+
+Se comprares YES em Benfica a 0.45 e o Benfica vencer, recebes 1 USDC por token — um lucro de 0.55 USDC por token.
+
+</MarketExample>
+
+<FailureModeCard title="Modo de Falha Comum">
+
+**"Se comprar YES e NO no mesmo mercado binário, estou protegido."**
+
+Não. Se comprares YES a 0.40 e NO a 0.60, gastaste 1.00 USDC para receber 1.00 USDC — lucro zero antes de taxas e gas. Só faz sentido se o preço somar menos de 1.00 (arbitragem) ou se estiveres a corrigir uma posição anterior.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] Sei diferenciar binário, neg-risk e multi-outcome
+- [ ] Compreendo que neg-risk concentra liquidez
+- [ ] Entendo que num mercado neg-risk a soma é sempre 1
+- [ ] Verifico o tipo de mercado antes de operar
+
+</BlackboardPanel>
+
+---
+
+### Aula 4: Resolução de Mercados — UMA Oracle e Ciclo de Vida
+
+<MermaidDiagram
+  title="Ciclo de Vida de um Mercado"
+  definition={`
+  graph LR
+      A[Criação] --> B[Negociação]
+      B --> C[Evento Ocorre]
+      C --> D[Proposta de Resolução]
+      D --> E[Período de Disputa]
+      E --> F[Resolução Final]
+      F --> G[Distribuição de Fundos]
+      E --> H[Disputa]
+      H --> I[Re-resolução]
+      I --> F
+  `}
+/>
+
+A **UMA Oracle** é um sistema de oráculo otimista. Qualquer utilizador pode propor um resultado. Se ninguém disputar dentro do período de janela (tipicamente 2-7 dias), o resultado é aceite como verdadeiro.
+
+<BlackboardPanel title="Ciclo Completo">
+
+1. **Criação:** Um criador define o mercado, as regras, a fonte de resolução
+2. **Negociação:** Utilizadores compram e vendem tokens YES/NO
+3. **Congelamento:** Quando o evento ocorre, a negociação para
+4. **Proposta:** Alguém propõe o resultado (paga um bond)
+5. **Disputa:** Se alguém discorda, pode disputar (também paga bond)
+6. **Resolução:** Se não há disputa, o resultado é final. Se há, o UMA resolve via votação
+7. **Distribuição:** Os smart contracts distribuem 1 USDC por token YES se o outcome venceu, 0 se perdeu
+
+</BlackboardPanel>
+
+<FailureModeCard title="Modo de Falha Comum">
+
+**"O jogo acabou, vou receber logo."**
+
+A resolução não é instantânea. Após o evento, há um período de proposta e depois uma janela de disputa. Pode levar dias até os fundos serem distribuídos. Não entres em pânico — é o processo normal.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] Compreendo o ciclo: criação → negociação → resolução
+- [ ] Sei que existe período de disputa
+- [ ] Entendo o papel da UMA Oracle
+- [ ] Sei que a distribuição é automática via smart contract
+- [ ] Verifico a fonte de resolução do mercado antes de operar
+
+</BlackboardPanel>
+
+---
+
+## Módulo 2: Interface, Wallet e Leitura do Mercado
+
+### Aula 5: Criação de Wallet e Conexão à Polymarket
+
+<BlackboardPanel title="Checklist de Setup">
+
+**Para operar na Polymarket precisas de:**
+
+1. Wallet (recomendado: MetaMask ou Rabby)
+2. Rede Polygon adicionada
+3. MATIC/POL para gas fees
+4. USDC.e para trading
+5. Conexão à Polymarket.com
+
+**Setup passo a passo:**
+
+1. Instala a extensão MetaMask no teu browser
+2. Cria uma nova wallet (guarda a seed phrase offline!)
+3. Adiciona a rede Polygon:
+   - RPC: https://polygon-rpc.com
+   - Chain ID: 137
+   - Symbol: POL
+   - Explorer: https://polygonscan.com
+4. Compra USDC numa exchange e faz bridge para Polygon
+5. Vai a polymarket.com e clica "Connect Wallet"
+
+</BlackboardPanel>
+
+```
+javascript
+// Usando ethers.js
+const { ethers } = require("ethers");
+const provider = new ethers.JsonRpcProvider("https://polygon-rpc.com");
+const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+const balance = await provider.getBalance(wallet.address);
+console.log("Saldo POL:", ethers.formatEther(balance));
+```
+
+<FailureModeCard title="Modo de Falha Crítico">
+
+**NUNCA partilhes a tua seed phrase.** Nem com suporte, nem com amigos, nem em sites. A Polymarket NUNCA te vai pedir a seed phrase. Se alguém pedir, é burla.
+
+</FailureModeCard>
+
+---
+
+### Aula 6: Navegação na Interface
+
+A interface da Polymarket está organizada por categorias. Para encontrar mercados de futebol:
+
+1. Clica em "Categories" ou usa a barra de pesquisa
+2. Filtra por "Sports" → "Soccer" (ou "Football")
+3. Ordena por volume ou liquidez
+
+<MarketExample
+  title="O que cada campo significa"
+>
+
+| Campo | O que mostra | O que importa |
+|-------|-------------|---------------|
+| **Volume** | Total USDC negociado | Alto volume sugere mercado ativo |
+| **Liquidez** | USDC disponível no book | Mínimo recomendado: 500 USDC |
+| **Expiry** | Data de fecho do mercado | Preferir 24-72h para análise |
+| **Spread** | Diferença bid/ask | < 5% é aceitável |
+| **Outcomes** | Opções disponíveis | Identificar tipo de mercado |
+
+</MarketExample>
+
+<FailureModeCard title="Modo de Falha">
+
+**"Este mercado tem 1M de volume, deve ser bom."**
+
+Volume total não é liquidez disponível. Um mercado pode ter 1M de volume histórico mas apenas 200 USDC de liquidez no book. Verifica sempre o book em tempo real, não apenas o volume total.
+
+</FailureModeCard>
+
+---
+
+### Aula 7: Leitura do Book de Ordens
+
+<BlackboardPanel title="Order Book Visual (Níveis de Preço)">
+
+| Preço | Bids (Compra) | Asks (Venda) |
+|-------|:------------:|:-----------:|
+| 0.38 | 500 | — |
+| 0.39 | 1,200 | — |
+| 0.40 | 800 | — |
+| 0.41 | 300 | — |
+| 0.42 | 100 | 50 |
+| 0.43 | — | 200 |
+| 0.44 | — | 600 |
+| 0.45 | — | 900 |
+| 0.46 | — | 400 |
+| **Total** | **2,900** | **2,150** |
+
+**Pressão compradora: 2,900 vs 2,150 = +17%** → Mercado inclinado a subir
+
+</BlackboardPanel>
+
+<BlackboardPanel title="Como Ler o Book">
+
+**Best Bid:** 0.40 (maior preço que alguém quer comprar)
+**Best Ask:** 0.43 (menor preço que alguém quer vender)
+**Spread:** 0.03 (7.5% — elevado)
+**Profundidade Bids:** 2,900 USDC (até 0.42)
+**Profundidade Asks:** 2,150 USDC (a partir de 0.43)
+
+**Interpretação:** Mais pressão compradora (bids mais profundos) sugere que o mercado pode subir. Mas o spread de 7.5% é alto — entrar e sair custa caro.
+
+</BlackboardPanel>
+
+<FormulaBlock
+  label="Order Book Imbalance (OBI)"
+  formula="OBI = (Bid_Volume - Ask_Volume) / (Bid_Volume + Ask_Volume)"
+  example="OBI = (2900 - 2150) / (2900 + 2150) = 0.15 → 15% pressão compradora"
+/>
+
+---
+
+## Módulo 3: Trading Manual
+
+### Aula 8: Ordens Limit e Market
+
+<BlackboardPanel title="Comparação de Ordens">
+
+| Tipo | Quando usar | Riscos |
+|------|------------|--------|
+| **Limit (GTC)** | Tens tempo, queres preço exato, és maker | Pode não executar |
+| **Market** | Precisas de executar agora | Slippage em baixa liquidez |
+| **FOK** | Só queres se executar tudo ou nada | Pode rejeitar parcial |
+| **FAK** | Queres o máximo possível agora | Execução parcial |
+
+</BlackboardPanel>
+
+---
+
+### Aula 9: Preço Justo e Valor Esperado
+
+<FormulaBlock
+  label="Valor Esperado (EV)"
+  formula="EV = (P_estimada * payout) - ((1 - P_estimada) * custo)"
+  example="Se estimas 50% para Benfica, mercado está a 0.42:
+         EV = (0.50 * 0.58) - (0.50 * 0.42) = 0.29 - 0.21 = 0.08
+         EV positivo de 0.08 por token → edge de 19%"
+/>
+
+<MarketExample
+  title="Cálculo de EV num Mercado Real"
+>
+
+Mercado: "Sporting vence a Liga" — Preço: 0.38
+Tua estimativa: 45% (baseada em análise de performance)
+
+EV = (0.45 × 0.62) - (0.55 × 0.38)
+EV = 0.279 - 0.209
+EV = 0.07 USDC por token
+
+**Conclusão:** EV positivo de 0.07 — se a tua estimativa estiver correta, tens edge.
+
+</MarketExample>
+
+---
+
+### Aula 10: Taxas e Slippage
+
+<BlackboardPanel title="Estrutura de Taxas da Polymarket">
+
+| Tipo | Taxa | Condição |
+|------|------|----------|
+| **Maker** | 0% | Colocaste ordem limit que deu liquidez |
+| **Taker** | 0.1% | Executaste contra uma ordem existente |
+| **Gas** | Variável (~0.01-0.10 USDC) | Pago em POL |
+| **Protocol Fee** | 0% | Atualmente sem taxa de protocolo |
+
+</BlackboardPanel>
+
+---
+
+## Módulo 4: API e Automação
+
+### Aula 12: Autenticação na API CLOB v2
+
+```typescript
+import { ClobClient, Chain } from "@polymarket/clob-client-v2";
+import { createWalletClient, http } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
+import "dotenv/config";
+
+const account = privateKeyToAccount(process.env.PRIVATE_KEY);
+const walletClient = createWalletClient({
+  account,
+  transport: http("https://polygon-rpc.com"),
+});
+
+const client = new ClobClient({
+  host: "https://clob.polymarket.com",
+  chain: Chain.POLYGON,
+  signer: walletClient,
+});
+
+// L1 Authentication — wallet signature
+const creds = await client.createOrDeriveApiKey();
+console.log("Key:", creds.key);
+console.log("Secret:", creds.secret);
+console.log("Passphrase:", creds.passphrase);
+```
+
+---
+
+### Aula 13: API REST — Consultar Mercados
+
+```python
+import requests
+
+HOST = "https://clob.polymarket.com"
+resp = requests.get(
+    f"{HOST}/markets",
+    params={"limit": 100, "offset": 0, "tag": "soccer", "closed": False},
+)
+markets = resp.json()
+for m in markets["data"]:
+    print(f"{m['question'][:60]:60s} | Vol: {m['volume']:>10s} | Liquidez: {m['liquidity']:>10s}")
+```
+
+---
+
+### Aula 14: WebSocket para Dados em Tempo Real
+
+```python
+import asyncio
+import websockets
+import json
+
+async def subscribe_price_changes(asset_id):
+    uri = "wss://ws-subscriptions-clob.polymarket.com/ws/"
+    async with websockets.connect(uri) as ws:
+        msg = {"type": "subscribe", "channel": "price_change", "asset_id": asset_id}
+        await ws.send(json.dumps(msg))
+        async for message in ws:
+            data = json.loads(message)
+            print(f"Preço: {data['price']} Timestamp: {data['timestamp']}")
+
+asyncio.run(subscribe_price_changes("asset_id_do_mercado_de_futebol"))
+```
+
+---
+
+### Aula 15: Bot de Trading Completo
+
+```python
+import time
+from clob_client import ClobClient, Side
+
+HOST = "https://clob.polymarket.com"
+MIN_LIQUIDITY = 1000
+MIN_EV = 0.05
+
+def estimate_probability(market):
+    return 0.55  # Placeholder
+
+client = ClobClient(host=HOST, creds=load_creds())
+
+while True:
+    markets = client.get_markets(tag="soccer", closed=False, limit=50)
+    for market in markets["data"]:
+        liq = float(market["liquidity"])
+        if liq < MIN_LIQUIDITY:
+            continue
+        book = client.get_order_book(market["id"])
+        mp = float(book["best_ask"])
+        ev = (estimate_probability(market) * (1 - mp)) - ((1 - estimate_probability(market)) * mp)
+        if ev > MIN_EV:
+            print(f"OPORTUNIDADE: {market['question']}, EV: {ev:.4f}")
+            client.create_order(token_id=market["token_id"], price=mp, size=100, side=Side.BUY)
+    time.sleep(300)
+```
+
+---
+
+## Módulo 5: Risco e Estratégia
+
+### Aula 16: Gestão de Banca
+
+<FormulaBlock
+  label="Kelly Fracionado (25%)"
+  formula="f = 0.25 × (edge / odds)"
+  example="Edge = 10%, Odds = 2.38 (1/0.42)
+           f = 0.25 × (0.10 / (2.38 - 1))
+           f = 0.25 × 0.072 = 0.018
+           → 1.8% da banca por trade"
+/>
+
+<BlackboardPanel title="Regras de Gestão de Banca">
+
+| Regra | Valor Recomendado |
+|-------|------------------|
+| Stake máximo por trade | 2-5% da banca |
+| Exposição máxima por dia | 15% da banca |
+| Exposição máxima por evento | 10% da banca |
+| Drawdown máximo | 20% (abaixo disso, para) |
+| Alavancagem | Não usar em prediction markets |
+
+</BlackboardPanel>
+
+---
+
+### Aula 17: Correlação entre Mercados
+
+<MarketExample
+  title="Correlação num Jogo de Futebol"
+>
+
+Para o jogo Benfica vs Porto, estes mercados estão correlacionados:
+
+| Mercado | Posição | Stake |
+|---------|---------|-------|
+| Benfica vence | YES | 50 USDC |
+| Benfica marca primeiro | YES | 30 USDC |
+| Total golos > 2.5 | YES | 20 USDC |
+| **Exposição agregada ao jogo** | | **100 USDC** |
+
+Se o Benfica perder, as primeiras duas posições perdem. És altamente dependente de um único resultado.
+
+</MarketExample>
+
+---
+
+### Aula 18: Sistema Operacional Completo
+
+<MermaidDiagram
+  title="Workflow Diário"
+  definition={`
+  graph TD
+      A[08:00 - Scan] --> B[Filtrar mercados]
+      B --> C[Analisar top 5]
+      C --> D{Há edge?}
+      D -->|Sim| E[Documentar tese]
+      D -->|Não| F[No Bet]
+      E --> G[Executar trade]
+      G --> H[Monitorizar]
+      H --> I{Jogo decorre?}
+      I -->|Sim| J[Gestão live]
+      I -->|Não| K[Aguardar]
+      J --> L[22:00 - Revisão]
+      K --> L
+      F --> L
+      L --> A
+  `}
+/>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] Tenho horário fixo de scan
+- [ ] Documento tese antes de cada trade
+- [ ] Executo com disciplina
+- [ ] Faço revisão pós-trade
+- [ ] Trade journal atualizado
+- [ ] Respeito limites de risco
+
+</BlackboardPanel>
+
+---
+
+<BlackboardPanel title="O Curso em Números">
+
+**18 aulas • 5 módulos • 6 laboratórios • 420 minutos de leitura estimada**
+
+Da criação da wallet ao bot automatizado. Dos fundamentos à gestão de risco. Com exemplos reais em mercados de futebol. Este curso é o teu ponto de entrada para operar prediction markets com seriedade.
+
+</BlackboardPanel>
