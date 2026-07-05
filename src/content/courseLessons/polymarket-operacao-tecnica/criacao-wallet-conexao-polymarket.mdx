@@ -8,7 +8,7 @@
   "title": "Criação de Wallet e Conexão à Polymarket",
   "slug": "criacao-wallet-conexao-polymarket",
   "lessonNumber": 5,
-  "readingMinutes": 30,
+  "readingMinutes": 48,
   "status": "published",
   "createdAt": "2026-07-05T17:00:00.000Z",
   "updatedAt": "2026-07-05T17:00:00.000Z"
@@ -93,3 +93,47 @@ console.log("Saldo POL:", ethers.formatEther(balance));
 - [ ] Testei com uma transação pequena antes de operar a sério
 
 </BlackboardPanel>
+
+## Aprofundamento operacional
+
+A wallet deve ser tratada como uma conta operacional, nao como um acessorio do browser. Ela concentra capital, permissao de assinatura, autorizacoes e historico de execucao. Quanto mais automatizado fica o processo, mais importante se torna separar carteiras por finalidade: estudo, testes, operacao manual e automacao.
+
+O operador que usa a mesma wallet para tudo aumenta a superficie de erro. Uma permissao antiga, uma extensao comprometida ou um script mal configurado pode afetar mais capital do que deveria. A resposta nao e paranoia; e compartimentalizacao.
+
+### Regras praticas
+
+- Use uma wallet dedicada para a academia e para testes.
+- Nunca coloque seed phrase, private key ou API secret em nota, print ou repositorio.
+- Revise autorizacoes periodicamente.
+- Comece com valores pequenos ate provar que deposito, conexao, compra, venda e retirada funcionam.
+
+### Exercicio pratico
+
+Crie uma ficha da sua wallet operacional com estes campos: finalidade, rede, saldo maximo permitido, ultimo teste de retirada, autorizacoes relevantes e plano de emergencia se o dispositivo for perdido.
+
+## Auditoria aplicada
+
+Esta aula deve terminar com uma pequena auditoria escrita. O objetivo nao e produzir uma nota bonita, mas transformar "Criação de Wallet e Conexão à Polymarket" em uma decisao verificavel. Use os conceitos centrais da aula (os conceitos principais da aula) para construir um registro que possa ser revisado depois, quando o mercado ja tiver se movido ou o evento ja tiver sido resolvido.
+
+Comece pela pergunta operacional: o que eu consigo observar agora que muda minha decisao? Depois separe evidencia, inferencia e decisao. Evidencia e dado verificavel: preco, spread, profundidade, regra de resolucao, horario, volume, estado do book, endpoint consultado ou custo calculado. Inferencia e a leitura que voce faz a partir desses dados. Decisao e o que voce faz com a leitura: estudar mais, descartar, entrar com ordem limit, esperar liquidez, reduzir stake, usar API apenas para leitura ou classificar como No Bet.
+
+### Protocolo de revisao
+
+1. Escreva a tese em uma frase curta.
+2. Liste os tres dados que sustentam a tese.
+3. Liste o principal dado que poderia invalidar a tese.
+4. Defina o custo de estar errado: perda financeira, slippage, fee, tempo preso, erro de resolucao ou risco operacional.
+5. Defina o gatilho de pausa. Se esse gatilho acontecer, a decisao deve ser reavaliada antes de qualquer nova ordem.
+
+### Perguntas de controle
+
+- O mercado esta suficientemente liquido para o tamanho que eu quero usar?
+- O preco atual ainda paga o risco depois de spread, fees e slippage?
+- A regra de resolucao esta clara o suficiente para eu aceitar exposicao?
+- Se eu estivesse explicando este trade para outra pessoa, conseguiria separar dado de opiniao?
+- Existe um caminho simples de saida se a leitura estiver errada?
+
+### Saida esperada
+
+No fim da aula, salve uma nota de cinco linhas: mercado observado, preco observado, risco principal, decisao tomada e motivo para revisar depois. Esse habito cria memoria operacional. Sem memoria, o operador repete erros com mais confianca. Com memoria, cada aula vira uma parte do sistema de pesquisa.
+

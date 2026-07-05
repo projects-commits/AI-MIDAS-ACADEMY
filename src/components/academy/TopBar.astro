@@ -1,20 +1,18 @@
----
+﻿---
 import type { SiteData } from "../../types";
 import logoAiMidas from "../../../logofinal_aimidas.png";
-import LanguageSwitcher from "./LanguageSwitcher.astro";
 import { getCourseHref } from "../../lib/course";
-import { localizedPath, stripLocaleFromPath, type AppLocale } from "../../i18n/config";
+import { defaultLocale, localizedPath, type AppLocale } from "../../i18n/config";
 import { getDictionary } from "../../i18n/ui";
 
 interface Props {
   site: SiteData;
-  locale: AppLocale;
+  locale?: AppLocale;
 }
 
-const { site, locale } = Astro.props;
+const { site, locale = defaultLocale } = Astro.props;
 const dictionary = getDictionary(locale);
 const currentPath = Astro.url.pathname;
-const currentBasePath = stripLocaleFromPath(currentPath);
 ---
 
 <header class="site-topbar">
@@ -53,7 +51,7 @@ const currentBasePath = stripLocaleFromPath(currentPath);
               href={localizedPath(locale, item.href)}
               class:list={[
                 "topbar__link",
-                currentBasePath === item.href || (item.href !== "/" && currentBasePath.startsWith(item.href))
+                currentPath === item.href || (item.href !== "/" && currentPath.startsWith(item.href))
                   ? "is-active"
                   : ""
               ]}
@@ -63,8 +61,6 @@ const currentBasePath = stripLocaleFromPath(currentPath);
           ))
         }
       </nav>
-
-      <LanguageSwitcher locale={locale} pathname={currentPath} />
     </div>
   </div>
 </header>

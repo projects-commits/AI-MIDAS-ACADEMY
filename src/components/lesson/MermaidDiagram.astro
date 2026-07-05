@@ -1,4 +1,4 @@
----
+﻿---
 interface Props {
   title: string;
   label?: string;
@@ -7,13 +7,13 @@ interface Props {
 
 const { title, label = "Diagrama", definition } = Astro.props;
 
-type MermaidNode = {
+type DiagramNode = {
   id: string;
   label: string;
   shape: "rect" | "decision";
 };
 
-type MermaidEdge = {
+type DiagramEdge = {
   from: string;
   to: string;
   label?: string;
@@ -24,12 +24,11 @@ const lines = definition
   .map((line) => line.trim())
   .filter(Boolean);
 
-const direction = lines[0]?.match(/^flowchart\s+([A-Z]+)/i)?.[1] ?? "LR";
+const direction = lines[0]?.match(/^(?:flowchart|graph)\s+([A-Z]+)/i)?.[1] ?? "LR";
+const nodes = new Map<string, DiagramNode>();
+const edges: DiagramEdge[] = [];
 
-const nodes = new Map<string, MermaidNode>();
-const edges: MermaidEdge[] = [];
-
-function ensureNode(id: string, label?: string, shape: MermaidNode["shape"] = "rect") {
+function ensureNode(id: string, label?: string, shape: DiagramNode["shape"] = "rect") {
   const existing = nodes.get(id);
   if (existing) {
     if (label) existing.label = label;
@@ -37,19 +36,14 @@ function ensureNode(id: string, label?: string, shape: MermaidNode["shape"] = "r
     return existing;
   }
 
-  const nextNode = {
-    id,
-    label: label ?? id,
-    shape
-  } satisfies MermaidNode;
-
-  nodes.set(id, nextNode);
-  return nextNode;
+  const node = { id, label: label ?? id, shape } satisfies DiagramNode;
+  nodes.set(id, node);
+  return node;
 }
 
 for (const line of lines.slice(1)) {
   const match = line.match(
-    /^([A-Za-z0-9_]+)(?:\["([^"]+)"\]|\{"([^"]+)"\})?\s*-->\s*(?:\|([^|]+)\|)?\s*([A-Za-z0-9_]+)(?:\["([^"]+)"\]|\{"([^"]+)"\})?$/
+    /^([A-Za-z0-9_]+)(?:\[([^\]]+)\]|\{([^}]+)\})?\s*--?>\s*(?:\|([^|]+)\|)?\s*([A-Za-z0-9_]+)(?:\[([^\]]+)\]|\{([^}]+)\})?$/
   );
 
   if (!match) continue;
@@ -69,21 +63,22 @@ for (const line of lines.slice(1)) {
 const orderedNodeIds = [...new Set(edges.flatMap((edge) => [edge.from, edge.to]))];
 const orderedNodes = orderedNodeIds
   .map((nodeId) => nodes.get(nodeId))
-  .filter((node): node is MermaidNode => Boolean(node));
+  .filter((node): node is DiagramNode => Boolean(node));
+const isStack = direction === "TB" || direction === "TD" || direction === "BT";
 ---
 
-<section class="mermaid-panel blackboard" data-motion-reveal data-mermaid-container>
+<section class="mermaid-panel blackboard" data-motion-reveal>
   <div class="mermaid-panel__header">
     <p class="gold-label">{label}</p>
     <h3>{title}</h3>
   </div>
 
-  <div class="mermaid-diagram" aria-label={title}>
-    <div class:list={["mermaid-fallback", direction === "TB" ? "mermaid-fallback--stack" : "mermaid-fallback--row"]} data-mermaid-fallback>
+  <div class="mermaid-diagram mermaid-diagram--static" aria-label={title}>
+    <div class:list={["mermaid-fallback", isStack ? "mermaid-fallback--stack" : "mermaid-fallback--row"]}>
       <div class="mermaid-fallback__nodes">
         {orderedNodes.map((node, index) => (
           <>
-            {index > 0 && <span class="mermaid-fallback__arrow" aria-hidden="true">{direction === "TB" ? "↓" : "→"}</span>}
+            {index > 0 && <span class="mermaid-fallback__arrow" aria-hidden="true">{isStack ? "↓" : "→"}</span>}
             <div class:list={["mermaid-fallback__node", node.shape === "decision" && "is-decision"]}>{node.label}</div>
           </>
         ))}
@@ -108,7 +103,5 @@ const orderedNodes = orderedNodeIds
         </div>
       )}
     </div>
-
-    <pre class="mermaid">{definition}</pre>
   </div>
 </section>

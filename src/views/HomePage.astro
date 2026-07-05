@@ -1,8 +1,7 @@
----
+﻿---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/ui/Container.astro";
 import CategoryBadge from "../components/ui/CategoryBadge.astro";
-import LanguageSwitcher from "../components/academy/LanguageSwitcher.astro";
 import { getCourseHref } from "../lib/course";
 import { defaultLocale, localizedPath, type AppLocale } from "../i18n/config";
 import { getCategories, getDictionary } from "../i18n/ui";
@@ -31,17 +30,13 @@ const sliderCards = [image1Academy, image2Academy, image3Academy, image4Academy,
         {dictionary.site.promoCta}
       </a>
       <button class="promo-banner__close" type="button" aria-label="Close banner" data-home-promo-close>
-        ×
+        Ã—
       </button>
     </div>
   </div>
 
   <section class="home-hero">
     <Container size="wide">
-      <div class="home-hero__tools">
-        <LanguageSwitcher locale={locale} pathname={localizedPath(locale, "/")} variant="floating" />
-      </div>
-
       <div class="home-hero__inner">
         <h1 class="home-hero__title">
           <span class="home-hero__line">{dictionary.home.heroLine1}</span>
@@ -357,47 +352,6 @@ const sliderCards = [image1Academy, image2Academy, image3Academy, image4Academy,
       display: grid;
       gap: 1rem;
     }
-
-    :global(.language-switcher) {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    :global(.language-switcher__label) {
-      color: var(--color-muted);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    :global(.language-switcher__links) {
-      display: flex;
-      gap: 0.45rem;
-      flex-wrap: wrap;
-    }
-
-    :global(.language-switcher__link) {
-      display: inline-flex;
-      align-items: center;
-      min-height: 2rem;
-      padding: 0.35rem 0.75rem;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.03);
-      color: var(--color-text);
-      font-size: 0.82rem;
-      white-space: nowrap;
-    }
-
-    :global(.language-switcher__link.is-active) {
-      border-color: rgba(255, 215, 0, 0.26);
-      background: rgba(255, 215, 0, 0.08);
-      color: var(--color-secondary);
-    }
-
     @keyframes home-marquee {
       from {
         transform: translateX(0);
@@ -424,3 +378,4 @@ const sliderCards = [image1Academy, image2Academy, image3Academy, image4Academy,
     }
   </style>
 </BaseLayout>
+

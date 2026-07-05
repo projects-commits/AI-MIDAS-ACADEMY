@@ -1,34 +1,43 @@
----
+﻿---
 interface Props {
   title: string;
-  setup: string;
-  price: string;
-  hypothesis: string;
-  risk: string;
+  setup?: string;
+  price?: string;
+  hypothesis?: string;
+  risk?: string;
 }
 
 const { title, setup, price, hypothesis, risk } = Astro.props;
+const hasStructuredProps = Boolean(setup || price || hypothesis || risk);
 ---
 
 <article class="terminal-card market-example" data-motion-reveal>
   <p class="gold-label">Exemplo de mercado</p>
   <h3>{title}</h3>
-  <div class="market-example__grid">
-    <div>
-      <span class="market-example__item-label">Contexto</span>
-      <p>{setup}</p>
-    </div>
-    <div>
-      <span class="market-example__item-label">Leitura de preço</span>
-      <p>{price}</p>
-    </div>
-    <div>
-      <span class="market-example__item-label">Hipótese</span>
-      <p>{hypothesis}</p>
-    </div>
-    <div>
-      <span class="market-example__item-label">Risco</span>
-      <p>{risk}</p>
-    </div>
-  </div>
+  {
+    hasStructuredProps ? (
+      <div class="market-example__grid">
+        <div>
+          <span class="market-example__item-label">Contexto</span>
+          <p>{setup}</p>
+        </div>
+        <div>
+          <span class="market-example__item-label">Leitura de preço</span>
+          <p>{price}</p>
+        </div>
+        <div>
+          <span class="market-example__item-label">Hipótese</span>
+          <p>{hypothesis}</p>
+        </div>
+        <div>
+          <span class="market-example__item-label">Risco</span>
+          <p>{risk}</p>
+        </div>
+      </div>
+    ) : (
+      <div class="market-example__body">
+        <slot />
+      </div>
+    )
+  }
 </article>

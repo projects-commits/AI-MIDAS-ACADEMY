@@ -8,7 +8,7 @@
   "title": "Ordens Limit e Market: Diferenças e Quando Usar Cada Uma",
   "slug": "ordens-limit-market-diferencas-quando-usar",
   "lessonNumber": 8,
-  "readingMinutes": 30,
+  "readingMinutes": 48,
   "status": "published",
   "createdAt": "2026-07-05T17:00:00.000Z",
   "updatedAt": "2026-07-05T17:00:00.000Z"
@@ -83,3 +83,60 @@ Em mercados com baixa liquidez (< 500 USDC de profundidade), uma ordem market po
 - [ ] Prefiro ser maker (taxa 0%) quando tenho tempo
 
 </BlackboardPanel>
+
+## Aprofundamento: fees da Polymarket segundo a documentacao oficial
+
+A documentacao atual da Polymarket descreve fees como um custo aplicado no momento do match, sem voce precisar incluir a fee dentro da ordem. A regra importante e: makers nao pagam fee; takers podem pagar fee em mercados com fees habilitadas. A propria plataforma indica que mercados com fees habilitadas trazem `feesEnabled: true` no objeto do mercado, e que os parametros podem ser consultados via `getClobMarketInfo(conditionID)`.
+
+A formula documentada para fee de taker e:
+
+`fee = C x feeRate x p x (1 - p)`
+
+Onde `C` e o numero de shares negociadas, `feeRate` e a taxa base da categoria e `p` e o preco do token. Isso significa que a fee nao cresce de forma linear apenas com o preco; ela e simetrica em torno de 50%. Um trade a 0.30 e um trade a 0.70 geram a mesma fee em dolares para a mesma quantidade e feeRate.
+
+### Tabela operacional de feeRate por categoria
+
+| Categoria | Taker feeRate | Maker feeRate | Observacao operacional |
+|---|---:|---:|---|
+| Crypto | 0.07 | 0 | Maior custo relativo entre as categorias listadas |
+| Sports | 0.03 | 0 | Categoria central para exemplos de futebol |
+| Finance / Politics / Mentions / Tech | 0.04 | 0 | Custo intermediario |
+| Economics / Culture / Weather / Other | 0.05 | 0 | Custo acima de sports |
+| Geopolitics | 0 | 0 | Fee-free segundo a documentacao |
+
+Fonte de referencia para estudo: https://docs.polymarket.com/trading/fees
+
+### Como isso muda a decisao entre limit e market
+
+A ordem limit que adiciona liquidez tende a preservar controle de preco e evita fee de maker. A ordem market compra execucao imediata, mas atravessa o book, pode sofrer slippage e ainda pode pagar taker fee quando o mercado tiver fees habilitadas. Portanto, a pergunta correta nao e "qual ordem e mais rapida?". A pergunta correta e: "quanto estou pagando por urgencia, depois de spread, slippage e fee?".
+
+### Exemplo aplicado em futebol
+
+Imagine 100 shares de um mercado sports a preco 0.50, com feeRate 0.03. A fee teorica de taker seria `100 x 0.03 x 0.50 x 0.50 = 0.75`. Se o mesmo trade fosse a 0.80, seria `100 x 0.03 x 0.80 x 0.20 = 0.48`. O custo maximo aparece perto de 50%, onde a incerteza de mercado e maior.
+
+## Auditoria aplicada
+
+Esta aula deve terminar com uma pequena auditoria escrita. O objetivo nao e produzir uma nota bonita, mas transformar "Ordens Limit e Market: Diferenças e Quando Usar Cada Uma" em uma decisao verificavel. Use os conceitos centrais da aula (os conceitos principais da aula) para construir um registro que possa ser revisado depois, quando o mercado ja tiver se movido ou o evento ja tiver sido resolvido.
+
+Comece pela pergunta operacional: o que eu consigo observar agora que muda minha decisao? Depois separe evidencia, inferencia e decisao. Evidencia e dado verificavel: preco, spread, profundidade, regra de resolucao, horario, volume, estado do book, endpoint consultado ou custo calculado. Inferencia e a leitura que voce faz a partir desses dados. Decisao e o que voce faz com a leitura: estudar mais, descartar, entrar com ordem limit, esperar liquidez, reduzir stake, usar API apenas para leitura ou classificar como No Bet.
+
+### Protocolo de revisao
+
+1. Escreva a tese em uma frase curta.
+2. Liste os tres dados que sustentam a tese.
+3. Liste o principal dado que poderia invalidar a tese.
+4. Defina o custo de estar errado: perda financeira, slippage, fee, tempo preso, erro de resolucao ou risco operacional.
+5. Defina o gatilho de pausa. Se esse gatilho acontecer, a decisao deve ser reavaliada antes de qualquer nova ordem.
+
+### Perguntas de controle
+
+- O mercado esta suficientemente liquido para o tamanho que eu quero usar?
+- O preco atual ainda paga o risco depois de spread, fees e slippage?
+- A regra de resolucao esta clara o suficiente para eu aceitar exposicao?
+- Se eu estivesse explicando este trade para outra pessoa, conseguiria separar dado de opiniao?
+- Existe um caminho simples de saida se a leitura estiver errada?
+
+### Saida esperada
+
+No fim da aula, salve uma nota de cinco linhas: mercado observado, preco observado, risco principal, decisao tomada e motivo para revisar depois. Esse habito cria memoria operacional. Sem memoria, o operador repete erros com mais confianca. Com memoria, cada aula vira uma parte do sistema de pesquisa.
+

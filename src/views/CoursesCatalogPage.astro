@@ -1,10 +1,9 @@
----
+﻿---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/ui/Container.astro";
 import CatalogCourseCard from "../components/course/CatalogCourseCard.astro";
 import { defaultLocale, type AppLocale } from "../i18n/config";
-import { localizeCourseData } from "../i18n/course-content";
 import { getCategories, getDictionary } from "../i18n/ui";
 import { createCatalogItemFromCourse, formatDurationBucket, formatLevel } from "../lib/course";
 import type { CourseCatalogItem, CourseData, CourseDurationBucket } from "../types";
@@ -17,7 +16,7 @@ const { locale = defaultLocale } = Astro.props;
 const dictionary = getDictionary(locale);
 const categories = getCategories(locale);
 const courseEntries = await getCollection("courses");
-const publishedCourses = courseEntries.map((entry) => localizeCourseData(entry.data as CourseData, locale));
+const publishedCourses = courseEntries.map((entry) => entry.data as CourseData);
 
 const catalogItems = publishedCourses
   .map((course) => createCatalogItemFromCourse(course, locale))
@@ -49,7 +48,7 @@ for (const item of catalogItems) {
     <section class="catalog-shell" data-course-catalog data-search-chip-prefix={dictionary.catalog.searchChipPrefix}>
       <div class="catalog-shell__search research-card">
         <label class="catalog-search" for="course-search">
-          <span class="catalog-search__icon" aria-hidden="true">⌕</span>
+          <span class="catalog-search__icon" aria-hidden="true">âŒ•</span>
           <span class="catalog-search__label">{dictionary.catalog.searchLabel}</span>
           <input
             id="course-search"
@@ -449,3 +448,4 @@ for (const item of catalogItems) {
     }
   </style>
 </BaseLayout>
+

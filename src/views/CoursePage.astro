@@ -1,11 +1,8 @@
----
+﻿---
 import { getCollection, render } from "astro:content";
 import CourseLayout from "../layouts/CourseLayout.astro";
-import LocalizedFrameworkTradingCourseContent from "../components/course/LocalizedFrameworkTradingCourseContent.astro";
 import type { CourseData } from "../types";
 import { defaultLocale, type AppLocale } from "../i18n/config";
-import { localizeCourseData } from "../i18n/course-content";
-import { hasFrameworkTradingLocalizedCourseContent } from "../i18n/framework-trading-localized-content";
 import { getFirstLesson, getLessonHref } from "../lib/course";
 
 interface Props {
@@ -21,15 +18,13 @@ if (!courseEntry) {
   throw new Error(`Course not found for slug: ${courseSlug}`);
 }
 
-const course = localizeCourseData(courseEntry.data as CourseData, locale);
+const course = courseEntry.data as CourseData;
 const firstLesson = getFirstLesson(course);
 const firstLessonHref = firstLesson ? getLessonHref(course.slug, firstLesson.slug, locale) : "/courses/";
-const hasLocalizedLongform = hasFrameworkTradingLocalizedCourseContent(locale, course.id);
-const showLongformNotes = locale === defaultLocale || hasLocalizedLongform;
-const renderedCourse = locale === defaultLocale ? await render(courseEntry) : null;
-const CourseContent = renderedCourse?.Content;
+const renderedCourse = await render(courseEntry);
+const CourseContent = renderedCourse.Content;
 ---
 
-<CourseLayout course={course} firstLessonHref={firstLessonHref} locale={locale} showLongformNotes={showLongformNotes}>
-  {hasLocalizedLongform ? <LocalizedFrameworkTradingCourseContent locale={locale} /> : CourseContent && <CourseContent />}
+<CourseLayout course={course} firstLessonHref={firstLessonHref} locale={locale}>
+  <CourseContent />
 </CourseLayout>

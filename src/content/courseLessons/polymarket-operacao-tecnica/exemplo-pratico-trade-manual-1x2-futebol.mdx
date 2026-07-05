@@ -8,7 +8,7 @@
   "title": "Exemplo Prático: Trade Manual num 1×2 de Futebol",
   "slug": "exemplo-pratico-trade-manual-1x2-futebol",
   "lessonNumber": 11,
-  "readingMinutes": 35,
+  "readingMinutes": 53,
   "status": "published",
   "createdAt": "2026-07-05T17:00:00.000Z",
   "updatedAt": "2026-07-05T17:00:00.000Z"
@@ -189,3 +189,51 @@ Um resultado positivo não valida a tua tese. Se estimaste 55% e ganhaste, isso 
 - [ ] Refleti sobre o que aprendi com este trade
 
 </BlackboardPanel>
+
+## Aprofundamento operacional
+
+Um trade manual completo deve ter tres documentos curtos: tese antes da entrada, plano de execucao e revisao depois da saida. Sem esses tres blocos, o operador acaba julgando o trade pelo resultado final, nao pela qualidade da decisao.
+
+No mercado 1X2, a tese precisa ser especifica. "Benfica e melhor" e fraco. Uma tese operacional seria: "Benfica tem vantagem de criacao pelo corredor direito, Porto chega com baixa capacidade de pressao fora de casa, e o preco atual de Benfica YES/Moneyline implica probabilidade inferior ao meu intervalo conservador". Agora existe algo que pode ser confirmado, negado ou ajustado.
+
+### Template minimo de trade
+
+- Mercado e outcome.
+- Preco maximo aceitavel.
+- Probabilidade estimada conservadora.
+- Motivo de edge.
+- Risco principal.
+- Condicao de invalidacao.
+- Plano de saida.
+- Revisao pos-trade.
+
+### Exercicio pratico
+
+Reescreva um trade antigo usando o template acima. Se voce nao consegue preencher "risco principal" e "condicao de invalidacao", o trade provavelmente foi uma opiniao, nao uma decisao auditavel.
+
+## Auditoria aplicada
+
+Esta aula deve terminar com uma pequena auditoria escrita. O objetivo nao e produzir uma nota bonita, mas transformar "Exemplo Prático: Trade Manual num 1×2 de Futebol" em uma decisao verificavel. Use os conceitos centrais da aula (os conceitos principais da aula) para construir um registro que possa ser revisado depois, quando o mercado ja tiver se movido ou o evento ja tiver sido resolvido.
+
+Comece pela pergunta operacional: o que eu consigo observar agora que muda minha decisao? Depois separe evidencia, inferencia e decisao. Evidencia e dado verificavel: preco, spread, profundidade, regra de resolucao, horario, volume, estado do book, endpoint consultado ou custo calculado. Inferencia e a leitura que voce faz a partir desses dados. Decisao e o que voce faz com a leitura: estudar mais, descartar, entrar com ordem limit, esperar liquidez, reduzir stake, usar API apenas para leitura ou classificar como No Bet.
+
+### Protocolo de revisao
+
+1. Escreva a tese em uma frase curta.
+2. Liste os tres dados que sustentam a tese.
+3. Liste o principal dado que poderia invalidar a tese.
+4. Defina o custo de estar errado: perda financeira, slippage, fee, tempo preso, erro de resolucao ou risco operacional.
+5. Defina o gatilho de pausa. Se esse gatilho acontecer, a decisao deve ser reavaliada antes de qualquer nova ordem.
+
+### Perguntas de controle
+
+- O mercado esta suficientemente liquido para o tamanho que eu quero usar?
+- O preco atual ainda paga o risco depois de spread, fees e slippage?
+- A regra de resolucao esta clara o suficiente para eu aceitar exposicao?
+- Se eu estivesse explicando este trade para outra pessoa, conseguiria separar dado de opiniao?
+- Existe um caminho simples de saida se a leitura estiver errada?
+
+### Saida esperada
+
+No fim da aula, salve uma nota de cinco linhas: mercado observado, preco observado, risco principal, decisao tomada e motivo para revisar depois. Esse habito cria memoria operacional. Sem memoria, o operador repete erros com mais confianca. Com memoria, cada aula vira uma parte do sistema de pesquisa.
+

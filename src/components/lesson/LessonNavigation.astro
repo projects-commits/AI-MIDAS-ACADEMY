@@ -1,4 +1,4 @@
----
+﻿---
 import type { CourseLesson } from "../../types";
 import { getLessonHref } from "../../lib/course";
 import { type AppLocale } from "../../i18n/config";
@@ -15,7 +15,7 @@ const { courseSlug, previousLesson, nextLesson, locale } = Astro.props;
 const dictionary = getDictionary(locale);
 ---
 
-<nav class="lesson-navigation" aria-label={dictionary.lesson.quickViewTitle}>
+<nav class="lesson-navigation" aria-label="Navegacao da aula">
   {previousLesson ? (
     <a class="lesson-navigation__link" href={getLessonHref(courseSlug, previousLesson.slug, locale)}>
       <span>{dictionary.lesson.previousLesson}</span>
@@ -40,3 +40,4 @@ const dictionary = getDictionary(locale);
     </div>
   )}
 </nav>
+

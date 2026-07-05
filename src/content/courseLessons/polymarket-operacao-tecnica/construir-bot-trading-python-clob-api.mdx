@@ -8,7 +8,7 @@
   "title": "Construir um Bot de Trading com Python e a CLOB API",
   "slug": "construir-bot-trading-python-clob-api",
   "lessonNumber": 15,
-  "readingMinutes": 40,
+  "readingMinutes": 58,
   "status": "published",
   "createdAt": "2026-07-05T17:00:00.000Z",
   "updatedAt": "2026-07-05T17:00:00.000Z"
@@ -130,3 +130,50 @@ Nunca deixes um bot operar sem limites. No código acima, faltam proteções: st
 - [ ] O bot regista todas as decisões num log auditável
 
 </BlackboardPanel>
+
+## Aprofundamento operacional
+
+Um bot nao e uma estrategia; e uma estrategia transformada em codigo. Se a regra humana e vaga, o bot apenas automatiza a confusao. Antes de permitir qualquer ordem real, o bot precisa provar tres coisas: entende o mercado correto, calcula o risco corretamente e sabe parar.
+
+A versao inicial deve operar em dry-run. Ela registra o que teria feito, por qual preco, com qual tamanho, qual spread, qual liquidez e qual motivo. Depois voce compara as decisoes simuladas com o mercado real. So entao faz sentido liberar pequenos tamanhos.
+
+### Protecoes obrigatorias
+
+- Whitelist de categorias e mercados permitidos.
+- Stake maximo por ordem e por dia.
+- Limite de perdas e drawdown.
+- Bloqueio se spread ultrapassar o limite.
+- Bloqueio se liquidez cair abaixo do minimo.
+- Modo dry-run por padrao.
+- Logs auditaveis de todas as decisoes.
+
+### Exercicio pratico
+
+Antes de escrever qualquer funcao de envio de ordem, escreva a funcao `should_trade()` retornando tambem uma lista de motivos. Se a lista de motivos for vazia ou generica, o bot ainda nao tem processo suficiente.
+
+## Auditoria aplicada
+
+Esta aula deve terminar com uma pequena auditoria escrita. O objetivo nao e produzir uma nota bonita, mas transformar "Construir um Bot de Trading com Python e a CLOB API" em uma decisao verificavel. Use os conceitos centrais da aula (os conceitos principais da aula) para construir um registro que possa ser revisado depois, quando o mercado ja tiver se movido ou o evento ja tiver sido resolvido.
+
+Comece pela pergunta operacional: o que eu consigo observar agora que muda minha decisao? Depois separe evidencia, inferencia e decisao. Evidencia e dado verificavel: preco, spread, profundidade, regra de resolucao, horario, volume, estado do book, endpoint consultado ou custo calculado. Inferencia e a leitura que voce faz a partir desses dados. Decisao e o que voce faz com a leitura: estudar mais, descartar, entrar com ordem limit, esperar liquidez, reduzir stake, usar API apenas para leitura ou classificar como No Bet.
+
+### Protocolo de revisao
+
+1. Escreva a tese em uma frase curta.
+2. Liste os tres dados que sustentam a tese.
+3. Liste o principal dado que poderia invalidar a tese.
+4. Defina o custo de estar errado: perda financeira, slippage, fee, tempo preso, erro de resolucao ou risco operacional.
+5. Defina o gatilho de pausa. Se esse gatilho acontecer, a decisao deve ser reavaliada antes de qualquer nova ordem.
+
+### Perguntas de controle
+
+- O mercado esta suficientemente liquido para o tamanho que eu quero usar?
+- O preco atual ainda paga o risco depois de spread, fees e slippage?
+- A regra de resolucao esta clara o suficiente para eu aceitar exposicao?
+- Se eu estivesse explicando este trade para outra pessoa, conseguiria separar dado de opiniao?
+- Existe um caminho simples de saida se a leitura estiver errada?
+
+### Saida esperada
+
+No fim da aula, salve uma nota de cinco linhas: mercado observado, preco observado, risco principal, decisao tomada e motivo para revisar depois. Esse habito cria memoria operacional. Sem memoria, o operador repete erros com mais confianca. Com memoria, cada aula vira uma parte do sistema de pesquisa.
+

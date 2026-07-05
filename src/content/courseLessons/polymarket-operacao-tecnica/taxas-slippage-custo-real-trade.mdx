@@ -8,7 +8,7 @@
   "title": "Taxas, Slippage e Custo Real de um Trade",
   "slug": "taxas-slippage-custo-real-trade",
   "lessonNumber": 10,
-  "readingMinutes": 25,
+  "readingMinutes": 43,
   "status": "published",
   "createdAt": "2026-07-05T17:00:00.000Z",
   "updatedAt": "2026-07-05T17:00:00.000Z"
@@ -95,3 +95,52 @@ Falso. Mesmo ordens de 50 USDC podem sofrer slippage em mercados com menos de 20
 - [ ] O custo total não invalida o meu EV calculado
 
 </BlackboardPanel>
+
+## Aprofundamento: custo real depois das fees atuais
+
+A documentacao oficial da Polymarket descreve a fee de taker como dependente de categoria, preco e quantidade, aplicada no momento do match. Makers nao pagam fees. Isso corrige uma simplificacao comum: nao basta assumir uma taxa fixa universal. O mercado pode ter `feesEnabled`, a categoria pode mudar o `feeRate`, e a fee efetiva varia com `p x (1 - p)`.
+
+Para mercados de sports, a tabela oficial lista taker feeRate de 0.03 e maker feeRate de 0. Em termos praticos, o operador de futebol precisa calcular tres custos antes de decidir: spread, slippage e taker fee. Se qualquer um deles consome o edge, o trade deixa de ser bom mesmo que a leitura do jogo esteja correta.
+
+### Formula operacional completa
+
+`custo_real = preco_medio_executado x shares + fee_taker + custos_de_rede_ou_intermediarios_aplicaveis`
+
+`fee_taker = shares x feeRate x preco x (1 - preco)`
+
+### Exemplo com 100 shares sports
+
+- A 0.50: `100 x 0.03 x 0.50 x 0.50 = 0.75`
+- A 0.30: `100 x 0.03 x 0.30 x 0.70 = 0.63`
+- A 0.90: `100 x 0.03 x 0.90 x 0.10 = 0.27`
+
+A leitura operacional e simples: quanto mais perto de 50%, maior tende a ser a fee em dolares para a mesma quantidade. Quanto mais extremo o preco, menor a fee, mas isso nao torna o trade automaticamente melhor; mercados extremos podem ter risco de cauda, baixa liquidez e pouca capacidade de saida.
+
+Fonte de referencia para estudo: https://docs.polymarket.com/trading/fees
+
+## Auditoria aplicada
+
+Esta aula deve terminar com uma pequena auditoria escrita. O objetivo nao e produzir uma nota bonita, mas transformar "Taxas, Slippage e Custo Real de um Trade" em uma decisao verificavel. Use os conceitos centrais da aula (os conceitos principais da aula) para construir um registro que possa ser revisado depois, quando o mercado ja tiver se movido ou o evento ja tiver sido resolvido.
+
+Comece pela pergunta operacional: o que eu consigo observar agora que muda minha decisao? Depois separe evidencia, inferencia e decisao. Evidencia e dado verificavel: preco, spread, profundidade, regra de resolucao, horario, volume, estado do book, endpoint consultado ou custo calculado. Inferencia e a leitura que voce faz a partir desses dados. Decisao e o que voce faz com a leitura: estudar mais, descartar, entrar com ordem limit, esperar liquidez, reduzir stake, usar API apenas para leitura ou classificar como No Bet.
+
+### Protocolo de revisao
+
+1. Escreva a tese em uma frase curta.
+2. Liste os tres dados que sustentam a tese.
+3. Liste o principal dado que poderia invalidar a tese.
+4. Defina o custo de estar errado: perda financeira, slippage, fee, tempo preso, erro de resolucao ou risco operacional.
+5. Defina o gatilho de pausa. Se esse gatilho acontecer, a decisao deve ser reavaliada antes de qualquer nova ordem.
+
+### Perguntas de controle
+
+- O mercado esta suficientemente liquido para o tamanho que eu quero usar?
+- O preco atual ainda paga o risco depois de spread, fees e slippage?
+- A regra de resolucao esta clara o suficiente para eu aceitar exposicao?
+- Se eu estivesse explicando este trade para outra pessoa, conseguiria separar dado de opiniao?
+- Existe um caminho simples de saida se a leitura estiver errada?
+
+### Saida esperada
+
+No fim da aula, salve uma nota de cinco linhas: mercado observado, preco observado, risco principal, decisao tomada e motivo para revisar depois. Esse habito cria memoria operacional. Sem memoria, o operador repete erros com mais confianca. Com memoria, cada aula vira uma parte do sistema de pesquisa.
+

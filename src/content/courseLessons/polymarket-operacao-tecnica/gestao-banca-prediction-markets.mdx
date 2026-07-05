@@ -8,7 +8,7 @@
   "title": "Gestão de Banca em Prediction Markets",
   "slug": "gestao-banca-prediction-markets",
   "lessonNumber": 16,
-  "readingMinutes": 30,
+  "readingMinutes": 48,
   "status": "published",
   "createdAt": "2026-07-05T17:00:00.000Z",
   "updatedAt": "2026-07-05T17:00:00.000Z"
@@ -84,3 +84,48 @@ Esta é a armadilha mais perigosa do trading. Aumentar o stake depois de perdas 
 - [ ] Tenho um diário de trades para monitorizar a banca
 
 </BlackboardPanel>
+
+## Aprofundamento operacional
+
+Gestao de banca em prediction markets precisa respeitar duas camadas: risco de tese e risco de mercado. Risco de tese e a chance de sua leitura estar errada. Risco de mercado e a chance de voce nao conseguir entrar ou sair pelo preco planejado. Um stake que ignora qualquer uma das duas camadas esta superestimado.
+
+Kelly e outras formulas ajudam, mas dependem de estimativas honestas. Se a probabilidade estimada e instavel, usar Kelly cheio e transformar incerteza em alavancagem. Por isso a abordagem fracionada e mais adequada para um ambiente com liquidez variavel, fees, slippage e correlacao entre eventos.
+
+### Regras de sobrevivencia
+
+- Defina limite por trade antes de procurar oportunidades.
+- Reduza stake quando a liquidez for fraca.
+- Reduza stake quando a tese depender de informacao dificil de verificar.
+- Reduza stake quando houver outros mercados correlacionados.
+- Pare de operar quando o estado emocional mudar a regra.
+
+### Exercicio pratico
+
+Crie tres tamanhos padrao: observacao, normal e alta conviccao. Para cada tamanho, escreva os criterios minimos de liquidez, spread, edge estimado e clareza de invalidacao.
+
+## Auditoria aplicada
+
+Esta aula deve terminar com uma pequena auditoria escrita. O objetivo nao e produzir uma nota bonita, mas transformar "Gestão de Banca em Prediction Markets" em uma decisao verificavel. Use os conceitos centrais da aula (os conceitos principais da aula) para construir um registro que possa ser revisado depois, quando o mercado ja tiver se movido ou o evento ja tiver sido resolvido.
+
+Comece pela pergunta operacional: o que eu consigo observar agora que muda minha decisao? Depois separe evidencia, inferencia e decisao. Evidencia e dado verificavel: preco, spread, profundidade, regra de resolucao, horario, volume, estado do book, endpoint consultado ou custo calculado. Inferencia e a leitura que voce faz a partir desses dados. Decisao e o que voce faz com a leitura: estudar mais, descartar, entrar com ordem limit, esperar liquidez, reduzir stake, usar API apenas para leitura ou classificar como No Bet.
+
+### Protocolo de revisao
+
+1. Escreva a tese em uma frase curta.
+2. Liste os tres dados que sustentam a tese.
+3. Liste o principal dado que poderia invalidar a tese.
+4. Defina o custo de estar errado: perda financeira, slippage, fee, tempo preso, erro de resolucao ou risco operacional.
+5. Defina o gatilho de pausa. Se esse gatilho acontecer, a decisao deve ser reavaliada antes de qualquer nova ordem.
+
+### Perguntas de controle
+
+- O mercado esta suficientemente liquido para o tamanho que eu quero usar?
+- O preco atual ainda paga o risco depois de spread, fees e slippage?
+- A regra de resolucao esta clara o suficiente para eu aceitar exposicao?
+- Se eu estivesse explicando este trade para outra pessoa, conseguiria separar dado de opiniao?
+- Existe um caminho simples de saida se a leitura estiver errada?
+
+### Saida esperada
+
+No fim da aula, salve uma nota de cinco linhas: mercado observado, preco observado, risco principal, decisao tomada e motivo para revisar depois. Esse habito cria memoria operacional. Sem memoria, o operador repete erros com mais confianca. Com memoria, cada aula vira uma parte do sistema de pesquisa.
+
