@@ -23,6 +23,21 @@ import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
 
 ### Aula 14: WebSocket para Dados em Tempo Real
 
+Para trading automatizado, polling REST não é suficiente. Precisas de WebSocket para receber atualizações de preço, negociações executadas e alterações no book em tempo real.
+
+**Mecanismo:** O WebSocket da Polymarket usa um modelo de subscrição por canal. Ligas-te ao endpoint ws-subscriptions-clob.polymarket.com e envias uma mensagem JSON a subscrever canais (price_change, book, user_trades). O servidor envia atualizações contínuas enquanto a ligação estiver ativa.
+
+<BlackboardPanel title="Canais WebSocket Disponíveis">
+
+| Canal | Descrição | Frequência |
+|-------|-----------|------------|
+| price_change | Atualizações de preço por asset | ~1-5s |
+| book | Atualizações parciais do book | ~1-3s |
+| user_trades | Trades do utilizador autenticado | em tempo real |
+| market | Atualizações de estado do mercado | em tempo real |
+
+</BlackboardPanel>
+
 ```python
 import asyncio
 import websockets
@@ -31,13 +46,41 @@ import json
 async def subscribe_price_changes(asset_id):
     uri = "wss://ws-subscriptions-clob.polymarket.com/ws/"
     async with websockets.connect(uri) as ws:
+        # Subscrever canal de preços
         msg = {"type": "subscribe", "channel": "price_change", "asset_id": asset_id}
         await ws.send(json.dumps(msg))
+        print(f"Subscrito em price_change para asset {asset_id}")
+        
+        # Processar mensagens contínuas
         async for message in ws:
             data = json.loads(message)
-            print(f"Preço: {data['price']} Timestamp: {data['timestamp']}")
+            if data.get("channel") == "price_change":
+                preco = data["price"]
+                timestamp = data["timestamp"]
+                print(f"Preço: {preco} às {timestamp}")
+
+# Para múltiplos assets em simultâneo
+async def monitor_multiple_assets(asset_ids):
+    tasks = [subscribe_price_changes(aid) for aid in asset_ids]
+    await asyncio.gather(*tasks)
 
 asyncio.run(subscribe_price_changes("asset_id_do_mercado_de_futebol"))
 ```
 
----
+<FailureModeCard title="Modo de Falha Comum">
+
+**"O WebSocket desligou e perdi dados."**
+
+WebSocket ligações caem — é esperado. O que não podes fazer é não tratar a reconexão. Implementa um loop com reconexão automática (exponential backoff), um heartbeat para detectar desconexão, e um buffer local para evitar perda de dados durante a janela de reconexão.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] Implementei subscrição nos canais necessários
+- [ ] Tratei reconexão automática com backoff
+- [ ] Adicionei heartbeat/ping para detectar desconexão
+- [ ] Criei buffer local para dados durante janelas de reconexão
+- [ ] Testei com múltiplos assets em simultâneo
+
+</BlackboardPanel>

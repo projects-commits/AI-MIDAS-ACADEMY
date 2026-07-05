@@ -23,6 +23,10 @@ import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
 
 ### Aula 17: Correlação entre Mercados
 
+Um erro comum é tratar cada mercado como independente. Na realidade, mercados do mesmo jogo estão altamente correlacionados. Ignorar essa correlação leva a exposição concentrada que achas que está diversificada.
+
+**Mecanismo:** Se tens posições em "Benfica vence", "Benfica marca primeiro" e "Total golos > 2.5", todas dependem do desempenho do Benfica. Se o Benfica perder, duas das três posições perdem valor. A exposição real ao jogo é a soma de todas as posições correlacionadas, não cada uma individualmente.
+
 <MarketExample
   title="Correlação num Jogo de Futebol"
 >
@@ -40,4 +44,28 @@ Se o Benfica perder, as primeiras duas posições perdem. És altamente dependen
 
 </MarketExample>
 
----
+<FormulaBlock
+  label="Exposição Real Agregada"
+  formula="Exp_agregada = Σ(stakes) quando ρ > 0.5 entre outcomes"
+  example="Se ρ(Benfica_vence, Benfica_marca_primeiro) ≈ 0.85
+           Exp_agregada = 50 + 30 = 80 USDC (não 50 + 30 separados)
+           → 80 USDC expostos ao mesmo evento = 8% da banca"
+/>
+
+<FailureModeCard title="Modo de Falha Comum">
+
+**"Tenho 5 trades diferentes, logo estou diversificado."**
+
+Diversificação não é quantidade de trades — é independência entre eles. Se todos os teus 5 trades são em mercados do mesmo jogo (ex: resultado, total de golos, marcador), tens 1 exposição real, não 5. Para diversificar de verdade, opera em jogos diferentes, ligas diferentes, e de preferência em dias diferentes.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] Identifiquei todos os mercados correlacionados nas minhas posições
+- [ ] Calculei a exposição agregada por jogo/evento
+- [ ] A exposição por evento não excede 10% da banca
+- [ ] Tenho posições em pelo menos 3 jogos diferentes
+- [ ] Sei qual é o meu cenário de pior caso (se todos os jogos correrem mal)
+
+</BlackboardPanel>

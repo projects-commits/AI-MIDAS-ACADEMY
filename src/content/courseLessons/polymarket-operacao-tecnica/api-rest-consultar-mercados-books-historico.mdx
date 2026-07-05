@@ -23,17 +23,58 @@ import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
 
 ### Aula 13: API REST — Consultar Mercados
 
+A API REST da Polymarket permite consultar mercados, books de ordens, histórico de preços e muito mais. Todas as chamadas de leitura são públicas — não precisas de autenticação para consultar dados.
+
+**Mecanismo:** A API segue o padrão REST com respostas JSON. Os endpoints principais são /markets (lista de mercados), /book (ordens por mercado) e /price (histórico de preços). Suporta paginação, filtros por tag, e parâmetros de ordenação.
+
+<BlackboardPanel title="Endpoints Principais">
+
+| Endpoint | Descrição | Parâmetros |
+|----------|-----------|------------|
+| GET /markets | Lista mercados | limit, offset, tag, closed, cursor |
+| GET /book | Book de ordens | token_id, side |
+| GET /price | Histórico de preços | asset_id, interval, start_ts, end_ts |
+| GET /market | Detalhes de um mercado | condition_id |
+
+</BlackboardPanel>
+
 ```python
 import requests
 
 HOST = "https://clob.polymarket.com"
+
+# Listar mercados de futebol abertos
 resp = requests.get(
     f"{HOST}/markets",
     params={"limit": 100, "offset": 0, "tag": "soccer", "closed": False},
 )
 markets = resp.json()
 for m in markets["data"]:
-    print(f"{m['question'][:60]:60s} | Vol: {m['volume']:>10s} | Liquidez: {m['liquidity']:>10s}")
+    print(f"{m['question'][:60]:60s} | Vol: {m['volume']:>10s} | Liq: {m['liquidity']:>10s}")
+
+# Obter book de ordens para um mercado específico
+if markets["data"]:
+    market_id = markets["data"][0]["condition_id"]
+    book_resp = requests.get(f"{HOST}/book", params={"token_id": market_id})
+    book = book_resp.json()
+    print(f"\nBest Bid: {book['bids'][0]['price'] if book['bids'] else 'N/A'}")
+    print(f"Best Ask: {book['asks'][0]['price'] if book['asks'] else 'N/A'}")
 ```
 
----
+<FailureModeCard title="Modo de Falha Comum">
+
+**"A API respondeu com erro 429, deve estar em baixo."**
+
+Erro 429 é rate limiting. A API da Polymarket tem limites de chamadas por minuto. Sempre que fazes scraping, implementa backoff exponencial e respeita os headers Retry-After. Para produção, usa WebSocket em vez de polling REST.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] Sei quais endpoints usar para cada tipo de dados
+- [ ] Implementei paginação (offset/cursor) para listas grandes
+- [ ] Tratei erros HTTP (429, 500) com retry e backoff
+- [ ] Testei chamadas sem autenticação (leitura pública)
+- [ ] Estruturei os dados extraídos em formato auditável (CSV/JSON)
+
+</BlackboardPanel>

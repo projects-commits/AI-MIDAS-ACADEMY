@@ -23,34 +23,110 @@ import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
 
 ### Aula 15: Bot de Trading Completo
 
+Esta aula junta autenticação, REST e WebSocket num bot funcional que faz scan de mercados, calcula EV e executa trades automaticamente.
+
+**Arquitetura:** O bot corre em loop: (1) busca mercados de futebol abertos via REST, (2) filtra por liquidez mínima, (3) calcula EV estimado, (4) se EV > threshold, executa ordem limit no book.
+
 ```python
 import time
-from clob_client import ClobClient, Side
+import requests
+import json
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 HOST = "https://clob.polymarket.com"
-MIN_LIQUIDITY = 1000
-MIN_EV = 0.05
+MIN_LIQUIDITY = 1000  # USDC
+MIN_EV = 0.05         # 5% de EV mínimo
+MAX_STAKE = 50        # USDC por trade
+
+def get_creds():
+    """Carregar credenciais de ambiente"""
+    return {
+        "key": os.getenv("POLY_API_KEY"),
+        "secret": os.getenv("POLY_API_SECRET"),
+        "passphrase": os.getenv("POLY_API_PASSPHRASE"),
+    }
+
+def fetch_markets():
+    """Buscar mercados de futebol abertos"""
+    resp = requests.get(
+        f"{HOST}/markets",
+        params={"limit": 50, "tag": "soccer", "closed": False},
+        timeout=10,
+    )
+    resp.raise_for_status()
+    return resp.json()["data"]
 
 def estimate_probability(market):
-    return 0.55  # Placeholder
+    """
+    Placeholder: aqui deves integrar o teu modelo.
+    Exemplo: modelo Poisson, Elo, ou regressão logística.
+    """
+    return 0.55
 
-client = ClobClient(host=HOST, creds=load_creds())
+def calculate_ev(market_price, estimated_prob):
+    """Calcular valor esperado por token"""
+    return (estimated_prob * (1 - market_price)) - ((1 - estimated_prob) * market_price)
 
+def get_best_ask(market_id):
+    """Obter melhor preço de venda do book"""
+    resp = requests.get(f"{HOST}/book", params={"token_id": market_id}, timeout=10)
+    resp.raise_for_status()
+    book = resp.json()
+    if book["asks"]:
+        return float(book["asks"][0]["price"])
+    return None
+
+# Loop principal
 while True:
-    markets = client.get_markets(tag="soccer", closed=False, limit=50)
-    for market in markets["data"]:
-        liq = float(market["liquidity"])
-        if liq < MIN_LIQUIDITY:
-            continue
-        book = client.get_order_book(market["id"])
-        mp = float(book["best_ask"])
-        ev = (estimate_probability(market) * (1 - mp)) - ((1 - estimate_probability(market)) * mp)
-        if ev > MIN_EV:
-            print(f"OPORTUNIDADE: {market['question']}, EV: {ev:.4f}")
-            client.create_order(token_id=market["token_id"], price=mp, size=100, side=Side.BUY)
-    time.sleep(300)
+    try:
+        markets = fetch_markets()
+        print(f"Scan: {len(markets)} mercados encontrados")
+        
+        for market in markets:
+            liquidity = float(market.get("liquidity", 0))
+            if liquidity < MIN_LIQUIDITY:
+                continue
+            
+            market_price = get_best_ask(market["condition_id"])
+            if market_price is None:
+                continue
+            
+            estimated_prob = estimate_probability(market)
+            ev = calculate_ev(market_price, estimated_prob)
+            
+            print(f"{market['question'][:50]:50s} | Preço: {market_price:.4f} | EV: {ev:.4f}")
+            
+            if ev > MIN_EV:
+                print(f"OPORTUNIDADE: {market['question']}")
+                print(f"  Preço: {market_price:.4f}, EV: {ev:.4f}")
+                print(f"  Stake sugerido: {min(MAX_STAKE, 100 * ev):.2f} USDC")
+                # Aqui integrarias a ordem real:
+                # client.create_order(token_id=..., price=market_price, size=..., side=Side.BUY)
+        
+    except Exception as e:
+        print(f"Erro no ciclo: {e}")
+    
+    time.sleep(300)  # 5 minutos entre scans
 ```
 
----
+<FailureModeCard title="Modo de Falha Crítico">
 
-## Módulo 5: Risco e Estratégia
+**"O bot está a comprar automaticamente sem supervisão."**
+
+Nunca deixes um bot operar sem limites. No código acima, faltam proteções: stop loss global, limite de drawdown diário, whitelist de mercados, e validação humana para trades acima de X USDC. Um bug no teu modelo de probabilidade pode queimar a banca em minutos. Começa com modo simulado (só print) e só depois ativa ordens reais com limites apertados.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] O bot tem modo de simulação (dry-run) antes de ordens reais
+- [ ] Defini limites de: stake máximo, drawdown diário, número de trades
+- [ ] Implementei tratamento de erros e reconexão
+- [ ] O modelo de probabilidade foi testado em backtest
+- [ ] Tenho um kill-switch para parar o bot remotamente
+- [ ] O bot regista todas as decisões num log auditável
+
+</BlackboardPanel>

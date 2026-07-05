@@ -23,6 +23,10 @@ import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
 
 ### Aula 16: Gestão de Banca
 
+Em prediction markets, gestão de banca não é opcional — é a diferença entre sobreviver a uma série negativa e perder tudo. Ao contrário de apostas desportivas, aqui tens exposição contínua e correlação entre mercados.
+
+**Mecanismo:** O critério de Kelly determina o stake ótimo para maximizar o crescimento da banca a longo prazo. Como as estimativas de probabilidade nunca são exatas, usamos Kelly fracionado (25%) para reduzir volatilidade.
+
 <FormulaBlock
   label="Kelly Fracionado (25%)"
   formula="f = 0.25 × (edge / odds)"
@@ -44,4 +48,39 @@ import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
 
 </BlackboardPanel>
 
----
+<MarketExample
+  title="Aplicação a uma Banca Real"
+>
+
+**Banca:** 5,000 USDC
+
+**Cenário 1 — Gestão disciplinada:**
+- Stake por trade: 2% = 100 USDC
+- Trades simultâneos máximos: 5
+- Exposição total: 500 USDC (10% da banca)
+- Após 10 trades perdidos seguidos: banca = 4,000 USDC (-20%, parar)
+
+**Cenário 2 — Sem gestão:**
+- Stake por trade: 20% = 1,000 USDC
+- Após 3 trades perdidos: banca = 2,000 USDC (-60%)
+- Probabilidade de recuperação: muito baixa
+
+</MarketExample>
+
+<FailureModeCard title="Modo de Falha Comum">
+
+**"Só desta vez vou aumentar o stake para recuperar o que perdi."**
+
+Esta é a armadilha mais perigosa do trading. Aumentar o stake depois de perdas (recuperação emocional) é a causa nº1 de falência em prediction markets. O Kelly fracionado existe precisamente para evitar que uma série negativa acabe com a tua banca. Respeita os limites mesmo quando dói.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] Calculei o stake usando Kelly fracionado (25%)
+- [ ] Respeito o limite de 2-5% da banca por trade
+- [ ] A exposição total não excede 15% da banca
+- [ ] Defini um drawdown máximo (20%) como stop-loss global
+- [ ] Tenho um diário de trades para monitorizar a banca
+
+</BlackboardPanel>

@@ -23,6 +23,19 @@ import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
 
 ### Aula 12: Autenticação na API CLOB v2
 
+Para operar programaticamente na Polymarket, precisas de autenticação L1 (assinatura com a wallet) para derivar as tuas credenciais de API. O fluxo é feito uma vez; depois usas key + secret + passphrase para todas as chamadas.
+
+**Mecanismo:** A API CLOB v2 usa um esquema de autenticação em duas camadas. A camada L1 deriva as credenciais a partir da tua chave privada sem a expor. A camada L2 usa essas credenciais para autenticar chamadas REST e WebSocket.
+
+<BlackboardPanel title="Fluxo de Autenticação">
+
+1. **Gera credenciais** — usas a wallet para assinar uma mensagem que deriva key + secret + passphrase
+2. **Armazena com segurança** — as credenciais são equivalentes à tua wallet para a API
+3. **Usa em chamadas** — cada request inclui autenticação via header ou cookie
+4. **Renova se necessário** — podes revogar e derivar novas credenciais
+
+</BlackboardPanel>
+
 ```typescript
 import { ClobClient, Chain } from "@polymarket/clob-client-v2";
 import { createWalletClient, http } from "viem";
@@ -48,4 +61,20 @@ console.log("Secret:", creds.secret);
 console.log("Passphrase:", creds.passphrase);
 ```
 
----
+<FailureModeCard title="Modo de Falha Crítico">
+
+**"Vou guardar a API key num ficheiro .env no repositório público."**
+
+Nunca cometes este erro. A API key + secret + passphrase permitem que qualquer pessoa que os obtenha opere com a tua wallet. Usa variáveis de ambiente locais, um gestor de secrets (como 1Password ou Bitwarden), ou um serviço como AWS Secrets Manager. O ficheiro .env nunca deve ser commitado.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist de Segurança">
+
+- [ ] Gerei as credenciais API a partir da wallet
+- [ ] Guardei key, secret e passphrase num gestor de passwords
+- [ ] Configurei .env.local com as variáveis e adicionei ao .gitignore
+- [ ] Testei a autenticação com uma chamada de leitura (GET /markets)
+- [ ] Sei como revogar credenciais se necessário (via Polymarket)
+
+</BlackboardPanel>

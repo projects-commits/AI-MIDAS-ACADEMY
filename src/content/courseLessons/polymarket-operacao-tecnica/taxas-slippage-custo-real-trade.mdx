@@ -23,17 +23,75 @@ import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
 
 ### Aula 10: Taxas e Slippage
 
+Cada trade na Polymarket tem custos que vão além do preço do token. Ignorar taxas, gas e slippage é a forma mais rápida de destruir o teu edge.
+
+**Mecanismo:** A Polymarket não cobra comissão sobre o lucro, mas cada interação com a blockchain (colocar ordem, cancelar, receber payout) paga gas em POL. Além disso, ordens market pagam taker fee de 0.1% e podem sofrer slippage se a liquidez for baixa.
+
 <BlackboardPanel title="Estrutura de Taxas da Polymarket">
 
 | Tipo | Taxa | Condição |
 |------|------|----------|
 | **Maker** | 0% | Colocaste ordem limit que deu liquidez |
 | **Taker** | 0.1% | Executaste contra uma ordem existente |
-| **Gas** | Variável (~0.01-0.10 USDC) | Pago em POL |
+| **Gas** | Variável (~0.01-0.10 USDC) | Pago em POL a cada transação |
 | **Protocol Fee** | 0% | Atualmente sem taxa de protocolo |
+| **Saque** | ~0.01 USDC | Para mover USDC da Polymarket |
 
 </BlackboardPanel>
 
----
+<MarketExample
+  title="Custo Real com Slippage"
+>
 
-## Módulo 4: API e Automação
+Mercado: "Total golos > 2.5" — Preço: 0.55
+Queres comprar 200 YES.
+
+**Book atual:**
+| Preço | Asks disponíveis |
+|-------|:---------------:|
+| 0.55 | 50 |
+| 0.56 | 40 |
+| 0.57 | 30 |
+| 0.58 | 20 |
+| 0.60 | 60 |
+
+**Ordem Market de 200 tokens:**
+- 50 × 0.55 = 27.50
+- 40 × 0.56 = 22.40
+- 30 × 0.57 = 17.10
+- 20 × 0.58 = 11.60
+- 60 × 0.60 = 36.00
+- Custo total sem taxas: 114.60 USDC
+- Preço médio efetivo: 0.573 (em vez de 0.55)
+- Taker fee (0.1%): 0.1146 USDC
+- Gas: 0.01 USDC
+- **Custo total real: 114.72 USDC**
+- Slippage: 4.2%
+
+</MarketExample>
+
+<FormulaBlock
+  label="Custo Total Efetivo"
+  formula="Custo_total = (preco_executado × quantidade) + taker_fee + gas"
+  example="114.60 + 0.1146 + 0.01 = 114.72 USDC
+           Preco_medio = 114.72 / 200 = 0.5736 USDC/token
+           Diferenca para preco nominal: 4.3%"
+/>
+
+<FailureModeCard title="Modo de Falha Comum">
+
+**"O slippage é só para ordens grandes."**
+
+Falso. Mesmo ordens de 50 USDC podem sofrer slippage em mercados com menos de 200 USDC de liquidez. Verifica sempre a profundidade do book e calcula o preço médio estimado antes de clicar "comprar". Usa ordens limit quando o slippage esperado for > 2%.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] Verifiquei a liquidez do book antes de executar
+- [ ] Calculei o custo total incluindo taxas e gas
+- [ ] Estimei o slippage potencial para a minha quantidade
+- [ ] Se o slippage > 2%, usei ordem limit em vez de market
+- [ ] O custo total não invalida o meu EV calculado
+
+</BlackboardPanel>

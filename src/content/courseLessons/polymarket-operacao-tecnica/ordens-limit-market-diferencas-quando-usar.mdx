@@ -23,15 +23,63 @@ import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
 
 ### Aula 8: Ordens Limit e Market
 
+No CLOB da Polymarket, tens dois mecanismos principais de execução: ordens limit e ordens market. A escolha entre elas determina não só o preço que pagas, mas também as taxas que incorres e a probabilidade de execução.
+
+**Mecanismo:** Uma ordem limit define o preço exato que estás disposto a pagar (ou receber). Fica no book até ser executada ou cancelada. Uma ordem market executa imediatamente ao melhor preço disponível no book, mas não tens controlo sobre o preço final.
+
 <BlackboardPanel title="Comparação de Ordens">
 
-| Tipo | Quando usar | Riscos |
-|------|------------|--------|
-| **Limit (GTC)** | Tens tempo, queres preço exato, és maker | Pode não executar |
-| **Market** | Precisas de executar agora | Slippage em baixa liquidez |
-| **FOK** | Só queres se executar tudo ou nada | Pode rejeitar parcial |
-| **FAK** | Queres o máximo possível agora | Execução parcial |
+| Tipo | Quando usar | Riscos | Taxa |
+|------|------------|--------|------|
+| **Limit (GTC)** | Tens tempo, queres preço exato, és maker | Pode não executar | 0% (maker) |
+| **Market** | Precisas de executar agora | Slippage em baixa liquidez | 0.1% (taker) |
+| **FOK (Fill or Kill)** | Só queres se executar tudo ou nada | Pode rejeitar parcial | 0% se maker |
+| **FAK (Fill and Kill)** | Queres o máximo possível agora | Execução parcial | 0.1% (taker) |
 
 </BlackboardPanel>
 
----
+<MarketExample
+  title="Ordem Limit vs Market — Custo Real"
+>
+
+Mercado: "Benfica vence o Porto" (YES)
+
+**Cenário A — Ordem Limit:**
+- Colocas uma ordem de compra de 100 YES a 0.43
+- O best ask está a 0.46, por isso a ordem não executa de imediato
+- 2 horas depois, o preço desce e a tua ordem executa a 0.43
+- Custo: 43 USDC + 0.01 USDC gas = **43.01 USDC**
+- Taxa: 0% (és maker)
+
+**Cenário B — Ordem Market:**
+- Compras 100 YES imediatamente ao best ask de 0.46
+- Custo: 46 USDC + 0.1% taker fee (0.046) + 0.01 USDC gas = **46.056 USDC**
+- Diferença: **3.046 USDC** mais caro que a ordem limit
+
+</MarketExample>
+
+<FormulaBlock
+  label="Custo Efetivo por Token"
+  formula="Limit: preco_alvo + gas / qtd | Market: best_ask + taker_fee + gas / qtd"
+  example="Limit: 0.43 + 0.0001 = 0.4301 USDC/token
+           Market: 0.46 + 0.00046 + 0.0001 = 0.46056 USDC/token
+           → Market é 7% mais caro neste exemplo"
+/>
+
+<FailureModeCard title="Modo de Falha Comum">
+
+**"Vou usar market order para entrar rápido, o preço não difere muito."**
+
+Em mercados com baixa liquidez (< 500 USDC de profundidade), uma ordem market pode causar slippage significativo. Se o best ask for 0.46 mas só houver 20 tokens a esse preço, a tua ordem de 100 tokens executa parcialmente a preços cada vez piores — podes acabar a pagar 0.50 ou mais pelos tokens restantes.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist de Decisão">
+
+- [ ] Verifiquei a profundidade do book antes de escolher o tipo de ordem
+- [ ] Se usei limit: o preço está dentro do meu range aceitável
+- [ ] Se usei market: aceito o slippage potencial
+- [ ] Calculei o custo total incluindo taxas e gas
+- [ ] Prefiro ser maker (taxa 0%) quando tenho tempo
+
+</BlackboardPanel>

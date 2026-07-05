@@ -23,6 +23,10 @@ import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
 
 ### Aula 7: Leitura do Book de Ordens
 
+O book de ordens é a representação em tempo real da oferta e procura de um outcome. Saber lê-lo é a competência mais prática que podes desenvolver.
+
+**Mecanismo:** O book mostra bids (ordens de compra, pressão para subir) e asks (ordens de venda, pressão para descer). A diferença entre o melhor bid e o melhor ask é o spread. A profundidade de cada lado mostra quanta liquidez está disponível a cada preço.
+
 <BlackboardPanel title="Order Book Visual (Níveis de Preço)">
 
 | Preço | Bids (Compra) | Asks (Venda) |
@@ -60,6 +64,22 @@ import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
   example="OBI = (2900 - 2150) / (2900 + 2150) = 0.15 → 15% pressão compradora"
 />
 
----
+<FailureModeCard title="Modo de Falha Comum">
+
+**"O spread é pequeno, logo o mercado é líquido."**
+
+Spread pequeno não é sinónimo de liquidez. Um mercado pode ter spread de 0.01 mas apenas 50 USDC em cada nível. Se tentares executar 500 USDC, vais consumir múltiplos níveis de preço e ter slippage elevado. Verifica a profundidade total, não só o spread.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist de Leitura do Book">
+
+- [ ] Identifiquei o best bid e best ask
+- [ ] Calculei o spread percentual
+- [ ] Verifiquei a profundidade total do lado da compra e da venda
+- [ ] Calculei o OBI para perceber pressão directional
+- [ ] Estimei o slippage potencial para o meu tamanho de ordem
+
+</BlackboardPanel>
 
 ## Módulo 3: Trading Manual

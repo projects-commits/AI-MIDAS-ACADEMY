@@ -23,6 +23,10 @@ import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
 
 ### Aula 5: Criação de Wallet e Conexão à Polymarket
 
+Antes de operar na Polymarket, precisas de configurar o ambiente: uma wallet na rede Polygon com fundos em USDC.e e POL para gas. Este passo é crítico — erros aqui impedem-te de operar ou, pior, expõem-te a riscos de segurança.
+
+**Mecanismo:** A Polymarket não detém os teus fundos. Quando conectas a wallet, estás a autorizar os smart contracts a movimentar USDC.e da tua wallet. Tu manténs o controlo total — podes revogar a autorização a qualquer momento.
+
 <BlackboardPanel title="Checklist de Setup">
 
 **Para operar na Polymarket precisas de:**
@@ -47,6 +51,22 @@ import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
 
 </BlackboardPanel>
 
+<MarketExample
+  title="Custos de Setup"
+>
+
+**Para começar a operar, precisas de:**
+
+| Item | Custo Estimado |
+|------|---------------|
+| Gas para 10 transações | ~0.10 USDC (em POL) |
+| USDC.e para trading | Mínimo 50 USDC |
+| Bridge (exchange → Polygon) | ~2-5 USDC |
+
+**Total estimado para começar:** ~55 USDC
+
+</MarketExample>
+
 ```
 javascript
 // Usando ethers.js
@@ -63,4 +83,13 @@ console.log("Saldo POL:", ethers.formatEther(balance));
 
 </FailureModeCard>
 
----
+<BlackboardPanel title="Checklist Pós-Setup">
+
+- [ ] Wallet criada e seed phrase guardada offline (papel, nunca digital)
+- [ ] Rede Polygon adicionada à wallet
+- [ ] Saldo de POL para gas (> 1 POL)
+- [ ] Saldo de USDC.e para trading
+- [ ] Conexão à Polymarket estabelecida (vês o teu endereço no topo)
+- [ ] Testei com uma transação pequena antes de operar a sério
+
+</BlackboardPanel>

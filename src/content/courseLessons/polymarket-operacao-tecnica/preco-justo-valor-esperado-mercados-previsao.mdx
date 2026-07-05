@@ -23,11 +23,15 @@ import MermaidDiagram from '../../../components/lesson/MermaidDiagram.astro';
 
 ### Aula 9: Preço Justo e Valor Esperado
 
+O preço de um outcome na Polymarket reflete a probabilidade implícita coletiva. Mas o mercado pode estar errado. O teu trabalho é estimar a probabilidade real e compará-la com o preço do mercado. A diferença é o teu valor esperado (EV).
+
+**Mecanismo:** Se estimas que o Benfica tem 55% de vencer e o mercado está a 0.42 (42%), então cada token YES que comprares tem um valor esperado de 0.55 USDC mas custa apenas 0.42 USDC. A diferença de 0.13 USDC por token é o teu EV positivo.
+
 <FormulaBlock
   label="Valor Esperado (EV)"
-  formula="EV = (P_estimada * payout) - ((1 - P_estimada) * custo)"
+  formula="EV = (P_estimada × payout) - ((1 - P_estimada) × custo)"
   example="Se estimas 50% para Benfica, mercado está a 0.42:
-         EV = (0.50 * 0.58) - (0.50 * 0.42) = 0.29 - 0.21 = 0.08
+         EV = (0.50 × 0.58) - (0.50 × 0.42) = 0.29 - 0.21 = 0.08
          EV positivo de 0.08 por token → edge de 19%"
 />
 
@@ -42,8 +46,24 @@ EV = (0.45 × 0.62) - (0.55 × 0.38)
 EV = 0.279 - 0.209
 EV = 0.07 USDC por token
 
-**Conclusão:** EV positivo de 0.07 — se a tua estimativa estiver correta, tens edge.
+**Conclusão:** EV positivo de 0.07 — se a tua estimativa estiver correta, tens edge. Para 100 tokens, o valor esperado é de 7 USDC.
 
 </MarketExample>
 
----
+<FailureModeCard title="Modo de Falha Comum">
+
+**"O mercado está a 0.42 e eu acho que é 50%, logo vou comprar."**
+
+Ter uma opinião diferente do mercado não é suficiente. Precisas de um processo para estimar probabilidades — não um palpite. Sem um modelo ou método consistente, a tua estimativa de 50% pode ser apenas viés de confirmação. Valida a tua estimativa com dados antes de considerar o EV como real.
+
+</FailureModeCard>
+
+<BlackboardPanel title="Checklist">
+
+- [ ] Calculei a probabilidade implícita do mercado (preço do YES)
+- [ ] Estimei a minha própria probabilidade com base em dados
+- [ ] Calculei o EV usando a fórmula
+- [ ] Só entro se o EV for positivo e significativo (> 5%)
+- [ ] Documentei o racional por trás da minha estimativa
+
+</BlackboardPanel>
