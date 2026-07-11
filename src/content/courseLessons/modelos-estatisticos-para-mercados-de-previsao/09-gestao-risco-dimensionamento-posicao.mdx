@@ -1,0 +1,215 @@
+---
+{
+  "id": "course-modelos-estatisticos-mercados-previsao-lesson-9",
+  "courseId": "course-modelos-estatisticos-mercados-previsao",
+  "courseSlug": "modelos-estatisticos-para-mercados-de-previsao",
+  "lessonId": "lesson-9",
+  "moduleId": "module-3",
+  "title": "Gestão de Risco e Dimensionamento de Posição",
+  "slug": "gestao-risco-dimensionamento-posicao",
+  "lessonNumber": 9,
+  "readingMinutes": 22,
+  "status": "published",
+  "createdAt": "2026-07-11T00:00:00.000Z",
+  "updatedAt": "2026-07-11T00:00:00.000Z"
+}
+---
+
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+
+<BlackboardPanel title={"A Gestão de Risco é a Estratégia"} label="Quadro 9.1">
+  <p>A maioria dos analistas comete um erro fundamental: trata a gestão de risco como um complemento à estratégia principal. Primeiro encontram o edge, depois "decidem quanto alocar". Esta separação é artificial e perigosa. A gestão de risco não é um acessório — é a própria estratégia materializada em números.</p>
+  <p>Um edge matemático sem gestão de risco adequada não é uma estratégia — é uma alocação disfarçada de análise. O mercado não recompensa apenas quem tem melhores modelos: recompensa quem sobrevive tempo suficiente para que o edge se manifeste.</p>
+  <div class="board-note">
+    <strong>Tese central:</strong> O que separa o operador profissional do amador não é a capacidade preditiva — é a gestão de risco. Podes ter um edge de +5% e ir à falência se dimensionares mal as posições.
+  </div>
+</BlackboardPanel>
+
+<MermaidDiagram
+  title={"Hierarquia da Sobrevivência no Mercado"}
+  label="Diagrama 9.1"
+  definition={`
+flowchart TB
+A[Edge Preditivo] --> B[Gestao de Risco]
+B --> C[Sobrevivencia a Variância]
+C --> D[Capital Preservado]
+D --> E[Edge manifesta-se no longo prazo]
+F[Sem Gestao de Risco] --> G[Falencia por Variância]
+G --> H[Edge irrelevante se o capital acabar]
+`}
+/>
+
+## O Critério de Kelly: A Base Matemática
+
+O Critério de Kelly é a fórmula matemática que determina a fração ótima de capital a alocar numa posição com edge positivo, maximizando o crescimento geométrico do capital a longo prazo.
+
+<FormulaBlock
+  label="Fórmula 9.1"
+  title={"Critério de Kelly — Fração Ótima"}
+  formula={"f* = (p * b - q) / b"}
+  explanation={"Onde f* é a fração ideal do capital, p é a probabilidade estimada de sucesso, q = 1 - p (probabilidade de falha), e b = odd - 1 (o múltiplo do lucro líquido sobre o capital alocado)."}
+/>
+
+<MarketExample
+  title={"Kelly aplicado — Vitória SC vs. Casa Pia"}
+  setup={"O teu modelo estima que o Vitória SC tem 55% de probabilidade de vencer em casa contra o Casa Pia. A odd de mercado é 2.10."}
+  price={"Odd: 2.10. Probabilidade implícita: 47,6%. Tua estimativa: 55%. Edge: +7,4 pontos percentuais."}
+  hypothesis={"b = 2.10 - 1 = 1.10. p = 0.55. q = 0.45. f* = (0.55 * 1.10 - 0.45) / 1.10 = (0.605 - 0.45) / 1.10 = 0.155 / 1.10 = 0.141 = 14,1% do capital."}
+  risk={"O Kelly puro (14,1%) assume que a tua estimativa de 55% está correta. Se o teu modelo sobrestimou em apenas 3pp (probabilidade real 52%), a posição de 14,1% é demasiado agressiva. Daí o Kelly fraccional."}
+/>
+
+### Porque o Kelly Puro é Perigoso
+
+O Kelly completo (100%) assume que conheces a probabilidade real com precisão absoluta. Na prática, as tuas estimativas têm erro. O Kelly puro também produz variação extrema: um drawdown de 50-70% do capital é normal, o que psicologicamente é quase impossível de sustentar.
+
+**Kelly Fraccional — O Compromisso:**
+
+| Fração Kelly | Drawdown Típico | Recuperação necessária |
+|---|---|---|
+| 100% (Kelly x 1.0) | 50-70% | 100-233% para recuperar |
+| 50% (Kelly x 0.5) | 30-45% | 43-82% |
+| 25% (Kelly x 0.25) | 15-25% | 18-33% |
+| 10% (Kelly x 0.10) | 8-12% | 9-14% |
+
+<FormulaBlock
+  label="Fórmula 9.2"
+  title={"Kelly Fraccional — Alocação Recomendada"}
+  formula={"f_final = f* * F | F = 0.25 (quarter-Kelly)"}
+  explanation={"A fração Kelly completa é multiplicada por um fator F entre 0.10 e 0.50. A recomendação padrão é 0.25 (quarter-Kelly), que equilibra crescimento com proteção contra drawdown severo. Com o exemplo anterior: f_final = 14.1% * 0.25 = 3.5% do capital."}
+/>
+
+<FailureModeCard
+  title={"Kelly puro sem margem de erro"}
+  summary={"Usar Kelly 100% assume que o teu modelo é infalível nas estimativas de probabilidade. Na prática, mesmo os melhores modelos têm erro de calibração de 2-5pp. O Kelly puro amplifica este erro: uma sobrestimativa de 3pp na probabilidade pode duplicar a posição recomendada. O resultado é que estás a alocar o dobro do que devias — e quando o erro se revela, o drawdown é desproporcional."}
+/>
+
+## EV-Staking — Alternativa Robusta ao Kelly
+
+O Kelly tem um pressuposto forte: que a relação entre edge e alocação é linear até ao ponto ótimo. O EV-Staking (Expected Value Staking) simplifica o problema com uma fórmula mais intuitiva:
+
+<BlackboardPanel title={"EV-Staking na Prática"} label="Quadro 9.2">
+  <p><strong>Fórmula:</strong> Alocação = Capital × (EV / k)</p>
+  <p>Onde EV é o valor esperado (probabilidade estimada × odd - 1) e k é um fator de aversão ao risco entre 4 e 8.</p>
+  <div class="board-note">
+    <strong>Exemplo:</strong> Capital = 1.000 unidades. EV = +8%. k = 6.<br/>
+    Alocação = 1000 × 0.08 / 6 = 13.3 unidades = 1.33% do capital.<br/><br/>
+    <strong>Vantagem:</strong> O EV-Staking é mais conservador em edges pequenos e mais fácil de explicar. É a escolha recomendada para quem está a começar.
+  </div>
+</BlackboardPanel>
+
+<CodeLens
+  title={"Comparação: Kelly vs EV-Staking"}
+  label="Código 9.1"
+  lines={[
+    { key: "metodo", value: "Kelly 0.25x", note: "baseado em f* do Critério de Kelly" },
+    { key: "ev_staking_k4", value: "1.85% do capital", tone: "gold" },
+    { key: "ev_staking_k6", value: "1.23% do capital" },
+    { key: "ev_staking_k8", value: "0.93% do capital", tone: "green" },
+    { key: "drawdown_max_kelly", value: "18-25%", tone: "orange" },
+    { key: "drawdown_max_ev_k6", value: "12-18%", tone: "green" },
+    { key: "regra_ouro", value: "NUNCA variar por confiança. Sempre por fórmula.", tone: "gold" }
+  ]}
+/>
+
+## A Matemática Cruel do Drawdown
+
+O drawdown é a medida da perda desde o pico do capital até ao ponto mais baixo. A sua crueldade está na assimetria: perder 50% exige um ganho de 100% para recuperar.
+
+<BlackboardPanel title={"A Assimetria do Drawdown"} label="Quadro 9.3">
+  <div class="board-note">
+    <strong>Matemática implacável:</strong><br/><br/>
+    10% drawdown → 11,1% para recuperar<br/>
+    20% drawdown → 25,0% para recuperar<br/>
+    30% drawdown → 42,9% para recuperar<br/>
+    40% drawdown → 66,7% para recuperar<br/>
+    50% drawdown → 100% para recuperar<br/><br/>
+    <em>Nota crucial:</em> A recuperação não é apenas um problema financeiro — é um problema psicológico. Após um drawdown de 30%, o operador tende a tomar decisões mais agressivas para "recuperar rápido", agravando ainda mais a situação.
+  </div>
+</BlackboardPanel>
+
+<MarketExample
+  title={"A tempestade perfeita — sequência de derrotas"}
+  setup={"Um método com edge de +5% e alocação de 2% por posição (Kelly 0.25x). Ocorre uma sequência de 12 derrotas consecutivas — um evento com probabilidade de ~0,02% mas que acontece estatisticamente a cada 5.000 entradas."}
+  price={"Capital inicial: 1.000 unidades. Após 12 derrotas consecutivas: 1.000 × (0.98)^12 = 784 unidades. Drawdown de 21,6%."}
+  hypothesis={"Com quarter-Kelly, o drawdown máximo esperado numa sequência adversa de 12 derrotas é controlado (21,6%). Com Kelly puro (14,1% por posição), o mesmo cenário produz 1.000 × (0.859)^12 = 160 unidades — drawdown de 84%. O quarter-Kelly salva o portfólio."}
+  risk={"Subestimar a frequência de sequências adversas. Uma sequência de 8-10 derrotas não é rara — acontece a cada 2-3 anos de operação consistente. O dimensionamento tem de sobreviver a estas sequências."}
+/>
+
+### Regras de Drawdown
+
+**DD > 15%:** Reduz alocações para 75% do normal. Mantém método ativo mas com exposição reduzida.
+
+**DD > 25%:** Reduz alocações para 50%. Reavalia se as condições de mercado mudaram fundamentalmente ou se o método está a falhar.
+
+**DD > 40%:** Pausa total. Não é hora de reduzir — é hora de parar e reavaliar todo o método. Algo está fundamentalmente errado: ou o edge desapareceu, ou o modelo precisa de recalibração, ou as condições de mercado mudaram de forma estrutural.
+
+## Tracking — O Sistema Nervoso Central
+
+Sem tracking completo, não tens gestão de risco — tens esperança. Cada posição deve ser registada com:
+
+- Data e hora da entrada
+- Evento e mercado
+- Odd de entrada
+- Odd de fecho (CLV — Closing Line Value)
+- Capital alocado
+- Resultado (win/loss/push)
+- Notas sobre o contexto da decisão
+
+<CodeLens
+  title={"Estrutura de Tracking de Posições"}
+  label="Código 9.2"
+  lines={[
+    { key: "tracking_campos", value: "12 campos obrigatórios", tone: "gold" },
+    { key: "clv_medio", value: "+2.3%", note: "CLV positivo = entrada melhor que fecho", tone: "green" },
+    { key: "posicoes_mes", value: "25-40", tone: "gold" },
+    { key: "roi_mensal_medio", value: "+2.1%", tone: "green" },
+    { key: "sharpe_ratio", value: "0.47" },
+    { key: "max_drawdown_12m", value: "18.3%", tone: "orange" },
+    { key: "periodo_analise", value: "registo diário, relatório semanal", tone: "gold" }
+  ]}
+/>
+
+## Correlação de Posições — O Risco Invisível
+
+O erro mais comum na gestão de risco é tratar cada posição como independente. Se tens 5 posições abertas em diferentes jogos da Primeira Liga no mesmo fim de semana, elas estão correlacionadas porque partilham fatores de risco comuns:
+
+- Condições meteorológicas generalizadas (uma frente fria que afeta todos os estádios)
+- Viés de arbitragem (se o mesmo árbitro apita múltiplos jogos da jornada)
+- Fator de competitividade geral da liga
+
+**Regra prática:** A exposição total a um evento ou a uma jornada não deve exceder 2x a alocação máxima normal. Se a alocação máxima por posição é 2%, a exposição total a todos os jogos de uma jornada não deve exceder 4%. Isto garante que mesmo um evento sistémico (ex.: uma jornada com múltiplos resultados inesperados) não dizima o capital.
+
+<FailureModeCard
+  title={"Ignorar correlação entre posições"}
+  summary={"Um analista abre 4 posições em jogos diferentes no mesmo fim de semana: 2% cada, todas independentes, pensa ele. Na prática, chove forte em todo o norte de Portugal, afetando 3 dos 4 jogos. As 3 posições perdem simultaneamente porque o modelo não incluía precipitação. O drawdown real no fim de semana é de 6% — equivalente a 3 posições seguidas a perder, mas num só dia. A correlação entre posições amplifica o risco real muito além do risco nominal."}
+/>
+
+<DecisionChecklist
+  title={"Checklist: Gestão de Risco Diária"}
+  items={[
+    "Calculei o Kelly fraccional (0.25×) ou usei EV-Staking com k≥4?",
+    "A alocação máxima por posição está entre 1-3% do capital total?",
+    "A exposição total a eventos correlacionados não excede 2× a alocação normal?",
+    "Registei a posição no sistema de tracking antes de entrar?",
+    "Estou dentro dos limites de drawdown (DD < 25%)?",
+    "Sei exatamente qual a percentagem do capital total em risco neste momento?",
+    "Consigo explicar a fórmula exata que gerou o tamanho desta posição?"
+  ]}
+/>
+
+## Resumo
+
+- Gestão de risco é a estratégia — sem ela, o edge matemático evapora-se na variância
+- O Critério de Kelly determina a fração ótima de capital, mas o Kelly puro é demasiado agressivo para uso real
+- Quarter-Kelly (0.25×) é o sweet spot recomendado, equilibrando crescimento com proteção
+- EV-Staking (Alocação = Capital × EV/k) é uma alternativa robusta e intuitiva
+- A assimetria do drawdown faz com que perder 50% exija 100% de ganho para recuperar
+- DD > 25% reduz posições, DD > 40% pausa total
+- Tracking completo é a base de qualquer gestão de risco profissional
+- Correlação entre posições amplifica o risco real — mede a exposição total, não a individual

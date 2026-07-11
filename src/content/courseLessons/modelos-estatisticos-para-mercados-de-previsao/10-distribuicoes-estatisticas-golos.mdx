@@ -1,0 +1,189 @@
+---
+{
+  "id": "course-modelos-estatisticos-mercados-previsao-lesson-10",
+  "courseId": "course-modelos-estatisticos-mercados-previsao",
+  "courseSlug": "modelos-estatisticos-para-mercados-de-previsao",
+  "lessonId": "lesson-10",
+  "moduleId": "module-4",
+  "title": "Distribuições Estatísticas Aplicadas a Golos",
+  "slug": "distribuicoes-estatisticas-golos",
+  "lessonNumber": 10,
+  "readingMinutes": 24,
+  "status": "published",
+  "createdAt": "2026-07-11T00:00:00.000Z",
+  "updatedAt": "2026-07-11T00:00:00.000Z"
+}
+---
+
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+
+<BlackboardPanel title={"O Modelo de Poisson para Golos"} label="Quadro 4.1">
+  <p>O número de golos marcados num jogo de futebol segue aproximadamente uma distribuição de Poisson. Esta é a hipótese matemática que sustenta a precificação de mercados de Over/Under, BTTS e handicap de golos.</p>
+  <p>A distribuição de Poisson modela a probabilidade de um número <strong>k</strong> de eventos ocorrerem num intervalo fixo, dado que esses eventos ocorrem com uma taxa média <strong>λ</strong> (lambda) conhecida e independente entre si.</p>
+  <div class="board-note">
+    <strong>Condições de aplicação:</strong> (1) Eventos raros no contexto do intervalo, (2) Independência entre eventos, (3) Taxa média razoavelmente estável, (4) Intervalo de tempo fixo (90 minutos).
+  </div>
+</BlackboardPanel>
+
+A probabilidade de observar exatamente k golos num jogo, dado um lambda médio, é dada por:
+
+<FormulaBlock
+  label="Fórmula 4.1"
+  title={"Distribuição de Poisson para Golos"}
+  formula={"P(X = k) = (λ^k × e^(-λ)) / k!"}
+  explanation={"Onde λ é o número médio esperado de golos, k é o número de golos que queremos calcular, e e é a base do logaritmo natural (≈ 2.71828). Para λ = 2.8, a probabilidade de 0 golos é 6.1%, 1 golo é 17.0%, 2 golos é 23.8%."}
+/>
+
+### Porque Poisson Funciona no Futebol
+
+O futebol satisfaz as condições de Poisson melhor do que a maioria dos desportos. Um golo é um evento relativamente raro — num jogo médio da Primeira Liga, há cerca de 2.4 a 2.8 golos, distribuídos por 90 minutos. Cada ataque tem uma probabilidade baixa de resultar em golo, e os ataques sucedem-se de forma aproximadamente independente.
+
+Há limitações, claro. Os golos não são perfeitamente independentes — um golo muda o estado emocional e tático do jogo, o que afeta a probabilidade de golos subsequentes. Mas como aproximação de primeira ordem, Poisson é surpreendentemente precisa.
+
+### Calcular Over/Under com Poisson
+
+A vantagem de usar Poisson é que podemos calcular analiticamente a probabilidade de qualquer intervalo de golos sem precisar de simulação.
+
+<FormulaBlock
+  label="Fórmula 4.2"
+  title={"Probabilidade de Under/Over"}
+  formula={"P(Under 2.5) = P(X ≤ 2) = P(X=0) + P(X=1) + P(X=2)\nP(Over 2.5) = 1 - P(Under 2.5)"}
+  explanation={"Para λ = 2.8: P(0) = 6.1%, P(1) = 17.0%, P(2) = 23.8% → P(Under 2.5) = 46.9% → P(Over 2.5) = 53.1%. Odd justa Over 2.5 = 1/0.531 = 1.88. Se o mercado oferece 2.00, há value de aproximadamente 6.4%."}
+/>
+
+<CodeLens
+  title="Poisson: Over/Under 2.5 com lambda=2.8"
+  lines={[
+    { key: "P(Under 2.5)", value: "46.9%", note: "poisson.cdf(2, 2.8)", tone: "green" },
+    { key: "P(Over 2.5)", value: "53.1%", note: "1 - P(Under 2.5)" },
+    { key: "odd_justa_over", value: "1.88", tone: "gold" },
+    { key: "odd_mercado", value: "2.00", note: "oferece 6.4% de value" },
+    { key: "value_estimado", value: "+6.4%", tone: "green" },
+  ]}
+/>
+
+## O Problema do Lambda Único
+
+Usar um único lambda para os 90 minutos inteiros é a abordagem mais comum entre principiantes. E é um erro que custa precisão.
+
+O ritmo de um jogo de futebol não é uniforme. Há períodos de estudo tático, explosões de ataque, e fases de gestão de resultado. Ignorar esta dinâmica temporal significa perder granularidade — e granularidade é edge.
+
+| Período | Lambda Ajustado | Contexto |
+|---|---|---|
+| 0'-15' | 0.7× média | Estudo tático, equipas a medir forças |
+| 15'-30' | 0.9× média | Jogo a aquecer, primeiras oportunidades |
+| 30'-45' | 1.1× média | Ritmo estabelecido, pressão crescente |
+| 45'+ | 1.3× média | Urgência pré-intervalo, erros defensivos |
+| 45'-60' | 0.8× média | Reinício, ajustes de balneário |
+| 60'-75' | 1.0× média | Ritmo normal de jogo |
+| 75'-90' | 1.4× média | Cansaço defensivo, substituições ofensivas |
+| 90'+ | 1.6× média | Tudo ou nada, guarda-redes sobe |
+
+<MarketExample
+  title={"Poisson temporal aplicado — Benfica vs. Braga"}
+  setup={"Jogo da Primeira Liga, Benfica-Braga. λ original estimado = 2.6. Queremos calcular a probabilidade de golo entre os 75' e 85'."}
+  price={"Lambda ajustado para período 75'-90': 1.4 × (2.6/2.8) = 1.3 para 15 min. P(0 golos neste período) = Poisson(0, 1.3) = 27.3%. P(1+) = 72.7%."}
+  hypothesis={"Dividir o jogo em períodos com lambdas diferentes permite identificar ineficiências nos mercados live. Quando o mercado ainda usa o lambda médio dos 90 min, podes precificar melhor o momento atual."}
+  risk={"O ajuste de lambda por período é empírico. Cada liga tem o seu perfil temporal. Usar os fatores de uma liga europeia numa liga diferente introduz ruído."}
+/>
+
+## Distribuições Alternativas
+
+Poisson é a base, mas não é a única ferramenta. Em certos contextos, distribuições alternativas capturam melhor a realidade.
+
+### Negative Binomial
+
+Quando a variância dos golos observados é maior que a média (overdispersion), a Negative Binomial é mais adequada. Isto acontece em ligas com muita heterogeneidade — equipas muito fortes contra equipas muito fracas produzem caudas mais pesadas que Poisson prevê.
+
+A Negative Binomial introduz um parâmetro adicional que modela a heterogeneidade não observada entre jogos. Na prática, para ligas como a Liga Portugal Betclic, a Negative Binomial ajusta-se melhor a jogos que envolvem equipas dos extremos da tabela.
+
+### Zero-Inflated Poisson (ZIP)
+
+Há ligas ou contextos onde o número de 0-0 é muito superior ao que Poisson prevê. Isto acontece quando há um mecanismo extra que gera zeros — por exemplo, jogos entre equipas ultra-defensivas, ou condições meteorológicas extremas.
+
+O ZIP modela dois processos: (1) um processo binário que determina se o jogo é "zero absoluto", (2) um processo Poisson para os restantes jogos.
+
+<FailureModeCard
+  title={"Usar Poisson cego sem diagnosticar overdispersion"}
+  summary={"Aplicar Poisson a uma liga com alta variância (ex: jogos entre Porto e equipas de fundo de tabela, que frequentemente terminam 4-0 ou 5-0) subestima a probabilidade de eventos extremos. O mercado também usa Poisson — mas se a liga tem overdispersion, as odds para Over 3.5, 4.5 e 5.5 podem estar sistematicamente sobrevalorizadas. Diagnóstico simples: calcula a variância dos golos e compara com a média. Se variância > média * 1.2, considera Negative Binomial."}
+/>
+
+## O Erro de Usar Médias Históricas sem Contexto
+
+O erro mais comum na construção de modelos de Poisson é usar a média histórica de golos de uma equipa como lambda. Isto ignora o contexto mais importante: o adversário, a forma recente, e as condições do jogo.
+
+Um lambda ajustado combina múltiplas fontes de informação:
+
+<BlackboardPanel title={"Construção de Lambda Ajustado"} label="Quadro 4.2">
+  <p><strong>Fórmula de ajuste contextual:</strong></p>
+  <p>λ_casa = Média_casa_em_casa × (Média_fora_sofre_fora / Média_liga_fora) × Fator_Forma × Fator_Contexto</p>
+  <p><strong>Exemplo prático — Porto vs. Rio Ave:</strong></p>
+  <ul>
+    <li>Porto em casa: média 1.8 golos marcados</li>
+    <li>Rio Ave fora: média 1.4 golos sofridos</li>
+    <li>Média da liga (fora): 1.2</li>
+    <li>Forma do Porto (últimos 5 em casa): 2.1</li>
+    <li>Forma do Rio Ave (últimos 5 fora): 1.7</li>
+  </ul>
+  <div class="board-note">
+    λ_casa = 1.8 × (1.4/1.2) × (2.1/1.8) × (1.7/1.4) = 2.45
+  </div>
+</BlackboardPanel>
+
+Com λ = 2.45, calculamos:
+
+- P(Under 2.5) = 46.0% → odd justa 2.17
+- P(Over 2.5) = 54.0% → odd justa 1.85
+
+Se o mercado tem Over 2.5 a 2.05, isso representa value de aproximadamente 11%. A pergunta que deves fazer: o mercado está a subestimar a capacidade ofensiva do Porto em casa, ou há informação que o teu lambda ajustado está a ignorar?
+
+### BTTS via Poisson
+
+O mercado de "Ambas Marcam" (BTTS) também pode ser modelado analiticamente a partir dos lambdas de cada equipa:
+
+
+
+<CodeLens
+  title="BTTS via Poisson com Lambdas Individuais"
+  lines={[
+    { key: "lambda_casa", value: "1.6", tone: "green" },
+    { key: "lambda_fora", value: "1.1", tone: "green" },
+    { key: "P(Casa marca)", value: "79.8%", note: "1 - Poisson(0, 1.6)" },
+    { key: "P(Fora marca)", value: "66.7%", note: "1 - Poisson(0, 1.1)" },
+    { key: "P(BTTS)", value: "53.2%", note: "produto das probabilidades", tone: "gold" },
+    { key: "odd_justa", value: "1.88", tone: "orange" },
+    { key: "odd_mercado", value: "2.10", note: "value de +11.7%", tone: "green" },
+  ]}
+/>
+
+### Atenção à independência
+
+O cálculo acima assume independência entre os golos de casa e fora. Na realidade, há correlações: jogos com muitos golos de um lado tendem a ter menos do outro (quando uma equipa domina), ou mais de ambos (quando o jogo é aberto). Esta simplificação significa que o Poisson simples subestima ligeiramente a probabilidade de BTTS em jogos equilibrados e sobrestima em jogos desequilibrados.
+
+<DecisionChecklist
+  title={"Checklist: Modelação de Golos com Poisson"}
+  items={[
+    "Calculei o lambda base para cada equipa separadamente (casa vs. fora)?",
+    "Ajustei o lambda pela média de golos sofridos do adversário?",
+    "Incorporei um fator de forma recente (últimos 5 jogos)?",
+    "Considerei o contexto tático do jogo (pressão de resultado, eliminatória)?",
+    "Dividi o jogo em períodos temporais para análise live?",
+    "Verifiquei se a liga tem overdispersion que justifique Negative Binomial?",
+    "Comparei as odds de mercado com as odds justas calculadas?"
+  ]}
+/>
+
+## Resumo
+
+- A distribuição de Poisson é a base matemática dos mercados de golos, modelando eventos raros num intervalo fixo
+- P(Over/Under) calcula-se analiticamente somando as probabilidades de Poisson para k golos
+- Dividir o jogo em períodos com lambdas diferentes melhora a precisão, especialmente em live
+- Distribuições alternativas (Negative Binomial, ZIP) capturam fenómenos que Poisson simples não modela
+- Normaliza sempre o lambda pela média da liga e pela forma específica do adversário
+- BTTS calcula-se a partir dos lambdas individuais, mas a independência assumida é uma simplificação
+- O valor está nos ajustes contextuais que o mercado não está a fazer

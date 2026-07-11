@@ -1,0 +1,231 @@
+---
+{
+  "id": "course-modelos-estatisticos-mercados-previsao-lesson-15",
+  "courseId": "course-modelos-estatisticos-mercados-previsao",
+  "courseSlug": "modelos-estatisticos-para-mercados-de-previsao",
+  "lessonId": "lesson-15",
+  "moduleId": "module-5",
+  "title": "IA Aplicada à Análise de Mercado Esportivo",
+  "slug": "ia-aplicada-analise-mercado-esportivo",
+  "lessonNumber": 15,
+  "readingMinutes": 25,
+  "status": "published",
+  "createdAt": "2026-07-11T00:00:00.000Z",
+  "updatedAt": "2026-07-11T00:00:00.000Z"
+}
+---
+
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+
+## O Que a IA Pode (e Não Pode) Fazer
+
+A inteligência artificial no mercado desportivo é frequentemente vendida como uma solução mágica. Não é. A IA é uma ferramenta de amplificação: amplifica a qualidade dos teus dados. Se os dados forem fracos, as previsões serão fracas — independentemente da sofisticação do algoritmo.
+
+<BlackboardPanel title={"IA = Amplificador, Não Criador"} label="Quadro 15.1">
+  <p><strong>O que a IA faz bem:</strong></p>
+  <ul>
+    <li>Processar grandes volumes de dados não-estruturados (texto, áudio, imagem)</li>
+    <li>Detetar interações não-lineares entre variáveis</li>
+    <li>Automatizar feature engineering e seleção</li>
+    <li>Adaptar-se a mudanças no processo gerador de dados (online learning)</li>
+    <li>Descobrir padrões que modelos lineares nunca encontram</li>
+  </ul>
+  <p><strong>O que a IA NÃO faz:</strong></p>
+  <ul>
+    <li>Criar edge do nada — se não há sinal nos dados, não há previsão útil</li>
+    <li>Substituir conhecimento de domínio — o contexto do futebol não está nos números</li>
+    <li>Garantir resultados — mesmo com o melhor modelo, há variância irreduzível</li>
+  </ul>
+  <div class="board-note">
+    <strong>Máxima fundamental:</strong> Garbage in, garbage out. A IA não transforma dados pobres em ouro. Transforma dados bons em decisões melhores.
+  </div>
+</BlackboardPanel>
+
+## Aplicação 1 — NLP para Processamento de Notícias
+
+O mercado ajusta-se a informação pública, mas fá-lo com atraso e imperfeição. O processamento de linguagem natural (NLP) permite extrair sinais quantitativos de notícias em tempo real, antes de o mercado os incorporar totalmente.
+
+<MarketExample
+  title={"Lesão Detetada por NLP — Sporting"}
+  setup={"Notícias do jornal desportivo sobre o treino do Sporting publicado às 14h30: 'Otamendi sofreu entorse no tornozelo durante treino e é dúvida para domingo. O central argentino será reavaliado antes do jogo.'"}
+  price={"Odd Sporting (com Otamendi): 1.85. Odd Sporting (sem Otamendi) estimada: 2.10. Diferença: 0.25 no preço. Janela de oportunidade: 2-5 minutos até o mercado ajustar."}
+  hypothesis={"Um sistema NLP processa a notícia, extrai a entidade (Otamendi), o evento (lesão), a gravidade (entorse, dúvida) e o impacto estimado (-0.12 na solidez defensiva). Ajusta a probabilidade do modelo em tempo real."}
+  risk={"Falso positivo: a notícia pode ser especulativa e o jogador acaba por jogar. O impacto previsto pode ser exagerado. Validar com múltiplas fontes antes de agir."}
+/>
+
+<CodeLens
+  title="NLP para Extracao de Eventos de Lesao"
+  lines={[
+    { key: "modelo_nlp", value: "spacy pt_core_news_lg", tone: "green" },
+    { key: "trigger_words", value: "lesao, entorse, rotura, duvida, baixa", note: "palavras-chave" },
+    { key: "entidades_extraidas", value: "jogadores, equipas, lesoes", tone: "gold" },
+    { key: "impacto_estimado", value: "-0.12 na solidez defensiva", note: "ajuste de probabilidade" },
+  ]}
+/>
+
+### Arquitetura de um Sistema NLP Desportivo
+
+1. **RSS feeds** de 5+ fontes (Record, A Bola, O Jogo, zerozero.pt)
+2. **Filtragem** por equipa, jogador, evento (lesão, contratação, castigo)
+3. **Classificação** de relevância: 0 (irrelevante) a 1 (crítico)
+4. **Extração** de entidades, relações, e impacto estimado
+5. **Atualização** do modelo preditivo com o novo sinal
+6. **Comparação** com odds atuais para detetar ineficiência
+
+## Aplicação 2 — Análise de Sentimento
+
+O sentimento coletivo expresso em redes sociais pode antecipar movimentos de odds. Quando o sentimento em torno de uma equipa é extremamente otimista, as odds tendem a cair — frequentemente abaixo do valor justo.
+
+<CodeLens
+  title="Analise de Sentimento com Transformers"
+  lines={[
+    { key: "modelo", value: "cardiffnlp/twitter-xlm-roberta-base", tone: "green" },
+    { key: "Benfica", value: "sentimento positivo", note: "odds tendem a cair (sobreprecificacao)" },
+    { key: "FC Porto", value: "sentimento negativo", note: "odds tendem a subir (subprecificacao)" },
+    { key: "estrategia", value: "contrarian: comprar contra o sentimento extremo", tone: "gold" },
+  ]}
+/>
+
+<BlackboardPanel title={"Sentimento como Contrarian Signal"} label="Quadro 15.2">
+  <p>O sentimento coletivo atua como um indicador de <strong>excesso de confiança do mercado</strong>. Quando o sentimento é extremamente positivo e as odds já baixaram significativamente, o mercado está a precificar otimismo excessivo.</p>
+  <p><strong>Regra empírica:</strong> Se o sentimento > 0.80 (numa escala 0-1) e a odd baixou >15% nos últimos 3 dias, o valor esperado está do lado oposto ao sentimento dominante.</p>
+  <div class="board-note">
+    <strong>Dado da Primeira Liga (2024-2026):</strong> Em 68 eventos com sentimento >0.80 antes do jogo, o desfecho contrário ao sentimento ocorreu em 42 casos (61.8%). ROI de posições contrárias: +7.2%.
+  </div>
+</BlackboardPanel>
+
+## Aplicação 3 — Deep Learning para Padrões Temporais
+
+Modelos de séries temporais como LSTM (Long Short-Term Memory) e GRU (Gated Recurrent Unit) capturam padrões que modelos tabulares não detetam: a ordem e o contexto importam.
+
+<FormulaBlock
+  label="Fórmula 15.1"
+  title={"Arquitetura LSTM para Previsão"}
+  formula={"h_t = LSTM(x_t, h_{t-1}, c_{t-1}); y = softmax(W * h_T + b)"}
+  explanation={"A LSTM processa uma sequência de T eventos, mantendo um estado oculto h_t que captura dependências temporais. O output final é uma distribuição de probabilidade sobre os 3 desfechos."}
+/>
+
+**Arquitetura recomendada:**
+
+| Camada | Tipo | Parâmetros |
+|---|---|---|
+| Input | Sequência 10 jogos × 20 features | 200 neurónios |
+| LSTM | 64 unidades, return_sequences=False | 64 |
+| Dropout | Regularização | 0.3 |
+| Dense | 32 neurónios, ReLU | 32 |
+| Dropout | Regularização | 0.3 |
+| Output | 3 neurónios, softmax | 3 |
+
+**Features temporais típicas por jogo:**
+- xG criado e sofrido (últimos 10 jogos)
+- resultado (1/0.5/0)
+- posse de bola (média)
+- chutes a gol
+- cantos
+- minutos sem sofrer golo (sequência temporal)
+- forma física estimada (jogos nos últimos 7 dias)
+- odds de fecho da casa
+
+<FailureModeCard
+  title={"Overfitting Temporal"}
+  summary={"LSTMs são particularmente propensas a overfitting em séries curtas. Com apenas 3-5 épocas de dados (100-200 jogos por equipa), a rede pode memorizar padrões específicos que não generalizam. Solução: dropout agressivo (0.4-0.5), early stopping, e validação temporal (treinar em épocas 1-4, testar na época 5)."}
+/>
+
+## Aplicação 4 — AutoML para Descoberta de Modelos
+
+Ferramentas de AutoML (AutoGluon, H2O, PyCaret, TPOT) testam centenas de combinações de modelos, hiperparâmetros e pipelines automaticamente.
+
+<CodeLens
+  title="AutoML para Descoberta de Modelos"
+  lines={[
+    { key: "ferramenta", value: "AutoGluon TabularPredictor", tone: "green" },
+    { key: "time_limit", value: "3600s (1 hora)", note: "procura por combinacoes" },
+    { key: "presets", value: "best_quality" },
+    { key: "output", value: "leaderboard com top 10 modelos", tone: "gold" },
+    { key: "utilidade", value: "descobrir interacoes nao-obvias e estabelecer baselines" },
+  ]}
+/>
+
+**Utilidade do AutoML:**
+- Descobrir interações não-óbvias entre variáveis
+- Estabelecer baselines rapidamente
+- Testar hipóteses exploratórias antes de investir em modelos custom
+- Identificar features mais importantes (SHAP values)
+
+**Cuidados críticos:**
+1. AutoML pode encontrar padrões espúrios — valida sempre out-of-sample
+2. A otimização excessiva leva a overfitting ao período de treino
+3. O melhor modelo do AutoML é frequentemente um ensemble — implementa como tal
+
+<FormulaBlock
+  label="Fórmula 15.2"
+  title={"Validação Temporal vs. Aleatória"}
+  formula={"Erro_aleatoria << Erro_temporal se houver dependencia temporal nos dados"}
+  explanation={"A validação aleatória (shuffle) sobrestima a performance. A validação temporal (treinar épocas passadas, testar futuras) é a única métrica fiável para mercado desportivo. A diferença entre as duas pode ser de 20-40% no erro reportado."}
+/>
+
+## Aplicação 5 — Simulações Monte Carlo com IA
+
+As simulações Monte Carlo combinadas com modelos de IA produzem distribuições completas de probabilidade, não apenas estimativas pontuais.
+
+<MarketExample
+  title={"Monte Carlo — Braga vs. Gil Vicente"}
+  setup={"Modelo estima lambdas: Braga lambda = 1.8 golos, Gil Vicente lambda = 0.9 golos. Com incerteza nas estimativas: lambda_Braga ~ N(1.8, 0.3), lambda_GV ~ N(0.9, 0.2)."}
+  price={"Simulação de 10.000 cenários: cada cenário amostra lambdas das distribuições, simula o jogo (Poisson bivariada), regista resultado. Resultado: Casa 58.2% (mercado 54%), Empate 23.1% (mercado 26%), Fora 18.7% (mercado 20%). EV positivo na Casa."}
+  hypothesis={"A incerteza nas estimativas de lambda alarga os intervalos de confiança. Quando o mercado precifica apenas o valor pontual, ignora a distribuição completa. Equipas com maior variância nas estimativas criam mais oportunidades."}
+  risk={"Se a incerteza for mal calibrada (variância estimada incorretamente), as simulações dão falsa confiança. Validar a calibração das distribuições preditivas regularmente."}
+/>
+
+<BlackboardPanel title={"O Ciclo Completo de IA"} label="Quadro 15.3">
+  <p>O estado-da-arte no mercado desportivo não é uma técnica isolada — é a integração de todas num ciclo contínuo:</p>
+  <ol>
+    <li><strong>Recolha automática</strong> — APIs, scraping, RSS feeds, dados de mercado</li>
+    <li><strong>Processamento NLP</strong> — notícias, redes sociais, relatórios de lesões</li>
+    <li><strong>Modelação com ensembles deep learning</strong> — LSTM para temporais, XGB para tabulares, NLP para texto</li>
+    <li><strong>Validação com backtesting automático</strong> — validação temporal, walk-forward, rolling windows</li>
+    <li><strong>Execução via API</strong> — comparação com odds, deteção de EV, alocação automática</li>
+    <li><strong>Aprendizagem por reforço</strong> — o sistema ajusta estratégias com base em resultados reais</li>
+  </ol>
+  <div class="board-note">
+    <strong>Nota:</strong> Este nível de automatização é para equipas de investigação dedicadas. Para o analista individual, dominar os passos 2-4 com ferramentas existentes já confere vantagem significativa.
+  </div>
+</BlackboardPanel>
+
+## O Futuro — Agentes Autónomos
+
+A evolução natural é o agente autónomo: um sistema que gere todo o ciclo sem intervenção humana. Já existem implementações académicas e proprietárias:
+
+- **Google Football AI:** Modelos Transformer aplicados a tracking data
+- **StatBomb IQ:** Pipeline completo de dados → modelos → dashboards
+- **Modelos de Base para Futebol:** Fine-tuning de LLMs em dados desportivos
+
+A barreira não é tecnológica — é a qualidade dos dados e a capacidade de validar estrategicamente.
+
+<DecisionChecklist
+  title={"Checklist: Implementação de IA"}
+  items={[
+    "Os meus dados têm qualidade suficiente para alimentar modelos de IA?",
+    "Implementei validação temporal (não aleatória) para todas as métricas?",
+    "Os modelos NLP estão a processar notícias em tempo real?",
+    "O sentimento extraído é validado contra movimentos reais de odds?",
+    "As LSTMs têm dropout suficiente para evitar overfitting temporal?",
+    "Os resultados do AutoML foram validados out-of-sample?",
+    "As simulações Monte Carlo incluem incerteza nas estimativas?",
+    "Tenho um pipeline documentado: recolha → processamento → modelo → validação → execução?"
+  ]}
+/>
+
+## Resumo
+
+- IA é um amplificador: amplifica a qualidade dos teus dados, não cria edge do nada
+- NLP permite processar notícias e redes sociais em escala, extraindo sinais antes do mercado
+- Análise de sentimento funciona como indicador contrário em extremos (>0.80)
+- LSTMs/GRUs capturam padrões temporais que modelos tabulares ignoram
+- AutoML acelera descoberta mas requer validação temporal rigorosa
+- Simulações Monte Carlo com IA produzem distribuições completas de probabilidade
+- O ciclo completo: recolher → processar → modelar → validar → executar → aprender

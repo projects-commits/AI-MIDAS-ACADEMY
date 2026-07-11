@@ -1,0 +1,154 @@
+---
+{
+  "id": "course-modelos-estatisticos-mercados-previsao-lesson-1",
+  "courseId": "course-modelos-estatisticos-mercados-previsao",
+  "courseSlug": "modelos-estatisticos-para-mercados-de-previsao",
+  "lessonId": "lesson-1",
+  "moduleId": "module-1",
+  "title": "O Mercado como Sistema Probabilistico",
+  "slug": "mercado-como-sistema-probabilistico",
+  "lessonNumber": 1,
+  "readingMinutes": 20,
+  "status": "published",
+  "createdAt": "2026-07-11T00:00:00.000Z",
+  "updatedAt": "2026-07-11T00:00:00.000Z"
+}
+---
+
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+
+<BlackboardPanel title="Sorte vs. Probabilidade Dinamica" label="Quadro 1.1">
+  <p>O primeiro erro conceptual de quem se aproxima do mercado desportivo e classifica-lo como um sistema de sorte. Esta classificacao nao e apenas imprecisa - e destrutiva para qualquer estrategia de analise.</p>
+  <div class="board-note">
+    <strong>Diferenca fundamental:</strong> Num sistema de sorte (roleta, dados), a probabilidade de cada evento e fixa. Num mercado desportivo, a probabilidade e dinamica - varia com informacao, fluxo de capital, e eventos exogenos.
+  </div>
+</BlackboardPanel>
+
+A diferenca entre um sistema de sorte e um mercado de probabilidades esta num conceito simples: **probabilidade fixa versus probabilidade dinamica**.
+
+Num sistema de sorte (roleta, dados, slot machines), a probabilidade de cada evento e fixa e imutavel. A probabilidade de sair "vermelho" numa roleta europeia e sempre 18/37 = 48,65%, independentemente de quantas vezes tenha saido preto antes. A casa tem uma margem matematica fixa embutida. Nao ha analise que altere este facto.
+
+Num mercado desportivo, a probabilidade associada a cada desfecho e **dinamica**. Ela varia em funcao de:
+
+- **Informacao assimetrica** - quem sabe mais, precifica melhor
+- **Fluxo de capital** - onde o dinheiro esta a ser colocado
+- **Eventos exogenos** - lesoes, condicoes climaticas, mudancas taticas
+- **Ineficiencias temporarias** de mercado
+
+<MarketExample
+  title="Lesao no aquecimento - Benfica vs. Sporting"
+  setup="Jogo da Primeira Liga, Benfica-Sporting. As odds de mercado abrem com o Benfica cotado a 1.85 (casa). Durante o aquecimento, o medio defensivo do Benfica, peca-chave no esquema tactico, sofre uma lesao muscular e e substituido na convocatoria de ultima hora."
+  price="Odd inicial: 1.85 (probabilidade implicita 54,05%). Odd pos-lesao: 2.10 (probabilidade implicita 47,62%). Ajuste de -6,43 pontos percentuais."
+  hypothesis="Um analista que recebe a informacao da lesao 30 segundos antes de o mercado a refletir nas odds pode alocar capital antes do ajuste, capturando a ineficiencia temporaria."
+  risk="O risco e que a informacao ja esteja precificada se o market maker tiver ajustado antes de a odd chegar ao publico. O timing e tudo."
+/>
+
+## Probabilidade Implicita: O Primeiro Calculo
+
+A base de toda a analise quantitativa de mercado comeca com a conversao de odds em probabilidade implicita.
+
+P = 1 / Odd
+
+Uma odd de 2.00 implica 1/2.00 = 50% de probabilidade. Uma odd de 1.50 implica 1/1.50 = 66,7%.
+
+<FormulaBlock
+  label="Formula 1.1"
+  title="Probabilidade Implicita"
+  formula="P(i) = 1 / Odd"
+  explanation="A probabilidade implicita e o inverso da odd decimal. Uma odd de 2.00 implica 50% de probabilidade; uma odd de 1.50 implica 66,7%."
+/>
+
+## O Overround (Margem do Mercado)
+
+Num mercado de 3 desfechos (1X2), a soma das probabilidades implicitas excede sempre 100%. Este excedente e a margem do market maker.
+
+<BlackboardPanel title="Exemplo de Overround - Liga Portugal Betclic" label="Quadro 1.2">
+  <p><strong>Cenario real (jogo tipico de liga europeia):</strong></p>
+  <ul>
+    <li>Casa: 2.10 - 1/2.10 = 47,62%</li>
+    <li>Empate: 3.40 - 1/3.40 = 29,41%</li>
+    <li>Fora: 3.30 - 1/3.30 = 30,30%</li>
+    <li>Soma = 107,33%</li>
+    <li>Overround = 7,33%</li>
+  </ul>
+  <div class="board-note">
+    <strong>Nota:</strong> A soma ultrapassa 100%. Este excedente e a margem do market maker - o custo de transacao do mercado.
+  </div>
+</BlackboardPanel>
+
+**Probabilidades reais (ajustadas):**
+
+P_real(Casa) = 47,62 / 107,33 = 44,37%
+
+<FormulaBlock
+  label="Formula 1.2"
+  title="Probabilidade Real Ajustada"
+  formula="P_real(i) = P_impl(i) / Soma(P_impl)"
+  explanation="Divide cada probabilidade implicita pela soma total para remover a margem do market maker. So assim podes comparar as tuas estimativas com as do mercado."
+/>
+
+Este ajuste e crucial. Sem ele, estas a comparar probabilidades inflacionadas com as tuas estimativas - um erro que distorce qualquer analise de valor.
+
+## Mercados Eficientes vs. Ineficientes
+
+A Hipotesis do Mercado Eficiente (EMH), importada da teoria financeira, sugere que os precos refletem toda a informacao disponivel. No mercado desportivo, isto e parcialmente verdade.
+
+| Mercado | Nivel de Eficiencia | Razao |
+|---|---|---|
+| Liga Portugal Betclic (match odds) | Alta | Volume elevado, muitos participantes informados |
+| Liga 3 portuguesa | Media-Baixa | Menor volume, menos analistas dedicados |
+| Mercados de cantos (qualquer liga) | Baixa | Volume reduzido, modelos menos sofisticados |
+| Mercados live (minuto 0-15) | Muito Baixa | Ajuste lento a eventos em campo |
+
+**Implicacao pratica:** A eficiencia do mercado nao e uniforme. O edge esta precisamente em identificar **onde** o mercado e menos eficiente, nao em prever **o que** vai acontecer.
+
+## Variaveis Latentes que o Mercado Ignora
+
+Os market makers modelam principalmente variaveis quantitativas tradicionais: golos marcados, golos sofridos, posse, xG, forma recente. Mas ha variaveis que os modelos padrao ignoram ou subestimam sistematicamente:
+
+1. **Calendario e logistica** - Uma equipa que joga 3 jogos em 7 dias tem um decrecimo mensuravel de performance fisica que nao esta totalmente incorporado nas odds iniciais
+2. **Motivacao assimetrica** - Uma equipa ja classificada vs. uma que luta pela permanencia tem incentivos drasticamente diferentes
+3. **Condicoes meteorologicas extremas** - Ventos acima de 30 km/h reduzem o numero de golos em media 18% em relacao a media da liga
+4. **Vies do arbitro** - Determinados arbitros tem propensao consistente a mais/menos cartoes, mais/menos penalties
+
+<FailureModeCard
+  title="O erro do especialista"
+  summary="Achar que saber de futebol e suficiente para ter lucro. O mercado ja incorporou a informacao publica. Se a tua unica vantagem e conhecer a equipa, estas a competir contra modelos estatisticos que processam milhares de variaveis em segundos. Nao e uma vantagem - e uma armadilha."
+/>
+
+<CodeLens
+  title="Probabilidades Implicitas vs Reais"
+  lines={[
+    { key: "odds", value: "[2.10, 3.40, 3.30]", tone: "green" },
+    { key: "probs_impl", value: "0.476 / 0.294 / 0.303", note: "soma > 1.0 indica overround" },
+    { key: "overround", value: "7.3%", tone: "orange" },
+    { key: "probs_real", value: "0.444 / 0.274 / 0.283", note: "probabilidades sem margem do mercado" },
+  ]}
+/>
+
+## Exercicio Pratico
+
+Para o proximo jogo que analisares, calcula a probabilidade implicita das odds. Depois lista 5 variaveis que achas que o mercado nao considerou. Atribui um ajuste percentual a cada uma. A soma destes ajustes e o teu edge estimado.
+
+<DecisionChecklist
+  title="Checklist: Analise de Mercado"
+  items={[
+    "Calculei a probabilidade implicita das odds (1/odd)?",
+    "Removi o overround para obter a probabilidade real?",
+    "Identifiquei em que mercado estou a operar (alta/baixa eficiencia)?",
+    "Listei pelo menos 3 variaveis que o mercado pode estar a subestimar?"
+  ]}
+/>
+
+## Resumo
+
+- O mercado desportivo e um sistema de probabilidades dinamicas, nao de sorte
+- A base de toda a analise e a conversao odds - probabilidade implicita
+- A margem do market maker (overround) tem de ser removida antes de qualquer comparacao
+- A eficiencia do mercado varia por liga, tipo de mercado e timing
+- O edge existe nas variaveis que o mercado subestima sistematicamente

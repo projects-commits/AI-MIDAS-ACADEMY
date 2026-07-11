@@ -1,0 +1,195 @@
+---
+{
+  "id": "course-modelos-estatisticos-mercados-previsao-lesson-12",
+  "courseId": "course-modelos-estatisticos-mercados-previsao",
+  "courseSlug": "modelos-estatisticos-para-mercados-de-previsao",
+  "lessonId": "lesson-12",
+  "moduleId": "module-4",
+  "title": "Modelos de Expectativa para Mercados Live",
+  "slug": "modelos-expectativa-mercados-live",
+  "lessonNumber": 12,
+  "readingMinutes": 22,
+  "status": "published",
+  "createdAt": "2026-07-11T00:00:00.000Z",
+  "updatedAt": "2026-07-11T00:00:00.000Z"
+}
+---
+
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+
+<BlackboardPanel title={"Live Trading vs. Pré-Jogo"} label="Quadro 4.5">
+  <p>A diferença fundamental entre mercados pré-jogo e live não é o tipo de ativo — é o tempo de reação. No pré-jogo, tens horas ou dias para analisar, modelar e decidir. No live, tens segundos.</p>
+  <p>Esta compressão temporal é a maior fonte de ineficiência do mercado desportivo. Os participantes humanos são lentos a processar nova informação em tempo real. Os modelos automáticos são rápidos, mas muitos são demasiado simples — ajustam-se linearmente a eventos que exigem recalibração não-linear.</p>
+  <div class="board-note">
+    <strong>Implicação:</strong> Se tiveres um modelo preparado ANTES do jogo — que calcula instantaneamente o novo valor esperado após qualquer evento — tens uma vantagem sobre a maioria dos participantes que reagem emocionalmente ou com modelos simplistas.
+  </div>
+</BlackboardPanel>
+
+## A Anatomia de um Evento Live
+
+Quando ocorre um evento relevante (golo, expulsão, penalty), o mercado passa por três fases distintas:
+
+| Fase | Duração | Comportamento | Oportunidade |
+|---|---|---|---|
+| Fase 1 — Pânico | 0-5 segundos | Odds extremas, spreads enormes, liquidez desaparece | Difícil de executar, risco de slippage |
+| Fase 2 — Ajuste | 5-30 segundos | Market makers recalibram, odds normalizam parcialmente | Melhor janela se o teu modelo já calculou o novo valor |
+| Fase 3 — Estabilização | 30s-2 min | Novo equilíbrio, odds próximas do justo | Pouco valor restante |
+
+A vantagem competitiva está em ter o modelo preparado ANTES do jogo, de modo a que, quando o evento ocorre, o cálculo do novo valor esperado seja instantâneo — não estás a pensar, estás a executar o que já foi calculado.
+
+<FormulaBlock
+  label="Fórmula 4.4"
+  title={"Modelo de Expectativa Over/Under Live"}
+  formula={"λ_restante = λ_original × (t_restante / t_total) × F_estado"}
+  explanation={"O lambda para o tempo restante é o lambda original, escalado pela proporção de tempo que falta, multiplicado por um fator de estado que captura o contexto atual do jogo (placar, expulsões, dinâmica)."}
+/>
+
+### Fatores de Estado (F_estado)
+
+Cada estado de jogo tem um fator empírico que ajusta o lambda para cima ou para baixo:
+
+| Estado do Jogo | F_estado | Interpretação |
+|---|---|---|
+| 0-0 aos 60' | 0.85 | Jogo fechado, equipas satisfeitas |
+| 1-1 aos 30' | 1.15 | Jogo aberto, ambas atacam |
+| 0-1 aos 70' (underdog ganha) | 0.75 | Favorito pressiona, underdog fecha-se |
+| Expulsão equipa que atacava | 0.65 | Equipa ofensiva perde capacidade |
+| Expulsão equipa que defendia | 1.25 | Defesa fragilizada, mais golos esperados |
+| 2-0 aos 80' | 0.50 | Jogo resolvido, ritmo cai |
+| 0-0 aos 15' | 1.05 | Neutro ainda, ligeiro bias para jogo aberto |
+
+<MarketExample
+  title={"Cálculo de lambda restante — Arouca vs. Vitória SC"}
+  setup={"Jogo da Primeira Liga, Arouca-Vitória SC. λ original estimado = 2.6. Jogo aos 35', placar 1-0 para o Arouca (golo contra corrente, xG baixo). Jogo equilibrado."}
+  price={"t_restante = 55 min + 4 desconto = 59 min (total 96). F_estado para 1-0 equilibrado = 1.05. λ_restante = 2.6 × (59/96) × 1.05 = 1.68. P(0 golos adicionais) = Poisson(0, 1.68) = 18.6%. P(1+) = 81.4%. Odd justa para mais 1 golo: 1/0.814 = 1.23."}
+  hypothesis={"Se o mercado live estiver a precificar o Over 0.5 golos adicionais a 1.30 ou superior, há value no 'Sim' — o mercado está a subestimar a probabilidade de pelo menos mais um golo."}
+  risk={"O fator de estado é uma estimativa empírica. Jogos com 1-0 podem fechar se a equipa da casa decidir gerir o resultado. O modelo precisa de ser calibrado para a liga específica."}
+/>
+
+<CodeLens
+  title="Lambda Restante em Jogo Live"
+  lines={[
+    { key: "lambda_original", value: "2.6", note: "media de golos prevista pre-jogo" },
+    { key: "minuto_atual", value: "35'", tone: "green" },
+    { key: "placar", value: "Arouca 1-0 Vitoria SC" },
+    { key: "lambda_restante", value: "1.67", note: "apos ajuste de tempo e estado", tone: "gold" },
+    { key: "P(1+ golo adicional)", value: "81.2%", note: "odd justa = 1.23", tone: "green" },
+  ]}
+/>
+
+## O Paradoxo do Underdog no Live
+
+Um dos padrões mais consistentes e lucrativos do mercado live é o que chamamos de "Paradoxo do Underdog".
+
+**O padrão:** O underdog marca primeiro → o mercado over-ajusta. As odds do favorito sobem (ficam mais altas) de forma exagerada, como se o jogo estivesse perdido. Mas estatisticamente, o favorito continua a ser a equipa mais provável de vencer ou, pelo menos, de não perder.
+
+**A oportunidade:** Entrar no favorito nos 5-10 minutos após sofrer golo, quando três condições se verificam:
+
+1. O golo foi contra a corrente de jogo (xG do underdog baixo, xG do favorito alto)
+2. O favorito tem histórico de reviravoltas (percentagem de pontos recuperados após estar a perder)
+3. Restam mais de 30 minutos de jogo
+
+<BlackboardPanel title={"Exemplo do Paradoxo — Porto na Liga Europa"} label="Quadro 4.6">
+  <p><strong>Cenário real:</strong> Porto vs. equipa de liga inferior na Liga Europa. O Porto domina (65% posse, 1.8 xG vs. 0.3 xG). Aos 25', a equipa visitante marca num contra-ataque isolado. Golo contra a corrente.</p>
+  <p>Antes do golo: odds Porto 1.40 (prob. implícita 71.4%). Após golo: odds Porto sobem para 2.40 (prob. implícita 41.7%).</p>
+  <p>O mercado retirou 30 pontos percentuais de probabilidade ao Porto por um golo que aconteceu contra toda a lógica do jogo. Com 65 minutos restantes, o Porto com xG de 1.8 em média marca 2+ golos em 65% dos jogos. A odd justa do Porto deveria ser ~1.65 (60.6%), não 2.40 (41.7%).</p>
+  <div class="board-note">
+    <strong>Value estimado na entrada ao Porto após o golo:</strong> odd 2.40 vs. odd justa 1.65 = +45.5% de valor. É uma das oportunidades mais rentáveis do trading desportivo.
+  </div>
+</BlackboardPanel>
+
+<FailureModeCard
+  title={"Confundir golo merecido com golo de sorte"}
+  summary={"O paradoxo do underdog só funciona quando o golo é contra a corrente. Se o underdog está a dominar, a merecer o golo, e o favorito está a jogar mal, a subida das odds do favorito é justificada. Entrar nesse cenário é destruir capital. A chave está no xG momentâneo: se o xG do underdog é baixo (< 0.5) e o do favorito é alto (> 1.0), o golo é ruído. Caso contrário, é sinal."}
+/>
+
+## Mercados de Cartões Live
+
+Os mercados de cartões live são extremamente ineficientes. O modelo padrão ajusta-se de forma linear ao tempo decorrido, ignorando três fatores críticos:
+
+1. **Tensão acumulada:** O número de cartões não é linear no tempo. A tensão acumula-se com o resultado, com faltas anteriores, e com decisões do árbitro.
+
+2. **Personalidade do árbitro:** Cada árbitro tem um perfil de cartões consistente. Alguns mostram o primeiro amarelo aos 15 min, outros aos 60 min. Ignorar isto é perder precisão.
+
+3. **Contexto do resultado:** Jogos com resultando apertado no final geram mais faltas táticas e mais cartões. Jogos resolvidos geram menos.
+
+<FormulaBlock
+  label="Fórmula 4.5"
+  title={"Modelo de Cartões Live"}
+  formula={"λ_cartões_restantes = λ_médio × (t_restante / 96) × F_tensão × F_árbitro"}
+  explanation={"O lambda de cartões para o tempo restante é o lambda médio do jogo, escalado pelo tempo, multiplicado por um fator de tensão (baseado no diferencial de resultado) e um fator de árbitro (perfil histórico de cartões por jogo)."}
+/>
+
+<CodeLens
+  title="Modelo de Cartoes Live"
+  lines={[
+    { key: "lambda_medio", value: "4.5", note: "media do jogo" },
+    { key: "minuto_atual", value: "60'", tone: "green" },
+    { key: "cartoes_atual", value: "2", note: "ja mostrados" },
+    { key: "arbitro_ppm", value: "5.2/jogo", note: "arbitro rigido" },
+    { key: "tensao", value: "1.3", note: "alta tensao" },
+    { key: "lambda_restante", value: "1.95", tone: "gold" },
+    { key: "P(Over 5.5)", value: "16.5%", note: "odd justa = 6.06", tone: "orange" },
+  ]}
+/>
+
+## Métricas de Performance para Modelos Live
+
+Para avaliares se o teu modelo live está a gerar valor real, precisas de métricas específicas que vão além do ROI bruto:
+
+| Métrica | Alvo | O que mede |
+|---|---|---|
+| Tempo médio de reação | < 30 segundos | Rapidez entre evento e execução |
+| CLV live | > +3% | Qualidade do preço de entrada em live |
+| Brier Score | < 0.22 | Calibração das probabilidades estimadas |
+| Oportunidades/dia | > 5 posições com EV > +5% | Frequência de oportunidades de alta qualidade |
+| Taxa de execução | > 70% | Consegues entrar ao preço que o modelo recomenda? |
+
+<DecisionChecklist
+  title={"Checklist: Operação Live"}
+  items={[
+    "O meu modelo está preparado e carregado ANTES do jogo começar?",
+    "Defini os limiares de EV mínimo para entrar (ex: > +5%)?",
+    "Identifiquei o estado atual do jogo e apliquei o fator de estado correto?",
+    "Se houve golo do underdog, verifiquei se foi contra a corrente (xG baixo)?",
+    "Calculei o novo lambda restante antes de olhar para as odds do mercado?",
+    "O mercado de cartões está a ignorar o perfil do árbitro?",
+    "Registei o tempo de reação entre o evento e a minha execução?"
+  ]}
+/>
+
+<MarketExample
+  title={"Oportunidade live em cartões — Famalicão vs. Casa Pia"}
+  setup={"Famalicão vs. Casa Pia, Primeira Liga. Árbitro: conhecido por mostrar 6+ cartões por jogo. Jogo aos 55', 1-1, 2 cartões apenas. Tensão a aumentar devido a resultado apertado."}
+  price={"λ médio de cartões para este árbitro: 5.8/jogo. Com 35 min restantes (com descontos), F_tensão = 1.3, F_árbitro = 5.8/4.5 = 1.29. λ_restante = 5.8 × (41/96) × 1.3 × 1.29 = 4.14. P(2+ cartões adicionais) = 90.2%. P(3+) = 78.5%. Se o mercado oferece Over 4.5 totais a odds > 2.00, há value."}
+  hypothesis={"O mercado ajusta cartões linearmente (mais tempo = mais cartões), mas ignora o perfil do árbitro e a tensão do resultado. Combinando estes dois fatores, o modelo antecipa uma aceleração na segunda parte que o mercado não está a precificar."}
+  risk={"Cartões são intrinsecamente mais voláteis que golos. Uma arbitragem mais branda que o habitual pode destruir o modelo. Usa sempre uma margem de segurança maior em mercados de cartões."}
+/>
+
+## Construção de um Pipeline Live
+
+Um modelo live não é um único cálculo — é um pipeline de decisão que executa em segundos:
+
+1. **Feed de dados:** Obter estado atual do jogo (minuto, placar, eventos) via API
+2. **Cálculo de lambda restante:** Aplicar a fórmula com fatores de estado
+3. **Geração de odds justas:** Converter lambda em probabilidades para diferentes linhas
+4. **Comparação com mercado:** Calcular EV para cada mercado disponível
+5. **Execução:** Se EV > limiar, enviar ordem
+
+O passo mais crítico é o passo 4. Não basta calcular a tua odd justa — precisas de a comparar com as odds disponíveis em tempo real. Um modelo que calcula odds justas perfeitas mas não as compara com o mercado em tempo real é um modelo teórico, não operacional.
+
+## Resumo
+
+- Mercado live é a maior fonte de ineficiência devido à compressão temporal
+- Após um evento, o mercado passa por 3 fases: pânico (0-5s), ajuste (5-30s), estabilização (30s-2min)
+- A vantagem está em ter o modelo preparado ANTES do jogo para execução instantânea
+- λ_restante = λ_original × proporção de tempo × fator de estado
+- Golos de underdog contra a corrente criam over-ajuste do mercado — oportunidade no favorito
+- Mercados de cartões live são extremamente ineficientes porque modelos ignoram árbitro e tensão
+- Métricas-chave: tempo de reação < 30s, CLV live > +3%, Brier < 0.22
+- Um pipeline live completo integra feed de dados, cálculo, comparação e execução em segundos

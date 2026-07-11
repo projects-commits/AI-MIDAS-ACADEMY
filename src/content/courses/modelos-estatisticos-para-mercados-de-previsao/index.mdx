@@ -1,0 +1,1160 @@
+---
+{
+  "id": "course-modelos-estatisticos-mercados-previsao",
+  "title": "Modelos Estatísticos para Mercados de Previsão",
+  "slug": "modelos-estatisticos-para-mercados-de-previsao",
+  "subtitle": "Da Probabilidade ao Modelo Estatístico — Uma abordagem quantitativa à análise de mercados de eventos desportivos com ciência de dados",
+  "category": "Probability & Modeling",
+  "secondaryCategories": [
+    "Market Intelligence",
+    "Risk & Execution",
+    "Football Research"
+  ],
+  "level": "intermediate",
+  "status": "published",
+  "language": "pt-PT",
+  "estimatedReadingMinutes": 280,
+  "minimumWordCount": 18000,
+  "targetPersonas": [
+    "Analista Quantitativo em Transição",
+    "Operador de Mercados de Previsão",
+    "Investigador de Football Analytics",
+    "Consumidor de Research que quer substituir intuição por processo"
+  ],
+  "corePromise": "Ensinar um sistema completo de análise quantitativa de mercados de previsão desportivos, desde os fundamentos probabilísticos até à construção de modelos preditivos, validação estatística e operacionalização com inteligência artificial.",
+  "whyThisCourseExists": "Os mercados de previsão desportivos são sistemas de probabilidades dinâmicas, não de sorte. No entanto, a maioria dos participantes aborda-os com intuição, narrativa e viés. Este curso existe para substituir essa abordagem por uma metodologia quantitativa: probabilidade ajustada, CLV, modelos estatísticos, validação rigorosa e gestão de capital baseada em expectativa matemática.",
+  "enemy": "Intuição não auditada, análise impressionista, overfitting de backtest, confusão entre resultado e qualidade de processo, narrativa pública como substituto de evidência, ausência de métricas de performance do analista.",
+  "audience": "Analistas, operadores de mercados de previsão, estudantes de football analytics, e qualquer pessoa que queira substituir palpites por um processo quantitativo documentado. Não é um curso de palpites nem de sinais prontos — é um curso de metodologia.",
+  "prerequisites": [
+    "Estatística básica (probabilidade, média, variância, desvio padrão)",
+    "Capacidade de ler e executar exemplos Python",
+    "Compreensão do futebol como desporto (regras, dinâmicas, competições)",
+    "Vontade de registar cada decisão e auditá-la com métricas objetivas"
+  ],
+  "courseStats": {
+    "moduleCount": 5,
+    "lessonCount": 15,
+    "labCount": 5,
+    "glossaryTermCount": 10
+  },
+  "tracks": [
+    {
+      "id": "track-fundamentos",
+      "title": "Fundamentos Probabilísticos",
+      "summary": "Probabilidade dinâmica, odds como vetor de informação, e identificação de edge real no mercado."
+    },
+    {
+      "id": "track-analise-tecnica",
+      "title": "Análise Técnica e Value",
+      "summary": "CLV como métrica central, value investing em mercados de previsão, e ineficiências estruturais exploráveis."
+    },
+    {
+      "id": "track-modelacao",
+      "title": "Modelação e Risco",
+      "summary": "Construção de modelos preditivos, validação estatística, e gestão de capital com base em expectativa matemática."
+    },
+    {
+      "id": "track-avancado",
+      "title": "Operacional Avançado",
+      "summary": "Distribuições de golos, modelos live, ensemble de modelos, regressão à média, e IA aplicada."
+    }
+  ],
+  "modules": [
+    {
+      "id": "module-1",
+      "title": "Fundamentos Estatísticos do Mercado",
+      "slug": "fundamentos-estatisticos-do-mercado",
+      "summary": "Probabilidade implícita, overround, eficiência de mercado, e as camadas de informação que as odds transportam.",
+      "lessonIds": [
+        "lesson-1",
+        "lesson-2",
+        "lesson-3"
+      ],
+      "learningGoals": [
+        "Compreender o mercado como sistema de probabilidades dinâmicas e não de sorte",
+        "Decodificar odds em 10 camadas de informação, da mais óbvia à mais profissional",
+        "Identificar onde o mercado erra e que tipos de vantagem são sustentáveis"
+      ]
+    },
+    {
+      "id": "module-2",
+      "title": "CLV, Value e Análise Técnica de Mercado",
+      "slug": "clv-value-analise-tecnica-mercado",
+      "summary": "Closing Line Value como métrica de qualidade, value investing baseado em expectativa positiva, e ineficiências estruturais que o mercado repete.",
+      "lessonIds": [
+        "lesson-4",
+        "lesson-5",
+        "lesson-6"
+      ],
+      "learningGoals": [
+        "Usar CLV como métrica central de qualidade de decisão",
+        "Calcular valor esperado com e sem ajuste de overround",
+        "Identificar e sistematizar ineficiências estruturais de calendário, motivação, timing e clima"
+      ]
+    },
+    {
+      "id": "module-3",
+      "title": "Modelos, Validação e Gestão de Capital",
+      "slug": "modelos-validacao-gestao-capital",
+      "summary": "Arquitetura de modelos preditivos, seleção de variáveis, calibração de probabilidades, validação estatística e dimensionamento de posição.",
+      "lessonIds": [
+        "lesson-7",
+        "lesson-8",
+        "lesson-9"
+      ],
+      "learningGoals": [
+        "Construir modelos preditivos calibrados para mercados desportivos",
+        "Validar métodos com teste binomial, Monte Carlo e curva de aprendizagem",
+        "Dimensionar posições com Kelly fraccional e EV-staking com gestão de drawdown"
+      ]
+    },
+    {
+      "id": "module-4",
+      "title": "Análise Avançada de Mercados de Golos",
+      "slug": "analise-avancada-mercados-golos",
+      "summary": "Distribuição de Poisson aplicada a golos, erros de precificação em linhas de golos, e modelos de expectativa para mercados live.",
+      "lessonIds": [
+        "lesson-10",
+        "lesson-11",
+        "lesson-12"
+      ],
+      "learningGoals": [
+        "Modelar probabilidades de Over/Under e BTTS com Poisson",
+        "Identificar erros de precificação em linhas altas e mercados meteorológicos",
+        "Construir modelos de lambda restante para mercados live"
+      ]
+    },
+    {
+      "id": "module-5",
+      "title": "Operacional Avançado e Inteligência Artificial",
+      "slug": "operacional-avancado-inteligencia-artificial",
+      "summary": "Ensemble de modelos, regressão à média como princípio estratégico, e aplicações de IA à análise de mercado.",
+      "lessonIds": [
+        "lesson-13",
+        "lesson-14",
+        "lesson-15"
+      ],
+      "learningGoals": [
+        "Combinar múltiplos modelos em ensembles robustos com diversidade real",
+        "Aplicar regressão à média para identificar sobrevalorização de streaks",
+        "Utilizar NLP, deep learning, AutoML e Monte Carlo com IA para análise de mercado"
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson-1",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-1",
+      "title": "O Mercado como Sistema Probabilístico",
+      "slug": "mercado-como-sistema-probabilistico",
+      "lessonNumber": 1,
+      "readingMinutes": 20,
+      "level": "foundation",
+      "concepts": [
+        "implied probability",
+        "overround",
+        "market efficiency",
+        "dynamic probability"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens"
+      ],
+      "learningObjectives": [
+        "Distinguir probabilidade fixa de probabilidade dinâmica e compreender porque o mercado desportivo não é sorte",
+        "Calcular probabilidade implícita, overround e probabilidades ajustadas para qualquer mercado 1X2",
+        "Mapear a eficiência relativa de diferentes mercados e identificar onde o edge é mais provável"
+      ],
+      "failureModes": [
+        "Confundir overround com probabilidade real e comparar estimativas com odds não ajustadas"
+      ],
+      "exercises": [
+        "Para 3 jogos da próxima jornada da Liga Portugal, calcula as probabilidades implícitas, remove o overround e identifica 5 variáveis que o mercado pode estar a ignorar"
+      ],
+      "checklist": [
+        "Convertis odds em probabilidade implícita",
+        "Removi o overround antes de comparar com a minha estimativa",
+        "Identifiquei o nível de eficiência do mercado específico",
+        "Listei pelo menos 3 variáveis latentes que o mercado subestima"
+      ],
+      "glossaryTerms": [
+        "implied-probability",
+        "odds",
+        "market-price",
+        "risk"
+      ],
+      "formulas": [
+        {
+          "label": "Probabilidade Implícita",
+          "value": "PI = 1 / Odd Decimal"
+        },
+        {
+          "label": "Probabilidade Real Ajustada",
+          "value": "PR = PI / Soma(PI_todos_desfechos)"
+        }
+      ],
+      "previousLesson": null,
+      "nextLesson": "lesson-2"
+    },
+    {
+      "id": "lesson-2",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-1",
+      "title": "Decodificando as Odds: 10 Camadas de Informação",
+      "slug": "decodificando-odds-10-camadas",
+      "lessonNumber": 2,
+      "readingMinutes": 22,
+      "level": "foundation",
+      "concepts": [
+        "price vector",
+        "sharp money",
+        "market convergence",
+        "temporal margin structure"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "LearningChart"
+      ],
+      "learningObjectives": [
+        "Ler uma odd como vetor multidimensional de informação e não apenas como prémio potencial",
+        "Identificar sinais de sharp money, volatilidade informativa e convergência inter-mercado",
+        "Otimizar timing de entrada com base na estrutura temporal da margem do market maker"
+      ],
+      "failureModes": [
+        "Interpretar movimento de odd como sinal absoluto sem verificar volume, liquidez e contexto"
+      ],
+      "exercises": [
+        "Escolhe um jogo da Liga Europa e regista a evolução das odds a 7 dias, 48h, 24h, 1h do início. Identifica em que camadas cada movimento se enquadra"
+      ],
+      "checklist": [
+        "Registei a odd de abertura e fecho para cada desfecho",
+        "Avaliei a direção e magnitude do movimento",
+        "Verifiquei a volatilidade intradiária e o volume implícito",
+        "Comparei odds entre plataformas para detetar divergências"
+      ],
+      "glossaryTerms": [
+        "odds",
+        "liquidity",
+        "implied-probability",
+        "market-price"
+      ],
+      "formulas": [
+        {
+          "label": "Variação de Probabilidade Implícita",
+          "value": "Delta_PI = (1/Odd_fecho - 1/Odd_abertura) * 100"
+        },
+        {
+          "label": "Convergência Inter-Mercado",
+          "value": "Divergencia = (Odd_plataformaA / Odd_plataformaB) - 1"
+        }
+      ],
+      "previousLesson": "lesson-1",
+      "nextLesson": "lesson-3"
+    },
+    {
+      "id": "lesson-3",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-1",
+      "title": "A Vantagem Real: Onde o Mercado Erra",
+      "slug": "vantagem-real-onde-mercado-erra",
+      "lessonNumber": 3,
+      "readingMinutes": 20,
+      "level": "foundation",
+      "concepts": [
+        "edge classification",
+        "process methodology",
+        "behavioral advantage",
+        "three question filter"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist"
+      ],
+      "learningObjectives": [
+        "Distinguir conhecimento de futebol de vantagem real de mercado",
+        "Aplicar a metodologia de 5 fases: Compreender, Identificar, Construir, Backtest, Executar",
+        "Usar o filtro das 3 perguntas para eliminar 80% das entradas impulsivas"
+      ],
+      "failureModes": [
+        "Acreditar que saber futebol é suficiente para ter lucro no mercado"
+      ],
+      "exercises": [
+        "Para um jogo da próxima jornada, aplica o filtro das 3 perguntas e documenta a tua resposta a cada uma"
+      ],
+      "checklist": [
+        "Identifiquei qual o meu tipo específico de vantagem (informacional, analítica, técnica ou comportamental)",
+        "A minha vantagem é mensurável e repetível",
+        "O mercado ainda não incorporou a informação que eu tenho",
+        "Tenho um processo de 5 fases documentado antes de executar"
+      ],
+      "glossaryTerms": [
+        "edge",
+        "expected-value",
+        "risk",
+        "drawdown"
+      ],
+      "formulas": [
+        {
+          "label": "Edge Estimado",
+          "value": "Edge = Soma(ajustes de variáveis subprecificadas pelo mercado)"
+        }
+      ],
+      "previousLesson": "lesson-2",
+      "nextLesson": "lesson-4"
+    },
+    {
+      "id": "lesson-4",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-2",
+      "title": "CLV: Closing Line Value como Métrica Central",
+      "slug": "clv-closing-line-value-metrica-central",
+      "lessonNumber": 4,
+      "readingMinutes": 18,
+      "level": "foundation",
+      "concepts": [
+        "closing line value",
+        "decision quality",
+        "convergence rate",
+        "market reference"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens"
+      ],
+      "learningObjectives": [
+        "Calcular e interpretar CLV como métrica de qualidade de decisão",
+        "Compreender porque o CLV converge 3x mais rápido que ROI como indicador",
+        "Usar CLV por tipo de mercado para calibrar expectativas"
+      ],
+      "failureModes": [
+        "Confundir ROI de curto prazo com qualidade de decisão e ignorar CLV"
+      ],
+      "exercises": [
+        "Regista 10 posições com odd de entrada e odd de fecho. Calcula o CLV de cada uma e a média do teu CLV"
+      ],
+      "checklist": [
+        "Registei a odd de entrada no momento exato da posição",
+        "Obtive a odd de fecho da plataforma de referência",
+        "Calculei o CLV para cada posição individual",
+        "Calculei o CLV médio das últimas 50+ posições para avaliar tendência"
+      ],
+      "glossaryTerms": [
+        "market-price",
+        "odds",
+        "edge",
+        "expected-value"
+      ],
+      "formulas": [
+        {
+          "label": "Closing Line Value",
+          "value": "CLV = (Odd_entrada - Odd_fecho) / Odd_fecho * 100"
+        }
+      ],
+      "previousLesson": "lesson-3",
+      "nextLesson": "lesson-5"
+    },
+    {
+      "id": "lesson-5",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-2",
+      "title": "Value Investing: Teoria e Prática da Expectativa Positiva",
+      "slug": "value-investing-expectativa-positiva",
+      "lessonNumber": 5,
+      "readingMinutes": 22,
+      "level": "intermediate",
+      "concepts": [
+        "expected value",
+        "probability estimation",
+        "overround adjustment",
+        "variance premium"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens"
+      ],
+      "learningObjectives": [
+        "Calcular valor esperado com e sem ajuste de overround",
+        "Distinguir probabilidade de ganhar de valor esperado",
+        "Estimar probabilidades reais usando modelos estatísticos, ajuste de mercado e agregação de sinais"
+      ],
+      "failureModes": [
+        "Rejeitar posições de EV alto porque a probabilidade de ganhar é baixa"
+      ],
+      "exercises": [
+        "Para 5 jogos, calcula o EV usando a odd do mercado e a tua estimativa de probabilidade real. Identifica quais têm EV positivo"
+      ],
+      "checklist": [
+        "Calculei o EV com overround removido",
+        "A minha estimativa de probabilidade real tem base estatística (não é palpite)",
+        "Compreendo que EV positivo não garante resultado positivo em cada posição",
+        "Tenho métricas de acompanhamento: ROI, Sharpe, drawdown, profit factor"
+      ],
+      "glossaryTerms": [
+        "expected-value",
+        "implied-probability",
+        "edge",
+        "drawdown"
+      ],
+      "formulas": [
+        {
+          "label": "Valor Esperado (simples)",
+          "value": "EV = (P_real * Odd) - 1"
+        },
+        {
+          "label": "Valor Esperado (com overround)",
+          "value": "EV = P_real / P_implicita_ajustada - 1"
+        }
+      ],
+      "previousLesson": "lesson-4",
+      "nextLesson": "lesson-6"
+    },
+    {
+      "id": "lesson-6",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-2",
+      "title": "Ineficiências Estruturais do Mercado",
+      "slug": "ineficiencias-estruturais-mercado",
+      "lessonNumber": 6,
+      "readingMinutes": 20,
+      "level": "intermediate",
+      "concepts": [
+        "structural inefficiency",
+        "calendar fatigue",
+        "motivational asymmetry",
+        "secondary markets",
+        "weather impact"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens"
+      ],
+      "learningObjectives": [
+        "Identificar e classificar ineficiências estruturais em 5 categorias",
+        "Sistematizar a deteção de ineficiências com o framework Hipótese-Dados-Teste-Validação",
+        "Reconhecer o padrão temporal de oportunidades em mercados pré-jogo e live"
+      ],
+      "failureModes": [
+        "Tratar ineficiências pontuais como estruturais e overfitadar a uma amostra pequena"
+      ],
+      "exercises": [
+        "Formula uma hipótese de ineficiência estrutural, recolhe dados de 3 épocas, testa estatisticamente e valida out-of-sample"
+      ],
+      "checklist": [
+        "Identifiquei a categoria da ineficiência (calendário, motivação, mercado secundário, timing, clima)",
+        "A hipótese é específica e testável",
+        "O teste estatístico mostra significância (p < 0.05)",
+        "Validei out-of-sample antes de considerar o padrão como estrutural"
+      ],
+      "glossaryTerms": [
+        "market-price",
+        "liquidity",
+        "edge",
+        "risk"
+      ],
+      "formulas": [
+        {
+          "label": "Teste Binomial para Ineficiência",
+          "value": "p_value = binomtest(k_vitorias, n_total, p_esperada).pvalue"
+        }
+      ],
+      "previousLesson": "lesson-5",
+      "nextLesson": "lesson-7"
+    },
+    {
+      "id": "lesson-7",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-3",
+      "title": "Construção de Modelos Preditivos para Mercado Esportivo",
+      "slug": "construcao-modelos-preditivos",
+      "lessonNumber": 7,
+      "readingMinutes": 25,
+      "level": "intermediate",
+      "concepts": [
+        "feature engineering",
+        "model calibration",
+        "log loss",
+        "brier score",
+        "probability calibration"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens",
+        "MermaidDiagram"
+      ],
+      "learningObjectives": [
+        "Desenhar a arquitetura de um modelo preditivo de match odds",
+        "Selecionar e construir variáveis preditivas com poder discriminativo",
+        "Calibrar probabilidades usando Platt Scaling ou Isotonic Regression",
+        "Avaliar o modelo com Log Loss, Brier Score, AUC-ROC e ROI em backtest"
+      ],
+      "failureModes": [
+        "Acreditar que algoritmo complexo compensa variáveis fracas"
+      ],
+      "exercises": [
+        "Constrói um modelo de regressão logística para match odds usando dados de 3 épocas da Liga Portugal. Calcula as métricas de avaliação"
+      ],
+      "checklist": [
+        "As variáveis têm qualidade superior ao ruído",
+        "O modelo está calibrado (curva de calibração próxima de y=x)",
+        "Avaliei o modelo em dados out-of-sample",
+        "Comparei Log Loss, Brier Score e AUC-ROC antes de passar a produção"
+      ],
+      "glossaryTerms": [
+        "expected-value",
+        "implied-probability",
+        "odds",
+        "market-price"
+      ],
+      "formulas": [
+        {
+          "label": "Log Loss",
+          "value": "LogLoss = -1/N * Soma(y_i * log(p_i) + (1-y_i) * log(1-p_i))"
+        },
+        {
+          "label": "Brier Score",
+          "value": "Brier = 1/N * Soma(p_i - y_i)^2"
+        }
+      ],
+      "previousLesson": "lesson-6",
+      "nextLesson": "lesson-8"
+    },
+    {
+      "id": "lesson-8",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-3",
+      "title": "Validação Estatística de Métodos",
+      "slug": "validacao-estatistica-metodos",
+      "lessonNumber": 8,
+      "readingMinutes": 22,
+      "level": "intermediate",
+      "concepts": [
+        "overfitting",
+        "binomial test",
+        "monte carlo simulation",
+        "wald-wolfowitz test",
+        "convergence curve"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens"
+      ],
+      "learningObjectives": [
+        "Estruturar a validação em 3 partes: Treino, Validação, Teste",
+        "Aplicar teste binomial, runs test e simulação Monte Carlo",
+        "Interpretar a curva de convergência do win rate para avaliar estabilidade do método"
+      ],
+      "failureModes": [
+        "Acreditar em ROI de backtest > 15% sem validação out-of-sample"
+      ],
+      "exercises": [
+        "Pega num método com 200 entradas históricas, aplica o teste binomial e a simulação Monte Carlo. O método é estatisticamente significativo?"
+      ],
+      "checklist": [
+        "Dividi os dados em Treino (60%), Validação (20%), Teste (20%)",
+        "NUNCA olhei para os dados de teste durante o desenvolvimento",
+        "O p-value do teste binomial é < 0.05",
+        "A simulação Monte Carlo mostra que o resultado está no percentil > 95%",
+        "A curva de convergência do win rate está estabilizada"
+      ],
+      "glossaryTerms": [
+        "expected-value",
+        "drawdown",
+        "risk",
+        "edge"
+      ],
+      "formulas": [
+        {
+          "label": "Teste Binomial",
+          "value": "p_value = binomtest(k, n, p_esperada, alternative='greater').pvalue"
+        },
+        {
+          "label": "Monte Carlo Percentile",
+          "value": "Percentil = mean(resultados_simulados < lucro_real)"
+        }
+      ],
+      "previousLesson": "lesson-7",
+      "nextLesson": "lesson-9"
+    },
+    {
+      "id": "lesson-9",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-3",
+      "title": "Gestão de Risco e Dimensionamento de Posição",
+      "slug": "gestao-risco-dimensionamento-posicao",
+      "lessonNumber": 9,
+      "readingMinutes": 22,
+      "level": "intermediate",
+      "concepts": [
+        "kelly criterion",
+        "fractional kelly",
+        "ev-staking",
+        "drawdown management",
+        "position correlation"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens"
+      ],
+      "learningObjectives": [
+        "Calcular dimensionamento de posição com Kelly fraccional e EV-staking",
+        "Gerir drawdown com regras claras de redução e pausa",
+        "Estruturar um sistema de tracking completo para auditoria de cada posição"
+      ],
+      "failureModes": [
+        "Variar o tamanho da posição com base na confiança subjetiva e não na fórmula"
+      ],
+      "exercises": [
+        "Simula uma sequência de 50 posições com Kelly fraccional a 0.25 e EV-staking com k=6. Compara o drawdown máximo de cada método"
+      ],
+      "checklist": [
+        "Uso Kelly fraccional (0.25x) ou EV-staking com k entre 4-8",
+        "NUNCA altero o tamanho da posição com base em feeling",
+        "O tracking regista: odd entrada, odd fecho, CLV, capital antes/depois, notas",
+        "Se drawdown > 25%, reduzi posições para metade",
+        "Se drawdown > 40%, pausei e reavaliei o método"
+      ],
+      "glossaryTerms": [
+        "risk",
+        "drawdown",
+        "expected-value",
+        "edge",
+        "stake"
+      ],
+      "formulas": [
+        {
+          "label": "Kelly Criterion",
+          "value": "f* = (p * b - (1-p)) / b"
+        },
+        {
+          "label": "EV-Staking",
+          "value": "Alocacao = Capital * (EV / k)"
+        },
+        {
+          "label": "Drawdown",
+          "value": "DD = (Pico_capital - Capital_atual) / Pico_capital * 100"
+        }
+      ],
+      "previousLesson": "lesson-8",
+      "nextLesson": "lesson-10"
+    },
+    {
+      "id": "lesson-10",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-4",
+      "title": "Distribuições Estatísticas Aplicadas a Golos",
+      "slug": "distribuicoes-estatisticas-golos",
+      "lessonNumber": 10,
+      "readingMinutes": 24,
+      "level": "intermediate",
+      "concepts": [
+        "poisson distribution",
+        "expected goals lambda",
+        "btts probability",
+        "over under modeling",
+        "zero-inflated poisson"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens"
+      ],
+      "learningObjectives": [
+        "Modelar probabilidades de Over/Under e BTTS usando distribuição de Poisson",
+        "Calcular lambda ajustado por período, contexto e forma recente",
+        "Identificar quando usar distribuições alternativas (Negative Binomial, Zero-Inflated Poisson)"
+      ],
+      "failureModes": [
+        "Usar médias históricas simples sem normalizar pela força do adversário e contexto"
+      ],
+      "exercises": [
+        "Para 3 jogos, calcula o lambda ajustado de cada equipa, a probabilidade de Over 2.5 e BTTS, e compara com as odds de mercado"
+      ],
+      "checklist": [
+        "Calculei o lambda ajustado (não usei médias brutas)",
+        "Dividi o jogo em períodos com lambdas diferentes",
+        "Verifiquei se a liga tem overdispersion (se sim, usei Negative Binomial)",
+        "Comparei a odd justa (1/probabilidade) com a odd de mercado"
+      ],
+      "glossaryTerms": [
+        "implied-probability",
+        "odds",
+        "market-price",
+        "expected-value"
+      ],
+      "formulas": [
+        {
+          "label": "Poisson",
+          "value": "P(X=k) = (lambda^k * e^(-lambda)) / k!"
+        },
+        {
+          "label": "BTTS via Poisson",
+          "value": "P(BTTS) = (1 - P_casa(0)) * (1 - P_fora(0))"
+        }
+      ],
+      "previousLesson": "lesson-9",
+      "nextLesson": "lesson-11"
+    },
+    {
+      "id": "lesson-11",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-4",
+      "title": "Erros de Precificação em Mercados de Golos",
+      "slug": "erros-precificacao-mercados-golos",
+      "lessonNumber": 11,
+      "readingMinutes": 20,
+      "level": "intermediate",
+      "concepts": [
+        "recency bias",
+        "heavy tails",
+        "goal line structure",
+        "weather mispricing",
+        "tactical context"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens"
+      ],
+      "learningObjectives": [
+        "Identificar 4 tipos de erro de precificação em mercados de golos",
+        "Analisar a estrutura de linhas de golos para detetar ineficiências relativas",
+        "Ajustar probabilidades de Poisson com fatores empíricos baseados em dados reais da liga"
+      ],
+      "failureModes": [
+        "Assumir que Poisson é perfeito sem ajustar para caudas pesadas do futebol real"
+      ],
+      "exercises": [
+        "Analisa a estrutura de linhas de golos de 3 jogos. Identifica quais linhas têm value comparando a odd justa (Poisson ajustado) com a odd de mercado"
+      ],
+      "checklist": [
+        "Verifiquei se a equipa vem de 2+ jogos consecutivos com muitos golos (viés de recência)",
+        "Analisei as linhas altas (Over 3.5, 4.5) para identificar caudas subprecificadas",
+        "Ajustei para condições meteorológicas (o mercado ajusta menos do que devia)",
+        "Considerei o contexto tático do jogo (eliminatória, precisa de empatar, etc.)"
+      ],
+      "glossaryTerms": [
+        "market-price",
+        "implied-probability",
+        "expected-value",
+        "odds"
+      ],
+      "formulas": [
+        {
+          "label": "Lambda Ajustado Pós-Golo Early",
+          "value": "Lambda_restante = Lambda_original * (t_restante / t_total) + 0.3"
+        },
+        {
+          "label": "Fator de Ajuste por Período",
+          "value": "Fator = Frequencia_real(k) / Poisson_pmf(k, lambda_medio)"
+        }
+      ],
+      "previousLesson": "lesson-10",
+      "nextLesson": "lesson-12"
+    },
+    {
+      "id": "lesson-12",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-4",
+      "title": "Modelos de Expectativa para Mercados Live",
+      "slug": "modelos-expectativa-mercados-live",
+      "lessonNumber": 12,
+      "readingMinutes": 22,
+      "level": "advanced",
+      "concepts": [
+        "live market inefficiency",
+        "remaining lambda",
+        "state factor",
+        "card markets live",
+        "underdog overreaction"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens"
+      ],
+      "learningObjectives": [
+        "Construir um modelo de lambda restante para mercados de golos live",
+        "Identificar a janela de oportunidade nos 5-30 segundos após evento em campo",
+        "Reconhecer o padrão de over-ajuste do mercado a golos de underdog"
+      ],
+      "failureModes": [
+        "Entrar em mercado live sem modelo preparado antes do jogo"
+      ],
+      "exercises": [
+        "Simula 3 cenários de jogo live (aos 30', 60', 75') e calcula o lambda restante, a probabilidade de mais golos, e identifica se há value vs mercado"
+      ],
+      "checklist": [
+        "Tenho o modelo preparado ANTES do jogo começar",
+        "O lambda restante considera tempo, estado e fator de contexto",
+        "Identifiquei a janela de 5-30s após evento para atuar",
+        "Verifiquei se há over-ajuste do mercado a underdog que marca primeiro",
+        "Considerei mercados de cartões live como fonte de ineficiência extra"
+      ],
+      "glossaryTerms": [
+        "market-price",
+        "liquidity",
+        "expected-value",
+        "odds"
+      ],
+      "formulas": [
+        {
+          "label": "Lambda Restante Live",
+          "value": "Lambda_restante = Lambda_original * (t_restante / t_total) * F_estado"
+        },
+        {
+          "label": "Cartões Restantes",
+          "value": "Lambda_cartoes = Media_cartoes_jogo * (t_restante / 96) * F_tensao * F_arbitro"
+        }
+      ],
+      "previousLesson": "lesson-11",
+      "nextLesson": "lesson-13"
+    },
+    {
+      "id": "lesson-13",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-5",
+      "title": "Ensemble de Modelos: A Solução Robusta",
+      "slug": "ensemble-modelos-solucao-robusta",
+      "lessonNumber": 13,
+      "readingMinutes": 22,
+      "level": "advanced",
+      "concepts": [
+        "voting ensemble",
+        "stacking",
+        "bagging",
+        "model diversity",
+        "dynamic weighting"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens",
+        "MermaidDiagram"
+      ],
+      "learningObjectives": [
+        "Distinguir voting, stacking e bagging como arquiteturas de ensemble",
+        "Garantir diversidade real entre modelos para que o ensemble seja superior",
+        "Implementar pesos dinâmicos baseados em performance recente de cada modelo"
+      ],
+      "failureModes": [
+        "Combinar 10 modelos idênticos e esperar que o ensemble seja melhor"
+      ],
+      "exercises": [
+        "Constrói um ensemble de 3 modelos (LR, XGBoost, RF) para match odds. Compara o Log Loss do ensemble com o melhor modelo individual"
+      ],
+      "checklist": [
+        "Os modelos do ensemble são diversos (algoritmos, variáveis, dados diferentes)",
+        "O ensemble tem Log Loss inferior ao melhor modelo individual",
+        "Usei pesos dinâmicos que se ajustam com base no CLV recente",
+        "Tenho ensembles especializados por mercado (1X2, Over/Under, BTTS)"
+      ],
+      "glossaryTerms": [
+        "expected-value",
+        "edge",
+        "risk",
+        "market-price"
+      ],
+      "formulas": [
+        {
+          "label": "Ensemble Voting",
+          "value": "P_ensemble = Soma(P_modelo_i * peso_i) / Soma(pesos_i)"
+        },
+        {
+          "label": "Atualização de Pesos",
+          "value": "peso_i *= 1.1 se CLV_recente > +3%; peso_i *= 0.9 se CLV_recente < -2%"
+        }
+      ],
+      "previousLesson": "lesson-12",
+      "nextLesson": "lesson-14"
+    },
+    {
+      "id": "lesson-14",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-5",
+      "title": "Regressão à Média como Princípio Estratégico",
+      "slug": "regressao-media-principio-estrategico",
+      "lessonNumber": 14,
+      "readingMinutes": 20,
+      "level": "advanced",
+      "concepts": [
+        "mean reversion",
+        "rho correlation",
+        "xG vs goals",
+        "streak exploitation",
+        "asymmetric regression"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens"
+      ],
+      "learningObjectives": [
+        "Calcular o valor esperado pós-regressão à média usando rho",
+        "Identificar quando o mercado sobrevaloriza streaks positivas",
+        "Distinguir o poder preditivo de xG vs golos reais para antecipar regressão"
+      ],
+      "failureModes": [
+        "Aplicar regressão à média sem medir o rho específico da métrica e contexto"
+      ],
+      "exercises": [
+        "Identifica 3 equipas atualmente em hot streak na Liga Portugal. Calcula o valor esperado pós-regressão e compara com as odds atuais"
+      ],
+      "checklist": [
+        "Calculei o rho específico para a métrica que estou a analisar",
+        "Usei xG em vez de golos reais (tem 3x mais sinal)",
+        "O mercado está a precificar continuação da streak (odds curtas demais)",
+        "O edge é mais forte em overperformance (equipas quentes) do que em underperformance"
+      ],
+      "glossaryTerms": [
+        "expected-value",
+        "edge",
+        "market-price",
+        "risk"
+      ],
+      "formulas": [
+        {
+          "label": "Regressão à Média",
+          "value": "E(X_t+1 | X_t = x) = mu + rho * (x - mu)"
+        }
+      ],
+      "previousLesson": "lesson-13",
+      "nextLesson": "lesson-15"
+    },
+    {
+      "id": "lesson-15",
+      "courseId": "course-modelos-estatisticos-mercados-previsao",
+      "moduleId": "module-5",
+      "title": "IA Aplicada à Análise de Mercado Esportivo",
+      "slug": "ia-aplicada-analise-mercado-esportivo",
+      "lessonNumber": 15,
+      "readingMinutes": 25,
+      "level": "advanced",
+      "concepts": [
+        "natural language processing",
+        "sentiment analysis",
+        "lstm temporal patterns",
+        "automl",
+        "monte carlo simulation",
+        "autonomous agents"
+      ],
+      "components": [
+        "BlackboardPanel",
+        "FormulaBlock",
+        "MarketExample",
+        "FailureModeCard",
+        "DecisionChecklist",
+        "CodeLens",
+        "MermaidDiagram"
+      ],
+      "learningObjectives": [
+        "Aplicar NLP para extrair sinais quantitativos de notícias desportivas",
+        "Usar análise de sentimento como indicador contrário de mercado",
+        "Construir simulações de Monte Carlo com IA para distribuições completas de probabilidade",
+        "Desenhar a arquitetura de um agente autónomo de mercado"
+      ],
+      "failureModes": [
+        "Acreditar que IA cria edge a partir de dados sem sinal"
+      ],
+      "exercises": [
+        "Processa 10 notícias desportivas com um modelo de NLP e extrai sinais quantitativos de lesões, forma e sentimento. Compara com as odds atuais"
+      ],
+      "checklist": [
+        "Compreendo que IA amplifica variáveis, não cria edge do nada",
+        "O pipeline de NLP está a extrair sinais quantitativos válidos",
+        "O sentimento extremo está a ser usado como sinal contrário",
+        "As simulações de Monte Carlo capturam a incerteza de forma realista",
+        "O ciclo recolher-processar-modelar-validar-executar-aprender está documentado"
+      ],
+      "glossaryTerms": [
+        "expected-value",
+        "edge",
+        "risk",
+        "prediction-market"
+      ],
+      "formulas": [
+        {
+          "label": "Monte Carlo com IA",
+          "value": "P(desfecho) = count(simulacoes_com_desfecho) / N_simulacoes"
+        }
+      ],
+      "previousLesson": "lesson-14",
+      "nextLesson": null
+    }
+  ],
+  "labs": [
+    {
+      "id": "lab-clv-tracker",
+      "title": "CLV Tracker Automático",
+      "slug": "clv-tracker-automatico",
+      "summary": "Ferramenta para registar automaticamente odds de entrada e fecho e calcular CLV médio.",
+      "status": "planned"
+    },
+    {
+      "id": "lab-modelo-preditivo",
+      "title": "Modelo Preditivo Regressão Logística",
+      "slug": "modelo-preditivo-regressao-logistica",
+      "summary": "Implementação completa de um modelo de match odds com regressão logística, calibração e validação.",
+      "status": "planned"
+    },
+    {
+      "id": "lab-ensemble",
+      "title": "Ensemble de Modelos para Over/Under",
+      "slug": "ensemble-modelos-over-under",
+      "summary": "Construção de um ensemble voting com 4 modelos para previsão de Over/Under 2.5.",
+      "status": "planned"
+    },
+    {
+      "id": "lab-simulacao-monte-carlo",
+      "title": "Simulador Monte Carlo de Jogos",
+      "slug": "simulador-monte-carlo-jogos",
+      "summary": "Motor de simulação que gera 10.000 cenários por jogo com base em distribuições aprendidas.",
+      "status": "planned"
+    },
+    {
+      "id": "lab-agent-nlp",
+      "title": "Agente NLP para Notícias Desportivas",
+      "slug": "agente-nlp-noticias-desportivas",
+      "summary": "Pipeline automático que processa notícias, extrai lesões e sentimento, e gera ajustes quantitativos.",
+      "status": "planned"
+    }
+  ],
+  "glossaryTerms": [
+    "odds",
+    "implied-probability",
+    "expected-value",
+    "edge",
+    "liquidity",
+    "market-price",
+    "risk",
+    "drawdown",
+    "stake",
+    "prediction-market"
+  ],
+  "createdAt": "2026-07-11T00:00:00.000Z",
+  "updatedAt": "2026-07-11T00:00:00.000Z"
+}
+---
+
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+import LearningChart from "../../../components/lesson/LearningChart.astro";
+
+<BlackboardPanel title={"Mapa do Curso: Modelos Estatísticos para Mercados de Previsão"} label="Quadro">
+  <p><strong>Modelos Estatísticos para Mercados de Previsão</strong> é um curso dividido em <strong>5 módulos</strong> e <strong>15 lições</strong> que cobre todo o pipeline quantitativo: da leitura de odds à construção de modelos preditivos com inteligência artificial.</p>
+  <div class="board-note">Não é um curso de palpites. É um curso de metodologia, métricas e processos auditáveis.</div>
+  <div class="board-note">Cada lição combina teoria estatística, exemplos aplicados e código executável.</div>
+</BlackboardPanel>
+
+## Sobre Este Curso
+
+Este curso é um tratado sobre **metodologia quantitativa** aplicada à precificação de eventos desportivos. Não contém recomendações de entradas específicas nem promessas de retorno garantido. O que contém é um sistema completo: desde a conversão de odds em probabilidades ajustadas até à construção de ensembles de modelos com validação estatística e inteligência artificial.
+
+O percurso está organizado em 5 módulos que se constroem uns sobre os outros:
+
+### Módulo 1 — Fundamentos Estatísticos do Mercado
+
+O mercado desportivo não é sorte. É um sistema de probabilidades dinâmicas que reage a informação assimétrica, fluxo de capital e eventos exógenos. Este módulo estabelece a base: probabilidade implícita, overround, eficiência de mercado, e as 10 camadas de informação que uma odd transporta. Termina com a pergunta central: onde é que o mercado erra de forma consistente?
+
+### Módulo 2 — CLV, Value e Análise Técnica de Mercado
+
+A métrica mais importante do analista quantitativo é o **Closing Line Value** (CLV) — a diferença entre o preço de entrada e o preço de fecho do mercado. Este módulo ensina a calcular, interpretar e agir sobre o CLV, e a identificar ineficiências estruturais que o mercado repete: calendário, motivação, timing, meteorologia.
+
+### Módulo 3 — Modelos, Validação e Gestão de Capital
+
+A transição de analista qualitativo para quantitativo acontece aqui. Desde a arquitetura de modelos preditivos (regressão logística, XGBoost, Random Forest) até à calibração de probabilidades, validação com teste binomial e simulação Monte Carlo. A gestão de capital fecha o módulo com Kelly fraccional, EV-staking e regras de drawdown.
+
+### Módulo 4 — Análise Avançada de Mercados de Golos
+
+Distribuições de Poisson aplicadas a golos, BTTS, linhas de golos, e modelos de expectativa para mercados live. O foco está nos erros de precificação que o mercado comete de forma repetida: viés de recência, caudas pesadas subestimadas, ajuste meteorológico insuficiente.
+
+### Módulo 5 — Operacional Avançado e Inteligência Artificial
+
+Ensemble de modelos, regressão à média como princípio estratégico, e aplicações de IA: NLP para notícias, análise de sentimento, deep learning temporal, AutoML e agentes autónomos de mercado.
+
+## Como Usar Este Curso
+
+1. **Lê na ordem.** Os módulos são sequenciais — cada lição assume o conhecimento das anteriores.
+2. **Executa o código.** Cada exemplo Python foi desenhado para ser funcional. Adapta os dados para a liga que te interessa.
+3. **Constrói o teu tracking.** A partir da Lição 4, começa a registar as tuas próprias posições com CLV.
+4. **Valida antes de escalar.** Nenhum modelo vai para produção sem validação out-of-sample (Lições 8-9).
+
+<MermaidDiagram
+  title="Pipeline do Curso"
+  definition={`flowchart LR
+    A["Módulo 1: Fundamentos<br/>Probabilidade e Odds"] --> B["Módulo 2: CLV e Value<br/>Análise Técnica"]
+    B --> C["Módulo 3: Modelos<br/>Validação e Risco"]
+    C --> D["Módulo 4: Golos<br/>Poisson e Live"]
+    D --> E["Módulo 5: Operacional<br/>Ensemble e IA"]
+    style A fill:#ff4500,color:#fff
+    style B fill:#e03e00,color:#fff
+    style C fill:#c03700,color:#fff
+    style D fill:#a03000,color:#fff
+    style E fill:#802800,color:#fff`}
+/>
+
+## Pré-Requisitos
+
+- Estatística básica (probabilidade, média, variância, desvio padrão)
+- Python básico (ler e executar os exemplos de código)
+- Compreensão do futebol como desporto (regras, dinâmica de jogo, competições)
+- Disponibilidade para registar cada decisão e auditá-la com métricas objetivas
+
+## Aviso
+
+Este material é exclusivamente educacional. A análise quantitativa de mercados envolve risco financeiro. Nada neste curso constitui aconselhamento de investimento. A performance passada de qualquer método não garante resultados futuros. Opera apenas com capital que podes perder.

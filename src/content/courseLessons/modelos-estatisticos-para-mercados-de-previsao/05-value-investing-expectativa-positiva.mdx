@@ -1,0 +1,200 @@
+---
+{
+  "id": "course-modelos-estatisticos-mercados-previsao-lesson-5",
+  "courseId": "course-modelos-estatisticos-mercados-previsao",
+  "courseSlug": "modelos-estatisticos-para-mercados-de-previsao",
+  "lessonId": "lesson-5",
+  "moduleId": "module-2",
+  "title": "Value Investing: Teoria e Pratica da Expectativa Positiva",
+  "slug": "value-investing-expectativa-positiva",
+  "lessonNumber": 5,
+  "readingMinutes": 22,
+  "status": "published",
+  "createdAt": "2026-07-11T00:00:00.000Z",
+  "updatedAt": "2026-07-11T00:00:00.000Z"
+}
+---
+
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+
+<BlackboardPanel title="Value Investing em Mercados de Previsao" label="Quadro 2.2">
+  <p>Em mercados financeiros, value investing significa comprar ativos cujo preco esta abaixo do seu valor intrínseco. Em mercados de previsao, o principio e o mesmo: uma posicao tem valor positivo quando a tua probabilidade estimada e superior a probabilidade implicita nas odds.</p>
+  <div class="board-note">
+    <strong>Diferenca critica:</strong> Em accoes, o valor intrínseco e estimado por fundamentos (fluxo de caixa, ativos). Em mercados de previsao, a probabilidade real de um evento e o teu modelo - mas nunca e 100% conhecida. Estas a operar com probabilidades estimadas, e e essa incerteza que cria tanto risco como oportunidade.
+  </div>
+</BlackboardPanel>
+
+A expectativa positiva e o conceito central que separa investidores de especuladores. Quando alguem diz que faz trading de futebol, a primeira pergunta que deves fazer nao e "que odds encontras" mas sim "como estimas a tua probabilidade real e como calculas a tua expectativa".
+
+<FormulaBlock
+  label="Formula 2.2"
+  title="Valor Esperado (Expected Value - EV)"
+  formula="EV = (P_real * odd_decimal) - 1"
+  explanation="Se EV > 0, a posicao tem valor esperado positivo. Se EV &lt; 0, a posicao tem valor esperado negativo. Num mercado eficiente, a maioria das odds disponiveis tem EV ligeiramente negativo (devido ao juice/implicit vigorish)."
+/>
+
+## Como Calcular a Expectativa na Pratica
+
+O calculo parece simples, mas tem duas componentes que requerem trabalho serio:
+
+### Componente 1: A Probabilidade Real (P_real)
+
+A P_real nunca e conhecida com certeza. E sempre uma estimativa. E a competencia central de qualquer investidor em mercados de previsao. Existem tres metodos principais:
+
+**Metodo 1 - Modelo Estatistico Proprio:** Construir um modelo de regressao (Poisson, xG, aprendizado de maquina) que estima a probabilidade de cada desfecho com base em variaveis historicas. E o metodo mais robusto, mas exige competencias tecnicas e dados historicos de qualidade.
+
+**Metodo 2 - Ajuste ao Mercado de Referencia (Pinnacle):** Usar as odds da Pinnacle como base e ajusta-las com base em variaveis que o mercado subestima. Exemplo: as odds da Pinnacle dao 50% ao Benfica, mas ajustas para 53% porque o Benfica tem 3 dias extras de descanso em relacao ao adversario.
+
+**Metodo 3 - Agregacao de Sinais:** Combinar multiplos modelos ou fontes de estimativa (modelos publicos, market watch, analise humana) numa estimativa ponderada. A agregacao reduz o erro de cada fonte individual.
+
+### Componente 2: A Odd Decimal
+
+A odd que consegues obter e o segundo fator. Em mercados com liquidez, a odd disponivel varia com o momento. Conseguir uma odd melhor (mais alta) para a mesma probabilidade real aumenta o teu EV.
+
+<MarketExample
+  id="ev-basic-example"
+  title="Exemplo 2.1: Calculo Basico de EV"
+  market="Sporting vs Porto - Vencedor"
+  odds_1x2={[2.50, 3.20, 2.80]}
+  your_value="42.0%"
+  market_value="40.0%"
+  edge="+2.0%"
+>
+  <p>Considera o jogo Sporting vs Porto no mercado vencedor. As odds sao 2.50 para o Sporting, 3.20 para o empate, 2.80 para o Porto. A tua analise (modelo estatistico + contextual) indica que o Sporting tem 42% de probabilidade real de vencer.</p>
+  <p><strong>EV = (0.42 x 2.50) - 1 = 1.05 - 1 = +5%</strong></p>
+  <p>Para cada 1 unidade de capital alocada, esperas um retorno de 5% a longo prazo. Isto e uma posicao de valor esperado positivo.</p>
+  <div class="board-note high">
+    <strong>Nota critica:</strong> O EV e positivo APENAS se a tua estimativa de 42% estiver correta. Se a probabilidade real for 40% (a implicita nas odds), o EV = 0. Se for inferior, o EV e negativo. A qualidade da tua estimativa de P_real e o fator determinante.
+  </div>
+</MarketExample>
+
+## Expectativa vs Frequencia Real
+
+Um erro comum e confundir expectativa positiva com garantia de ganho numa posicao individual. A expectativa positiva nao significa que vais ganhar aquela posicao especifica. Significa que, ao longo de muitas posicoes semelhantes, o teu portfolio tera retorno positivo.
+
+<CodeLens
+  title="Forca dos Grandes Numeros a Longo Prazo"
+  lines={[
+    { key: "Probabilidade Real", value: "42%", tone: "green" },
+    { key: "Odd", value: "2.50", tone: "green" },
+    { key: "EV por posicao", value: "+5%", tone: "green" },
+    { key: "Amostra", value: "1000 posicoes", tone: "gold" },
+    { key: "EV Esperado (1000 pos)", value: "+50 unidades de capital", tone: "gold" },
+    { key: "Posicoes Vencedoras Esperadas", value: "420 de 1000 (42%)", tone: "gold" },
+    { key: "Resultado:", value: "Ganhas 42% das vezes, mas cada vitoria paga 2.50x", tone: "gold" },
+  ]}
+/>
+
+**Comparacao com portfolio de odds baixas (odds 1.50, probabilidade 72%):**
+
+| Aspecto | Odds Altas (2.50) | Odds Baixas (1.50) |
+|---|---|---|
+| Probabilidade de ganho | 42% | 72% |
+| EV | +5% | +8% |
+| Variancia | Alta | Baixa |
+| Drawdown maximo tipico | Maior | Menor |
+| Efeito psicologico | Dificil (perdes 58% das vezes) | Mais facil (ganhas 72% das vezes) |
+| Adequado para | Portfolio diversificado, capital grande | Portfolio, capital medio |
+
+A diferenca e psicologicamente relevante: uma posicao com 42% de probabilidade perde 58% das vezes. Vais perder mais do que ganhar. Mas quando ganhas, o retorno compensa as perdas. E preciso disciplina emocional para manter a estrategia.
+
+## Probabilidade vs Odds vs EV
+
+A relacao entre probabilidade implicita, odd e EV fica mais clara com esta tabela:
+
+| Probabilidade Implicita | Odd Decimal | Probabilidade Real Estimada | EV |
+|---|---|---|---|
+| 50% | 2.00 | 50% | 0% (ponto de equilibrio) |
+| 50% | 2.00 | 55% | +10% |
+| 50% | 2.00 | 45% | -10% |
+| 40% | 2.50 | 40% | 0% |
+| 40% | 2.50 | 45% | +12.5% |
+| 25% | 4.00 | 25% | 0% |
+| 25% | 4.00 | 30% | +20% |
+| 25% | 4.00 | 20% | -20% |
+
+<FormulaBlock
+  label="Formula 2.3"
+  title="Odds Justas"
+  formula="Odd_justa = 1 / P_real"
+  explanation="Se estimas que o Benfica tem 60% de vencer o Braga em casa, a odd justa e 1/0.60 = 1.667. Se encontras 1.75 no mercado, ha valor. A margem entre a odd justa e a odd de mercado e o teu edge."
+/>
+
+## O Erro Fundamental do Mercado
+
+A vantagem do investidor em mercados de previsao nao vem de ser mais inteligente que o mercado. Vem de identificar situacoes especificas onde o mercado sistematicamente erra:
+
+<MarketExample
+  id="mispricing-example"
+  title="Exemplo 2.2: Erro de Precificacao"
+  market="Vitoria SC vs Benfica - Vencedor"
+  odds_1x2={[3.20, 3.40, 2.10]}
+  your_value="50.0%"
+  market_value="47.6% (implicita na odd 2.10)"
+  edge="+5.0%"
+>
+  <p>O Benfica joga fora com o Vitoria SC. O mercado precifica o Benfica a 2.10 (47.6% de probabilidade implicita). Mas o Benfica esta na melhor forma da epoca, o Vitoria SC tem 4 lesionados titulares, e o historico mostra que o Benfica vence 55% das vezes em Guimaraes nos ultimos 10 anos.</p>
+  <p><strong>EV = (0.50 x 2.10) - 1 = +5%</strong></p>
+  <p>Nota que a estimativa de 50% e conservadora. Se a probabilidade real for 55% (como sugere o historico), o EV seria ainda maior: (0.55 x 2.10) - 1 = +15.5%.</p>
+</MarketExample>
+
+## Quando o EV e Baixo, o Erro e Alto
+
+O principio mais contra-intuitivo do value investing: as melhores oportunidades de EV tem frequentemente odds baixas (mas nao as mais baixas). Por que? Porque:
+
+1. **Odds muito baixas (1.10-1.20)** tem margens apertadas e pouco espaco para erro de precificacao significativo
+2. **Odds muito altas (acima de 10.00)** tem probabilidade muito baixa e a margem requerida para EV positivo e enorme
+3. **Odds entre 2.00 e 5.00** tem o melhor equilibrio entre precisao de estimativa e potencial de erro de mercado
+
+<CodeLens
+  title="Zonas de EV por Range de Odds (Dados Reais)"
+  lines={[
+    { key: "Odds 1.10-1.30", value: "EV medio -6%", note: "pouco espaco, mercado eficiente", tone: "red" },
+    { key: "Odds 1.30-2.00", value: "EV medio -2%", note: "margens apertadas", tone: "gold" },
+    { key: "Odds 2.00-3.50", value: "EV medio +3%", note: "zona de maior vantagem", tone: "green" },
+    { key: "Odds 3.50-6.00", value: "EV medio +1%", note: "mais variancia, menos precisao", tone: "gold" },
+    { key: "Odds 6.00-15.00", value: "EV medio -4%", note: "pouca liquidez, muito ruido", tone: "red" },
+    { key: "Conclusao", value: "Foco em odds 2.00-3.50 para consistencia", tone: "gold" },
+  ]}
+/>
+
+## Estrategia de Construcao de EV Positivo
+
+1. **Estima a P_real primeiro**, independentemente das odds de mercado. Nao comecas pela odd e tentas justificar. Comesas pelo modelo e comparas com o mercado.
+2. **Calcula a odd justa** (1 / P_real) e compara com a odd de mercado.
+3. **So ages quando ha margem.** Define um limiar minimo de EV (ex: +5%) antes de considerar alocacao.
+4. **Valida o teu processo.** Se a maioria das tuas posicoes tem EV positivo mas perdes dinheiro, a tua estimativa de P_real pode estar sistematicamente errada.
+
+<FailureModeCard
+  title="O Vies da Confirmacao no Calculo de EV"
+  summary="Ves uma odd de 2.50 para o Porto e comecas a procurar razoes para justificar que a probabilidade real e 50%. Encontras dados que suportam a tua tese e ignoras os que a contradizem. O teu EV calculado nao e objetivo - e uma racionalizacao do que ja queres fazer. A solucao e calcular a P_real ANTES de ver as odds."
+/>
+
+## Checklist de Execucao
+
+<DecisionChecklist
+  title="Checklist: Value Investing"
+  items={[
+    "Calculei a P_real antes de ver as odds de mercado?",
+    "A odd que encontro esta acima da odd justa (1/P_real)?",
+    "O EV calculado e >= +5%?",
+    "A posicao cabe no meu sistema de dimensionamento?",
+    "Tenho uma tese clara sobre porque o mercado esta errado?",
+    "A minha estimativa de P_real e conservadora ou otimista?"
+  ]}
+/>
+
+## Resumo
+
+- Value investing em mercados de previsao: comprar probabilidade abaixo do valor real
+- EV = (P_real x odd_decimal) - 1: o calculo que separa investimento de especulacao
+- A P_real e sempre uma estimativa - a qualidade dessa estimativa e a tua competencia central
+- Uma posicao com EV positivo pode perder 58% das vezes (exemplo com 42% de probabilidade)
+- O melhor equilibrio risco-retorno esta em odds entre 2.00 e 3.50
+- O maior erro e calcular P_real depois de ver as odds (confirmation bias)
+- A agregacao de fontes de estimativa reduz o erro individual

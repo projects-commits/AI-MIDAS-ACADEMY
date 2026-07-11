@@ -1,0 +1,132 @@
+---
+{
+  "id": "course-modelos-estatisticos-mercados-previsao-lesson-4",
+  "courseId": "course-modelos-estatisticos-mercados-previsao",
+  "courseSlug": "modelos-estatisticos-para-mercados-de-previsao",
+  "lessonId": "lesson-4",
+  "moduleId": "module-2",
+  "title": "CLV (Closing Line Value): A Metrica Central",
+  "slug": "clv-closing-line-value-metrica-central",
+  "lessonNumber": 4,
+  "readingMinutes": 20,
+  "status": "published",
+  "createdAt": "2026-07-11T00:00:00.000Z",
+  "updatedAt": "2026-07-11T00:00:00.000Z"
+}
+---
+
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+
+<BlackboardPanel title={"O CLV como Medida de Qualidade"} label="Quadro 2.1">
+  <p>O CLV (Closing Line Value) e a metrica mais importante para avaliar a qualidade das tuas entradas no mercado. Simplificando: e a diferenca entre a odd a que entraste e a odd de fecho (a ultima odd disponivel antes do inicio do evento).</p>
+  <div class="board-note">
+    <strong>Porque e que o CLV e crucial?</strong> Porque a odd de fecho e a melhor estimativa do mercado sobre a probabilidade real do evento, momentos antes de o resultado ser determinado. Se a tua entrada e consistentemente melhor que a odd de fecho, tens uma vantagem real.
+  </div>
+</BlackboardPanel>
+
+O CLV responde a pergunta mais importante que qualquer investidor pode fazer: **Estou a entrar melhor ou pior que o mercado no momento do fecho?**
+
+## A Formula do CLV
+
+<FormulaBlock
+  label="Formula 2.1"
+  title={"Closing Line Value (CLV)"}
+  formula={"CLV = (Odd_entrada - Odd_fecho) / Odd_fecho"}
+  explanation={"O CLV e calculado como a diferenca percentual entre a odd de entrada e a odd de fecho. Um CLV positivo significa que entraste melhor que a odd de fecho. Um CLV negativo significa que o mercado moveu-se contra a tua entrada."}
+/>
+
+## Porque e que o CLV e a Metrica Central?
+
+A maioria dos investidores mede-se pelo ROI ou pelo lucro total. Mas estas metricas sao enganadoras a curto prazo. Podes ter lucro durante semanas com sorte, mas o CLV revela se o teu processo tem fundamento.
+
+<MarketExample
+  title={"O perigo de confiar no ROI a curto prazo"}
+  setup={"Um investidor faz 10 entradas. Ganha 7. ROI de +35%. Parece excelente."}
+  price={"ROI = +35% apos 10 entradas"}
+  hypothesis={"O CLV medio e de -2.3%. Cada entrada foi consistentemente pior que a odd de fecho. O lucro deve-se a variacao aleatoria favoravel, nao a habilidade. Quando a sorte acabar, o ROI ajusta-se ao CLV."}
+  risk={"Confundir sorte com habilidade e aumentar o tamanho das posicoes acreditando que se tem vantagem quando, na realidade, se esta a operar com CLV negativo."}
+/>
+
+## Como Calcular o CLV na Pratica
+
+### Passo 1: Regista a Odd de Entrada
+Para cada posicao, regista a odd exata a que entraste. Parece obvio, mas muitos investidores registam a odd do momento aproximado, nao a odd exata. A diferenca de 0.01 pode parecer irrelevante, mas acumulada em centenas de posicoes, faz a diferenca entre CLV positivo e negativo.
+
+### Passo 2: Obtem a Odd de Fecho
+A odd de fecho e a ultima odd disponivel antes do inicio do evento. A Pinnacle e a referencia mais viavel do mercado para odds de fecho, porque tem a menor margem e o maior volume. Se nao usares Pinnacle, regista a odd de fecho da tua casa de investimento.
+
+### Passo 3: Calcula o CLV
+
+<CodeLens
+  title="Calculo de CLV por Entrada"
+  lines={[
+    { key: "Benfica vs Porto", value: "CLV +4.9%", note: "2.15 -> 2.05", tone: "green" },
+    { key: "Sporting vs Braga", value: "CLV -2.6%", note: "1.85 -> 1.90", tone: "red" },
+    { key: "Vitoria SC vs Casa Pia", value: "CLV +8.9%", note: "1.72 -> 1.58", tone: "green" },
+    { key: "Famalicao vs Arouca", value: "CLV -4.1%", note: "3.50 -> 3.65", tone: "red" },
+    { key: "Estoril vs Gil Vicente", value: "CLV +2.2%", note: "2.30 -> 2.25", tone: "green" },
+    { key: "CLV Medio", value: "+1.9%", note: "media de 5 entradas", tone: "gold" },
+  ]}
+/>
+
+<FailureModeCard
+  title={"Odd de fecho errada ou indisponivel"}
+  summary={"Se a plataforma que usas nao disponibiliza odds de fecho historicas, o CLV perde fiabilidade. Usar odds de fecho de uma fonte diferente da odd de entrada pode introduzir ruido. Solucao: standardiza na Pinnacle como referencia e regista a diferenca horaria entre a tua entrada e o fecho."}
+/>
+
+## Interpretacao do CLV Medio
+
+Com uma amostra de 100+ posicoes, o CLV medio comeca a ter significado estatistico:
+
+| CLV Medio | Interpretacao | Acao recomendada |
+|---|---|---|
+| > +5% | Excelente. Tens uma vantagem clara. | Continua e aumenta gradualmente o capital alocado. |
+| +2% a +5% | Bom. Ha evidencia de vantagem modesta. | Mantem o tamanho das posicoes e monitoriza. |
+| 0% a +2% | Neutro. Podes ou nao ter vantagem. | Precisa de mais dados. Nao aumentes a alocacao. |
+| -2% a 0% | Preocupante. O mercado esta a mover-se contra ti. | Reduz o tamanho das posicoes e revê a tua tese. |
+| < -2% | Mau. Estas a perder consistentemente para o mercado. | Para e reavalia completamente a tua abordagem. |
+
+<DecisionChecklist
+  title={"Checklist: Verificacao de CLV"}
+  items={[
+    "Registei a odd exata de entrada para cada posicao?",
+    "A odd de fecho e da mesma fonte que a odd de entrada?",
+    "A amostra tem pelo menos 50 posicoes para o CLV ser significativo?",
+    "O CLV medio e positivo? Se nao, qual e a minha vantagem real?",
+    "O CLV medio e consistente entre diferentes tipos de mercado?",
+    "O CLV positivo traduz-se em ROI positivo a longo prazo?"
+  ]}
+/>
+
+## CLV e ROI: A Relacao de Longo Prazo
+
+A relacao entre CLV e ROI nao e imediata. O ROI e influenciado pela variacao aleatoria, especialmente em amostras pequenas. O CLV, por outro lado, e uma medida de processo, nao de resultado.
+
+<FormulaBlock
+  label="Formula 2.2"
+  title={"ROI Esperado a partir do CLV"}
+  formula={"ROI_esperado = CLV_medio x N / (N + Variancia_do_CLV)"}
+  explanation={"Uma formula simplificada para estimar o ROI esperado a partir do CLV medio, ajustado pela variancia. Quanto maior a variancia do CLV, mais amostras sao necessarias para que o ROI se aproxime do CLV."}
+/>
+
+**Na pratica:** Com um CLV medio de +3% e uma variancia baixa (desvio padrao < 5%), o ROI aproxima-se do CLV apos cerca de 200-300 posicoes. Com variancia alta, podem ser necessarias 500+ posicoes.
+
+<BlackboardPanel title={"Regra de Ouro do CLV"} label="Quadro 2.2">
+  <p>Nao confies no ROI antes de teres 200 posicoes com CLV medio positivo. O ROI a curto prazo e maioritariamente ruido. O CLV e sinal.</p>
+  <div class="board-note">
+    <strong>Exercicio pratico:</strong> Revê as tuas ultimas 50 posicoes. Calcula o CLV de cada uma. Qual e o teu CLV medio? Se for negativo, para e reavalia. Se for positivo, estas no caminho certo.
+  </div>
+</BlackboardPanel>
+
+## Resumo
+
+- CLV mede a qualidade da entrada, nao o resultado
+- CLV positivo = entraste melhor que o fecho do mercado
+- ROI so e viavel apos 200-300 posicoes com CLV positivo
+- A Pinnacle e a melhor referencia para odds de fecho
+- CLV negativo consistente e sinal de que nao tens vantagem

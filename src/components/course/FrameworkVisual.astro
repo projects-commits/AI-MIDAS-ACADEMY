@@ -1,0 +1,15 @@
+---
+interface Props {
+  image: { src: string };
+  alt: string;
+  caption?: string;
+  loading?: "eager" | "lazy";
+}
+
+const { image, alt, caption, loading = "lazy" } = Astro.props;
+---
+
+<figure class="framework-visual research-card" data-motion-reveal>
+  <img class="framework-visual__image" src={image.src} alt={alt} loading={loading} />
+  {caption && <figcaption class="framework-visual__caption">{caption}</figcaption>}
+</figure>

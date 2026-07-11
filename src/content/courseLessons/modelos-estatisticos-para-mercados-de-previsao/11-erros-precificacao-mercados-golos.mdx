@@ -1,0 +1,177 @@
+---
+{
+  "id": "course-modelos-estatisticos-mercados-previsao-lesson-11",
+  "courseId": "course-modelos-estatisticos-mercados-previsao",
+  "courseSlug": "modelos-estatisticos-para-mercados-de-previsao",
+  "lessonId": "lesson-11",
+  "moduleId": "module-4",
+  "title": "Erros de Precificação em Mercados de Golos",
+  "slug": "erros-precificacao-mercados-golos",
+  "lessonNumber": 11,
+  "readingMinutes": 20,
+  "status": "published",
+  "createdAt": "2026-07-11T00:00:00.000Z",
+  "updatedAt": "2026-07-11T00:00:00.000Z"
+}
+---
+
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+
+<BlackboardPanel title={"O Mercado de Golos É Ineficiente"} label="Quadro 4.3">
+  <p>O mercado de golos — Over/Under, BTTS, handicap asiático de golos — é o segundo mercado mais líquido depois das odds de resultado. Mas liquidez não é sinónimo de eficiência. Estes mercados têm padrões de erro consistentes que um modelo quantitativo pode explorar.</p>
+  <p>Os erros de precificação não são aleatórios. Eles seguem padrões previsíveis que resultam de vieses cognitivos dos participantes, limitações dos modelos dos market makers, e assimetrias de informação temporária.</p>
+  <div class="board-note">
+    <strong>Tese central:</strong> O mercado de golos é previsivelmente errado nas mesmas direções. Identificar esses erros é mais valioso do que tentar prever golos com mais precisão.
+  </div>
+</BlackboardPanel>
+
+## Tipologia de Erros do Mercado
+
+### Erro Tipo 1 — Viés de Recência
+
+O mercado sobrevaloriza os últimos 2-3 resultados de uma equipa e subestima o histórico mais longo. É um viés cognitivo bem documentado: os participantes dão peso excessivo à informação mais recente.
+
+<MarketExample
+  title={"Viés de recência — Sporting vs. Casa Pia"}
+  setup={"O Sporting vem de dois jogos em casa com 3-2 cada (total 10 golos). O mercado precifica Over 2.5 a 1.65, sugerindo ~61% de probabilidade implícita. Mas o histórico de 20 jogos do Sporting em casa tem 52% de Over 2.5."}
+  price={"Over 2.5: odd mercado 1.65 (prob. implícita 60.6%). Odd justa baseada em 20 jogos: 1.92 (prob. 52.0%). Overprecificação de +8.6 p.p."}
+  hypothesis={"O mercado está a reagir ao barulho recente. Dois jogos com muitos golos são ruído, não sinal. Um modelo que usa uma janela mais longa (20+ jogos) identifica que a odd está sobrevalorizada e posiciona-se no Under."}
+  risk={"Se o Sporting tiver mudado de treinador ou estilo de jogo, a janela mais curta pode ter razão. O importante é ter um critério objetivo para detetar se é ruído ou mudança real."}
+/>
+
+O efeito do viés de recência é mensurável: equipas que tiveram 2+ jogos com mais de 3 golos veem as odds de Over descerem em média 12% face ao modelo histórico. O ajuste correto seria 4-6%. Os restantes 6-8% são ineficiência.
+
+### Erro Tipo 2 — Subestimação da Variância
+
+O mercado modela golos usando médias, mas a variância real é maior do que os modelos padrão assumem. Isto é particularmente relevante para linhas altas (Over 3.5, 4.5, 5.5).
+
+<FormulaBlock
+  label="Fórmula 4.3"
+  title={"Impacto da Variância nas Caudas"}
+  formula={"Poisson: P(X = k) = λ^k × e^(-λ) / k!\nReal: P(X = k) = caudas ~1.3× a 2× mais pesadas que Poisson"}
+  explanation={"Para λ = 2.8, Poisson prevê P(4+) = 23.5%. A frequência real em ligas europeias de topo é ~28-30%. O mercado, ao basear-se em Poisson simples, subestima consistentemente a probabilidade de 4+ golos."}
+/>
+
+<FailureModeCard
+  title={"Subestimar a cauda e perder valor em Over 4.5"}
+  summary={"Para λ = 2.8, a odd justa Poisson para Over 4.5 é 6.90. O mercado oferece 8.00. A diferença de +15.9% é enorme. Mas o modelo que só usa Poisson vai achar que a odd está justa (ou que o mercado está a oferecer valor). Na realidade, o mercado está a oferecer ainda mais valor do que o modelo de Poisson indica, porque a cauda real é mais pesada. Se a cauda real é 1.4× a Poisson, a odd justa real é 5.50 — e 8.00 é um valor imenso. O erro é duplo: o modelo subestima a cauda, e o mercado também."}
+/>
+
+### Erro Tipo 3 — Ajuste Meteorológico Insuficiente
+
+As condições meteorológicas afetam o número de golos de forma significativa. Vento forte, chuva intensa, e relvado pesado reduzem a qualidade do futebol jogado e, consequentemente, o número de golos.
+
+Um estudo sobre a Primeira Liga mostra que jogos com vento > 30 km/h no Estádio do Dragão (Porto, cidade costeira) registam uma redução de 15-18% nos golos esperados. No entanto, o mercado ajusta as odds de Over/Under em apenas 8-12%.
+
+Isto significa que, em condições meteorológicas adversas, o Under 2.5 está consistentemente subprecificado.
+
+### Erro Tipo 4 — Ignorar Contexto Tático
+
+O contexto tático de um jogo é uma das variáveis mais subestimadas pelos modelos de mercado. Três cenários recorrentes:
+
+**Equipas que precisam de empatar:** Um clube que precisa de um ponto para garantir permanência ou qualificação joga para não perder. O jogo tende a ser mais fechado, com menos golos. O mercado ajusta parcialmente, mas não o suficiente.
+
+**Equipas que precisam de ganhar eliminatórias:** Jogos a eliminar (Taça de Portugal, Liga Europa) com empate agregado levam a segundas-partes mais atacantes. O Over ganha valor à medida que o jogo avança.
+
+**Equipas do mesmo treinador:** Jogos entre equipas treinadas por discípulos do mesmo mentor tendem a ser mais estudados e fechados. Conhecem-se mutuamente e cancelam-se.
+
+<BlackboardPanel title={"Análise de Linhas de Golos — O Padrão de Ineficiência"} label="Quadro 4.4">
+  <p><strong>Para λ = 2.8 (jogo médio da Primeira Liga):</strong></p>
+  <ul>
+    <li>Over 0.5: odd justa 1.06, mercado 1.05 → -1.6% (justo, sem valor)</li>
+    <li>Over 1.5: odd justa 1.32, mercado 1.33 → +0.8% (neutro)</li>
+    <li>Over 2.5: odd justa 1.88, mercado 2.00 → +6.4% (<strong>VALOR</strong>)</li>
+    <li>Over 3.5: odd justa 3.25, mercado 3.50 → +7.7% (<strong>VALOR</strong>)</li>
+    <li>Over 4.5: odd justa 6.90, mercado 8.00 → +15.9% (<strong>VALOR FORTE</strong>)</li>
+  </ul>
+  <div class="board-note">
+    <strong>Padrão consistente:</strong> O mercado precifica bem linhas baixas (Over 0.5, 1.5) mas subestima sistematicamente linhas altas (Over 3.5+). Quanto mais alta a linha, maior a ineficiência proporcional. Isto acontece porque o mercado modela com médias e subestima caudas.
+  </div>
+</BlackboardPanel>
+
+## O Efeito do Golo Early (Live Trading)
+
+Um golo nos primeiros minutos de um jogo muda drasticamente o perfil de expectativa. O mercado reage, mas a reação é frequentemente exagerada ou insuficiente, dependendo do contexto.
+
+**Cenário:** Jogo Sporting vs. Benfica, λ original = 2.8 para 90 min. Golo aos 12' pelo Sporting.
+
+O tempo restante é de aproximadamente 84 min (incluindo descontos). O lambda para o período restante é:
+
+
+
+O efeito de abertura (+0.3) reflete que, após um golo, o jogo tende a abrir-se — a equipa que sofreu o golo ataca mais, e a que marcou ganha confiança.
+
+
+
+<CodeLens
+  title="Impacto de Golo Early no Over 2.5 Live"
+  lines={[
+    { key: "P(Over 2.5) pre", value: "53.1%", note: "lambda = 2.8" },
+    { key: "P(Over 2.5) pos-golo", value: "54.1%", note: "lambda = 2.75, +3 golos" },
+    { key: "odd_justa_pre", value: "1.88" },
+    { key: "odd_justa_pos", value: "1.85", tone: "gold" },
+    { key: "odd_mercado_pos", value: "1.70", note: "sobreajuste do mercado = value no Over", tone: "green" },
+  ]}
+/>
+
+A odd justa para Over 2.5 cai de 1.88 para cerca de 1.85. Se o mercado over-ajustar para 1.70 (como faz frequentemente), há valor no Over 2.5 live.
+
+## Distribuição Real vs. Poisson — O Desalinhamento das Caudas
+
+O futebol real não segue Poisson perfeitamente. A distribuição empírica de golos tem mais 0 e 1 golos do que Poisson prevê, e ligeiramente mais 4+ golos. Este desalinhamento tem implicações diretas na precificação:
+
+| Linha | Poisson vs. Real | Efeito na Odd |
+|---|---|---|
+| Under 1.5 | Poisson subestima | Over 1.5 ligeiramente sobreprecificado |
+| Under 2.5 | Poisson subestima ligeiramente | Under 2.5 com valor marginal |
+| Over 2.5 (odds curtas) | Poisson sobrestima | Over 2.5 pode estar caro em odds baixas |
+| Over 3.5 (odds altas) | Poisson subestima | Over 3.5 com valor consistente |
+
+**Correção prática com fator empírico:**
+
+<CodeLens
+  title="Distribuicao Real vs Poisson (Liga Portugal)"
+  lines={[
+    { key: "freq_real", value: "[08, 15, 20, 22, 15, 10, 06, 03, 01]", note: "distribuicao empirica" },
+    { key: "lambda_medio", value: "2.6", tone: "green" },
+    { key: "Over 3.5 Poisson", value: "12.1%", tone: "orange" },
+    { key: "Over 3.5 Real", value: "20.0%", note: "cauda real mais pesada que Poisson" },
+    { key: "fator_subestimacao", value: "1.65x", note: "Poisson subestima Over 3.5 em 65%", tone: "gold" },
+  ]}
+/>
+
+<DecisionChecklist
+  title={"Checklist: Identificar Erros de Precificação"}
+  items={[
+    "Os últimos 2-3 resultados das equipas estão a distorcer as odds atuais (viés de recência)?",
+    "A linha que estou a analisar é alta (Over 3.5+) onde o mercado subestima caudas?",
+    "Verifiquei as condições meteorológicas para o estádio e hora do jogo?",
+    "O contexto tático da competição favorece ataque ou defesa?",
+    "Há alguma equipa em situação de 'precisa de empatar' ou 'precisa de ganhar'?",
+    "Comparei a odd de mercado com a odd justa de Poisson e com a odd justa ajustada por cauda real?",
+    "Se é uma oportunidade live, já passaram os 5 min de pânico pós-golo?"
+  ]}
+/>
+
+<MarketExample
+  title={"Cadeia de erros — Gil Vicente vs. Estoril"}
+  setup={"Gil Vicente vs. Estoril, ambas em má forma, jogo de meio da tabela. λ estimado = 2.3. Over 4.5 no mercado a 12.00. O mercado acha que 4+ golos é quase impossível entre duas equipas 'fracas'."}
+  price={"Over 4.5: odd mercado 12.00 (prob. implícita 8.3%). Poisson com λ=2.3 dá 10.2%. Cauda real ajustada (1.4×): 14.3%. Odd justa real: 7.00. Value real na odd 12.00: +71%."}
+  hypothesis={"O mercado comete três erros em cascata: subestima o lambda por causa da forma negativa, usa Poisson simples sem correção de cauda, e ignora que jogos entre equipas 'sem pressão' tendem a ser mais abertos. Cada erro é pequeno, mas a combinação cria um value enorme."}
+  risk={"Jogos de baixa liquidez podem ter odds inflacionadas artificialmente. A execução a 12.00 pode ser difícil se o mercado for fino. A odd real disponível pode ser 10.00 ou 9.00."}
+/>
+
+## Resumo
+
+- O mercado de golos tem erros de precificação previsíveis e consistentes
+- O viés de recência faz o mercado sobrevalorizar os últimos 2-3 resultados
+- Linhas altas (Over 3.5, 4.5, 5.5) são consistentemente subprecificadas porque o mercado subestima caudas
+- Ajustes meteorológicos são insuficientes — o Under tem valor em condições adversas
+- O contexto tático (precisa de empatar, eliminatória, mesmo treinador) é ignorado
+- O efeito de golo early é mal calibrado pelo mercado, criando oportunidades live
+- A distribuição real de golos tem caudas mais pesadas que Poisson — ajusta sempre com fatores empíricos

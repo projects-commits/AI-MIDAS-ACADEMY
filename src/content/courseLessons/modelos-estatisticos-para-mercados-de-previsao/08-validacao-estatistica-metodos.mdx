@@ -1,0 +1,198 @@
+---
+{
+  "id": "course-modelos-estatisticos-mercados-previsao-lesson-8",
+  "courseId": "course-modelos-estatisticos-mercados-previsao",
+  "courseSlug": "modelos-estatisticos-para-mercados-de-previsao",
+  "lessonId": "lesson-8",
+  "moduleId": "module-3",
+  "title": "Validação Estatística de Métodos",
+  "slug": "validacao-estatistica-metodos",
+  "lessonNumber": 8,
+  "readingMinutes": 22,
+  "status": "published",
+  "createdAt": "2026-07-11T00:00:00.000Z",
+  "updatedAt": "2026-07-11T00:00:00.000Z"
+}
+---
+
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+
+<BlackboardPanel title={"O Problema do Backtest Ingénuo"} label="Quadro 8.1">
+  <p>O maior erro do analista quantitativo não é construir um mau modelo — é acreditar num bom backtest. O problema é conhecido como overfitting de backtest: o processo de ajustar o método aos dados históricos até encontrar um conjunto de condições que produz resultados espetaculares. O backtest deixa de ser uma validação e passa a ser um exercício de mineração de dados onde o ruído é confundido com padrão.</p>
+  <div class="board-note">
+    <strong>Regra fundamental:</strong> Dados suficientes e uma procura exaustiva produzem sempre um backtest vencedor — mesmo que o método não tenha qualquer valor preditivo real.
+  </div>
+</BlackboardPanel>
+
+O overfitting de backtest é o equivalente estatístico de atirar setas contra uma parede e desenhar círculos à volta dos buracos. O padrão existiu — mas não era previsível. Se treinares 10.000 modelos aleatórios contra dados históricos da Primeira Liga, alguns vão mostrar ROI de +20% por pura sorte estatística. O desafio não é encontrar um backtest que funciona — é saber se funciona por razões reais ou por ruído.
+
+<FailureModeCard
+  title={"O backtest que desaparece em produção"}
+  summary={"O cenário é clássico: um analista desenvolve um método que mostra ROI de +18% em 200 entradas de backtest. Empolgado, começa a aplicar o método em tempo real. Após 50 entradas reais, o ROI é -5%. O que aconteceu? O método foi otimizado para o ruído específico daquele período histórico. As condições que geraram o edge no backtest não se repetiram — porque nunca foram condições reais, apenas coincidências estatísticas."}
+/>
+
+<MermaidDiagram
+  title={"Sinais de Alerta de Overfitting em Backtest"}
+  label="Diagrama 8.1"
+  definition={`
+flowchart TB
+A[ROI > 15% em backtest] --> D[ALERTA: provável overfitting]
+B[Muitas condições específicas] --> D
+C[Win rate melhora com mais condições] --> D
+D --> E[Validar em dados fora-da-amostra]
+E --> F[ROI cai >50%? Confirmado overfitting]
+`}
+/>
+
+### Os 3 Sinais Clássicos de Overfitting
+
+**1. ROI muito elevado em backtest.** Qualquer método que mostre ROI > 15% num mercado eficiente como Match Odds da Primeira Liga deve ser imediatamente suspeito. O mercado tem margens de 5-7% e é razoavelmente eficiente — ROIs sustentáveis estão tipicamente entre 3-10%. ROI de 20%+ é sinal de que o modelo está a capturar ruído, não sinal.
+
+**2. Múltiplas condições específicas.** Se o método funciona "quando o Benfica joga em casa, à noite, com árbitro X, após vitória por +2 golos, contra equipas do meio da tabela, em outubro" — estás a sobreajustar. Cada condição adicional reduz o tamanho da amostra e aumenta a probabilidade de correlação espúria. O princípio da Navalha de Occam aplica-se aqui: o método mais simples é geralmente o mais robusto.
+
+**3. Win rate melhora monotonicamente com a adição de condições.** Um sinal subtil mas revelador: se adicionares condições ao teu filtro e o win rate melhora sempre, é porque estás a remover casos onde o método falha em vez de refinar a lógica subjacente. Um método real deve mostrar uma relação não monotónica — algumas condições pioram o resultado porque removem casos positivos também.
+
+## Framework de Validação em 3 Partes
+
+A forma mais robusta de validar um método é dividir os dados em três conjuntos independentes e impor uma regra rígida: nunca olhar para os dados de teste até ao final.
+
+<BlackboardPanel title={"Divisão de Dados — Treino, Validação, Teste"} label="Quadro 8.2">
+  <p><strong>TREINO (60%):</strong> Dados históricos onde o modelo é treinado. Todos os parâmetros e pesos são estimados aqui.</p>
+  <p><strong>VALIDAÇÃO (20%):</strong> Dados usados para ajustar hiperparâmetros e selecionar variáveis. O modelo vê estes dados indiretamente (através das escolhas que fazes).</p>
+  <p><strong>TESTE (20%):</strong> Dados completamente isolados desde o início. O modelo só avalia aqui uma vez, no final. Se o resultado no teste for consistente com o de treino/validação, confiança elevada. Se não, o modelo estava a sobreajustar.</p>
+  <div class="board-note">
+    <strong>Regra sagrada:</strong> O conjunto de teste só pode ser usado UMA VEZ. Se olhares para os resultados do teste e ajustares o modelo, o teste deixa de ser independente. Passa a ser validação — e precisas de um novo conjunto de teste.
+  </div>
+</BlackboardPanel>
+
+<CodeLens
+  title={"Validação Cruzada Temporal (Walk-Forward)"}
+  label="Código 8.1"
+  lines={[
+    { key: "split_method", value: "Walk-Forward Validation", tone: "gold" },
+    { key: "train_window", value: "3 épocas (2021-2024)", note: "dados de treino" },
+    { key: "test_window", value: "1 época (2024-2025)", note: "dados isolados" },
+    { key: "step", value: "avança 1 época, retreina", tone: "green" },
+    { key: "total_folds", value: "3 janelas deslizantes" },
+    { key: "roi_fold_1", value: "+6.2%", tone: "green" },
+    { key: "roi_fold_2", value: "+4.8%", tone: "green" },
+    { key: "roi_fold_3", value: "+5.1%", tone: "green" },
+    { key: "roi_medio", value: "+5.4%", note: "consistente entre folds — sinal real", tone: "gold" }
+  ]}
+/>
+
+## Testes Estatísticos de Significância
+
+Um backtest com ROI positivo não é suficiente — precisas de saber se esse resultado poderia ter acontecido por sorte.
+
+### Teste Binomial para Win Rate
+
+O teste binomial responde a: "se a minha probabilidade real de acertar fosse 50% (ou outra baseline), qual a probabilidade de observar este número de acertos por acaso?"
+
+<FormulaBlock
+  label="Fórmula 8.1"
+  title={"Teste Binomial — Significância da Win Rate"}
+  formula={"P(X >= k) = Soma(C(n, k) * p^k * (1-p)^(n-k))"}
+  explanation={"Onde n é o número total de entradas, k é o número de vitórias, p é a probabilidade esperada (normalmente 50% para odds ~2.00, ou a probabilidade implícita média ajustada). O resultado é o p-value: quanto mais baixo, maior a confiança de que o resultado não é aleatório."}
+/>
+
+**Leitura de p-value:**
+- p < 0.05: significância estatística — o resultado muito provavelmente não é aleatório
+- p < 0.01: forte significância
+- p > 0.10: o resultado pode ser sorte — precisas de mais entradas
+
+### Teste de Wald-Wolfowitz (Runs Test)
+
+Este teste verifica se a sequência de vitórias e derrotas é aleatória. Se o método tem tendência para agrupar vitórias em certas fases e derrotas noutras, isso sugere que o desempenho depende de condições de mercado que variam ao longo do tempo — e não de um edge estável.
+
+<MarketExample
+  title={"Sequência suspeita — detectada pelo Runs Test"}
+  setup={"Um método aplicado a jogos do Braga na Primeira Liga mostra 200 entradas com win rate de 54%. Mas a sequência revela 8 vitórias seguidas no início da época e 10 derrotas seguidas no meio."}
+  price={"Win rate global: 54%. Runs test: z = -2.31, p = 0.021 — rejeita aleatoriedade."}
+  hypothesis={"A sequência não aleatória sugere que o método depende de uma condição que varia sazonalmente (ex.: início de época vs. período de acumulação de jogos europeus). O edge não é estável ao longo do tempo — o método precisa de incorporar a variável sazonal."}
+  risk={"Ignorar o runs test e assumir que o método é estacionário. Métodos que dependem de condições temporais específicas são menos fiáveis e mais difíceis de dimensionar."}
+/>
+
+<FormulaBlock
+  label="Fórmula 8.2"
+  title={"Simulação Monte Carlo do Lucro Esperado"}
+  formula={"Lucro_sim = Wins_sim * (Odd_media - 1) - (n - Wins_sim) | Wins_sim ~ Binomial(n, WR_observado)"}
+  explanation={"Gera 10.000 cenários possíveis onde o número de vitórias varia de acordo com a distribuição binomial. Compara o lucro real com a distribuição simulada. Se o lucro real estiver no percentil 95+, o resultado é muito provavelmente real. Se estiver abaixo do percentil 80, o resultado pode ser sorte."}
+/>
+
+<CodeLens
+  title={"Simulação Monte Carlo em Python"}
+  label="Código 8.2"
+  lines={[
+    { key: "n_simulacoes", value: "10.000", tone: "gold" },
+    { key: "n_entradas", value: "200" },
+    { key: "win_rate", value: "0.55", note: "WR observado no backtest" },
+    { key: "odd_media", value: "2.00" },
+    { key: "lucro_real", value: "+15.2 unidades", tone: "green" },
+    { key: "percentil_lucro", value: "92.3%", note: "acima de 90% = confiança razoável", tone: "gold" },
+    { key: "lucro_mediano_sim", value: "+10.0 unidades" },
+    { key: "intervalo_90perc", value: "-18.0 a +38.0 unidades", tone: "orange" }
+  ]}
+/>
+
+## A Curva de Aprendizagem do Win Rate
+
+Uma das formas mais informativas de validar um método é traçar a curva de win rate acumulado à medida que o número de entradas aumenta:
+
+| Entradas | Variação típica do WR | Interpretação |
+|---|---|---|
+| 1-50 | 30-70% | Ruído puro — qualquer valor aqui é enganador |
+| 51-100 | 45-65% | Começa a convergir, mas ainda volátil |
+| 101-200 | 48-58% | Sinal começa a emergir |
+| 201-500 | ±3% do valor real | Zona de confiança razoável |
+| 500+ | ±1% do valor real | Confiança elevada |
+
+**Regra prática:** Com 150 entradas começas a ter confiança mínima. Com 500 entradas tens confiança sólida. Qualquer decisão baseada em menos de 100 entradas é essencialmente especulação com uma camada fina de análise.
+
+<BlackboardPanel title={"Regra dos 150 — Entradas Mínimas para Confiança"} label="Quadro 8.3">
+  <p>150 entradas é o limiar mínimo para começar a distinguir sinal de ruído num mercado desportivo. Este número não é arbitrário — deriva da variância natural de um processo binomial com odds ~2.00. Abaixo de 150 entradas, o intervalo de confiança de 95% para o win rate é demasiado largo para tomar decisões de alocação de capital.</p>
+  <p>Abaixo de 50 entradas, o intervalo de confiança de 95% pode ser de ±14 pontos percentuais — o que significa que um WR "observado" de 58% pode representar um WR real entre 44% e 72%.</p>
+  <div class="board-note">
+    <strong>Implicação prática:</strong> Um método com 30 entradas e WR de 65% não é melhor do que um método com 300 entradas e WR de 54%. O segundo tem muito mais evidência de ser real.
+  </div>
+</BlackboardPanel>
+
+## Sinais de Alerta Finais
+
+Antes de aplicares capital a qualquer método validado, verifica estes sinais:
+
+- **Win rate em backtest > 20 pontos percentuais acima do win rate em produção.** Uma diferença grande sugere que o backtest capturou ruído que não se repetiu.
+
+- **A performance do método depende de 1-2 outliers.** Remove as 2 melhores entradas do backtest. Se o ROI cai de +12% para +2%, o método não é robusto.
+
+- **Win rate varia drasticamente entre épocas.** 60% na época 2022/23, 48% na 2023/24, 62% na 2024/25 — esta oscilação sugere que o método captura padrões específicos de cada época, não um edge transversal.
+
+- **Lucro concentrado em menos de 10% das entradas.** Se 90% do lucro vem de 10% das entradas, o método está a depender de acontecimentos raros — e a variância vai ser brutal.
+
+<DecisionChecklist
+  title={"Checklist: Validação de Método"}
+  items={[
+    "Separei os dados em Treino (60%), Validação (20%) e Teste (20%) antes de começar?",
+    "O teste binomial mostra p-value < 0.05?",
+    "A simulação Monte Carlo coloca o lucro real acima do percentil 90?",
+    "O método tem pelo menos 150 entradas no backtest?",
+    "A performance é consistente entre épocas diferentes?",
+    "Removi os 2 melhores resultados — o ROI mantém-se positivo?",
+    "O win rate estabilizou (±3%) nas últimas 200 entradas?"
+  ]}
+/>
+
+## Resumo
+
+- Overfitting de backtest é o erro mais perigoso do analista quantitativo — transforma ruído em falsa confiança
+- Divide os dados em Treino (60%), Validação (20%), Teste (20%) — e nunca olhes para o teste até ao fim
+- Usa teste binomial e simulação Monte Carlo para avaliar significância estatística
+- O runs test (Wald-Wolfowitz) deteta sequências não aleatórias que revelam dependência temporal
+- 150+ entradas são o mínimo para começar a distinguir sinal de ruído
+- Sinais de alerta: dependência de outliers, variação entre épocas, lucro concentrado em poucas entradas

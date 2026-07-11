@@ -1,0 +1,164 @@
+---
+{
+  "id": "course-modelos-estatisticos-mercados-previsao-lesson-7",
+  "courseId": "course-modelos-estatisticos-mercados-previsao",
+  "courseSlug": "modelos-estatisticos-para-mercados-de-previsao",
+  "lessonId": "lesson-7",
+  "moduleId": "module-3",
+  "title": "Construção de Modelos Preditivos para Mercado Esportivo",
+  "slug": "construcao-modelos-preditivos",
+  "lessonNumber": 7,
+  "readingMinutes": 25,
+  "status": "published",
+  "createdAt": "2026-07-11T00:00:00.000Z",
+  "updatedAt": "2026-07-11T00:00:00.000Z"
+}
+---
+
+import BlackboardPanel from "../../../components/academy/BlackboardPanel.astro";
+import FormulaBlock from "../../../components/lesson/FormulaBlock.astro";
+import MarketExample from "../../../components/lesson/MarketExample.astro";
+import FailureModeCard from "../../../components/lesson/FailureModeCard.astro";
+import DecisionChecklist from "../../../components/lesson/DecisionChecklist.astro";
+import CodeLens from "../../../components/lesson/CodeLens.astro";
+import MermaidDiagram from "../../../components/lesson/MermaidDiagram.astro";
+
+<BlackboardPanel title={"Porquê Construir um Modelo?"} label="Quadro 7.1">
+  <p>O cérebro humano é um sistema preditivo impressionante — mas é também um sistema ruidoso, enviesado e inconsistente. O mesmo analista que acerta 3 decisões seguidas pode errar as 7 seguintes por cansaço, viés de confirmação ou simplesmente porque o ruído emocional se sobrepôs ao sinal analítico.</p>
+  <p>Um modelo preditivo transforma conhecimento qualitativo numa probabilidade numérica calibrada. Remove o viés emocional, pondera variáveis consistentemente e — mais importante — é testável e auditável.</p>
+  <div class="board-note">
+    <strong>Tese central:</strong> Um modelo não precisa de ser perfeito. Precisa de ser consistente, calibrado e melhor do que o mercado no segmento onde opera.
+  </div>
+</BlackboardPanel>
+
+Sem modelo, cada decisão de entrada é influenciada pelo resultado da última posição, pelo humor do dia, pela opinião de terceiros, pela memória seletiva. Com modelo, cada decisão é o output de um sistema que trata todos os eventos com o mesmo critério objetivo.
+
+A diferença entre o participante amador e o profissional não está na capacidade de prever — está na capacidade de construir sistemas que tornam a previsão consistente e mensurável.
+
+<MermaidDiagram
+  title={"Arquitetura de um Modelo de Match Odds"}
+  label="Diagrama 7.1"
+  definition={`
+flowchart TB
+Entrada[Dados de Entrada] --> PreProcessamento[Pré-Processamento]
+PreProcessamento --> Modelo[Modelo Preditivo]
+Modelo --> Saida[Probabilidades Calibradas]
+Entrada --> Forma[Forma Recente]
+Entrada --> AtaqueDefesa[Métricas Ataque/Defesa]
+Entrada --> Contexto[Variáveis de Contexto]
+`}
+/>
+
+## Arquitetura de um Modelo de Match Odds
+
+Um modelo para o mercado 1X2 segue uma arquitetura em pipeline, onde cada etapa transforma os dados brutos em informação progressivamente mais refinada.
+
+### Camada 1 — Dados de Entrada
+
+**Forma recente:** Golos marcados e sofridos nos últimos 5 jogos (casa/fora separados). O mercado reage fortemente à forma recente, mas fá-lo de forma linear — uma equipa que ganhou 4 dos últimos 5 é tratada como equivalente a outra com o mesmo registo, independentemente da qualidade dos adversários.
+
+**Métricas de ataque e defesa:** xG criado e sofrido, remates à baliza por jogo, posse de bola, pressão alta (PPDA), passes no último terço. O xG (Expected Goals) é particularmente valioso porque estabiliza mais rapidamente do que os golos reais — uma equipa pode ter 3 jogos com xG de 2.5, 2.8, 2.1 e marcar 0, 4, 1 golos. O xG revela a criação de oportunidades que os golos não mostram.
+
+**Variáveis de contexto:** Dias de descanso, distância de viagem, temperatura esperada, precipitação, hora do jogo, árbitro escalado. O Benfica a jogar em casa após 7 dias de descanso contra o Gil Vicente que viajou 350km e jogou à quinta-feira na Taça — esta assimetria de contexto raramente está totalmente refletida nas odds de abertura.
+
+<MarketExample
+  title={"O viés do calendário europeu — Sporting pós-Liga Europa"}
+  setup={"Sporting joga na quinta-feira na Liga Europa em Itália e volta a jogar no domingo na Primeira Liga, fora, contra o Famalicão. O mercado abre com o Sporting favorito a 1.90."}
+  price={"Odd de abertura: 1.90 (probabilidade implícita 52,6%). Após 24h de movimento, ajusta para 2.00 (50,0%)."}
+  hypothesis={"Um modelo que inclui dias de descanso (< 72h), distância de viagem (> 2000km) e intensidade do jogo europeu (medida por quilómetros percorridos) pode detetar que a probabilidade real do Sporting está abaixo dos 50%, gerando edge significativo ao posicionar-se contra."}
+  risk={"O treinador do Sporting pode rodar a equipa na Europa, mitigando a fadiga. Sem uma variável de intensidade real (minutos jogados pelos titulares), o modelo pode sobrestimar o cansaço."}
+/>
+
+### Camada 2 — Pré-Processamento
+
+Dados brutos raramente entram diretamente no modelo. Exigem transformação:
+
+**Normalização:** Escalar variáveis contínuas para o intervalo [0,1] ou média 0, desvio padrão 1. Uma variável como "distância de viagem" pode variar entre 0 e 5000 km — sem normalização, dominaria o modelo.
+
+**Encoding de variáveis categóricas:** Árbitro, estádio, treinador — transformar em representação numérica.
+
+**Feature engineering:** Criar variáveis derivadas que capturam interações que as variáveis base não capturam. Exemplos: índice de fadiga (dias descanso × intensidade do último jogo × minutos dos titulares), índice de motivação (posição na tabela × diferença de pontos ao adversário × fase da época), força do adversário recente (média da classificação dos últimos 5 adversários).
+
+### Camada 3 — Escolha do Algoritmo
+
+Cada algoritmo tem trade-offs específicos que o analista precisa de conhecer antes de escolher:
+
+<FormulaBlock
+  label="Fórmula 7.1"
+  title={"Regressão Logística Multinomial — Baseline"}
+  formula={"P(desfecho = k | X) = exp(X * B_k) / Soma(exp(X * B_j))"}
+  explanation={"A regressão logística estima a probabilidade de cada desfecho (casa, empate, fora) como uma função linear das variáveis de entrada, passada por uma função softmax que garante que as probabilidades somam 1. É interpretável, rápida e calibrada naturalmente."}
+/>
+
+**Regressão Logística:** O baseline obrigatório. Interpretável — consegues ver exatamente quanto cada variável contribui para a probabilidade final. Rápida para treinar e fazer inferência. Calibração natural (as probabilidades de saída tendem a ser bem calibradas). A desvantagem é que assume relações lineares entre as variáveis e o log-odds — não captura interações complexas a menos que sejam explicitamente codificadas.
+
+**Random Forest:** Conjunto de árvores de decisão que captura não-linearidades automaticamente. Robusta a outliers. Não assume distribuição específica dos dados. Desvantagem: tende a sobreajustar se não houver controlo de hiperparâmetros, e não é tão calibrada naturalmente — requer calibração pós-modelo.
+
+**XGBoost:** Estado da arte para dados tabulares. Lida bem com missing values, captura interações complexas, tem regularização embutida para evitar overfitting. Mais lento de treinar, mais hiperparâmetros para ajustar, mas geralmente superior em performance preditiva.
+
+**Redes Neuronais:** Requerem muitos dados (milhares de jogos) para começar a ser superiores ao XGBoost. São black boxes — difíceis de interpretar. Só recomendadas quando tens mais de 10.000 jogos no dataset de treino.
+
+<FailureModeCard
+  title={"Começar pelo algoritmo mais complexo"}
+  summary={"A tentação de usar XGBoost ou redes neuronais logo à partida é grande — parecem mais impressionantes. Mas sem um baseline de regressão logística, nunca sabes se a complexidade adicional está realmente a trazer valor. 80% das vezes, a logística com boas variáveis bate XGBoost com variáveis fracas. A qualidade das variáveis é o fator dominante, não a sofisticação do algoritmo."}
+/>
+
+### Camada 4 — Calibração de Probabilidades
+
+Um modelo pode ter excelente discriminação (sabe separar vitórias de derrotas) mas calibração terrível (as probabilidades que produz não correspondem às frequências reais). Um modelo que diz 70% para 100 eventos onde a frequência real é 55% — tem boa discriminação mas calibração péssima.
+
+<FormulaBlock
+  label="Fórmula 7.2"
+  title={"Platt Scaling"}
+  formula={"P_calibrada(y=1|x) = 1 / (1 + exp(A * f(x) + B))"}
+  explanation={"O Platt Scaling ajusta as probabilidades brutas do modelo usando uma regressão logística com dois parâmetros (A e B), otimizados para minimizar o log loss num conjunto de validação. O método isotónico (Isotonic Regression) é mais flexível mas requer mais dados para não sobreajustar."}
+/>
+
+**Curva de calibração:** Agrupa as previsões em 10 bins (0-10%, 10-20%, etc.). Para cada bin, calcula a frequência real dos eventos. A curva ideal é y=x — quando o modelo diz 40%, o evento acontece 40% das vezes. Desvios revelam sub ou sobrestimação sistemática.
+
+### Métricas de Avaliação
+
+**Log Loss (Cross-Entropy):** A métrica principal. Penaliza previsões confiantes que estão erradas. Quanto mais baixo, melhor. Log loss < 1.00 é bom, < 0.90 é excelente para mercado 1X2.
+
+**Brier Score:** Média do erro quadrático entre probabilidade prevista e desfecho real. Brier < 0.20 é aceitável, < 0.18 é bom.
+
+**AUC-ROC:** Mede a capacidade do modelo de discriminar entre classes. AUC > 0.65 é bom para 1X2, > 0.70 é muito bom.
+
+**ROI em backtest:** O teste final. Um modelo pode ter métricas excelentes mas não gerar ROI porque o mercado já incorpora a mesma informação. ROI de backtest > 5% é promissor.
+
+<CodeLens
+  title={"Pipeline de Modelo Preditivo em Python"}
+  label="Código 7.1"
+  lines={[
+    { key: "model", value: "LogisticRegression", note: "começa com o baseline" },
+    { key: "features", value: "gols_casa_ult5, gols_fora_ult5, xg_diff, descanso, viagem", tone: "green" },
+    { key: "train_test_split", value: "0.80 / 0.20", tone: "gold" },
+    { key: "calibration", value: "IsotonicRegression", tone: "orange" },
+    { key: "log_loss", value: "0.87", note: "métrica principal < 0.90 é excelente" },
+    { key: "brier_score", value: "0.172", tone: "green" },
+    { key: "auc_roc", value: "0.69", tone: "gold" },
+    { key: "roi_backtest", value: "+7.3%", note: "420 posições, 3 épocas", tone: "green" }
+  ]}
+/>
+
+<DecisionChecklist
+  title={"Checklist: Construção de Modelo Preditivo"}
+  items={[
+    "Defini as variáveis base (forma, xG, contexto) antes de escolher o algoritmo?",
+    "Separei os dados em treino, validação e teste antes de qualquer análise?",
+    "Comecei com regressão logística como baseline?",
+    "Calibrei as probabilidades pós-modelo (Platt/Isotonic)?",
+    "Avaliei o modelo em múltiplas métricas (log loss, Brier, AUC, ROI)?",
+    "Testei o modelo em dados fora-da-amostra (época diferente do treino)?",
+    "O edge estimado pelo modelo justifica o custo de transação (overround)?"
+  ]}
+/>
+
+## Resumo
+
+- Um modelo não precisa de ser perfeito — precisa de ser consistente, calibrado e auditável
+- A qualidade das variáveis de entrada é mais importante que a complexidade do algoritmo
+- xG é superior a golos reais como preditor porque estabiliza mais rapidamente
+- Calibração (Platt Scaling / Isotonic Regression) é crítica para que as probabilidades sejam úteis para encontrar edge
+- Começa simples (regressão logística), estabelece baseline, adiciona complexidade apenas quando o baseline estiver a ser superado consistentemente
+- Log loss é a métrica principal; ROI em backtest é o teste final
