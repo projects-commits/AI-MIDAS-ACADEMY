@@ -122,7 +122,7 @@ const dictionary: LocaleDictionary = {
     ]
   },
   home: {
-    title: "Home",
+    title: "Cursos Grátis de Análise de Futebol e Prediction Markets",
     description: "Cursos gratuitos e inteligencia preditiva para estudar futebol com mais criterio.",
     heroLine1: "A Primeira Plataforma Gratuita",
     heroLine2Prefix: "para",
@@ -171,7 +171,7 @@ const dictionary: LocaleDictionary = {
     ]
   },
   catalog: {
-    title: "Cursos",
+    title: "Cursos Gratuitos de Futebol, Trading e IA",
     description: "Catalogo de cursos da AI MIDAS ACADEMY com busca por nome, area, nivel e tempo estimado de estudo.",
     searchLabel: "Pesquisar nome do curso",
     searchPlaceholder: "Ex.: Framework de 9 Passos",

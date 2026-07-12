@@ -1,16 +1,12 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
+  site: "https://aimidasacademy.xyz",
+  trailingSlash: "always",
   output: "static",
-  i18n: {
-    defaultLocale: "pt-br",
-    locales: ["pt-br", "en", "es", "de", "ko"],
-    routing: {
-      prefixDefaultLocale: false
-    }
-  },
-  integrations: [mdx()],
+  integrations: [mdx(), sitemap()],
   markdown: {
     syntaxHighlight: "shiki"
   },

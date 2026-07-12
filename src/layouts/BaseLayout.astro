@@ -10,12 +10,17 @@ interface Props {
   title?: string;
   description?: string;
   hideTopBar?: boolean;
+  ogImage?: string;
+  canonical?: string;
 }
 
-const { locale = defaultLocale, title, description, hideTopBar = false } = Astro.props;
+const { locale = defaultLocale, title, description, hideTopBar = false, ogImage, canonical } = Astro.props;
 const siteData = getSiteData(locale);
-const pageTitle = title ? `${title} | ${siteData.name}` : siteData.name;
+const siteName = siteData.name;
+const pageTitle = title ? `${title} | ${siteName}` : siteName;
 const pageDescription = description ?? siteData.description;
+const pageUrl = canonical ?? Astro.url.href;
+const defaultOgImage = ogImage ?? "/assets/images/og-default.png";
 ---
 
 <!doctype html>
@@ -27,6 +32,16 @@ const pageDescription = description ?? siteData.description;
     <meta name="description" content={pageDescription} />
     <meta name="theme-color" content="#121212" />
     <meta name="google-site-verification" content="xk9cKa12ydi3CVHz4DkSrNBa5eRQnKD9wz3pNmK-urA" />
+    <link rel="canonical" href={pageUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={new URL(defaultOgImage, pageUrl).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
     {import.meta.env.PUBLIC_GA_ID && (
       <>
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_ID}`} is:inline></script>

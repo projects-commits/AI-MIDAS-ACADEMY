@@ -18,9 +18,10 @@ interface Props {
 
 const { course, lesson, module, previousLesson, nextLesson, locale } = Astro.props;
 const dictionary = getDictionary(locale);
+const lessonDescription = lesson.summary ?? lesson.learningObjectives[0] ?? course.corePromise;
 ---
 
-<BaseLayout locale={locale} title={lesson.title} description={course.corePromise}>
+<BaseLayout locale={locale} title={lesson.title} description={lessonDescription}>
   <Container size="wide">
     <div class="lesson-page" data-course-shell data-course-id={course.id} data-total-lessons={course.courseStats.lessonCount}>
       <section class="lesson-context research-card">
